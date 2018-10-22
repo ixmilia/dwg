@@ -1,0 +1,10 @@
+# ignore VS files
+*.suo
+*.user
+.vs/
+
+# ignore artifacts
+[Bb]in/
+[Dd]ebug/
+[Oo]bj/
+[Rr]elease/
