@@ -66,8 +66,8 @@ namespace IxMilia.Dwg.Test
         [Fact]
         public void Read_BS()
         {
-            Assert.Equal(42, Bits(0b00001010, 0b10000000, 0b00000000).Read_BS());
-            //                      ||AAAAAA    AABBBBBB    BB------
+            Assert.Equal(342, Bits(0b00010101, 0b10000000, 0b01000000).Read_BS());
+            //                       ||AAAAAA    AABBBBBB    BB------
 
             Assert.Equal(42, Bits(0b01001010, 0b10000000).Read_BS());
             //                      ||AAAAAA    AA------
