@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace IxMilia.Dwg
 {
@@ -138,6 +139,18 @@ namespace IxMilia.Dwg
             {
                 ReadByte();
             }
+        }
+
+        public string ReadStringAscii(int count)
+        {
+            var bytes = ReadBytes(count);
+            var sb = new StringBuilder();
+            foreach (var b in bytes)
+            {
+                sb.Append((char)b);
+            }
+
+            return sb.ToString();
         }
     }
 }
