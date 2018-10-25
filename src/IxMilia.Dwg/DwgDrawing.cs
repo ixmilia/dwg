@@ -7,7 +7,7 @@ namespace IxMilia.Dwg
         public DwgFileHeader FileHeader { get; set; }
         public DwgHeaderVariables Variables { get; private set; }
 
-#if NETSTANDARD1_3
+#if HAS_FILESYSTEM_ACCESS
         public static DwgDrawing Load(string path)
         {
             using (var stream = new FileStream(path, FileMode.Open))
