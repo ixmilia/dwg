@@ -55,6 +55,44 @@ namespace IxMilia.Dwg.Test
         }
 
         [Fact]
+        public void ByteProgressionOffBoundary()
+        {
+            var reader = Bits(0b11000001, 0b10111111);
+            Assert.Equal(3, reader.Read_BB());
+            Assert.Equal(6, reader.ReadByte());
+            Assert.Equal(0b00111111, reader.ReadBits(6));
+        }
+
+        [Fact]
+        public void AlignToByte()
+        {
+            // already on a byte boundary
+            var reader = Bits(15, 16);
+            Assert.Equal(15, reader.ReadByte());
+            reader.AlignToByte();
+            Assert.Equal(16, reader.ReadByte());
+            Assert.Throws<DwgReadException>(() => reader.ReadBit());
+
+            // read to a byte boundary, align is noop
+            reader = Bits(0b0, 15, 16);
+            for (int i = 0; i < 8; i++)
+            {
+                reader.ReadBit();
+            }
+            Assert.Equal(15, reader.ReadByte());
+            reader.AlignToByte();
+            Assert.Equal(16, reader.ReadByte());
+            Assert.Throws<DwgReadException>(() => reader.ReadBit());
+
+            // not on a byte boundary
+            reader = Bits(0b11000000, 0b11111111);
+            Assert.Equal(3, reader.Read_BB());
+            reader.AlignToByte();
+            Assert.Equal(255, reader.ReadByte());
+            Assert.Throws<DwgReadException>(() => reader.ReadBit());
+        }
+
+        [Fact]
         public void ReadBits()
         {
             Assert.Equal(0b0001, Bits(0b11110000).ReadBits(1));

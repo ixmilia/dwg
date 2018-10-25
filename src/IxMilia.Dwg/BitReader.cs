@@ -6,7 +6,6 @@ namespace IxMilia.Dwg
     internal class BitReader
     {
         internal int bitOffset;
-        private byte currentByte;
 
         public byte[] Data { get; private set; }
         public int Offset { get; set; }
@@ -14,7 +13,6 @@ namespace IxMilia.Dwg
         public BitReader(byte[] data, int offset = 0)
         {
             bitOffset = 0;
-            currentByte = 0;
             Data = data;
             Offset = offset;
         }
@@ -24,34 +22,33 @@ namespace IxMilia.Dwg
             return new BitReader(Data, offset);
         }
 
-        public void AlignByte()
+        private byte GetCurrentByte()
+        {
+            if (Offset >= Data.Length)
+            {
+                throw new DwgReadException("Out of data");
+            }
+
+            return Data[Offset];
+        }
+
+        public void AlignToByte()
         {
             if (bitOffset != 0)
             {
                 bitOffset = 0;
-                currentByte = 0;
                 Offset++;
             }
         }
 
         public int ReadBit()
         {
-            if (bitOffset == 0)
-            {
-                // need to read a new byte
-                if (Offset >= Data.Length)
-                {
-                    throw new DwgReadException("Out of data.");
-                }
-
-                currentByte = Data[Offset++];
-            }
-
-            int result = (currentByte >> (8 - bitOffset - 1)) & 0x01;
+            int result = (GetCurrentByte() >> (8 - bitOffset - 1)) & 0x01;
             bitOffset++;
             if (bitOffset >= 8)
             {
                 bitOffset = 0;
+                Offset++;
             }
 
             return result;
@@ -76,20 +73,17 @@ namespace IxMilia.Dwg
 
         public byte ReadByte()
         {
-            if (Offset >= Data.Length)
-            {
-                throw new DwgReadException("Out of data.");
-            }
-
             if (bitOffset == 0)
             {
-                return Data[Offset++];
+                var result = GetCurrentByte();
+                Offset++;
+                return result;
             }
             else
             {
-                var temp = (currentByte << bitOffset);
-                currentByte = Data[Offset++];
-                temp |= (currentByte >> (8 - bitOffset));
+                var temp = (GetCurrentByte() << bitOffset);
+                Offset++;
+                temp |= (GetCurrentByte() >> (8 - bitOffset));
                 return (byte)temp;
             }
         }
