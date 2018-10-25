@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+﻿using System.Diagnostics;
 
 namespace IxMilia.Dwg
 {
@@ -20,14 +21,22 @@ namespace IxMilia.Dwg
         {
             var header = new DwgHeaderVariables();
             reader.AssertSentinel(StartSentinel);
+            var dataStartOffset = reader.Offset;
+
             var size = reader.Read_RL();
             var startOffset = reader.Offset;
             header.ReadVariables(reader, version);
             reader.AlignToByte();
             var unreadByteCount = Math.Max(startOffset + size - reader.Offset, 0);
             var unreadBytes = reader.ReadBytes(unreadByteCount);
-            var crc = reader.Read_RS(); // use 0xC0C1 as initial value, start after the sentinel
-            // TODO: assert CRC
+
+            reader.AlignToByte();
+            var dataEndOffset = reader.Offset;
+            var reportedCrc = (ushort)reader.Read_RS();
+
+            // according to the spec an initial CRC value of 0xC0C1 is to be used here
+            var computedCrc = BitReaderExtensions.ComputeCRC(reader.Data, dataStartOffset, dataEndOffset - dataStartOffset, 0xC0C1);
+            Debug.Assert(computedCrc == reportedCrc);
             reader.AssertSentinel(EndSentinel);
             return header;
         }

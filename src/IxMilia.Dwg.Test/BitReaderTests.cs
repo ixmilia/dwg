@@ -162,5 +162,15 @@ namespace IxMilia.Dwg.Test
         {
             Assert.Equal(new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, 0x05E7), Bits(0b01010010, 0b00000101, 0b11100111).Read_H());
         }
+
+        [Fact]
+        public void ComputeCRC()
+        {
+            var data = new byte[] { 0b01000000, 0b11100000 };
+            var expected = (ushort)0b01010101_01010101;
+            var initialValue = (ushort)0x2C8C;
+            var actual = BitReaderExtensions.ComputeCRC(data, 0, data.Length, initialValue);
+            Assert.Equal(expected, actual);
+        }
     }
 }
