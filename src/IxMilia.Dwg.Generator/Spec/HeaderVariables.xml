@@ -1,0 +1,217 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Variables>
+  <Variable BinaryType="BD" DefaultValue="412148564080.0" Comment="Undocumented." />
+  <Variable BinaryType="BD" DefaultValue="1.0" Comment="Undocumented." />
+  <Variable BinaryType="BD" DefaultValue="1.0" Comment="Undocumented." />
+  <Variable BinaryType="BD" DefaultValue="1.0" Comment="Undocumented." />
+  <Variable BinaryType="T" DefaultValue='""' Comment="Undocumented." />
+  <Variable BinaryType="T" DefaultValue='""' Comment="Undocumented." />
+  <Variable BinaryType="T" DefaultValue='""' Comment="Undocumented." />
+  <Variable BinaryType="T" DefaultValue='""' Comment="Undocumented." />
+  <Variable BinaryType="BL" DefaultValue="24" Comment="Undocumented." />
+  <Variable BinaryType="BL" DefaultValue="0" Comment="Undocumented." />
+  <Variable BinaryType="BS" DefaultValue="0" Comment="Undocumented." />
+  <Variable Name="CurrentViewPortEntity" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" Comment="Handle of the current view port entity header." />
+  <Variable Name="CreateAssociativeDimensioning" BinaryType="B" Type="bool" DefaultValue="true" ShortName="DIMASO" Comment="Controls associative dimensioning." />
+  <Variable Name="RecomputeDimensionsWhileDragging" BinaryType="B" Type="bool" DefaultValue="true" ShortName="DIMSHO" Comment="Recompute dimensions while dragging." />
+  <Variable BinaryType="B" DefaultValue="true" ShortName="DIMSAV" Comment="Undocumented." />
+  <Variable Name="IsPolylineContinuousAroundVerticies" BinaryType="B" Type="bool" DefaultValue="false" ShortName="PLINEGEN" Comment="Governs the generation of line type patterns around the vertices of a 2D polyline." />
+  <Variable Name="DrawOrthoganalLines" BinaryType="B" Type="bool" DefaultValue="false" ShortName="ORTHOMODE" Comment="Ortho mode on." />
+  <Variable Name="UseRegenMode" BinaryType="B" Type="bool" DefaultValue="true" ShortName="REGENMODE" Comment="REGENAUTO mode on." />
+  <Variable Name="FillModeOn" BinaryType="B" Type="bool" DefaultValue="true" ShortName="FILLMODE" Comment="Fill mode on." />
+  <Variable Name="UseQuickTextMode" BinaryType="B" Type="bool" DefaultValue="false" ShortName="QTEXTMODE" Comment="Quick text mode on." />
+  <Variable Name="ScaleLineTypesInPaperSpace" BinaryType="B" Type="bool" DefaultValue="true" ShortName="PSLTSCALE" Comment="Controls paper space line type scaling." />
+  <Variable Name="UseLimitsChecking" BinaryType="B" Type="bool" DefaultValue="false" ShortName="LIMCHECK" Comment="Limits checking." />
+  <Variable Name="BlipMode" BinaryType="B" Type="bool" DefaultValue="false" ShortName="BLIPMODE" Comment="Display blips for click locations." />
+  <Variable Name="UserTimerOn" BinaryType="B" Type="bool" DefaultValue="true" ShortName="USRTIMER" Comment="User timer on." />
+  <Variable Name="PolylineSketchMode" BinaryType="B" Type="DwgPolySketchMode" DefaultValue="DwgPolySketchMode.SketchLines" ShortName="SKPOLY" ReadConverter="Converters.BoolToEnum&lt;DwgPolySketchMode&gt;({0})" Comment="Controls polyline sketch mode." />
+  <Variable Name="AngleDirection" BinaryType="B" Type="DwgAngleDirection" DefaultValue="DwgAngleDirection.CounterClockwise" ShortName="ANGDIR" ReadConverter="Converters.BoolToEnum&lt;DwgAngleDirection&gt;({0})" Comment="Angle directions." />
+  <Variable Name="DisplaySplinePolygonControl" BinaryType="B" Type="bool" DefaultValue="false" ShortName="SPLFRAME" Comment="Controls the display of helixes and smoothed mesh objects." />
+  <Variable Name="PromptForAttributeOnInsert" BinaryType="B" Type="bool" DefaultValue="true" ShortName="ATTREQ" Comment="Controls whether INSERT uses default attribute settings during insertion of blocks." />
+  <Variable Name="ShowAttributeEntryDialogs" BinaryType="B" Type="bool" DefaultValue="true" ShortName="ATTDIA" Comment="Controls whether the INSERT command uses a dialog box for attribute value entry." />
+  <Variable Name="MirrorText" BinaryType="B" Type="bool" DefaultValue="false" ShortName="MIRRTEXT" Comment="Mirror text." />
+  <Variable Name="SetUCSToWCSInDViewOrVPoint" BinaryType="B" Type="bool" DefaultValue="true" ShortName="WORLDVIEW" Comment="Set UCS to WCS during DVIEW/VPOINT." />
+  <Variable BinaryType="B" DefaultValue="true" ShortName="WIREFRAME" Comment="Undocumented." />
+  <Variable Name="PreviousReleaseTileCompatability" BinaryType="B" Type="bool" DefaultValue="true" ShortName="TILEMODE" Comment="Use previous release compatibility mode." />
+  <Variable Name="LimitCheckingInPaperSpace" BinaryType="B" Type="bool" DefaultValue="false" ShortName="PLIMCHECK" Comment="Limits checking in paper space." />
+  <Variable Name="RetainXRefDependentVisibilitySettings" BinaryType="B" Type="bool" DefaultValue="true" ShortName="VISRETAIN" Comment="Retain xref-dependent visibility settings." />
+  <Variable Name="RetainDeletedObjects" BinaryType="B" Type="bool" DefaultValue="true" ShortName="DELOBJ" Comment="Controls object deletion." />
+  <Variable Name="DisplaySilhouetteCurvesInWireframeMode" BinaryType="B" Type="bool" DefaultValue="false" ShortName="DISPSILH" Comment="Controls the display of silhouette curves of body objects in wireframe mode." />
+  <Variable BinaryType="B" DefaultValue="true" ShortName="PELLIPSE" Comment="Undocumented." />
+  <Variable Name="SaveProxyGraphics" BinaryType="BS" Type="bool" DefaultValue="true" ShortName="PROXYGRAPHICS" ReadConverter="Converters.BoolShort({0})" Comment="Controls the saving of proxy object images." />
+  <Variable Name="DragMode" BinaryType="BS" Type="DwgDragMode" DefaultValue="DwgDragMode.Auto" ShortName="DRAGMODE" ReadConverter="(DwgDragMode){0}" Comment="Controls the way dragged objects are displayed." />
+  <Variable Name="SpacialIndexMaxDepth" BinaryType="BS" Type="short" DefaultValue="3020" ShortName="TREEDEPTH" Comment="Specifies the maximum depth of the spatial index." />
+  <Variable Name="UnitFormat" BinaryType="BS" Type="DwgUnitFormat" DefaultValue="DwgUnitFormat.Decimal" ShortName="LUNITS" ReadConverter="(DwgUnitFormat){0}" Comment="Units format for coordinates and distances." />
+  <Variable Name="UnitPrecision" BinaryType="BS" Type="short" DefaultValue="4" ShortName="LUPREC" Comment="Units precision for coordinates and distances." />
+  <Variable Name="AngleUnitFormat" BinaryType="BS" Type="DwgAngleFormat" DefaultValue="DwgAngleFormat.DecimalDegrees" ShortName="AUNITS" ReadConverter="(DwgAngleFormat){0}" Comment="Units format for angles." />
+  <Variable Name="AngleUnitPrecision" BinaryType="BS" Type="short" DefaultValue="0" ShortName="AUPREC" Comment="Unit precision for angles." />
+  <Variable Name="ObjectSnapFlags" BinaryType="BS" Type="int" DefaultValue="37" ShortName="OSMODE" Comment="Running object snap modes.">
+    <Flag Name="EndPointSnap" Mask="1" Comment="Snap to line segment endpoints." />
+    <Flag Name="MidPointSnap" Mask="2" Comment="Snap to line segment midpoints." />
+    <Flag Name="CenterSnap" Mask="4" Comment="Snap to circle and arc center points." />
+    <Flag Name="NodeSnap" Mask="8" Comment="Snap to nodes." />
+    <Flag Name="QuadrantSnap" Mask="16" Comment="Snap to circle quadrants." />
+    <Flag Name="IntersectionSnap" Mask="32" Comment="Snap to segment intersections." />
+    <Flag Name="InsertionSnap" Mask="64" Comment="Snap to block insertion points." />
+    <Flag Name="PerpendicularSnap" Mask="128" Comment="Snap to perpendicular points." />
+    <Flag Name="TangentSnap" Mask="256" Comment="Snap to tangent points." />
+    <Flag Name="NearestSnap" Mask="512" Comment="Snap to nearest object points." />
+    <Flag Name="ApparentIntersectionSnap" Mask="2048" Comment="Snap to apparent intersection points." />
+    <Flag Name="ExtensionSnap" Mask="4096" Comment="Snap to extension points." />
+    <Flag Name="ParallelSnap" Mask="8192" Comment="Snap to parallel points." />
+  </Variable>
+  <Variable Name="AttributeVisibility" BinaryType="BS" Type="DwgAttributeVisibility" DefaultValue="DwgAttributeVisibility.Normal" ShortName="ATTMODE" ReadConverter="(DwgAttributeVisibility){0}" Comment="Attribute visibility." />
+  <Variable Name="CoordinateDisplay" BinaryType="BS" Type="DwgCoordinateDisplay" DefaultValue="DwgCoordinateDisplay.ContinuousUpdate" ShortName="COORDS" ReadConverter="(DwgCoordinateDisplay){0}" Comment="Controls the display of coordinates." />
+  <Variable Name="PointDisplayMode" BinaryType="BS" Type="short" DefaultValue="0" ShortName="PDMODE" Comment="Point display mode." />
+  <Variable Name="PickStyle" BinaryType="BS" Type="DwgPickStyle" DefaultValue="DwgPickStyle.Group" ShortName="PICKSTYLE" ReadConverter="(DwgPickStyle){0}" Comment="Controls the group selection and associative hatch selection." />
+  <Variable Name="UserInt1" BinaryType="BS" Type="short" DefaultValue="0" ShortName="USERI1" Comment="Integer variable intended for use by third-party developers." />
+  <Variable Name="UserInt2" BinaryType="BS" Type="short" DefaultValue="0" ShortName="USERI2" Comment="Integer variable intended for use by third-party developers." />
+  <Variable Name="UserInt3" BinaryType="BS" Type="short" DefaultValue="0" ShortName="USERI3" Comment="Integer variable intended for use by third-party developers." />
+  <Variable Name="UserInt4" BinaryType="BS" Type="short" DefaultValue="0" ShortName="USERI4" Comment="Integer variable intended for use by third-party developers." />
+  <Variable Name="UserInt5" BinaryType="BS" Type="short" DefaultValue="0" ShortName="USERI5" Comment="Integer variable intended for use by third-party developers." />
+  <Variable Name="LineSegmentsPerSplinePatch" BinaryType="BS" Type="short" DefaultValue="8" ShortName="SPLINESEGS" Comment="Number of line segments per spline hatch." />
+  <Variable Name="PEditSmoothMDensity" BinaryType="BS" Type="short" DefaultValue="6" ShortName="SURFU" Comment="Surface density (for PEDIT Smooth) in M direction." />
+  <Variable Name="PEditSmoothNDensity" BinaryType="BS" Type="short" DefaultValue="6" ShortName="SURFV" Comment="Surface density (for PEDIT Smooth) in N direction." />
+  <Variable Name="PEditSmoothSurfaceType" BinaryType="BS" Type="DwgPolylineCurvedAndSmoothSurfaceType" DefaultValue="DwgPolylineCurvedAndSmoothSurfaceType.CubicBSpline" ShortName="SURFTYPE" ReadConverter="(DwgPolylineCurvedAndSmoothSurfaceType){0}" Comment="Surface type for PEDIT Smooth." />
+  <Variable Name="MeshTabulationsInFirstDirection" BinaryType="BS" Type="short" DefaultValue="6" ShortName="SURFTAB1" Comment="Number of mesh tabulations in first direction." />
+  <Variable Name="MeshTabulationsInSecondDirection" BinaryType="BS" Type="short" DefaultValue="6" ShortName="SURFTAB2" Comment="Number of mesh tabulations in second direction." />
+  <Variable Name="PEditSplineCurveType" BinaryType="BS" Type="DwgPolylineCurvedAndSmoothSurfaceType" DefaultValue="DwgPolylineCurvedAndSmoothSurfaceType.CubicBSpline" ShortName="SPLINETYPE" ReadConverter="(DwgPolylineCurvedAndSmoothSurfaceType){0}" Comment="Spline curve type for PEDIT Spline." />
+  <Variable Name="EdgeShading" BinaryType="BS" Type="DwgShadeEdgeMode" DefaultValue="DwgShadeEdgeMode.FacesInEntityColorEdgesInBlack" ShortName="SHADEDGE" ReadConverter="(DwgShadeEdgeMode){0}" Comment="Controls shading of faces." />
+  <Variable Name="PercentAmbientToDiffuse" BinaryType="BS" Type="short" DefaultValue="70" ShortName="SHADEDIF" Comment="Percent ambient/diffuse light; range 1-100." />
+  <Variable Name="DisplayFractionsInInput" BinaryType="BS" Type="bool" DefaultValue="false" ShortName="UNITMODE" ReadConverter="Converters.BoolShort({0})" Comment="Display fractions, feet-and-inches, and surveyor's angles in input format." />
+  <Variable Name="MaximumActiveViewports" BinaryType="BS" Type="short" DefaultValue="64" ShortName="MAXACTVP" Comment="Sets the maximum number of viewports to be regenerated." />
+  <Variable BinaryType="BS" DefaultValue="0" ShortName="ISOLINES" Comment="Undocumented." />
+  <Variable Name="CurrentMultilineJustification" BinaryType="BS" Type="DwgJustification" DefaultValue="DwgJustification.Top" ShortName="CMLJUST" ReadConverter="(DwgJustification){0}" Comment="Current multiline justification." />
+  <Variable BinaryType="BS" DefaultValue="0" ShortName="TEXTQLTY" Comment="Undocumented." />
+  <Variable Name="LineTypeScale" BinaryType="BD" Type="double" DefaultValue="1.0" ShortName="LTSCALE" Comment="Global line type scale." />
+  <Variable Name="DefaultTextHeight" BinaryType="BD" Type="double" DefaultValue="0.2" ShortName="TEXTSIZE" Comment="Default text height." />
+  <Variable Name="TraceWidth" BinaryType="BD" Type="double" DefaultValue="0.05" ShortName="TRACEWID" Comment="Default trace width." />
+  <Variable Name="SketchRecordIncrement" BinaryType="BD" Type="double" DefaultValue="0.1" ShortName="SKETCHINC" Comment="Sketch record increment." />
+  <Variable Name="FilletRadius" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="FILLETRAD" Comment="Fillet radius." />
+  <Variable Name="Thickness" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="THICKNESS" Comment="Current thickness set by ELEV command." />
+  <Variable Name="AngleZeroDirection" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="ANGBASE" Comment="Angle 0 direction." />
+  <Variable Name="PointDisplaySize" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="PDSIZE" Comment="Point display size." />
+  <Variable Name="DefaultPolylineWidth" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="PLINEWID" Comment="Default polyline width." />
+  <Variable Name="UserReal1" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="USERR1" Comment="Real variable indented for use by third-party developers." />
+  <Variable Name="UserReal2" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="USERR2" Comment="Real variable indented for use by third-party developers." />
+  <Variable Name="UserReal3" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="USERR3" Comment="Real variable indented for use by third-party developers." />
+  <Variable Name="UserReal4" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="USERR4" Comment="Real variable indented for use by third-party developers." />
+  <Variable Name="UserReal5" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="USERR5" Comment="Real variable indented for use by third-party developers." />
+  <Variable Name="FirstChamferDistance" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="CHAMFERA" Comment="First chamfer distance." />
+  <Variable Name="SecondChamferDistance" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="CHAMFERB" Comment="Second chamfer distance." />
+  <Variable Name="ChamferLength" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="CHAMFERC" Comment="Chamfer length." />
+  <Variable Name="ChamferAngle" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="CHAMFERD" Comment="Chamfer angle." />
+  <Variable BinaryType="BD" DefaultValue="0.0" ShortName="FACETRES" Comment="Undocumented." />
+  <Variable Name="CurrentMultilineScale" BinaryType="BD" Type="double" DefaultValue="1.0" ShortName="CMLSCALE" Comment="Current multiline scale." />
+  <Variable Name="CurrentEntityLineTypeScale" BinaryType="BD" Type="double" DefaultValue="1.0" ShortName="CELTSCALE" Comment="Current entity line type scale." />
+  <Variable Name="FileName" BinaryType="T" Type="string" DefaultValue='"."' ShortName="MENUNAME" Comment="Name of menu file." />
+  <Variable Name="CreationDate" BinaryType="2BL" Type="DateTime" DefaultValue="DateTime.Now" ShortName="TDCREATE" ReadConverter="Converters.JulianDate({0})" Comment="Local date/time of drawing creation." />
+  <Variable Name="UpdateDate" BinaryType="2BL" Type="DateTime" DefaultValue="DateTime.Now" ShortName="TDUPDATE" ReadConverter="Converters.JulianDate({0})" Comment="Local date/time of last drawing update." />
+  <Variable Name="TimeInDrawing" BinaryType="2BL" Type="TimeSpan" DefaultValue="TimeSpan.Zero" ShortName="TDINDWG" ReadConverter="Converters.TimeSpan({0})" Comment="Cumulative editing time for this drawing." />
+  <Variable Name="UserElapsedTimer" BinaryType="2BL" Type="TimeSpan" DefaultValue="TimeSpan.Zero" ShortName="TDUSRTIMER" ReadConverter="Converters.TimeSpan({0})" Comment="User-elapsed timer." />
+  <Variable Name="CurrentEntityColor" BinaryType="BS" Type="DwgColor" DefaultValue="DwgColor.ByLayer" ShortName="CECOLOR" ReadConverter="DwgColor.FromRawValue({0})" Comment="Current entity color." />
+  <Variable Name="NextAvailableHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="HANDSEED" Comment="Next available handle." />
+  <Variable Name="Currentlayer" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="CLAYER" Comment="Current layer." />
+  <Variable Name="TextStyle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="TEXTSTYLE" Comment="Current text style." />
+  <Variable Name="CurrentEntityLineType" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="CELTYPE" Comment="Current entity line type." />
+  <Variable Name="DimensionStyle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="DIMSTYLE" Comment="Current dimension style." />
+  <Variable Name="CurrentMultilineStyle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="CMLSTYLE" Comment="Current multiline style." />
+  <Variable Name="PaperSpaceInsertionBase" BinaryType="3BD" Type="DwgPoint" DefaultValue="DwgPoint.Origin" ShortName="PINSBASE" ReadConverter="Converters.TriplePoint({0})" Comment="Paper space insertion base point." />
+  <Variable Name="PaperSpaceMinimumDrawingExtents" BinaryType="3BD" Type="DwgPoint" DefaultValue="DwgPoint.Origin" ShortName="PEXTMIN" ReadConverter="Converters.TriplePoint({0})" Comment="X, Y, and Z drawing extents lower-left corner in paper space." />
+  <Variable Name="PaperSpaceMaximumDrawingExtents" BinaryType="3BD" Type="DwgPoint" DefaultValue="DwgPoint.Origin" ShortName="PEXTMAX" ReadConverter="Converters.TriplePoint({0})" Comment="X, Y, and Z drawing extents upper-left corner in paper space." />
+  <Variable Name="PaperSpaceMinimumDrawingLimits" BinaryType="2RD" Type="DwgPoint" DefaultValue="DwgPoint.Origin" ShortName="PLIMMIN" ReadConverter="Converters.DoublePoint({0})" Comment="XY drawing limits lower-left corner in paper space." />
+  <Variable Name="PaperSpaceMaximumDrawingLimits" BinaryType="2RD" Type="DwgPoint" DefaultValue="new DwgPoint(12.0, 9.0, 0.0)" ShortName="PLIMMAX" ReadConverter="Converters.DoublePoint({0})" Comment="XY drawing limits upper-right corner in paper space." />
+  <Variable Name="PaperSpaceElevation" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="PELEVATION" Comment="Current paper space elevation." />
+  <Variable Name="PaperSpaceUCSOrigin" BinaryType="3BD" Type="DwgPoint" DefaultValue="DwgPoint.Origin" ShortName="PUCSORG" ReadConverter="Converters.TriplePoint({0})" Comment="Current paper space origin of UCS." />
+  <Variable Name="PaperSpaceUCSXAxis" BinaryType="3BD" Type="DwgVector" DefaultValue="DwgVector.XAxis" ShortName="PUCSXDIR" ReadConverter="Converters.TripleVector({0})" Comment="Current paper space UCS X axis" />
+  <Variable Name="PaperSpaceUCSYAxis" BinaryType="3BD" Type="DwgVector" DefaultValue="DwgVector.YAxis" ShortName="PUCSYDIR" ReadConverter="Converters.TripleVector({0})" Comment="Current paper space UCS Y axis" />
+  <Variable Name="PaperSpaceCurrentUCS" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="PUCSNAME" Comment="Current paper space UCS." />
+  <Variable Name="InsertionBase" BinaryType="3BD" Type="DwgPoint" DefaultValue="DwgPoint.Origin" ShortName="INSBASE" ReadConverter="Converters.TriplePoint({0})" Comment="Insertion base set by BASE command (in WCS)." />
+  <Variable Name="MinimumDrawingExtents" BinaryType="3BD" Type="DwgPoint" DefaultValue="DwgPoint.Origin" ShortName="EXTMIN" ReadConverter="Converters.TriplePoint({0})" Comment="X, Y, and Z drawing extents lower-left corner (in WCS)." />
+  <Variable Name="MaximumDrawingExtents" BinaryType="3BD" Type="DwgPoint" DefaultValue="DwgPoint.Origin" ShortName="EXTMAX" ReadConverter="Converters.TriplePoint({0})" Comment="X, Y, and Z drawing extents upper-left corner (in WCS)." />
+  <Variable Name="MinimumDrawingLimits" BinaryType="2RD" Type="DwgPoint" DefaultValue="DwgPoint.Origin" ShortName="LIMMIN" ReadConverter="Converters.DoublePoint({0})" Comment="XY drawing limits lower-left corner (in WCS)." />
+  <Variable Name="MaximumDrawingLimits" BinaryType="2RD" Type="DwgPoint" DefaultValue="new DwgPoint(12.0, 9.0, 0.0)" ShortName="LIMMAX" ReadConverter="Converters.DoublePoint({0})" Comment="XY drawing limits upper-right corner (in WCS)." />
+  <Variable Name="Elevation" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="ELEVATION" Comment="Current elevation set by ELEV command." />
+  <Variable Name="UCSOrigin" BinaryType="3BD" Type="DwgPoint" DefaultValue="DwgPoint.Origin" ShortName="UCSORG" ReadConverter="Converters.TriplePoint({0})" Comment="Origin of current UCS (in WCS)." />
+  <Variable Name="UCSXAxis" BinaryType="3BD" Type="DwgVector" DefaultValue="DwgVector.XAxis" ShortName="UCSXDIR" ReadConverter="Converters.TripleVector({0})" Comment="Direction of the current UCS X axis (in WCS)." />
+  <Variable Name="UCSYAxis" BinaryType="3BD" Type="DwgVector" DefaultValue="DwgVector.YAxis" ShortName="UCSYDIR" ReadConverter="Converters.TripleVector({0})" Comment="Direction of the current UCS Y axis (in WCS)." />
+  <Variable Name="CurrentUCS" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="UCSNAME" Comment="Current UCS." />
+  <Variable Name="GenerateDimensionTolerances" BinaryType="B" Type="bool" DefaultValue="false" ShortName="DIMTOL" Comment="Dimension tolerances generated." />
+  <Variable Name="GenerateDimensionLimits" BinaryType="B" Type="bool" DefaultValue="false" ShortName="DIMLIM" Comment="Dimension limits generated." />
+  <Variable Name="DimensionTextInsideHorizontal" BinaryType="B" Type="bool" DefaultValue="true" ShortName="DIMTIH" Comment="Text inside horizontal." />
+  <Variable Name="DimensionTextOutsideHorizontal" BinaryType="B" Type="bool" DefaultValue="true" ShortName="DIMTOH" Comment="Text outside horizontal" />
+  <Variable Name="SuppressFirstDimensionExtensionLine" BinaryType="B" Type="bool" DefaultValue="false" ShortName="DIMSE1" Comment="Suppression of first extension line." />
+  <Variable Name="SuppressSecondDimensionExtensionLine" BinaryType="B" Type="bool" DefaultValue="false" ShortName="DIMSE2" Comment="Suppression of second extension line." />
+  <Variable Name="UseAlternateDimensioning" BinaryType="B" Type="bool" DefaultValue="false" ShortName="DIMALT" Comment="Alternate unit dimensioning performed." />
+  <Variable Name="ForceDimensionLineExtensionsOutsideIfTextIs" BinaryType="B" Type="bool" DefaultValue="false" ShortName="DIMTOFL" Comment="If text is outside extensions, force line extensions between extensions." />
+  <Variable Name="UseSeparateArrowBlocksForDimensions" BinaryType="B" Type="bool" DefaultValue="false" ShortName="DIMSAH" Comment="Use separate arrow blocks." />
+  <Variable Name="ForceDimensionTextInsideExtensions" BinaryType="B" Type="bool" DefaultValue="false" ShortName="DIMTIX" Comment="Force text inside extensions." />
+  <Variable Name="SuppressOutsideExtensionDimensionLines" BinaryType="B" Type="bool" DefaultValue="false" ShortName="DIMSOXD" Comment="Suppress outside-extensions dimension lines." />
+  <Variable Name="AlternateDimensioningDecimalPlaces" BinaryType="RC" Type="short" DefaultValue="2" ShortName="DIMALTD" Comment="Alternate unit decimal places." />
+  <Variable Name="DimensionUnitZeroSuppression" BinaryType="RC" Type="DwgUnitZeroSuppression" DefaultValue="DwgUnitZeroSuppression.SuppressZeroFeetAndZeroInches" ShortName="DIMZIN" ReadConverter="(DwgUnitZeroSuppression){0}" Comment="Controls suppression of zeros for primary unit values." />
+  <Variable BinaryType="B" DefaultValue="false" ShortName="DIMSD1" Comment="This appears to be identical to DIMSE1." />
+  <Variable BinaryType="B" DefaultValue="false" ShortName="DIMSD2" Comment="This appears to be identical to DIMSE2." />
+  <Variable Name="DimensionToleranceVerticalJustification" BinaryType="RC" Type="DwgJustification" DefaultValue="DwgJustification.Middle" ShortName="DIMTOLJ" ReadConverter="(DwgJustification){0}" Comment="Vertical justification for tolerance values." />
+  <Variable Name="DimensionTextJustification" BinaryType="RC" Type="DwgDimensionTextJustification" DefaultValue="DwgDimensionTextJustification.AboveLineCenter" ShortName="DIMJUST" ReadConverter="(DwgDimensionTextJustification){0}" Comment="Horizontal dimension text position." />
+  <Variable Name="DimensionTextAndArrowPlacement" BinaryType="RC" Type="DwgDimensionFit" DefaultValue="DwgDimensionFit.TextAndArrowsOutsideLines" ShortName="DIMFIT" ReadConverter="(DwgDimensionFit){0}" Comment="Placement of text and arrowheads." />
+  <Variable Name="DimensionCursorControlsTextPosition" BinaryType="B" Type="bool" DefaultValue="false" ShortName="DIMUPT" Comment="Cursor functionality for user-positioned text." />
+  <Variable Name="DimensionToleranceZeroSuppression" BinaryType="RC" Type="DwgUnitZeroSuppression" DefaultValue="DwgUnitZeroSuppression.SuppressZeroFeetAndZeroInches" ShortName="DIMTZIN" ReadConverter="(DwgUnitZeroSuppression){0}" Comment="Controls suppression of zeros for tolerance values." />
+  <Variable Name="AlternateDimensioningZeroSupression" BinaryType="RC" Type="DwgUnitZeroSuppression" DefaultValue="DwgUnitZeroSuppression.SuppressZeroFeetAndZeroInches" ShortName="DIMALTZ" ReadConverter="(DwgUnitZeroSuppression){0}" Comment="Controls suppression of zeros for alternate unit dimension values." />
+  <Variable Name="AlternateDimensioningToleranceZeroSupression" BinaryType="RC" Type="DwgUnitZeroSuppression" DefaultValue="DwgUnitZeroSuppression.SuppressZeroFeetAndZeroInches" ShortName="DIMALTTZ" ReadConverter="(DwgUnitZeroSuppression){0}" Comment="Controls suppression of zeros for alternate tolerance values." />
+  <Variable Name="TextAboveDimensionLine" BinaryType="RC" Type="bool" DefaultValue="false" ShortName="DIMTAD" ReadConverter="Converters.BoolByte({0})" Comment="Text above dimension line." />
+  <Variable Name="DimensionUnitFormat" BinaryType="BS" Type="DwgUnitFormat" DefaultValue="DwgUnitFormat.Decimal" ShortName="DIMUNIT" ReadConverter="(DwgUnitFormat){0}" Comment="Units format for all dimension style family members except angular." />
+  <Variable Name="DimensioningAngleFormat" BinaryType="BS" Type="DwgAngleFormat" DefaultValue="DwgAngleFormat.DecimalDegrees" ShortName="DIMAUNIT" ReadConverter="(DwgAngleFormat){0}" Comment="Angle format for angular dimensions." />
+  <Variable Name="DimensionUnitToleranceDecimalPlaces" BinaryType="BS" Type="short" DefaultValue="4" ShortName="DIMDEC" Comment="Number of decimal places for the tolerance values of a primary units dimension." />
+  <Variable Name="DimensionToleranceDecimalPlaces" BinaryType="BS" Type="short" DefaultValue="4" ShortName="DIMTDEC" Comment="Number of decimal places to display the tolerance values." />
+  <Variable Name="AlternateDimensioningUnits" BinaryType="BS" Type="DwgUnitFormat" DefaultValue="DwgUnitFormat.Decimal" ShortName="DIMALTU" ReadConverter="(DwgUnitFormat){0}" Comment="Units format for alternate units of all dimension style family members except angular." />
+  <Variable Name="AlternateDimensioningToleranceDecimalPlaces" BinaryType="BS" Type="short" DefaultValue="2" ShortName="DIMALTTD" Comment="Number of decimal places for tolerance values of an alternate units dimension." />
+  <Variable Name="DimensionTextStyle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="DIMTXSTY" Comment="Dimension text style." />
+  <Variable Name="DimensioningScaleFactor" BinaryType="BD" Type="double" DefaultValue="1.0" ShortName="DIMSCALE" Comment="Overall dimensioning scale factor." />
+  <Variable Name="DimensioningArrowSize" BinaryType="BD" Type="double" DefaultValue="0.18" ShortName="DIMASZ" Comment="Dimensioning arrow size." />
+  <Variable Name="DimensionExtensionLineOffset" BinaryType="BD" Type="double" DefaultValue="0.0625" ShortName="DIMEXO" Comment="Extension line offset." />
+  <Variable Name="DimensionLineIncrement" BinaryType="BD" Type="double" DefaultValue="0.38" ShortName="DIMDLI" Comment="Dimension line increment." />
+  <Variable Name="DimensionExtensionLineExtension" BinaryType="BD" Type="double" DefaultValue="0.18" ShortName="DIMEXE" Comment="Extension line extension." />
+  <Variable Name="DimensionDistanceRoundingValue" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="DIMRND" Comment="Rounding value for dimension distances." />
+  <Variable Name="DimensionLineExtension" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="DIMDLE" Comment="Dimension line extension." />
+  <Variable Name="DimensionPlusTolerance" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="DIMTP" Comment="Plus tolerance." />
+  <Variable Name="DimensionMinusTolerance" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="DIMTM" Comment="Minus tolerance." />
+  <Variable Name="DimensioningTextHeight" BinaryType="BD" Type="double" DefaultValue="0.18" ShortName="DIMTXT" Comment="Dimensioning text height." />
+  <Variable Name="CenterMarkSize" BinaryType="BD" Type="double" DefaultValue="0.09" ShortName="DIMCEN" Comment="Center mark size." />
+  <Variable Name="DimensioningTickSize" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="DIMTSZ" Comment="Dimensioning tick size." />
+  <Variable Name="AlternateDimensioningScaleFactor" BinaryType="BD" Type="double" DefaultValue="25.4" ShortName="DIMALTF" Comment="Alternate unit scale factor." />
+  <Variable Name="DimensionLinearMeasurementsScaleFactor" BinaryType="BD" Type="double" DefaultValue="1.0" ShortName="DIMLFAC" Comment="Linear measurements scale factor." />
+  <Variable Name="DimensionVerticalTextPosition" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="DIMTVP" Comment="Text vertical position." />
+  <Variable Name="DimensionToleranceDisplayScaleFactor" BinaryType="BD" Type="double" DefaultValue="1.0" ShortName="DIMTFAC" Comment="Dimension tolerance display factor." />
+  <Variable Name="DimensionLineGap" BinaryType="BD" Type="double" DefaultValue="0.09" ShortName="DIMGAP" Comment="Dimension line gap." />
+  <Variable Name="DimensioningSuffix" BinaryType="T" Type="string" DefaultValue="null" ShortName="DIMPOST" Comment="General dimensioning suffix." />
+  <Variable Name="AlternateDimensioningSuffix" BinaryType="T" Type="string" DefaultValue="null" ShortName="DIMAPOST" Comment="Alternate dimensioning suffix." />
+  <Variable Name="ArrowBlockName" BinaryType="T" Type="string" DefaultValue="null" ShortName="DIMBLK" Comment="Arrow block name." />
+  <Variable Name="FirstArrowBlockName" BinaryType="T" Type="string" DefaultValue="null" ShortName="DIMBLK1" Comment="First arrow block name." />
+  <Variable Name="SecondArrowBlockName" BinaryType="T" Type="string" DefaultValue="null" ShortName="DIMBLK2" Comment="Second arrow block name." />
+  <Variable Name="DimensionLineColor" BinaryType="BS" Type="DwgColor" DefaultValue="DwgColor.ByBlock" ShortName="DIMCLRD" ReadConverter="DwgColor.FromRawValue({0})" Comment="Dimension line color." />
+  <Variable Name="DimensionExtensionLineColor" BinaryType="BS" Type="DwgColor" DefaultValue="DwgColor.ByBlock" ShortName="DIMCLRE" ReadConverter="DwgColor.FromRawValue({0})" Comment="Dimension extension line color." />
+  <Variable Name="DimensionTextColor" BinaryType="BS" Type="DwgColor" DefaultValue="DwgColor.ByBlock" ShortName="DIMCLRT" ReadConverter="DwgColor.FromRawValue({0})" Comment="Dimension text color." />
+  <Variable Name="BlockControlObjectHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" Comment="Block control object handle." />
+  <Variable Name="LayerControlObjectHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" Comment="Layer control object handle." />
+  <Variable Name="StyleObjectControlHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" Comment="Style object control handle." />
+  <Variable Name="LineTypeObjectControlHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" Comment="Line type object control handle." />
+  <Variable Name="ViewControlObjectHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" Comment="View control object handle." />
+  <Variable Name="UcsControlObjectHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" Comment="UCS control object handle." />
+  <Variable Name="ViewPortControlObjectHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" Comment="View port control object handle." />
+  <Variable Name="AppIdControlObjectHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" Comment="Application ID control object handle." />
+  <Variable Name="DimStyleControlObjectHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" Comment="Dimension style control object handle." />
+  <Variable Name="ViewPortEntityHeaderControlObjectHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" Comment="View port entity header control object handle." />
+  <Variable Name="GropuDictionaryHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" Comment="Group dictionary handle." />
+  <Variable Name="MLineStyleDictionaryHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" Comment="MLine style dictionary handle." />
+  <Variable Name="NamedObjectsDictionaryHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" Comment="Named objects dictionary handle." />
+  <Variable Name="PaperSpaceBlockRecordhandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" Comment="Paper space block record handle." />
+  <Variable Name="ModelSpaceBlockRecordHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" Comment="Model space block record handle." />
+  <Variable Name="ByLayerLineTypeHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" Comment="ByLayer line type handle." />
+  <Variable Name="ByBlockLineTypeHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" Comment="ByBlock line type handle." />
+  <Variable Name="ContinuousLineTypeHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" Comment="Continuous line type handle." />
+  <!-- possibly 4 shorts here? -->
+  <ShortNameAliases>
+    <!-- called SAVEIMAGES in R13 -->
+    <Alias From="SAVEIMAGES" To="SaveProxyGraphics" />
+  </ShortNameAliases>
+</Variables>

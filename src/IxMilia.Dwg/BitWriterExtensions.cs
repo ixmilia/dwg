@@ -11,6 +11,11 @@ namespace IxMilia.Dwg
             return writer;
         }
 
+        public static BitWriter Write_B(this BitWriter writer, bool value)
+        {
+            return Write_B(writer, 0b10000000);
+        }
+
         public static BitWriter Write_BB(this BitWriter writer, int value)
         {
             // shift left to align the lower 2 bits to the upper 2
@@ -159,6 +164,17 @@ namespace IxMilia.Dwg
             var header = (((int)handle.Code) << 4) | (bytes.Count & 0x0F);
             writer.WriteByte((byte)header);
             writer.WriteBytes(bytes);
+
+            return writer;
+        }
+
+        public static BitWriter Write_T(this BitWriter writer, string value)
+        {
+            writer.Write_BS((short)value.Length);
+            foreach (var c in value)
+            {
+                writer.WriteByte((byte)c);
+            }
 
             return writer;
         }

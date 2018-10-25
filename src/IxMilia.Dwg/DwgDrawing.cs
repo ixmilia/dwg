@@ -5,6 +5,7 @@ namespace IxMilia.Dwg
     public class DwgDrawing
     {
         public DwgFileHeader FileHeader { get; set; }
+        public DwgHeaderVariables Variables { get; private set; }
 
 #if NETSTANDARD1_3
         public static DwgDrawing Load(string path)
@@ -28,6 +29,7 @@ namespace IxMilia.Dwg
             var reader = new BitReader(data);
             var drawing = new DwgDrawing();
             drawing.FileHeader = DwgFileHeader.Parse(reader);
+            drawing.Variables = DwgHeaderVariables.Parse(new BitReader(reader.Data, drawing.FileHeader.HeaderVariablesLocator.Pointer), drawing.FileHeader.Version);
             return drawing;
         }
     }

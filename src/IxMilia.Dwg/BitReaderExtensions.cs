@@ -51,6 +51,11 @@ namespace IxMilia.Dwg
             }
         }
 
+        public static Tuple<int, int> Read_2BL(this BitReader reader)
+        {
+            return Tuple.Create(reader.Read_BL(), reader.Read_BL());
+        }
+
         public static double Read_BD(this BitReader reader)
         {
             var twoBits = reader.Read_BB();
@@ -187,6 +192,21 @@ namespace IxMilia.Dwg
             }
 
             return sb.ToString();
+        }
+
+        public static void AssertSentinel(this BitReader reader, byte[] expectedSentinel)
+        {
+            if (expectedSentinel.Length != 16)
+            {
+                throw new InvalidOperationException("Expected sentinel must be 16 bytes");
+            }
+
+            reader.AlignToByte();
+            for (int i = 0; i < expectedSentinel.Length; i++)
+            {
+                var b = reader.ReadByte();
+                Debug.Assert(b == expectedSentinel[i]);
+            }
         }
     }
 }

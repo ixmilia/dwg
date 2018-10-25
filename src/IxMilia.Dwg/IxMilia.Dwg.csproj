@@ -4,4 +4,8 @@
     <TargetFrameworks>netstandard1.0;netstandard1.3;</TargetFrameworks>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Generated\" />
+  </ItemGroup>
+
 </Project>

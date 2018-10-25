@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace IxMilia.Dwg
+﻿namespace IxMilia.Dwg
 {
     public class DwgFileHeader
     {
@@ -128,11 +126,7 @@ namespace IxMilia.Dwg
 
             // TODO: compute CRC and compare
 
-            var sentinel = reader.ReadBytes(16);
-            for (int i = 0; i < sentinel.Length; i++)
-            {
-                Debug.Assert(sentinel[i] == HeaderSentinel[i]);
-            }
+            reader.AssertSentinel(HeaderSentinel);
 
             return header;
         }
