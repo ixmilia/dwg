@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace IxMilia.Dwg
@@ -9,6 +11,8 @@ namespace IxMilia.Dwg
 
         public byte[] Data { get; private set; }
         public int Offset { get; set; }
+
+        private Stack<int> _crcStartValues = new Stack<int>();
 
         public BitReader(byte[] data, int offset = 0)
         {
@@ -145,6 +149,38 @@ namespace IxMilia.Dwg
             }
 
             return sb.ToString();
+        }
+
+        public void StartCrcCheck()
+        {
+            _crcStartValues.Push(Offset);
+        }
+
+        public ushort ComputeCrc(ushort initialValue = 0)
+        {
+            if (_crcStartValues.Count == 0)
+            {
+                throw new InvalidOperationException($"You must call {nameof(StartCrcCheck)}() first.");
+            }
+
+            var startOffset = _crcStartValues.Pop();
+            var endOffset = bitOffset == 0
+                ? Offset
+                : Offset + 1;
+
+            return BitReaderExtensions.ComputeCRC(Data, startOffset, endOffset - startOffset, initialValue);
+        }
+
+        public void ValidateCrc(ushort initialValue = 0, ushort xorValue = 0)
+        {
+            AlignToByte();
+            var actualCrc = ComputeCrc(initialValue);
+            actualCrc ^= xorValue;
+            var expectedCrc = (ushort)this.Read_RS();
+            if (expectedCrc != actualCrc)
+            {
+                throw new DwgReadException("Failed CRC check.");
+            }
         }
     }
 }

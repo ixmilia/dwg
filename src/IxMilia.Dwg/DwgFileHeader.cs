@@ -1,4 +1,6 @@
-﻿namespace IxMilia.Dwg
+﻿using System.Diagnostics;
+
+namespace IxMilia.Dwg
 {
     public class DwgFileHeader
     {
@@ -44,6 +46,7 @@
 
         internal static DwgFileHeader Parse(BitReader reader)
         {
+            reader.StartCrcCheck();
             var versionString = reader.ReadStringAscii(6);
             var version = DwgVersionIdExtensions.VersionIdFromString(versionString);
             var unknown1 = reader.ReadBytes(6);
@@ -66,66 +69,57 @@
             var header = new DwgFileHeader(version, maintVer, imagePointer, codePage);
 
             var recordLocatorCount = reader.ReadInt();
-            if (recordLocatorCount >= 1)
+            for (int i = 0; i < recordLocatorCount; i++)
             {
-                header.HeaderVariablesLocator = DwgSectionLocator.Parse(reader);
+                var locator = DwgSectionLocator.Parse(reader);
+                switch (i)
+                {
+                    case 0:
+                        header.HeaderVariablesLocator = locator;
+                        break;
+                    case 1:
+                        header.ClassSectionLocator = locator;
+                        break;
+                    case 2:
+                        header.ObjectMapLocator = locator;
+                        break;
+                    case 3:
+                        header.UnknownSection1Locator = locator;
+                        break;
+                    case 4:
+                        header.UnknownSection2Locator = locator;
+                        break;
+                    case 5:
+                        header.UnknownSection3Locator = locator;
+                        break;
+                }
             }
 
-            if (recordLocatorCount >= 2)
-            {
-                header.ClassSectionLocator = DwgSectionLocator.Parse(reader);
-            }
-
-            if (recordLocatorCount >= 3)
-            {
-                header.ObjectMapLocator = DwgSectionLocator.Parse(reader);
-            }
-
-            if (recordLocatorCount >= 4)
-            {
-                // TODO: only if R13C3 or later
-                header.UnknownSection1Locator = DwgSectionLocator.Parse(reader);
-            }
-
-            if (recordLocatorCount >= 5)
-            {
-                header.UnknownSection2Locator = DwgSectionLocator.Parse(reader);
-            }
-
-            if (recordLocatorCount >= 6)
-            {
-                header.UnknownSection3Locator = DwgSectionLocator.Parse(reader);
-            }
-
-            ushort xorValue;
+            ushort crcXorValue;
             switch (recordLocatorCount)
             {
                 case 0:
                 case 1:
                 case 2:
-                    xorValue = 0;
+                    crcXorValue = 0;
                     break;
                 case 3:
-                    xorValue = 0xAd98;
+                    crcXorValue = 0xAD98;
                     break;
                 case 4:
-                    xorValue = 0x8101;
+                    crcXorValue = 0x8101;
                     break;
                 case 5:
-                    xorValue = 0x3CC4;
+                    crcXorValue = 0x3CC4;
                     break;
                 case 6:
-                    xorValue = 0x8461;
+                    crcXorValue = 0x8461;
                     break;
                 default:
                     throw new DwgReadException("Unsupported record locator count.");
             }
 
-            var crc = (ushort)reader.Read_RS();
-            crc = (ushort)(crc ^ xorValue);
-
-            // TODO: compute CRC and compare
-
+            reader.ValidateCrc(xorValue: crcXorValue);
             reader.AssertSentinel(HeaderSentinel);
 
             return header;
