@@ -120,7 +120,7 @@ namespace IxMilia.Dwg
             }
 
             reader.ValidateCrc(xorValue: crcXorValue);
-            reader.AssertSentinel(HeaderSentinel);
+            reader.ValidateSentinel(HeaderSentinel);
 
             return header;
         }

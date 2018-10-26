@@ -46,8 +46,7 @@ namespace IxMilia.Dwg
                 case 0b10:
                     return 0;
                 default:
-                    Debug.Assert(false, "Unsupported bit code");
-                    return 256;
+                    throw new DwgReadException("Unsupported bit code.");
             }
         }
 
@@ -68,8 +67,7 @@ namespace IxMilia.Dwg
                 case 0b10:
                     return 0.0;
                 default:
-                    Debug.Assert(false, "Unsupported bit code");
-                    return double.NaN;
+                    throw new DwgReadException("Unsupported bit code.");
             }
         }
 
@@ -194,7 +192,7 @@ namespace IxMilia.Dwg
             return sb.ToString();
         }
 
-        public static void AssertSentinel(this BitReader reader, byte[] expectedSentinel)
+        public static void ValidateSentinel(this BitReader reader, byte[] expectedSentinel)
         {
             if (expectedSentinel.Length != 16)
             {
@@ -205,7 +203,10 @@ namespace IxMilia.Dwg
             for (int i = 0; i < expectedSentinel.Length; i++)
             {
                 var b = reader.ReadByte();
-                Debug.Assert(b == expectedSentinel[i]);
+                if (b != expectedSentinel[i])
+                {
+                    throw new DwgReadException("Wrong sentinel byte.");
+                }
             }
         }
 

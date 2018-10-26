@@ -20,7 +20,7 @@ namespace IxMilia.Dwg
         internal static DwgHeaderVariables Parse(BitReader reader, DwgVersionId version)
         {
             var header = new DwgHeaderVariables();
-            reader.AssertSentinel(StartSentinel);
+            reader.ValidateSentinel(StartSentinel);
             reader.StartCrcCheck();
             var size = reader.Read_RL();
             var startOffset = reader.Offset;
@@ -29,7 +29,7 @@ namespace IxMilia.Dwg
             var unreadByteCount = Math.Max(startOffset + size - reader.Offset, 0);
             var unreadBytes = reader.ReadBytes(unreadByteCount);
             reader.ValidateCrc(initialValue: 0xC0C1);
-            reader.AssertSentinel(EndSentinel);
+            reader.ValidateSentinel(EndSentinel);
             return header;
         }
     }
