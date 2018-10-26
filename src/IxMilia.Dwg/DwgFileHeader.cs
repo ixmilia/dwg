@@ -125,11 +125,44 @@ namespace IxMilia.Dwg
             return header;
         }
 
+        internal void Write(BitWriter writer)
+        {
+            writer.StartCrcCalculation();
+            writer.WriteStringAscii(Version.VersionString(), nullTerminated: false);
+            writer.WriteBytes(0, 0, 0, 0, 0);
+            if (Version == DwgVersionId.R14)
+            {
+                writer.WriteByte((byte)MaintenenceVersion);
+            }
+            else
+            {
+                writer.WriteByte(0);
+            }
+
+            writer.WriteByte(1);
+            writer.WriteInt(ImagePointer);
+            writer.WriteBytes(0, 0);
+            writer.WriteShort(CodePage);
+
+            writer.WriteInt(6);
+            HeaderVariablesLocator.Write(writer);
+            ClassSectionLocator.Write(writer);
+            ObjectMapLocator.Write(writer);
+            UnknownSection1Locator.Write(writer);
+            UnknownSection2Locator.Write(writer);
+            UnknownSection3Locator.Write(writer);
+
+            writer.WriteCrc(xorValue: 0x8461); // value for 6 records
+            writer.WriteBytes(HeaderSentinel);
+        }
+
         internal struct DwgSectionLocator
         {
             public int RecordNumber { get; set; }
             public int Pointer { get; set; }
             public int Length { get; set; }
+
+            public bool IsDefault => RecordNumber == default(int) && Pointer == default(int) && Length == default(int);
 
             internal DwgSectionLocator(int recordNumber, int pointer, int length)
             {
@@ -138,7 +171,14 @@ namespace IxMilia.Dwg
                 Length = length;
             }
 
-            internal static DwgSectionLocator Parse(BitReader reader)
+            public void Write(BitWriter writer)
+            {
+                writer.WriteByte((byte)RecordNumber);
+                writer.WriteInt(Pointer);
+                writer.WriteInt(Length);
+            }
+
+            public static DwgSectionLocator Parse(BitReader reader)
             {
                 var recordNumber = reader.ReadByte();
                 var pointer = reader.ReadInt();

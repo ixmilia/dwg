@@ -180,6 +180,19 @@ namespace IxMilia.Dwg
             return writer;
         }
 
+        public static void WriteStringAscii(this BitWriter writer, string value, bool nullTerminated = true)
+        {
+            foreach (var c in value)
+            {
+                writer.WriteByte((byte)c);
+            }
+
+            if (nullTerminated)
+            {
+                writer.WriteByte(0);
+            }
+        }
+
         public static byte[] AsBytes(this BitWriter writer)
         {
             writer.Flush();
