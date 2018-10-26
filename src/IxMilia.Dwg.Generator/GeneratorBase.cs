@@ -72,5 +72,6 @@ namespace IxMilia.Dwg.Generator
         public string ShortName(XElement xml) => AttributeValue(xml, "ShortName");
         public string To(XElement xml) => AttributeValue(xml, "To");
         public string Type(XElement xml) => AttributeValue(xml, "Type");
+        public string WriteConverter(XElement xml) => AttributeValue(xml, "WriteConverter");
     }
 }

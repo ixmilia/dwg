@@ -213,7 +213,31 @@ namespace IxMilia.Dwg.Generator
                 {
                     value = readConverter.Replace("{0}", value);
                 }
+
                 AppendLine($"{variable} = {value};");
+            }
+
+            DecreaseIndent();
+            AppendLine("}");
+
+            // writer
+            AppendLine();
+            AppendLine("internal void WriteVariables(BitWriter writer, DwgVersionId version)");
+            AppendLine("{");
+            IncreaseIndent();
+            foreach (var v in _variables)
+            {
+                var name = Name(v);
+                var value = string.IsNullOrEmpty(name)
+                    ? DefaultValue(v)
+                    : $"this.{name}";
+                var writeConverter = WriteConverter(v);
+                if (!string.IsNullOrEmpty(writeConverter))
+                {
+                    value = writeConverter.Replace("{0}", value);
+                }
+
+                AppendLine($"writer.Write_{BinaryType(v)}({value});");
             }
 
             DecreaseIndent();

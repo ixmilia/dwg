@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace IxMilia.Dwg
@@ -68,6 +69,13 @@ namespace IxMilia.Dwg
             return writer;
         }
 
+        public static BitWriter Write_2BL(this BitWriter writer, Tuple<int, int> value)
+        {
+            writer.Write_BL(value.Item1);
+            writer.Write_BL(value.Item2);
+            return writer;
+        }
+
         public static BitWriter Write_BD(this BitWriter writer, double value)
         {
             if (value == 0.0)
@@ -84,6 +92,39 @@ namespace IxMilia.Dwg
                 writer.WriteDouble(value);
             }
 
+            return writer;
+        }
+
+        public static BitWriter Write_3BD(this BitWriter writer, Tuple<double, double, double> value)
+        {
+            writer.Write_BD(value.Item1);
+            writer.Write_BD(value.Item2);
+            writer.Write_BD(value.Item3);
+            return writer;
+        }
+
+        public static BitWriter Write_RD(this BitWriter writer, double value)
+        {
+            writer.WriteDouble(value);
+            return writer;
+        }
+
+        public static BitWriter Write_2RD(this BitWriter writer, Tuple<double, double> value)
+        {
+            writer.Write_RD(value.Item1);
+            writer.Write_RD(value.Item2);
+            return writer;
+        }
+
+        public static BitWriter Write_RC(this BitWriter writer, byte value)
+        {
+            writer.WriteByte(value);
+            return writer;
+        }
+
+        public static BitWriter Write_RL(this BitWriter writer, int value)
+        {
+            writer.WriteInt(value);
             return writer;
         }
 
@@ -171,6 +212,12 @@ namespace IxMilia.Dwg
 
         public static BitWriter Write_T(this BitWriter writer, string value)
         {
+            if (value == null)
+            {
+                writer.Write_BS(0);
+                return writer;
+            }
+
             writer.Write_BS((short)value.Length);
             foreach (var c in value)
             {

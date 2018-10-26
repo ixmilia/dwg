@@ -45,12 +45,6 @@ namespace IxMilia.Dwg
 
         public BitWriter WriteBit(int value)
         {
-            if (bitOffset >= 8)
-            {
-                // write old byte
-                FlushCurrentByte();
-            }
-
             if (value != 0)
             {
                 var mask = 1 << (7 - bitOffset);
@@ -59,6 +53,12 @@ namespace IxMilia.Dwg
             // else, just progress the bit offset
 
             bitOffset++;
+            if (bitOffset >= 8)
+            {
+                // write the byte
+                FlushCurrentByte();
+            }
+
             return this;
         }
 

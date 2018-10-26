@@ -1,5 +1,5 @@
 using System;
-﻿using System.Diagnostics;
+﻿using System.IO;
 
 namespace IxMilia.Dwg
 {
@@ -17,6 +17,28 @@ namespace IxMilia.Dwg
             0xA0, 0x83, 0x97, 0x47, 0xB1, 0x92, 0xCC, 0xA0
         };
 
+        internal const ushort InitialCrcValue = 0xC0C1;
+
+        internal void Write(BitWriter writer, DwgVersionId version)
+        {
+            writer.AlignByte();
+            using (var ms = new MemoryStream())
+            {
+                // write the variables to memory
+                var variableWriter = new BitWriter(ms);
+                WriteVariables(variableWriter, version);
+                var variableBytes = variableWriter.AsBytes();
+
+                // now write it all out
+                writer.WriteBytes(StartSentinel);
+                writer.StartCrcCalculation(initialValue: InitialCrcValue);
+                writer.Write_RL(variableBytes.Length);
+                writer.WriteBytes(variableBytes);
+                writer.WriteCrc();
+                writer.WriteBytes(EndSentinel);
+            }
+        }
+
         internal static DwgHeaderVariables Parse(BitReader reader, DwgVersionId version)
         {
             var header = new DwgHeaderVariables();
@@ -28,7 +50,7 @@ namespace IxMilia.Dwg
             reader.AlignToByte();
             var unreadByteCount = Math.Max(startOffset + size - reader.Offset, 0);
             var unreadBytes = reader.ReadBytes(unreadByteCount);
-            reader.ValidateCrc(initialValue: 0xC0C1);
+            reader.ValidateCrc(initialValue: InitialCrcValue);
             reader.ValidateSentinel(EndSentinel);
             return header;
         }
