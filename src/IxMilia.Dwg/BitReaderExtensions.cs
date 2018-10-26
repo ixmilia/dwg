@@ -215,11 +215,18 @@ namespace IxMilia.Dwg
             ushort dx = initialValue;
             for (int i = 0; i < length; i++)
             {
-                var al = data[offset + i] ^ (dx & 0xFF);
-                dx = (ushort)((dx >> 8) & 0xFF);
-                dx = (ushort)(dx ^ crcTable[al & 0xFF]);
+                dx = ComputeCRC(data[offset + i], dx);
             }
 
+            return dx;
+        }
+
+        public static ushort ComputeCRC(byte value, ushort lastValue)
+        {
+            var dx = lastValue;
+            var al = value ^ (dx & 0xFF);
+            dx = (ushort)((dx >> 8) & 0xFF);
+            dx = (ushort)(dx ^ crcTable[al & 0xFF]);
             return dx;
         }
 

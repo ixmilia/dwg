@@ -10,6 +10,7 @@ namespace IxMilia.Dwg
         private byte currentByte;
 
         public Stream BaseStream { get; }
+        public ushort CurrentCrcValue { get; private set; }
 
         public BitWriter(Stream stream)
         {
@@ -19,9 +20,13 @@ namespace IxMilia.Dwg
 
         private void FlushCurrentByte()
         {
-            BaseStream.WriteByte(currentByte);
-            currentByte = 0;
-            bitOffset = 0;
+            if (bitOffset > 0)
+            {
+                CurrentCrcValue = BitReaderExtensions.ComputeCRC(currentByte, CurrentCrcValue);
+                BaseStream.WriteByte(currentByte);
+                currentByte = 0;
+                bitOffset = 0;
+            }
         }
 
         public void Flush()
@@ -119,6 +124,18 @@ namespace IxMilia.Dwg
             }
 
             WriteBytes(bytes);
+        }
+
+        public void StartCrcCalculation(ushort initialValue = 0)
+        {
+            CurrentCrcValue = initialValue;
+        }
+
+        public void WriteCrc(ushort xorValue = 0)
+        {
+            AlignByte();
+            var toWrite = (short)(ushort)(CurrentCrcValue ^ xorValue);
+            WriteShort(toWrite);
         }
     }
 }

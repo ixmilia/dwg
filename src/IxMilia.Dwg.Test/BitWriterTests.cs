@@ -135,5 +135,16 @@ namespace IxMilia.Dwg.Test
         {
             Assert.Equal(Bytes(0b01010010, 0b00000101, 0b11100111), Writer().Write_H(new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, 0x05E7)).AsBytes());
         }
+
+        [Fact]
+        public void WriteCRC()
+        {
+            var writer = Writer();
+            writer.StartCrcCalculation(0x2C8C);
+            writer.Write_BS(3);
+            writer.WriteBits(0b10000_000, 5);
+            writer.AlignByte();
+            Assert.Equal(0x5555, writer.CurrentCrcValue);
+        }
     }
 }
