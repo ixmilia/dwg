@@ -158,13 +158,15 @@ namespace IxMilia.Dwg
 
         internal struct DwgSectionLocator
         {
-            public int RecordNumber { get; set; }
-            public int Pointer { get; set; }
-            public int Length { get; set; }
+            private const byte HeaderVariablesRecordNumber = 0;
+
+            public byte RecordNumber { get; }
+            public int Pointer { get; }
+            public int Length { get; }
 
             public bool IsDefault => RecordNumber == default(int) && Pointer == default(int) && Length == default(int);
 
-            internal DwgSectionLocator(int recordNumber, int pointer, int length)
+            private DwgSectionLocator(byte recordNumber, int pointer, int length)
             {
                 RecordNumber = recordNumber;
                 Pointer = pointer;
@@ -184,6 +186,11 @@ namespace IxMilia.Dwg
                 var pointer = reader.ReadInt();
                 var length = reader.ReadInt();
                 return new DwgSectionLocator(recordNumber, pointer, length);
+            }
+
+            public static DwgSectionLocator HeaderVariablesLocator(int pointer, int length)
+            {
+                return new DwgSectionLocator(HeaderVariablesRecordNumber, pointer, length);
             }
         }
     }

@@ -4,8 +4,14 @@ namespace IxMilia.Dwg
 {
     public class DwgDrawing
     {
-        public DwgFileHeader FileHeader { get; set; }
+        public DwgFileHeader FileHeader { get; private set; }
         public DwgHeaderVariables Variables { get; private set; }
+
+        public DwgDrawing()
+        {
+            FileHeader = new DwgFileHeader(DwgVersionId.Default, 0, 0, 0);
+            Variables = new DwgHeaderVariables();
+        }
 
 #if HAS_FILESYSTEM_ACCESS
         public static DwgDrawing Load(string path)
@@ -31,6 +37,56 @@ namespace IxMilia.Dwg
             drawing.FileHeader = DwgFileHeader.Parse(reader);
             drawing.Variables = DwgHeaderVariables.Parse(new BitReader(reader.Data, drawing.FileHeader.HeaderVariablesLocator.Pointer), drawing.FileHeader.Version);
             return drawing;
+        }
+
+#if HAS_FILESYSTEM_ACCESS
+        public void Save(string path)
+        {
+            using (var fs = new FileStream(path, FileMode.Create))
+            {
+                Save(fs);
+            }
+        }
+#endif
+
+        public void Save(Stream stream)
+        {
+            // create a dummy-write of the file header to compute its size
+            int fileHeaderSize;
+            using (var ms = new MemoryStream())
+            {
+                var headerWriter = new BitWriter(ms);
+                FileHeader.Write(headerWriter);
+                fileHeaderSize = headerWriter.AsBytes().Length;
+            }
+
+            //
+            // write each section to memory so the offsets can be calculated
+            //
+
+            // header variables
+            byte[] variableData;
+            using (var ms = new MemoryStream())
+            {
+                var variableWriter = new BitWriter(ms);
+                Variables.Write(variableWriter, FileHeader.Version);
+                variableData = variableWriter.AsBytes();
+            }
+
+            FileHeader.HeaderVariablesLocator = DwgFileHeader.DwgSectionLocator.HeaderVariablesLocator(fileHeaderSize, variableData.Length);
+
+            // TODO: classes
+            // TODO: object map
+            // TODO: unknown 1
+            // TODO: unknown 2
+            // TODO: unknown 3
+
+            //
+            // now actually write everything
+            //
+            var writer = new BitWriter(stream);
+            FileHeader.Write(writer);
+            writer.WriteBytes(variableData);
         }
     }
 }

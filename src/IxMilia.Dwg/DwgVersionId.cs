@@ -5,7 +5,8 @@ namespace IxMilia.Dwg
     public enum DwgVersionId
     {
         R13,
-        R14
+        R14,
+        Default = R14
     }
 
     public static class DwgVersionIdExtensions
