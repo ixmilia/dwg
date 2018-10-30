@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace IxMilia.Dwg
+﻿namespace IxMilia.Dwg
 {
     public class DwgFileHeader
     {
@@ -32,7 +30,7 @@ namespace IxMilia.Dwg
         internal DwgSectionLocator HeaderVariablesLocator { get; set; }
         internal DwgSectionLocator ClassSectionLocator { get; set; }
         internal DwgSectionLocator ObjectMapLocator { get; set; }
-        internal DwgSectionLocator UnknownSection1Locator { get; set; }
+        internal DwgSectionLocator UnknownSection_R13C3AndLater { get; set; }
         internal DwgSectionLocator UnknownSection2Locator { get; set; }
         internal DwgSectionLocator UnknownSection3Locator { get; set; }
 
@@ -84,7 +82,7 @@ namespace IxMilia.Dwg
                         header.ObjectMapLocator = locator;
                         break;
                     case 3:
-                        header.UnknownSection1Locator = locator;
+                        header.UnknownSection_R13C3AndLater = locator;
                         break;
                     case 4:
                         header.UnknownSection2Locator = locator;
@@ -148,7 +146,7 @@ namespace IxMilia.Dwg
             HeaderVariablesLocator.Write(writer);
             ClassSectionLocator.Write(writer);
             ObjectMapLocator.Write(writer);
-            UnknownSection1Locator.Write(writer);
+            UnknownSection_R13C3AndLater.Write(writer);
             UnknownSection2Locator.Write(writer);
             UnknownSection3Locator.Write(writer);
 
@@ -161,6 +159,7 @@ namespace IxMilia.Dwg
             private const byte HeaderVariablesRecordNumber = 0;
             private const byte ClassSectionLocatorRecordNumber = 1;
             private const byte ObjectMapLocatorRecordNumber = 2;
+            private const byte UnknownSection_R13C3AndLaterRecordNumber = 3;
 
             public byte RecordNumber { get; }
             public int Pointer { get; }
@@ -203,6 +202,11 @@ namespace IxMilia.Dwg
             public static DwgSectionLocator ObjectMapLocator(int pointer, int length)
             {
                 return new DwgSectionLocator(ObjectMapLocatorRecordNumber, pointer, length);
+            }
+
+            public static DwgSectionLocator UnknownSection_R13C3AndLater(int pointer, int length)
+            {
+                return new DwgSectionLocator(UnknownSection_R13C3AndLaterRecordNumber, pointer, length);
             }
         }
     }

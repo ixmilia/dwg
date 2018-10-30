@@ -44,6 +44,7 @@ namespace IxMilia.Dwg
             drawing.Variables = DwgHeaderVariables.Parse(reader.FromOffset(drawing.FileHeader.HeaderVariablesLocator.Pointer), drawing.FileHeader.Version);
             drawing.Classes = DwgClasses.Parse(reader.FromOffset(drawing.FileHeader.ClassSectionLocator.Pointer), drawing.FileHeader.Version);
             drawing.ObjectMap = DwgObjectMap.Parse(reader.FromOffset(drawing.FileHeader.ObjectMapLocator.Pointer));
+            // don't read the R13C3 and later unknown section
 
             return drawing;
         }
@@ -106,7 +107,23 @@ namespace IxMilia.Dwg
 
             FileHeader.ObjectMapLocator = DwgFileHeader.DwgSectionLocator.ObjectMapLocator(FileHeader.ClassSectionLocator.Pointer + classData.Length, objectMapData.Length);
 
-            // TODO: unknown 1
+            // unknown section - R13C3 and later
+            byte[] unknownSection_R13C3AndLaterData;
+            using (var ms = new MemoryStream())
+            {
+                // unknown section has a value of `4` at offset 21
+                var unknownWriter = new BitWriter(ms);
+                for (int i = 0; i < 20; i++)
+                {
+                    unknownWriter.WriteByte(0);
+                }
+
+                unknownWriter.WriteInt(4);
+                unknownSection_R13C3AndLaterData = unknownWriter.AsBytes();
+            }
+
+            FileHeader.UnknownSection_R13C3AndLater = DwgFileHeader.DwgSectionLocator.UnknownSection_R13C3AndLater(FileHeader.ObjectMapLocator.Pointer + objectMapData.Length, unknownSection_R13C3AndLaterData.Length);
+
             // TODO: unknown 2
             // TODO: unknown 3
 
@@ -118,6 +135,7 @@ namespace IxMilia.Dwg
             writer.WriteBytes(variableData);
             writer.WriteBytes(classData);
             writer.WriteBytes(objectMapData);
+            writer.WriteBytes(unknownSection_R13C3AndLaterData);
         }
     }
 }
