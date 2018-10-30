@@ -9,11 +9,14 @@ namespace IxMilia.Dwg
         public DwgHeaderVariables Variables { get; private set; }
         public IList<DwgClassDefinition> Classes { get; private set; }
 
+        internal DwgObjectMap ObjectMap { get; private set; }
+
         public DwgDrawing()
         {
             FileHeader = new DwgFileHeader(DwgVersionId.Default, 0, 0, 0);
             Variables = new DwgHeaderVariables();
             Classes = new List<DwgClassDefinition>();
+            ObjectMap = new DwgObjectMap();
         }
 
 #if HAS_FILESYSTEM_ACCESS
@@ -38,8 +41,9 @@ namespace IxMilia.Dwg
             var reader = new BitReader(data);
             var drawing = new DwgDrawing();
             drawing.FileHeader = DwgFileHeader.Parse(reader);
-            drawing.Variables = DwgHeaderVariables.Parse(new BitReader(reader.Data, drawing.FileHeader.HeaderVariablesLocator.Pointer), drawing.FileHeader.Version);
-            drawing.Classes = DwgClasses.Parse(new BitReader(reader.Data, drawing.FileHeader.ClassSectionLocator.Pointer), drawing.FileHeader.Version);
+            drawing.Variables = DwgHeaderVariables.Parse(reader.FromOffset(drawing.FileHeader.HeaderVariablesLocator.Pointer), drawing.FileHeader.Version);
+            drawing.Classes = DwgClasses.Parse(reader.FromOffset(drawing.FileHeader.ClassSectionLocator.Pointer), drawing.FileHeader.Version);
+            drawing.ObjectMap = DwgObjectMap.Parse(reader.FromOffset(drawing.FileHeader.ObjectMapLocator.Pointer));
 
             return drawing;
         }
@@ -91,7 +95,17 @@ namespace IxMilia.Dwg
 
             FileHeader.ClassSectionLocator = DwgFileHeader.DwgSectionLocator.ClassSectionLocator(FileHeader.HeaderVariablesLocator.Pointer + variableData.Length, classData.Length);
 
-            // TODO: object map
+            // object map
+            byte[] objectMapData;
+            using (var ms = new MemoryStream())
+            {
+                var objectMapWriter = new BitWriter(ms);
+                ObjectMap.Write(objectMapWriter);
+                objectMapData = objectMapWriter.AsBytes();
+            }
+
+            FileHeader.ObjectMapLocator = DwgFileHeader.DwgSectionLocator.ObjectMapLocator(FileHeader.ClassSectionLocator.Pointer + classData.Length, objectMapData.Length);
+
             // TODO: unknown 1
             // TODO: unknown 2
             // TODO: unknown 3
@@ -103,6 +117,7 @@ namespace IxMilia.Dwg
             FileHeader.Write(writer);
             writer.WriteBytes(variableData);
             writer.WriteBytes(classData);
+            writer.WriteBytes(objectMapData);
         }
     }
 }

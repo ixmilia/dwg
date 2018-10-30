@@ -109,6 +109,12 @@ namespace IxMilia.Dwg
             return (short)((bytes[1] << 8) + bytes[0]);
         }
 
+        public short ReadShortBigEndian()
+        {
+            var bytes = ReadBytes(2);
+            return (short)((bytes[0] << 8) + bytes[1]);
+        }
+
         public int ReadInt()
         {
             var bytes = ReadBytes(4);
@@ -171,12 +177,14 @@ namespace IxMilia.Dwg
             return BitReaderExtensions.ComputeCRC(Data, startOffset, endOffset - startOffset, initialValue);
         }
 
-        public void ValidateCrc(ushort initialValue = 0, ushort xorValue = 0)
+        public void ValidateCrc(ushort initialValue = 0, ushort xorValue = 0, bool readCrcAsMsb = false)
         {
             AlignToByte();
             var actualCrc = ComputeCrc(initialValue);
             actualCrc ^= xorValue;
-            var expectedCrc = (ushort)this.Read_RS();
+            var expectedCrc = readCrcAsMsb
+                ? (ushort)ReadShortBigEndian()
+                : (ushort)this.Read_RS();
             if (expectedCrc != actualCrc)
             {
                 throw new DwgReadException($"Failed CRC check.  Expected {expectedCrc}, actual {actualCrc}.");

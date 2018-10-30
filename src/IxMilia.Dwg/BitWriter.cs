@@ -101,6 +101,13 @@ namespace IxMilia.Dwg
             WriteBytes((byte)lower, (byte)upper);
         }
 
+        public void WriteShortBigEndian(short value)
+        {
+            var lower = (value >> 8) & 0xFF;
+            var upper = value & 0xFF;
+            WriteBytes((byte)lower, (byte)upper);
+        }
+
         public void WriteInt(int value)
         {
             var a = value & 0xFF;
@@ -131,11 +138,18 @@ namespace IxMilia.Dwg
             CurrentCrcValue = initialValue;
         }
 
-        public void WriteCrc(ushort xorValue = 0)
+        public void WriteCrc(ushort xorValue = 0, bool writeCrcAsMsb = false)
         {
             AlignByte();
             var toWrite = (short)(ushort)(CurrentCrcValue ^ xorValue);
-            WriteShort(toWrite);
+            if (writeCrcAsMsb)
+            {
+                WriteShortBigEndian(toWrite);
+            }
+            else
+            {
+                WriteShort(toWrite);
+            }
         }
     }
 }
