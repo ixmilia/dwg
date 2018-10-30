@@ -179,7 +179,7 @@ namespace IxMilia.Dwg
             var expectedCrc = (ushort)this.Read_RS();
             if (expectedCrc != actualCrc)
             {
-                throw new DwgReadException("Failed CRC check.");
+                throw new DwgReadException($"Failed CRC check.  Expected {expectedCrc}, actual {actualCrc}.");
             }
         }
     }

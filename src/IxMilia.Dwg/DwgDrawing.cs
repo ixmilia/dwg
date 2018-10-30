@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 
 namespace IxMilia.Dwg
 {
@@ -6,11 +7,13 @@ namespace IxMilia.Dwg
     {
         public DwgFileHeader FileHeader { get; private set; }
         public DwgHeaderVariables Variables { get; private set; }
+        public IList<DwgClassDefinition> Classes { get; private set; }
 
         public DwgDrawing()
         {
             FileHeader = new DwgFileHeader(DwgVersionId.Default, 0, 0, 0);
             Variables = new DwgHeaderVariables();
+            Classes = new List<DwgClassDefinition>();
         }
 
 #if HAS_FILESYSTEM_ACCESS
@@ -36,6 +39,8 @@ namespace IxMilia.Dwg
             var drawing = new DwgDrawing();
             drawing.FileHeader = DwgFileHeader.Parse(reader);
             drawing.Variables = DwgHeaderVariables.Parse(new BitReader(reader.Data, drawing.FileHeader.HeaderVariablesLocator.Pointer), drawing.FileHeader.Version);
+            drawing.Classes = DwgClasses.Parse(new BitReader(reader.Data, drawing.FileHeader.ClassSectionLocator.Pointer), drawing.FileHeader.Version);
+
             return drawing;
         }
 
@@ -75,7 +80,17 @@ namespace IxMilia.Dwg
 
             FileHeader.HeaderVariablesLocator = DwgFileHeader.DwgSectionLocator.HeaderVariablesLocator(fileHeaderSize, variableData.Length);
 
-            // TODO: classes
+            // classes
+            byte[] classData;
+            using (var ms = new MemoryStream())
+            {
+                var classWriter = new BitWriter(ms);
+                DwgClasses.Write(Classes, classWriter);
+                classData = classWriter.AsBytes();
+            }
+
+            FileHeader.ClassSectionLocator = DwgFileHeader.DwgSectionLocator.ClassSectionLocator(FileHeader.HeaderVariablesLocator.Pointer + variableData.Length, classData.Length);
+
             // TODO: object map
             // TODO: unknown 1
             // TODO: unknown 2
@@ -87,6 +102,7 @@ namespace IxMilia.Dwg
             var writer = new BitWriter(stream);
             FileHeader.Write(writer);
             writer.WriteBytes(variableData);
+            writer.WriteBytes(classData);
         }
     }
 }

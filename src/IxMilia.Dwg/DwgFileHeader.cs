@@ -159,6 +159,7 @@ namespace IxMilia.Dwg
         internal struct DwgSectionLocator
         {
             private const byte HeaderVariablesRecordNumber = 0;
+            private const byte ClassSectionLocatorRecordNumber = 1;
 
             public byte RecordNumber { get; }
             public int Pointer { get; }
@@ -191,6 +192,11 @@ namespace IxMilia.Dwg
             public static DwgSectionLocator HeaderVariablesLocator(int pointer, int length)
             {
                 return new DwgSectionLocator(HeaderVariablesRecordNumber, pointer, length);
+            }
+
+            public static DwgSectionLocator ClassSectionLocator(int pointer, int length)
+            {
+                return new DwgSectionLocator(ClassSectionLocatorRecordNumber, pointer, length);
             }
         }
     }
