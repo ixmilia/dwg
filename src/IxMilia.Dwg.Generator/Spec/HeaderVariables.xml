@@ -111,7 +111,7 @@
   <Variable Name="UserElapsedTimer" BinaryType="2BL" Type="TimeSpan" DefaultValue="TimeSpan.Zero" ShortName="TDUSRTIMER" ReadConverter="Converters.TimeSpan({0})" WriteConverter="Converters.TimeSpan({0})" Comment="User-elapsed timer." />
   <Variable Name="CurrentEntityColor" BinaryType="BS" Type="DwgColor" DefaultValue="DwgColor.ByLayer" ShortName="CECOLOR" ReadConverter="DwgColor.FromRawValue({0})" WriteConverter="{0}.RawValue" Comment="Current entity color." />
   <Variable Name="NextAvailableHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="HANDSEED" Comment="Next available handle." />
-  <Variable Name="Currentlayer" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="CLAYER" Comment="Current layer." />
+  <Variable Name="CurrentLayer" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="CLAYER" Comment="Current layer." />
   <Variable Name="TextStyle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="TEXTSTYLE" Comment="Current text style." />
   <Variable Name="CurrentEntityLineType" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="CELTYPE" Comment="Current entity line type." />
   <Variable Name="DimensionStyle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="DIMSTYLE" Comment="Current dimension style." />
