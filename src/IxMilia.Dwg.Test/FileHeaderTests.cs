@@ -41,14 +41,13 @@ namespace IxMilia.Dwg.Test
                 0x78, 0x56, 0x34, 0x12, // image seeker
                 0, 0, // unknown
                 0x00, 0x01, // codepage
-                6, 0, 0, 0, // 6 section locators
+                5, 0, 0, 0, // 5 section locators
                 0, 0, 0, 0, 0, 0, 0, 0, 0, // header locator
                 0, 0, 0, 0, 0, 0, 0, 0, 0, // class section locator
                 0, 0, 0, 0, 0, 0, 0, 0, 0, // object map locator
-                0, 0, 0, 0, 0, 0, 0, 0, 0, // unknown 1 locator
-                0, 0, 0, 0, 0, 0, 0, 0, 0, // unknown 2 locator
-                0, 0, 0, 0, 0, 0, 0, 0, 0, // unknown 3 locator
-                0x77, 0x4A, // CRC
+                0, 0, 0, 0, 0, 0, 0, 0, 0, // unknown R13C3 and later locator
+                0, 0, 0, 0, 0, 0, 0, 0, 0, // unknown padding locator
+                0x63, 0xF1, // CRC
                 0x95, 0xA0, 0x4E, 0x28, 0x99, 0x82, 0x1A, 0xE5, // sentinel
                 0x5E, 0x41, 0xE0, 0x5F, 0x9D, 0x3A, 0x4D, 0x00,
             };
@@ -59,12 +58,6 @@ namespace IxMilia.Dwg.Test
                 var writer = new BitWriter(ms);
                 fileHeader.Write(writer);
                 var actual = writer.AsBytes();
-                var sb = new System.Text.StringBuilder();
-                for (int i = 0; i < System.Math.Min(actual.Length, expected.Length); i++)
-                {
-                    sb.AppendLine($"{i}: {expected[i]:X} {actual[i]:X}");
-                }
-                //throw new System.Exception(sb.ToString());
                 Assert.Equal(expected, actual);
             }
         }

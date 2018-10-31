@@ -74,6 +74,8 @@ namespace IxMilia.Dwg
             // write each section to memory so the offsets can be calculated
             //
 
+            var currentOffset = fileHeaderSize;
+
             // header variables
             byte[] variableData;
             using (var ms = new MemoryStream())
@@ -83,7 +85,8 @@ namespace IxMilia.Dwg
                 variableData = variableWriter.AsBytes();
             }
 
-            FileHeader.HeaderVariablesLocator = DwgFileHeader.DwgSectionLocator.HeaderVariablesLocator(fileHeaderSize, variableData.Length);
+            FileHeader.HeaderVariablesLocator = DwgFileHeader.DwgSectionLocator.HeaderVariablesLocator(currentOffset, variableData.Length);
+            currentOffset += variableData.Length;
 
             // classes
             byte[] classData;
@@ -94,7 +97,19 @@ namespace IxMilia.Dwg
                 classData = classWriter.AsBytes();
             }
 
-            FileHeader.ClassSectionLocator = DwgFileHeader.DwgSectionLocator.ClassSectionLocator(FileHeader.HeaderVariablesLocator.Pointer + variableData.Length, classData.Length);
+            FileHeader.ClassSectionLocator = DwgFileHeader.DwgSectionLocator.ClassSectionLocator(currentOffset, classData.Length);
+            currentOffset += classData.Length;
+
+            // padding
+            byte[] paddingData = new byte[0x200];
+            // may contain the MEASUREMENT variable as the first 4 bytes, but not required
+            FileHeader.UnknownSection_PaddingLocator = DwgFileHeader.DwgSectionLocator.UnknownSection_PaddingLocator(currentOffset, paddingData.Length);
+            currentOffset += paddingData.Length;
+
+            // object data
+            byte[] objectData = new byte[0];
+            // TODO
+            currentOffset += objectData.Length;
 
             // object map
             byte[] objectMapData;
@@ -105,7 +120,8 @@ namespace IxMilia.Dwg
                 objectMapData = objectMapWriter.AsBytes();
             }
 
-            FileHeader.ObjectMapLocator = DwgFileHeader.DwgSectionLocator.ObjectMapLocator(FileHeader.ClassSectionLocator.Pointer + classData.Length, objectMapData.Length);
+            FileHeader.ObjectMapLocator = DwgFileHeader.DwgSectionLocator.ObjectMapLocator(currentOffset, objectMapData.Length);
+            currentOffset += objectMapData.Length;
 
             // unknown section - R13C3 and later
             byte[] unknownSection_R13C3AndLaterData;
@@ -122,10 +138,19 @@ namespace IxMilia.Dwg
                 unknownSection_R13C3AndLaterData = unknownWriter.AsBytes();
             }
 
-            FileHeader.UnknownSection_R13C3AndLater = DwgFileHeader.DwgSectionLocator.UnknownSection_R13C3AndLater(FileHeader.ObjectMapLocator.Pointer + objectMapData.Length, unknownSection_R13C3AndLaterData.Length);
+            FileHeader.UnknownSection_R13C3AndLaterLocator = DwgFileHeader.DwgSectionLocator.UnknownSection_R13C3AndLaterLocator(currentOffset, unknownSection_R13C3AndLaterData.Length);
+            currentOffset += unknownSection_R13C3AndLaterData.Length;
 
-            // TODO: unknown 2
-            // TODO: unknown 3
+            // second header
+            byte[] secondHeaderData = new byte[0];
+            // TODO
+            currentOffset += secondHeaderData.Length;
+
+            // image data
+            byte[] imageData = new byte[0];
+            // TODO
+            FileHeader.ImagePointer = currentOffset;
+            currentOffset += imageData.Length;
 
             //
             // now actually write everything
@@ -134,8 +159,12 @@ namespace IxMilia.Dwg
             FileHeader.Write(writer);
             writer.WriteBytes(variableData);
             writer.WriteBytes(classData);
+            writer.WriteBytes(paddingData);
+            writer.WriteBytes(objectData);
             writer.WriteBytes(objectMapData);
             writer.WriteBytes(unknownSection_R13C3AndLaterData);
+            writer.WriteBytes(secondHeaderData);
+            writer.WriteBytes(imageData);
         }
     }
 }

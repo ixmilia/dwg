@@ -30,9 +30,8 @@
         internal DwgSectionLocator HeaderVariablesLocator { get; set; }
         internal DwgSectionLocator ClassSectionLocator { get; set; }
         internal DwgSectionLocator ObjectMapLocator { get; set; }
-        internal DwgSectionLocator UnknownSection_R13C3AndLater { get; set; }
-        internal DwgSectionLocator UnknownSection2Locator { get; set; }
-        internal DwgSectionLocator UnknownSection3Locator { get; set; }
+        internal DwgSectionLocator UnknownSection_R13C3AndLaterLocator { get; set; }
+        internal DwgSectionLocator UnknownSection_PaddingLocator { get; set; }
 
         internal DwgFileHeader(DwgVersionId version, int maintenenceVersion, int imagePointer, short codePage)
         {
@@ -82,13 +81,10 @@
                         header.ObjectMapLocator = locator;
                         break;
                     case 3:
-                        header.UnknownSection_R13C3AndLater = locator;
+                        header.UnknownSection_R13C3AndLaterLocator = locator;
                         break;
                     case 4:
-                        header.UnknownSection2Locator = locator;
-                        break;
-                    case 5:
-                        header.UnknownSection3Locator = locator;
+                        header.UnknownSection_PaddingLocator = locator;
                         break;
                 }
             }
@@ -142,15 +138,14 @@
             writer.WriteBytes(0, 0);
             writer.WriteShort(CodePage);
 
-            writer.WriteInt(6);
+            writer.WriteInt(5);
             HeaderVariablesLocator.Write(writer);
             ClassSectionLocator.Write(writer);
             ObjectMapLocator.Write(writer);
-            UnknownSection_R13C3AndLater.Write(writer);
-            UnknownSection2Locator.Write(writer);
-            UnknownSection3Locator.Write(writer);
+            UnknownSection_R13C3AndLaterLocator.Write(writer);
+            UnknownSection_PaddingLocator.Write(writer);
 
-            writer.WriteCrc(xorValue: 0x8461); // value for 6 records
+            writer.WriteCrc(xorValue: 0x3CC4); // value for 5 records
             writer.WriteBytes(HeaderSentinel);
         }
 
@@ -159,7 +154,8 @@
             private const byte HeaderVariablesRecordNumber = 0;
             private const byte ClassSectionLocatorRecordNumber = 1;
             private const byte ObjectMapLocatorRecordNumber = 2;
-            private const byte UnknownSection_R13C3AndLaterRecordNumber = 3;
+            private const byte UnknownSection_R13C3AndLaterLocatorRecordNumber = 3;
+            private const byte UnknownSection_PaddingLocatorRecordNumber = 4;
 
             public byte RecordNumber { get; }
             public int Pointer { get; }
@@ -204,9 +200,14 @@
                 return new DwgSectionLocator(ObjectMapLocatorRecordNumber, pointer, length);
             }
 
-            public static DwgSectionLocator UnknownSection_R13C3AndLater(int pointer, int length)
+            public static DwgSectionLocator UnknownSection_R13C3AndLaterLocator(int pointer, int length)
             {
-                return new DwgSectionLocator(UnknownSection_R13C3AndLaterRecordNumber, pointer, length);
+                return new DwgSectionLocator(UnknownSection_R13C3AndLaterLocatorRecordNumber, pointer, length);
+            }
+
+            public static DwgSectionLocator UnknownSection_PaddingLocator(int pointer, int length)
+            {
+                return new DwgSectionLocator(UnknownSection_PaddingLocatorRecordNumber, pointer, length);
             }
         }
     }
