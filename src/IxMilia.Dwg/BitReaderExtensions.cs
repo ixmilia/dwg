@@ -192,6 +192,18 @@ namespace IxMilia.Dwg
             return sb.ToString();
         }
 
+        public static void ValidateBytes(this BitReader reader, byte[] expectedBytes)
+        {
+            for (int i = 0; i < expectedBytes.Length; i++)
+            {
+                var b = reader.ReadByte();
+                if (b != expectedBytes[i])
+                {
+                    throw new DwgReadException($"Invalid sentinel byte.  Expected: 0x{expectedBytes[i]:X}, Actual: 0x{b:X}");
+                }
+            }
+        }
+
         public static void ValidateSentinel(this BitReader reader, byte[] expectedSentinel)
         {
             if (expectedSentinel.Length != 16)
@@ -200,14 +212,7 @@ namespace IxMilia.Dwg
             }
 
             reader.AlignToByte();
-            for (int i = 0; i < expectedSentinel.Length; i++)
-            {
-                var b = reader.ReadByte();
-                if (b != expectedSentinel[i])
-                {
-                    throw new DwgReadException("Wrong sentinel byte.");
-                }
-            }
+            ValidateBytes(reader, expectedSentinel);
         }
 
         public static ushort ComputeCRC(byte[] data, int offset, int length, ushort initialValue)

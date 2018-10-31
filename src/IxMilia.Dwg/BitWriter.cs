@@ -122,12 +122,7 @@ namespace IxMilia.Dwg
             var bytes = BitConverter.GetBytes(value);
             if (!BitConverter.IsLittleEndian)
             {
-                for (int i = 0; i < 4; i++)
-                {
-                    var temp = bytes[i];
-                    bytes[i] = bytes[7 - i];
-                    bytes[7 - i] = temp;
-                }
+                Array.Reverse(bytes);
             }
 
             WriteBytes(bytes);

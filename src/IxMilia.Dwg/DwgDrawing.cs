@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace IxMilia.Dwg
@@ -45,6 +46,7 @@ namespace IxMilia.Dwg
             drawing.Classes = DwgClasses.Parse(reader.FromOffset(drawing.FileHeader.ClassSectionLocator.Pointer), drawing.FileHeader.Version);
             drawing.ObjectMap = DwgObjectMap.Parse(reader.FromOffset(drawing.FileHeader.ObjectMapLocator.Pointer));
             // don't read the R13C3 and later unknown section
+            drawing.FileHeader.ValidateSecondHeader(reader, drawing.Variables);
 
             return drawing;
         }
@@ -141,17 +143,6 @@ namespace IxMilia.Dwg
             FileHeader.UnknownSection_R13C3AndLaterLocator = DwgFileHeader.DwgSectionLocator.UnknownSection_R13C3AndLaterLocator(currentOffset, unknownSection_R13C3AndLaterData.Length);
             currentOffset += unknownSection_R13C3AndLaterData.Length;
 
-            // second header
-            byte[] secondHeaderData = new byte[0];
-            // TODO
-            currentOffset += secondHeaderData.Length;
-
-            // image data
-            byte[] imageData = new byte[0];
-            // TODO
-            FileHeader.ImagePointer = currentOffset;
-            currentOffset += imageData.Length;
-
             //
             // now actually write everything
             //
@@ -163,6 +154,47 @@ namespace IxMilia.Dwg
             writer.WriteBytes(objectData);
             writer.WriteBytes(objectMapData);
             writer.WriteBytes(unknownSection_R13C3AndLaterData);
+
+            // second header
+            byte[] secondHeaderData;
+            using (var ms = new MemoryStream())
+            {
+                var secondHeaderWriter = new BitWriter(ms);
+                FileHeader.WriteSecondHeader(secondHeaderWriter, Variables, (int)writer.BaseStream.Position, out var sizeOffset, out var crcOffset);
+                secondHeaderData = secondHeaderWriter.AsBytes();
+
+                // backfill the section size excluding sentinels
+                var sizeBytes = BitConverter.GetBytes(secondHeaderData.Length - DwgFileHeader.SecondHeaderStartSentinel.Length - DwgFileHeader.SecondHeaderEndSentinel.Length);
+                if (!BitConverter.IsLittleEndian)
+                {
+                    Array.Reverse(sizeBytes);
+                }
+
+                Array.Copy(sizeBytes, 0, secondHeaderData, sizeOffset, sizeBytes.Length);
+
+                // re-compute the CRC excluding sentinels
+                var dataLength = crcOffset - sizeOffset;
+                var computedCrc = BitReaderExtensions.ComputeCRC(secondHeaderData, DwgFileHeader.SecondHeaderStartSentinel.Length, dataLength, DwgHeaderVariables.InitialCrcValue);
+                var crcBytes = BitConverter.GetBytes(computedCrc);
+                if (!BitConverter.IsLittleEndian)
+                {
+                    Array.Reverse(crcBytes);
+                }
+
+                Array.Copy(crcBytes, 0, secondHeaderData, crcOffset, crcBytes.Length);
+            }
+
+            currentOffset += secondHeaderData.Length;
+
+            // image data
+            byte[] imageData = new byte[0];
+            // TODO
+            FileHeader.ImagePointer = currentOffset;
+            currentOffset += imageData.Length;
+
+            //
+            // continue writing
+            //
             writer.WriteBytes(secondHeaderData);
             writer.WriteBytes(imageData);
         }

@@ -26,6 +26,13 @@ namespace IxMilia.Dwg
             HandleOrOffset = offset;
         }
 
+        internal void WriteSecondHeader(BitWriter writer, int id)
+        {
+            writer.Write_RC((byte)HandleOrOffset);
+            writer.Write_RC(1); // byte count
+            writer.Write_RC((byte)id);
+        }
+
         public static bool operator ==(DwgHandleReference r1, DwgHandleReference r2)
         {
             return r1.Code == r2.Code && r1.HandleOrOffset == r2.HandleOrOffset;

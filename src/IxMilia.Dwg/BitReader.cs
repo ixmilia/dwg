@@ -126,12 +126,7 @@ namespace IxMilia.Dwg
             var bytes = ReadBytes(8);
             if (!BitConverter.IsLittleEndian)
             {
-                for (int i = 0; i < 4; i++)
-                {
-                    var temp = bytes[i];
-                    bytes[i] = bytes[7 - i];
-                    bytes[7 - i] = temp;
-                }
+                Array.Reverse(bytes);
             }
 
             return BitConverter.ToDouble(bytes, 0);

@@ -22,6 +22,21 @@
             0x00
         };
 
+        public static byte[] SecondHeaderStartSentinel = new byte[]
+        {
+            0xD4, 0x7B, 0x21, 0xCE, 0x28, 0x93, 0x9F, 0xBF, 0x53, 0x24, 0x40, 0x09, 0x12, 0x3C, 0xAA, 0x01
+        };
+
+        public static byte[] SecondHeaderEndSentinel = new byte[]
+        {
+            0x2B, 0x84, 0xDE, 0x31, 0xD7, 0x6C, 0x60, 0x40, 0xAC, 0xDB, 0xBF, 0xF6, 0xED, 0xC3, 0x55, 0xFE
+        };
+
+        public static byte[] SecondHeaderMidSentinel = new byte[]
+        {
+            0x18, 0x78, 0x01
+        };
+
         public DwgVersionId Version { get; set; }
         public int MaintenenceVersion { get; set; }
         internal int ImagePointer { get; set; }
@@ -32,6 +47,8 @@
         internal DwgSectionLocator ObjectMapLocator { get; set; }
         internal DwgSectionLocator UnknownSection_R13C3AndLaterLocator { get; set; }
         internal DwgSectionLocator UnknownSection_PaddingLocator { get; set; }
+
+        private int SecondHeaderPointer => UnknownSection_R13C3AndLaterLocator.Pointer + UnknownSection_R13C3AndLaterLocator.Length;
 
         internal DwgFileHeader(DwgVersionId version, int maintenenceVersion, int imagePointer, short codePage)
         {
@@ -119,6 +136,150 @@
             return header;
         }
 
+        internal void ValidateSecondHeader(BitReader parentReader, DwgHeaderVariables headerVariables)
+        {
+            var reader = parentReader.FromOffset(SecondHeaderPointer);
+            var sectionStart = reader.Offset;
+            reader.ValidateSentinel(SecondHeaderStartSentinel);
+            reader.StartCrcCheck();
+            var reportedSectionSize = reader.Read_RL();
+            var expectedLocation = reader.Read_BL();
+            if (expectedLocation != sectionStart)
+            {
+                throw new DwgReadException("Reported second header location incorrect.");
+            }
+
+            var version = DwgVersionIdExtensions.VersionIdFromString(reader.ReadStringAscii(6));
+            if (version != Version)
+            {
+                throw new DwgReadException("Inconsistent reported version.");
+            }
+
+            reader.ReadBytes(6);
+            reader.Read_B();
+            reader.Read_B();
+            reader.Read_B();
+            reader.Read_B();
+            reader.ReadBytes(2);
+            reader.ValidateBytes(SecondHeaderMidSentinel);
+
+            var recordLocatorCount = reader.ReadByte();
+            for (int i = 0; i < recordLocatorCount; i++)
+            {
+                var id = reader.ReadByte();
+                var pointer = reader.Read_BL();
+                var length = reader.Read_BL();
+
+                if (pointer != 0)
+                {
+                    switch (i)
+                    {
+                        case 0:
+                            HeaderVariablesLocator.ValidateLocator(id, pointer, length);
+                            break;
+                        case 1:
+                            ClassSectionLocator.ValidateLocator(id, pointer, length);
+                            break;
+                        case 2:
+                            ObjectMapLocator.ValidateLocator(id, pointer, length);
+                            break;
+                        case 3:
+                            UnknownSection_R13C3AndLaterLocator.ValidateLocator(id, pointer, length);
+                            break;
+                        case 4:
+                            UnknownSection_PaddingLocator.ValidateLocator(id, pointer, length);
+                            break;
+                    }
+                }
+            }
+
+            var handleRecordCount = reader.Read_BS();
+            for (int i = 0; i < handleRecordCount; i++)
+            {
+                var handle = reader.Read_RC();
+                var byteCount = reader.Read_RC();
+                var id = reader.Read_RC();
+
+                if (byteCount > 0)
+                {
+                    if (id != i)
+                    {
+                        throw new DwgReadException("Invalid record handle ID.");
+                    }
+
+                    var actualHandle = -1;
+                    switch (i)
+                    {
+                        case 0:
+                            actualHandle = headerVariables.ModelSpaceBlockRecordHandle.HandleOrOffset;
+                            break;
+                        case 1:
+                            // unknown
+                            break;
+                        case 2:
+                            actualHandle = headerVariables.BlockControlObjectHandle.HandleOrOffset;
+                            break;
+                        case 3:
+                            actualHandle = headerVariables.LayerControlObjectHandle.HandleOrOffset;
+                            break;
+                        case 4:
+                            actualHandle = headerVariables.StyleObjectControlHandle.HandleOrOffset;
+                            break;
+                        case 5:
+                            actualHandle = headerVariables.LineTypeObjectControlHandle.HandleOrOffset;
+                            break;
+                        case 6:
+                            actualHandle = headerVariables.ViewControlObjectHandle.HandleOrOffset;
+                            break;
+                        case 7:
+                            actualHandle = headerVariables.UcsControlObjectHandle.HandleOrOffset;
+                            break;
+                        case 8:
+                            actualHandle = headerVariables.ViewPortControlObjectHandle.HandleOrOffset;
+                            break;
+                        case 9:
+                            actualHandle = headerVariables.AppIdControlObjectHandle.HandleOrOffset;
+                            break;
+                        case 10:
+                            actualHandle = headerVariables.DimStyleControlObjectHandle.HandleOrOffset;
+                            break;
+                        case 11:
+                            actualHandle = headerVariables.ViewPortEntityHeaderControlObjectHandle.HandleOrOffset;
+                            break;
+                        case 12:
+                            actualHandle = headerVariables.NamedObjectsDictionaryHandle.HandleOrOffset;
+                            break;
+                        case 13:
+                            actualHandle = headerVariables.MLineStyleDictionaryHandle.HandleOrOffset;
+                            break;
+                    }
+
+                    if (actualHandle > 0)
+                    {
+                        if (handle != actualHandle)
+                        {
+                            throw new DwgReadException($"Invalid record handle ID at location {i}.  Expected: {handle}, Actual: {actualHandle}");
+                        }
+                    }
+                }
+            }
+
+            reader.ReadByte();
+            reader.ValidateCrc(initialValue: DwgHeaderVariables.InitialCrcValue);
+            if (version == DwgVersionId.R14)
+            {
+                reader.ReadBytes(8);
+            }
+
+            reader.ValidateSentinel(SecondHeaderEndSentinel);
+
+            var computedSectionSize = reader.Offset - sectionStart - SecondHeaderStartSentinel.Length - SecondHeaderEndSentinel.Length;
+            if (computedSectionSize != reportedSectionSize)
+            {
+                throw new DwgReadException($"Reported and actual second header sizes differ.  Expected: {reportedSectionSize}, Actual: {computedSectionSize}");
+            }
+        }
+
         internal void Write(BitWriter writer)
         {
             writer.StartCrcCalculation();
@@ -138,7 +299,7 @@
             writer.WriteBytes(0, 0);
             writer.WriteShort(CodePage);
 
-            writer.WriteInt(5);
+            writer.WriteInt(5); // 5 records
             HeaderVariablesLocator.Write(writer);
             ClassSectionLocator.Write(writer);
             ObjectMapLocator.Write(writer);
@@ -147,6 +308,56 @@
 
             writer.WriteCrc(xorValue: 0x3CC4); // value for 5 records
             writer.WriteBytes(HeaderSentinel);
+        }
+
+        internal void WriteSecondHeader(BitWriter writer, DwgHeaderVariables headerVariables, int pointer, out int sizeOffset, out int crcOffset)
+        {
+            writer.WriteBytes(SecondHeaderStartSentinel);
+
+            sizeOffset = (int)writer.BaseStream.Position;
+            writer.Write_RL(0); // size, filled in later
+            writer.Write_BL(pointer);
+            writer.WriteStringAscii(Version.VersionString(), nullTerminated: false);
+            writer.WriteBytes(new byte[] { 0, 0, 0, 0, 0, 0 }); // 6 zero bytes
+            writer.WriteBits(0x00000000, 4); // 4 zero bits
+            writer.WriteBytes(new byte[] { 0, 0 }); // 2 unknown bytes
+            writer.WriteBytes(SecondHeaderMidSentinel);
+
+            writer.WriteByte(5); // record locator count
+            HeaderVariablesLocator.Write(writer, writingSecondHeader: true);
+            ClassSectionLocator.Write(writer, writingSecondHeader: true);
+            ObjectMapLocator.Write(writer, writingSecondHeader: true);
+            UnknownSection_R13C3AndLaterLocator.Write(writer, writingSecondHeader: true);
+            UnknownSection_PaddingLocator.Write(writer, writingSecondHeader: true);
+
+            writer.Write_BS(14);
+            headerVariables.ModelSpaceBlockRecordHandle.WriteSecondHeader(writer, 0);
+            new DwgHandleReference().WriteSecondHeader(writer, 1); // TODO: unknown
+            headerVariables.BlockControlObjectHandle.WriteSecondHeader(writer, 2);
+            headerVariables.LayerControlObjectHandle.WriteSecondHeader(writer, 3);
+            headerVariables.StyleObjectControlHandle.WriteSecondHeader(writer, 4);
+            headerVariables.LineTypeObjectControlHandle.WriteSecondHeader(writer, 5);
+            headerVariables.ViewControlObjectHandle.WriteSecondHeader(writer, 6);
+            headerVariables.UcsControlObjectHandle.WriteSecondHeader(writer, 7);
+            headerVariables.ViewPortControlObjectHandle.WriteSecondHeader(writer, 8);
+            headerVariables.AppIdControlObjectHandle.WriteSecondHeader(writer, 9);
+            headerVariables.DimStyleControlObjectHandle.WriteSecondHeader(writer, 10);
+            headerVariables.ViewPortControlObjectHandle.WriteSecondHeader(writer, 11);
+            headerVariables.NamedObjectsDictionaryHandle.WriteSecondHeader(writer, 12);
+            headerVariables.MLineStyleDictionaryHandle.WriteSecondHeader(writer, 13);
+
+            writer.WriteByte(0); // unknown
+            writer.AlignByte();
+            crcOffset = (int)writer.BaseStream.Position;
+            writer.WriteShort(0); // CRC, filled in later
+
+            if (Version == DwgVersionId.R14)
+            {
+                // unknown garbage bytes
+                writer.WriteBytes(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 });
+            }
+
+            writer.WriteBytes(SecondHeaderEndSentinel);
         }
 
         internal struct DwgSectionLocator
@@ -170,11 +381,37 @@
                 Length = length;
             }
 
-            public void Write(BitWriter writer)
+            public void Write(BitWriter writer, bool writingSecondHeader = false)
             {
-                writer.WriteByte((byte)RecordNumber);
-                writer.WriteInt(Pointer);
-                writer.WriteInt(Length);
+                writer.WriteByte(RecordNumber);
+                if (writingSecondHeader)
+                {
+                    writer.Write_BL(Pointer);
+                    writer.Write_BL(Length);
+                }
+                else
+                {
+                    writer.WriteInt(Pointer);
+                    writer.WriteInt(Length);
+                }
+            }
+
+            public void ValidateLocator(byte recordNumber, int pointer, int length)
+            {
+                if (recordNumber != RecordNumber)
+                {
+                    throw new DwgReadException($"Invalid record number.  Expected: {RecordNumber}, Actual: {recordNumber}");
+                }
+
+                if (pointer != Pointer)
+                {
+                    throw new DwgReadException($"Invalid pointer.  Expected: {Pointer}, Actual: {pointer}");
+                }
+
+                if (length != Length)
+                {
+                    throw new DwgReadException($"Invalid length.  Expected: {Length}, Actual: {length}");
+                }
             }
 
             public static DwgSectionLocator Parse(BitReader reader)
