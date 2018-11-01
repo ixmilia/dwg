@@ -11,6 +11,7 @@ namespace IxMilia.Dwg
 
         public Stream BaseStream { get; }
         public ushort CurrentCrcValue { get; private set; }
+        public int Position => (int)BaseStream.Position;
 
         public BitWriter(Stream stream)
         {

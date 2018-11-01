@@ -1,4 +1,7 @@
-﻿namespace IxMilia.Dwg
+﻿using System;
+using System.IO;
+
+namespace IxMilia.Dwg
 {
     public class DwgFileHeader
     {
@@ -310,54 +313,84 @@
             writer.WriteBytes(HeaderSentinel);
         }
 
-        internal void WriteSecondHeader(BitWriter writer, DwgHeaderVariables headerVariables, int pointer, out int sizeOffset, out int crcOffset)
+        internal void WriteSecondHeader(BitWriter writer, DwgHeaderVariables headerVariables, int pointer)
         {
-            writer.WriteBytes(SecondHeaderStartSentinel);
-
-            sizeOffset = (int)writer.BaseStream.Position;
-            writer.Write_RL(0); // size, filled in later
-            writer.Write_BL(pointer);
-            writer.WriteStringAscii(Version.VersionString(), nullTerminated: false);
-            writer.WriteBytes(new byte[] { 0, 0, 0, 0, 0, 0 }); // 6 zero bytes
-            writer.WriteBits(0x00000000, 4); // 4 zero bits
-            writer.WriteBytes(new byte[] { 0, 0 }); // 2 unknown bytes
-            writer.WriteBytes(SecondHeaderMidSentinel);
-
-            writer.WriteByte(5); // record locator count
-            HeaderVariablesLocator.Write(writer, writingSecondHeader: true);
-            ClassSectionLocator.Write(writer, writingSecondHeader: true);
-            ObjectMapLocator.Write(writer, writingSecondHeader: true);
-            UnknownSection_R13C3AndLaterLocator.Write(writer, writingSecondHeader: true);
-            UnknownSection_PaddingLocator.Write(writer, writingSecondHeader: true);
-
-            writer.Write_BS(14);
-            headerVariables.ModelSpaceBlockRecordHandle.WriteSecondHeader(writer, 0);
-            new DwgHandleReference().WriteSecondHeader(writer, 1); // TODO: unknown
-            headerVariables.BlockControlObjectHandle.WriteSecondHeader(writer, 2);
-            headerVariables.LayerControlObjectHandle.WriteSecondHeader(writer, 3);
-            headerVariables.StyleObjectControlHandle.WriteSecondHeader(writer, 4);
-            headerVariables.LineTypeObjectControlHandle.WriteSecondHeader(writer, 5);
-            headerVariables.ViewControlObjectHandle.WriteSecondHeader(writer, 6);
-            headerVariables.UcsControlObjectHandle.WriteSecondHeader(writer, 7);
-            headerVariables.ViewPortControlObjectHandle.WriteSecondHeader(writer, 8);
-            headerVariables.AppIdControlObjectHandle.WriteSecondHeader(writer, 9);
-            headerVariables.DimStyleControlObjectHandle.WriteSecondHeader(writer, 10);
-            headerVariables.ViewPortControlObjectHandle.WriteSecondHeader(writer, 11);
-            headerVariables.NamedObjectsDictionaryHandle.WriteSecondHeader(writer, 12);
-            headerVariables.MLineStyleDictionaryHandle.WriteSecondHeader(writer, 13);
-
-            writer.WriteByte(0); // unknown
-            writer.AlignByte();
-            crcOffset = (int)writer.BaseStream.Position;
-            writer.WriteShort(0); // CRC, filled in later
-
-            if (Version == DwgVersionId.R14)
+            // write to memory the backtrack to fill in size and crc
+            using (var ms = new MemoryStream())
             {
-                // unknown garbage bytes
-                writer.WriteBytes(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 });
-            }
+                var tempWriter = new BitWriter(ms);
+                tempWriter.WriteBytes(SecondHeaderStartSentinel);
 
-            writer.WriteBytes(SecondHeaderEndSentinel);
+                var sizeOffset = tempWriter.Position;
+                tempWriter.Write_RL(0); // size, filled in later
+                tempWriter.Write_BL(pointer);
+                tempWriter.WriteStringAscii(Version.VersionString(), nullTerminated: false);
+                tempWriter.WriteBytes(new byte[] { 0, 0, 0, 0, 0, 0 }); // 6 zero bytes
+                tempWriter.WriteBits(0x00000000, 4); // 4 zero bits
+                tempWriter.WriteBytes(new byte[] { 0, 0 }); // 2 unknown bytes
+                tempWriter.WriteBytes(SecondHeaderMidSentinel);
+
+                tempWriter.WriteByte(5); // record locator count
+                HeaderVariablesLocator.Write(tempWriter, writingSecondHeader: true);
+                ClassSectionLocator.Write(tempWriter, writingSecondHeader: true);
+                ObjectMapLocator.Write(tempWriter, writingSecondHeader: true);
+                UnknownSection_R13C3AndLaterLocator.Write(tempWriter, writingSecondHeader: true);
+                UnknownSection_PaddingLocator.Write(tempWriter, writingSecondHeader: true);
+
+                tempWriter.Write_BS(14);
+                headerVariables.ModelSpaceBlockRecordHandle.WriteSecondHeader(tempWriter, 0);
+                new DwgHandleReference().WriteSecondHeader(tempWriter, 1); // TODO: unknown
+                headerVariables.BlockControlObjectHandle.WriteSecondHeader(tempWriter, 2);
+                headerVariables.LayerControlObjectHandle.WriteSecondHeader(tempWriter, 3);
+                headerVariables.StyleObjectControlHandle.WriteSecondHeader(tempWriter, 4);
+                headerVariables.LineTypeObjectControlHandle.WriteSecondHeader(tempWriter, 5);
+                headerVariables.ViewControlObjectHandle.WriteSecondHeader(tempWriter, 6);
+                headerVariables.UcsControlObjectHandle.WriteSecondHeader(tempWriter, 7);
+                headerVariables.ViewPortControlObjectHandle.WriteSecondHeader(tempWriter, 8);
+                headerVariables.AppIdControlObjectHandle.WriteSecondHeader(tempWriter, 9);
+                headerVariables.DimStyleControlObjectHandle.WriteSecondHeader(tempWriter, 10);
+                headerVariables.ViewPortControlObjectHandle.WriteSecondHeader(tempWriter, 11);
+                headerVariables.NamedObjectsDictionaryHandle.WriteSecondHeader(tempWriter, 12);
+                headerVariables.MLineStyleDictionaryHandle.WriteSecondHeader(tempWriter, 13);
+
+                tempWriter.WriteByte(0); // unknown
+                tempWriter.AlignByte();
+                var crcOffset = tempWriter.Position;
+                tempWriter.WriteShort(0); // CRC, filled in later
+
+                if (Version == DwgVersionId.R14)
+                {
+                    // unknown garbage bytes
+                    tempWriter.WriteBytes(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 });
+                }
+
+                tempWriter.WriteBytes(SecondHeaderEndSentinel);
+
+                // get bytes of header
+                var secondHeaderBytes = tempWriter.AsBytes();
+
+                // fill in size
+                var sizeBytes = BitConverter.GetBytes(secondHeaderBytes.Length - SecondHeaderStartSentinel.Length - SecondHeaderEndSentinel.Length);
+                if (!BitConverter.IsLittleEndian)
+                {
+                    Array.Reverse(sizeBytes);
+                }
+
+                Array.Copy(sizeBytes, 0, secondHeaderBytes, sizeOffset, sizeBytes.Length);
+
+                // fill in crc
+                var crc = BitReaderExtensions.ComputeCRC(secondHeaderBytes, sizeOffset, crcOffset - sizeOffset, DwgHeaderVariables.InitialCrcValue);
+                var crcBytes = BitConverter.GetBytes(crc);
+                if (!BitConverter.IsLittleEndian)
+                {
+                    Array.Reverse(crcBytes);
+                }
+
+                Array.Copy(crcBytes, 0, secondHeaderBytes, crcOffset, crcBytes.Length);
+
+                // write to the real writer
+                writer.WriteBytes(secondHeaderBytes);
+            }
         }
 
         internal struct DwgSectionLocator

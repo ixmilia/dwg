@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 
 namespace IxMilia.Dwg
@@ -63,140 +62,47 @@ namespace IxMilia.Dwg
 
         public void Save(Stream stream)
         {
-            // create a dummy-write of the file header to compute its size
-            int fileHeaderSize;
-            using (var ms = new MemoryStream())
-            {
-                var headerWriter = new BitWriter(ms);
-                FileHeader.Write(headerWriter);
-                fileHeaderSize = headerWriter.AsBytes().Length;
-            }
-
-            //
-            // write each section to memory so the offsets can be calculated
-            //
-
-            var currentOffset = fileHeaderSize;
-
-            // header variables
-            byte[] variableData;
-            using (var ms = new MemoryStream())
-            {
-                var variableWriter = new BitWriter(ms);
-                Variables.Write(variableWriter, FileHeader.Version);
-                variableData = variableWriter.AsBytes();
-            }
-
-            FileHeader.HeaderVariablesLocator = DwgFileHeader.DwgSectionLocator.HeaderVariablesLocator(currentOffset, variableData.Length);
-            currentOffset += variableData.Length;
-
-            // classes
-            byte[] classData;
-            using (var ms = new MemoryStream())
-            {
-                var classWriter = new BitWriter(ms);
-                DwgClasses.Write(Classes, classWriter);
-                classData = classWriter.AsBytes();
-            }
-
-            FileHeader.ClassSectionLocator = DwgFileHeader.DwgSectionLocator.ClassSectionLocator(currentOffset, classData.Length);
-            currentOffset += classData.Length;
-
-            // padding
-            byte[] paddingData = new byte[0x200];
-            // may contain the MEASUREMENT variable as the first 4 bytes, but not required
-            FileHeader.UnknownSection_PaddingLocator = DwgFileHeader.DwgSectionLocator.UnknownSection_PaddingLocator(currentOffset, paddingData.Length);
-            currentOffset += paddingData.Length;
-
-            // object data
-            byte[] objectData = new byte[0];
-            // TODO
-            currentOffset += objectData.Length;
-
-            // object map
-            byte[] objectMapData;
-            using (var ms = new MemoryStream())
-            {
-                var objectMapWriter = new BitWriter(ms);
-                ObjectMap.Write(objectMapWriter);
-                objectMapData = objectMapWriter.AsBytes();
-            }
-
-            FileHeader.ObjectMapLocator = DwgFileHeader.DwgSectionLocator.ObjectMapLocator(currentOffset, objectMapData.Length);
-            currentOffset += objectMapData.Length;
-
-            // unknown section - R13C3 and later
-            byte[] unknownSection_R13C3AndLaterData;
-            using (var ms = new MemoryStream())
-            {
-                // unknown section has a value of `4` at offset 21
-                var unknownWriter = new BitWriter(ms);
-                for (int i = 0; i < 20; i++)
-                {
-                    unknownWriter.WriteByte(0);
-                }
-
-                unknownWriter.WriteInt(4);
-                unknownSection_R13C3AndLaterData = unknownWriter.AsBytes();
-            }
-
-            FileHeader.UnknownSection_R13C3AndLaterLocator = DwgFileHeader.DwgSectionLocator.UnknownSection_R13C3AndLaterLocator(currentOffset, unknownSection_R13C3AndLaterData.Length);
-            currentOffset += unknownSection_R13C3AndLaterData.Length;
-
-            //
-            // now actually write everything
-            //
+            // write the file header; this will be re-written again once the pointers have been calculated
             var writer = new BitWriter(stream);
+            var fileHeaderLocation = writer.Position;
             FileHeader.Write(writer);
-            writer.WriteBytes(variableData);
-            writer.WriteBytes(classData);
-            writer.WriteBytes(paddingData);
-            writer.WriteBytes(objectData);
-            writer.WriteBytes(objectMapData);
-            writer.WriteBytes(unknownSection_R13C3AndLaterData);
 
-            // second header
-            byte[] secondHeaderData;
-            using (var ms = new MemoryStream())
-            {
-                var secondHeaderWriter = new BitWriter(ms);
-                FileHeader.WriteSecondHeader(secondHeaderWriter, Variables, (int)writer.BaseStream.Position, out var sizeOffset, out var crcOffset);
-                secondHeaderData = secondHeaderWriter.AsBytes();
+            var variablesStart = writer.Position;
+            Variables.Write(writer, FileHeader.Version);
+            FileHeader.HeaderVariablesLocator = DwgFileHeader.DwgSectionLocator.HeaderVariablesLocator(variablesStart - fileHeaderLocation, writer.Position - variablesStart);
 
-                // backfill the section size excluding sentinels
-                var sizeBytes = BitConverter.GetBytes(secondHeaderData.Length - DwgFileHeader.SecondHeaderStartSentinel.Length - DwgFileHeader.SecondHeaderEndSentinel.Length);
-                if (!BitConverter.IsLittleEndian)
-                {
-                    Array.Reverse(sizeBytes);
-                }
+            var classesStart = writer.Position;
+            DwgClasses.Write(Classes, writer);
+            FileHeader.ClassSectionLocator = DwgFileHeader.DwgSectionLocator.ClassSectionLocator(classesStart - fileHeaderLocation, writer.Position - classesStart);
 
-                Array.Copy(sizeBytes, 0, secondHeaderData, sizeOffset, sizeBytes.Length);
+            var paddingStart = writer.Position;
+            writer.WriteBytes(new byte[0x200]); // may contain the MEASUREMENT variable as the first 4 bytes, but not required
+            FileHeader.UnknownSection_PaddingLocator = DwgFileHeader.DwgSectionLocator.UnknownSection_PaddingLocator(paddingStart - fileHeaderLocation, writer.Position - paddingStart);
 
-                // re-compute the CRC excluding sentinels
-                var dataLength = crcOffset - sizeOffset;
-                var computedCrc = BitReaderExtensions.ComputeCRC(secondHeaderData, DwgFileHeader.SecondHeaderStartSentinel.Length, dataLength, DwgHeaderVariables.InitialCrcValue);
-                var crcBytes = BitConverter.GetBytes(computedCrc);
-                if (!BitConverter.IsLittleEndian)
-                {
-                    Array.Reverse(crcBytes);
-                }
+            var objectDataStart = writer.Position;
+            writer.WriteBytes(new byte[0]); // TODO
+            // no pointer to set
 
-                Array.Copy(crcBytes, 0, secondHeaderData, crcOffset, crcBytes.Length);
-            }
+            var objectMapStart = writer.Position;
+            ObjectMap.Write(writer);
+            FileHeader.ObjectMapLocator = DwgFileHeader.DwgSectionLocator.ObjectMapLocator(objectMapStart - fileHeaderLocation, writer.Position - objectMapStart);
 
-            currentOffset += secondHeaderData.Length;
+            var unknownR13C3Start = writer.Position;
+            DwgUnknownSectionR13C3.Write(writer);
+            FileHeader.UnknownSection_R13C3AndLaterLocator = DwgFileHeader.DwgSectionLocator.UnknownSection_R13C3AndLaterLocator(unknownR13C3Start - fileHeaderLocation, writer.Position - unknownR13C3Start);
 
-            // image data
-            byte[] imageData = new byte[0];
-            // TODO
-            FileHeader.ImagePointer = currentOffset;
-            currentOffset += imageData.Length;
+            var secondHeaderStart = writer.Position;
+            FileHeader.WriteSecondHeader(writer, Variables, secondHeaderStart - fileHeaderLocation);
 
-            //
-            // continue writing
-            //
-            writer.WriteBytes(secondHeaderData);
-            writer.WriteBytes(imageData);
+            var imageDataStart = writer.Position;
+            writer.WriteBytes(new byte[0]); // TODO
+            FileHeader.ImagePointer = imageDataStart - fileHeaderLocation;
+
+            // re-write the file header now that the pointer values have been set
+            var endPos = writer.Position;
+            writer.BaseStream.Seek(fileHeaderLocation, SeekOrigin.Begin);
+            FileHeader.Write(writer);
+            writer.BaseStream.Seek(endPos, SeekOrigin.Begin);
         }
     }
 }
