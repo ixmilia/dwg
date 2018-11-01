@@ -8,6 +8,7 @@ namespace IxMilia.Dwg
         public DwgFileHeader FileHeader { get; private set; }
         public DwgHeaderVariables Variables { get; private set; }
         public IList<DwgClassDefinition> Classes { get; private set; }
+        public DwgImageData ImageData { get; private set; }
 
         internal DwgObjectMap ObjectMap { get; private set; }
 
@@ -46,6 +47,7 @@ namespace IxMilia.Dwg
             drawing.ObjectMap = DwgObjectMap.Parse(reader.FromOffset(drawing.FileHeader.ObjectMapLocator.Pointer));
             // don't read the R13C3 and later unknown section
             drawing.FileHeader.ValidateSecondHeader(reader, drawing.Variables);
+            drawing.ImageData = DwgImageData.Parse(reader.FromOffset(drawing.FileHeader.ImagePointer));
 
             return drawing;
         }
@@ -95,7 +97,7 @@ namespace IxMilia.Dwg
             FileHeader.WriteSecondHeader(writer, Variables, secondHeaderStart - fileHeaderLocation);
 
             var imageDataStart = writer.Position;
-            writer.WriteBytes(new byte[0]); // TODO
+            ImageData.Write(writer, imageDataStart - fileHeaderLocation);
             FileHeader.ImagePointer = imageDataStart - fileHeaderLocation;
 
             // re-write the file header now that the pointer values have been set
