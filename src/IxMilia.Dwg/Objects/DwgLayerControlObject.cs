@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace IxMilia.Dwg.Objects
 {
@@ -11,6 +12,7 @@ namespace IxMilia.Dwg.Objects
         internal override void PreWrite()
         {
             _layerCount = (short)Layers.Count;
+            _layerHandles = Layers.Select(l => l.Handle).ToList();
         }
 
         internal override void PoseParse(BitReader reader, DwgObjectMap objectMap)
@@ -23,10 +25,8 @@ namespace IxMilia.Dwg.Objects
 
             foreach (var layerHandle in _layerHandles)
             {
-                // TODO: read the layer, something like this
-                //var layer = ParseSpecific<DwgLayer>(reader.FromOffset(objectMap.GetOffset(layerHandle.HandleOrOffset)), objectMap);
-                //Layers.Add(layer);
-                Layers.Add(new DwgLayer());
+                var layer = ParseSpecific<DwgLayer>(reader.FromOffset(objectMap.GetOffset(layerHandle.HandleOrOffset)), objectMap);
+                Layers.Add(layer);
             }
         }
     }

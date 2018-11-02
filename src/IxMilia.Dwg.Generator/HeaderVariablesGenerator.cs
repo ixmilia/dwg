@@ -207,13 +207,7 @@ namespace IxMilia.Dwg.Generator
                 var variable = string.IsNullOrEmpty(name)
                     ? "_"
                     : $"this.{name}";
-                var value = $"reader.Read_{BinaryType(v)}()";
-                var readConverter = ReadConverter(v);
-                if (!string.IsNullOrEmpty(readConverter))
-                {
-                    value = readConverter.Replace("{0}", value);
-                }
-
+                var value = ApplyReadConverter(v, $"reader.Read_{BinaryType(v)}()");
                 AppendLine($"{variable} = {value};");
             }
 
@@ -231,12 +225,7 @@ namespace IxMilia.Dwg.Generator
                 var value = string.IsNullOrEmpty(name)
                     ? DefaultValue(v)
                     : $"this.{name}";
-                var writeConverter = WriteConverter(v);
-                if (!string.IsNullOrEmpty(writeConverter))
-                {
-                    value = writeConverter.Replace("{0}", value);
-                }
-
+                value = ApplyWriteConverter(v, value);
                 AppendLine($"writer.Write_{BinaryType(v)}({value});");
             }
 

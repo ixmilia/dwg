@@ -81,5 +81,27 @@ namespace IxMilia.Dwg.Generator
         public string Type(XElement xml) => AttributeValue(xml, "Type");
         public string Value(XElement xml) => AttributeValue(xml, "Value");
         public string WriteConverter(XElement xml) => AttributeValue(xml, "WriteConverter");
+
+        public string ApplyReadConverter(XElement xml, string value)
+        {
+            var readConverter = ReadConverter(xml);
+            if (!string.IsNullOrEmpty(readConverter))
+            {
+                value = string.Format(readConverter, value);
+            }
+
+            return value;
+        }
+
+        public string ApplyWriteConverter(XElement xml, string value)
+        {
+            var writeConverter = WriteConverter(xml);
+            if (!string.IsNullOrEmpty(writeConverter))
+            {
+                value = string.Format(writeConverter, value);
+            }
+
+            return value;
+        }
     }
 }

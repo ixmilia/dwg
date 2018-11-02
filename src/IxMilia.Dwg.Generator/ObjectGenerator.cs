@@ -147,14 +147,16 @@ namespace IxMilia.Dwg.Generator
                     var readCount = ReadCount(p);
                     if (string.IsNullOrEmpty(readCount))
                     {
-                        AppendLine($"writer.Write_{BinaryType(p)}({Name(p)});");
+                        var value = ApplyWriteConverter(p, Name(p));
+                        AppendLine($"writer.Write_{BinaryType(p)}({value});");
                     }
                     else
                     {
+                        var value = ApplyWriteConverter(p, $"{Name(p)}[i]");
                         AppendLine($"for (int i = 0; i < {readCount}; i++)");
                         AppendLine("{");
                         IncreaseIndent();
-                        AppendLine($"writer.Write_{BinaryType(p)}({Name(p)}[i]);");
+                        AppendLine($"writer.Write_{BinaryType(p)}({value});");
                         DecreaseIndent();
                         AppendLine("}");
                     }
@@ -171,16 +173,17 @@ namespace IxMilia.Dwg.Generator
                 foreach (var p in o.Elements("Property"))
                 {
                     var readCount = ReadCount(p);
+                    var value = ApplyReadConverter(p, $"reader.Read_{BinaryType(p)}()");
                     if (string.IsNullOrEmpty(readCount))
                     {
-                        AppendLine($"{Name(p)} = reader.Read_{BinaryType(p)}();");
+                        AppendLine($"{Name(p)} = {value};");
                     }
                     else
                     {
                         AppendLine($"for (int i = 0; i < {readCount}; i++)");
                         AppendLine("{");
                         IncreaseIndent();
-                        AppendLine($"{Name(p)}.Add(reader.Read_{BinaryType(p)}());");
+                        AppendLine($"{Name(p)}.Add({value});");
                         DecreaseIndent();
                         AppendLine("}");
                     }

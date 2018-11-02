@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using Xunit;
 
 namespace IxMilia.Dwg.Test
@@ -12,11 +13,13 @@ namespace IxMilia.Dwg.Test
             {
                 // write it
                 var defaultFile = new DwgDrawing();
+                Assert.Equal("0", defaultFile.Layers.Single().Name);
                 defaultFile.Save(ms);
 
                 // rewind and load
                 ms.Seek(0, SeekOrigin.Begin);
                 var roundTrippedFile = DwgDrawing.Load(ms);
+                Assert.Equal("0", roundTrippedFile.Layers.Single().Name);
             }
         }
     }

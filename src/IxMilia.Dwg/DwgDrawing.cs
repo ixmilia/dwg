@@ -22,6 +22,8 @@ namespace IxMilia.Dwg
             Classes = new List<DwgClassDefinition>();
             ObjectMap = new DwgObjectMap();
             LayerControlObject = new DwgLayerControlObject();
+
+            LayerControlObject.Layers.Add(new DwgLayer() { Name = "0" });
         }
 
 #if HAS_FILESYSTEM_ACCESS
