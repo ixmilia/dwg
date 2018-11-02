@@ -5,11 +5,11 @@
   Layer control
 
   -->
-  <Object Name="LayerControlObject" Value="0x32" IsEntity="false" Accessibility="internal">
+  <Object Name="LayerControlObject" Value="0x32" IsEntity="false">
     <Property Name="_reactorCount" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="private" />
     <Property Name="_layerCount" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="private" />
-    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="private" />
-    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="private" />
+    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0)" Accessibility="private" />
+    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, 0)" Accessibility="private" />
     <Property Name="_layerHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" Accessibility="private" ReadCount="_layerCount" />
   </Object>
 
@@ -29,10 +29,10 @@
     <Property Name="IsFrozenInNew" Type="bool" BinaryType="B" DefaultValue="false" />
     <Property Name="IsLocked" Type="bool" BinaryType="B" DefaultValue="false" />
     <Property Name="Color" Type="DwgColor" BinaryType="BS" DefaultValue="DwgColor.FromIndex(7)" ReadConverter="DwgColor.FromRawValue({0})" WriteConverter="{0}.RawValue" />
-    <Property Name="_layerControlHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="private" />
+    <Property Name="LayerControlHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
     <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" Accessibility="private" ReadCount="_reactorCount" />
-    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="private" />
-    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="private" />
-    <Property Name="_lineTypeHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="private" />
+    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, 0)" Accessibility="private" />
+    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, 0)" Accessibility="private" />
+    <Property Name="_lineTypeHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, 0)" Accessibility="private" />
   </Object>
 </Objects>

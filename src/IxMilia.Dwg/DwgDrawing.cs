@@ -10,10 +10,9 @@ namespace IxMilia.Dwg
         public DwgHeaderVariables Variables { get; private set; }
         public IList<DwgClassDefinition> Classes { get; private set; }
         public DwgImageData ImageData { get; private set; }
-        public IEnumerable<DwgLayer> Layers => LayerControlObject.Layers;
+        public DwgLayerControlObject Layers { get; private set; }
 
         internal DwgObjectMap ObjectMap { get; private set; }
-        internal DwgLayerControlObject LayerControlObject { get; private set; }
 
         public DwgDrawing()
         {
@@ -21,9 +20,10 @@ namespace IxMilia.Dwg
             Variables = new DwgHeaderVariables();
             Classes = new List<DwgClassDefinition>();
             ObjectMap = new DwgObjectMap();
-            LayerControlObject = new DwgLayerControlObject();
-
-            LayerControlObject.Layers.Add(new DwgLayer() { Name = "0" });
+            Layers = new DwgLayerControlObject
+            {
+                new DwgLayer() { Name = "0" }
+            };
         }
 
 #if HAS_FILESYSTEM_ACCESS
@@ -62,7 +62,7 @@ namespace IxMilia.Dwg
 
         private void LoadObjects(BitReader reader)
         {
-            LayerControlObject = DwgObject.ParseSpecific<DwgLayerControlObject>(reader.FromOffset(ObjectMap.GetOffset(Variables.LayerControlObjectHandle.HandleOrOffset)), ObjectMap);
+            Layers = DwgObject.ParseSpecific<DwgLayerControlObject>(reader.FromOffset(ObjectMap.GetOffset(Variables.LayerControlObjectHandle.HandleOrOffset)), ObjectMap);
         }
 
 #if HAS_FILESYSTEM_ACCESS
@@ -124,17 +124,17 @@ namespace IxMilia.Dwg
 
         private void AssignHandles()
         {
-            LayerControlObject.ClearHandles();
+            Layers.ClearHandles();
 
-            LayerControlObject.AssignHandles(ObjectMap);
+            Layers.AssignHandles(ObjectMap);
 
-            Variables.LayerControlObjectHandle = LayerControlObject.Handle;
+            Variables.LayerControlObjectHandle = Layers.Handle;
         }
 
         private void SaveObjects(BitWriter writer, int pointerOffset)
         {
             var writtenHandles = new HashSet<int>();
-            LayerControlObject.Write(writer, ObjectMap, writtenHandles, pointerOffset);
+            Layers.Write(writer, ObjectMap, writtenHandles, pointerOffset);
         }
     }
 }

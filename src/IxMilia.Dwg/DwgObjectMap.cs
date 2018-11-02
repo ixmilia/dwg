@@ -33,7 +33,7 @@ namespace IxMilia.Dwg
             }
 
             var next = _nextHandle++;
-            obj.Handle = new DwgHandleReference(obj.Handle.Code, next);
+            obj.Handle = new DwgHandleReference(DwgHandleReferenceCode.Declaration, next);
         }
 
         public static DwgObjectMap Parse(BitReader reader)

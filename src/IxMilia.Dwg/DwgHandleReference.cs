@@ -4,7 +4,8 @@ namespace IxMilia.Dwg
 {
     public enum DwgHandleReferenceCode : byte
     {
-        None = 0x02, // 0x02-0x05
+        Declaration = 0x00,
+        None = 0x02,
         SoftPointer = 0x03,
         HardPointer = 0x04,
         SoftOwner = 0x05,

@@ -132,6 +132,11 @@ namespace IxMilia.Dwg.Objects
         private void ParseData(BitReader reader)
         {
             Handle = reader.Read_H();
+            if (Handle.Code != DwgHandleReferenceCode.Declaration)
+            {
+                throw new DwgReadException("Invalid object handle code.");
+            }
+
             var xDataSize = reader.Read_BS();
             var xData = reader.ReadBytes(xDataSize);
             if (IsEntity)
