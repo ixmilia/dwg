@@ -11,6 +11,7 @@ namespace IxMilia.Dwg
         public IList<DwgClassDefinition> Classes { get; private set; }
         public DwgImageData ImageData { get; private set; }
         public DwgLayerControlObject Layers { get; private set; }
+        public DwgStyleControlObject Styles { get; private set; }
 
         internal DwgObjectMap ObjectMap { get; private set; }
 
@@ -23,6 +24,10 @@ namespace IxMilia.Dwg
             Layers = new DwgLayerControlObject
             {
                 new DwgLayer() { Name = "0" }
+            };
+            Styles = new DwgStyleControlObject()
+            {
+                new DwgStyle() { Name = "STANDARD" }
             };
         }
 
@@ -63,6 +68,7 @@ namespace IxMilia.Dwg
         private void LoadObjects(BitReader reader)
         {
             Layers = DwgObject.ParseSpecific<DwgLayerControlObject>(reader.FromOffset(ObjectMap.GetOffset(Variables.LayerControlObjectHandle.HandleOrOffset)), ObjectMap);
+            Styles = DwgObject.ParseSpecific<DwgStyleControlObject>(reader.FromOffset(ObjectMap.GetOffset(Variables.StyleObjectControlHandle.HandleOrOffset)), ObjectMap);
         }
 
 #if HAS_FILESYSTEM_ACCESS
@@ -125,16 +131,20 @@ namespace IxMilia.Dwg
         private void AssignHandles()
         {
             Layers.ClearHandles();
+            Styles.ClearHandles();
 
             Layers.AssignHandles(ObjectMap);
+            Styles.AssignHandles(ObjectMap);
 
             Variables.LayerControlObjectHandle = Layers.Handle;
+            Variables.StyleObjectControlHandle = Styles.Handle;
         }
 
         private void SaveObjects(BitWriter writer, int pointerOffset)
         {
             var writtenHandles = new HashSet<int>();
             Layers.Write(writer, ObjectMap, writtenHandles, pointerOffset);
+            Styles.Write(writer, ObjectMap, writtenHandles, pointerOffset);
         }
     }
 }
