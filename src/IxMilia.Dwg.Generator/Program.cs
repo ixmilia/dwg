@@ -16,11 +16,13 @@ namespace IxMilia.Dwg.Generator
             }
 
             var projectDir = args[0];
-            var headerVariablesDir = Path.Combine(projectDir, GeneratedString);
+            var outputDir = Path.Combine(projectDir, GeneratedString);
 
-            Console.WriteLine($"Generating header variables into: {headerVariablesDir}");
+            Console.WriteLine($"Generating header variables into: {outputDir}");
+            Console.WriteLine($"Generating objects into: {outputDir}");
 
-            new HeaderVariablesGenerator(headerVariablesDir).Run();
+            new HeaderVariablesGenerator(outputDir).Run();
+            new ObjectGenerator(outputDir).Run();
         }
     }
 }

@@ -20,6 +20,8 @@ namespace IxMilia.Dwg
         public DwgHandleReferenceCode Code { get; }
         public int HandleOrOffset { get; }
 
+        public bool IsEmpty => (int)Code == 0 && HandleOrOffset == 0;
+
         public DwgHandleReference(DwgHandleReferenceCode code, int offset)
         {
             Code = code;

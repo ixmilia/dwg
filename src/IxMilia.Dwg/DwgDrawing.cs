@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using IxMilia.Dwg.Objects;
 
 namespace IxMilia.Dwg
 {
@@ -9,8 +10,10 @@ namespace IxMilia.Dwg
         public DwgHeaderVariables Variables { get; private set; }
         public IList<DwgClassDefinition> Classes { get; private set; }
         public DwgImageData ImageData { get; private set; }
+        public IEnumerable<DwgLayer> Layers => LayerControlObject.Layers;
 
         internal DwgObjectMap ObjectMap { get; private set; }
+        internal DwgLayerControlObject LayerControlObject { get; private set; }
 
         public DwgDrawing()
         {
@@ -18,6 +21,7 @@ namespace IxMilia.Dwg
             Variables = new DwgHeaderVariables();
             Classes = new List<DwgClassDefinition>();
             ObjectMap = new DwgObjectMap();
+            LayerControlObject = new DwgLayerControlObject();
         }
 
 #if HAS_FILESYSTEM_ACCESS
@@ -49,7 +53,14 @@ namespace IxMilia.Dwg
             drawing.FileHeader.ValidateSecondHeader(reader, drawing.Variables);
             drawing.ImageData = DwgImageData.Parse(reader.FromOffset(drawing.FileHeader.ImagePointer));
 
+            drawing.LoadObjects(reader);
+
             return drawing;
+        }
+
+        private void LoadObjects(BitReader reader)
+        {
+            LayerControlObject = DwgObject.ParseSpecific<DwgLayerControlObject>(reader.FromOffset(ObjectMap.GetOffset(Variables.LayerControlObjectHandle.HandleOrOffset)), ObjectMap);
         }
 
 #if HAS_FILESYSTEM_ACCESS
@@ -64,6 +75,9 @@ namespace IxMilia.Dwg
 
         public void Save(Stream stream)
         {
+            ObjectMap = new DwgObjectMap();
+            AssignHandles();
+
             // write the file header; this will be re-written again once the pointers have been calculated
             var writer = new BitWriter(stream);
             var fileHeaderLocation = writer.Position;
@@ -82,8 +96,7 @@ namespace IxMilia.Dwg
             FileHeader.UnknownSection_PaddingLocator = DwgFileHeader.DwgSectionLocator.UnknownSection_PaddingLocator(paddingStart - fileHeaderLocation, writer.Position - paddingStart);
 
             var objectDataStart = writer.Position;
-            writer.WriteBytes(new byte[0]); // TODO
-            // no pointer to set
+            SaveObjects(writer, objectDataStart);
 
             var objectMapStart = writer.Position;
             ObjectMap.Write(writer);
@@ -105,6 +118,21 @@ namespace IxMilia.Dwg
             writer.BaseStream.Seek(fileHeaderLocation, SeekOrigin.Begin);
             FileHeader.Write(writer);
             writer.BaseStream.Seek(endPos, SeekOrigin.Begin);
+        }
+
+        private void AssignHandles()
+        {
+            LayerControlObject.ClearHandles();
+
+            LayerControlObject.AssignHandles(ObjectMap);
+
+            Variables.LayerControlObjectHandle = LayerControlObject.Handle;
+        }
+
+        private void SaveObjects(BitWriter writer, int pointerOffset)
+        {
+            var writtenHandles = new HashSet<int>();
+            LayerControlObject.Write(writer, ObjectMap, writtenHandles, pointerOffset);
         }
     }
 }

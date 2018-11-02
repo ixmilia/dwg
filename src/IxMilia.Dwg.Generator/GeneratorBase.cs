@@ -25,7 +25,11 @@ namespace IxMilia.Dwg.Generator
                 AppendLine($"using {u};");
             }
 
-            AppendLine();
+            if (usings.Length > 0)
+            {
+                AppendLine();
+            }
+
             AppendLine($"namespace {ns}");
             AppendLine("{");
         }
@@ -62,16 +66,20 @@ namespace IxMilia.Dwg.Generator
         // xml helpers
         public string AttributeValue(XElement xml, string attributeName) => xml?.Attribute(attributeName)?.Value;
 
+        public string Accessibility(XElement xml, string defaultValue = "public") => AttributeValue(xml, "Accessibility") ?? defaultValue;
         public string BinaryType(XElement xml) => AttributeValue(xml, "BinaryType");
         public string Comment(XElement xml) => AttributeValue(xml, "Comment");
         public string DefaultValue(XElement xml) => AttributeValue(xml, "DefaultValue");
         public string From(XElement xml) => AttributeValue(xml, "From");
+        public string IsEntity(XElement xml) => AttributeValue(xml, "IsEntity");
         public string Mask(XElement xml) => AttributeValue(xml, "Mask");
         public string Name(XElement xml) => AttributeValue(xml, "Name");
         public string ReadConverter(XElement xml) => AttributeValue(xml, "ReadConverter");
+        public string ReadCount(XElement xml) => AttributeValue(xml, "ReadCount");
         public string ShortName(XElement xml) => AttributeValue(xml, "ShortName");
         public string To(XElement xml) => AttributeValue(xml, "To");
         public string Type(XElement xml) => AttributeValue(xml, "Type");
+        public string Value(XElement xml) => AttributeValue(xml, "Value");
         public string WriteConverter(XElement xml) => AttributeValue(xml, "WriteConverter");
     }
 }

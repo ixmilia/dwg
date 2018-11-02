@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Objects>
+  <!--
+
+  Layer control
+
+  -->
+  <Object Name="LayerControlObject" Value="0x32" IsEntity="false" Accessibility="internal">
+    <Property Name="_reactorCount" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="private" />
+    <Property Name="_layerCount" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="private" />
+    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="private" />
+    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="private" />
+    <Property Name="_layerHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" Accessibility="private" ReadCount="_layerCount" />
+  </Object>
+
+  <!--
+
+  Layer
+
+  -->
+  <Object Name="Layer" Value="0x33" IsEntity="false">
+  </Object>
+</Objects>
