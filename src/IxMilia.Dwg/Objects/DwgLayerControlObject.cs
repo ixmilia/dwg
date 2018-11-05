@@ -20,7 +20,7 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal override void PoseParse(BitReader reader, DwgObjectMap objectMap)
+        internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {
             _layers.Clear();
             if (_layerHandles.Count != _layerCount)
@@ -50,7 +50,7 @@ namespace IxMilia.Dwg.Objects
                     throw new DwgReadException("Incorrect child layer handle code.");
                 }
 
-                var layer = ParseSpecific<DwgLayer>(reader.FromOffset(objectMap.GetOffset(layerHandle.HandleOrOffset)), objectMap);
+                var layer = objectCache.GetObject<DwgLayer>(reader, layerHandle.HandleOrOffset);
                 if (layer.LayerControlHandle.HandleOrOffset != Handle.HandleOrOffset)
                 {
                     throw new DwgReadException("Incorrect layer control object parent handle reference.");

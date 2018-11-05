@@ -88,7 +88,7 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal static DwgObject Parse(BitReader reader, DwgObjectMap objectMap)
+        internal static DwgObject Parse(BitReader reader, DwgObjectCache objectCache)
         {
             reader.StartCrcCheck();
             var size = reader.Read_MS();
@@ -109,24 +109,8 @@ namespace IxMilia.Dwg.Objects
             reader.SkipBytes(Math.Max(0, crcStart - reader.Offset));
 
             reader.ValidateCrc(initialValue: DwgHeaderVariables.InitialCrcValue);
-            obj.PoseParse(reader, objectMap);
+            obj.PoseParse(reader, objectCache);
             return obj;
-        }
-
-        internal static T ParseSpecific<T>(BitReader reader, DwgObjectMap objectMap) where T: DwgObject
-        {
-            var obj = Parse(reader, objectMap);
-            if (obj == null)
-            {
-                throw new DwgReadException("Unsupported object cannot be read");
-            }
-
-            if (obj is T converted)
-            {
-                return converted;
-            }
-
-            throw new DwgReadException($"Expected to parse {typeof(T)} but got {obj.GetType().Name}");
         }
 
         private void ParseData(BitReader reader)
@@ -163,7 +147,7 @@ namespace IxMilia.Dwg.Objects
 
         internal abstract void WriteSpecific(BitWriter writer, DwgObjectMap objectMap, int pointerOffset);
 
-        internal virtual void PoseParse(BitReader reader, DwgObjectMap objectMap)
+        internal virtual void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {
         }
 

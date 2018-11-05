@@ -6,7 +6,7 @@ namespace IxMilia.Dwg.Objects
     {
         internal override IEnumerable<DwgObject> ChildItems => new DwgObject[0];
 
-        internal override void PoseParse(BitReader reader, DwgObjectMap objectMap)
+        internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {
             if (LayerControlHandle.Code != DwgHandleReferenceCode.HardPointer)
             {

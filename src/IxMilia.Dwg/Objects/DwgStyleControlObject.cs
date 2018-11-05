@@ -20,7 +20,7 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal override void PoseParse(BitReader reader, DwgObjectMap objectMap)
+        internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {
             _styles.Clear();
             if (_styleHandles.Count != _styleCount)
@@ -50,7 +50,7 @@ namespace IxMilia.Dwg.Objects
                     throw new DwgReadException("Incorrect child style handle code.");
                 }
 
-                var style = ParseSpecific<DwgStyle>(reader.FromOffset(objectMap.GetOffset(styleHandle.HandleOrOffset)), objectMap);
+                var style = objectCache.GetObject<DwgStyle>(reader, styleHandle.HandleOrOffset);
                 if (style.StyleControlHandle.HandleOrOffset != Handle.HandleOrOffset)
                 {
                     throw new DwgReadException("Incorrect style control object parent handle reference.");

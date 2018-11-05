@@ -13,14 +13,11 @@ namespace IxMilia.Dwg
         public DwgLayerControlObject Layers { get; private set; }
         public DwgStyleControlObject Styles { get; private set; }
 
-        internal DwgObjectMap ObjectMap { get; private set; }
-
         public DwgDrawing()
         {
             FileHeader = new DwgFileHeader(DwgVersionId.Default, 0, 0, 0);
             Variables = new DwgHeaderVariables();
             Classes = new List<DwgClassDefinition>();
-            ObjectMap = new DwgObjectMap();
             Layers = new DwgLayerControlObject
             {
                 new DwgLayer() { Name = "0" }
@@ -55,20 +52,20 @@ namespace IxMilia.Dwg
             drawing.FileHeader = DwgFileHeader.Parse(reader);
             drawing.Variables = DwgHeaderVariables.Parse(reader.FromOffset(drawing.FileHeader.HeaderVariablesLocator.Pointer), drawing.FileHeader.Version);
             drawing.Classes = DwgClasses.Parse(reader.FromOffset(drawing.FileHeader.ClassSectionLocator.Pointer), drawing.FileHeader.Version);
-            drawing.ObjectMap = DwgObjectMap.Parse(reader.FromOffset(drawing.FileHeader.ObjectMapLocator.Pointer));
             // don't read the R13C3 and later unknown section
             drawing.FileHeader.ValidateSecondHeader(reader, drawing.Variables);
             drawing.ImageData = DwgImageData.Parse(reader.FromOffset(drawing.FileHeader.ImagePointer));
 
-            drawing.LoadObjects(reader);
+            var objectCache = DwgObjectCache.Parse(reader.FromOffset(drawing.FileHeader.ObjectMapLocator.Pointer));
+            drawing.LoadObjects(reader, objectCache);
 
             return drawing;
         }
 
-        private void LoadObjects(BitReader reader)
+        private void LoadObjects(BitReader reader, DwgObjectCache objectCache)
         {
-            Layers = DwgObject.ParseSpecific<DwgLayerControlObject>(reader.FromOffset(ObjectMap.GetOffset(Variables.LayerControlObjectHandle.HandleOrOffset)), ObjectMap);
-            Styles = DwgObject.ParseSpecific<DwgStyleControlObject>(reader.FromOffset(ObjectMap.GetOffset(Variables.StyleObjectControlHandle.HandleOrOffset)), ObjectMap);
+            Layers = objectCache.GetObject<DwgLayerControlObject>(reader, Variables.LayerControlObjectHandle.HandleOrOffset);
+            Styles = objectCache.GetObject<DwgStyleControlObject>(reader, Variables.StyleObjectControlHandle.HandleOrOffset);
         }
 
 #if HAS_FILESYSTEM_ACCESS
@@ -83,8 +80,8 @@ namespace IxMilia.Dwg
 
         public void Save(Stream stream)
         {
-            ObjectMap = new DwgObjectMap();
-            AssignHandles();
+            var objectMap = new DwgObjectMap();
+            AssignHandles(objectMap);
 
             // write the file header; this will be re-written again once the pointers have been calculated
             var writer = new BitWriter(stream);
@@ -104,10 +101,10 @@ namespace IxMilia.Dwg
             FileHeader.UnknownSection_PaddingLocator = DwgFileHeader.DwgSectionLocator.UnknownSection_PaddingLocator(paddingStart - fileHeaderLocation, writer.Position - paddingStart);
 
             var objectDataStart = writer.Position;
-            SaveObjects(writer, objectDataStart);
+            SaveObjects(writer, objectMap, objectDataStart);
 
             var objectMapStart = writer.Position;
-            ObjectMap.Write(writer);
+            objectMap.Write(writer);
             FileHeader.ObjectMapLocator = DwgFileHeader.DwgSectionLocator.ObjectMapLocator(objectMapStart - fileHeaderLocation, writer.Position - objectMapStart);
 
             var unknownR13C3Start = writer.Position;
@@ -128,23 +125,23 @@ namespace IxMilia.Dwg
             writer.BaseStream.Seek(endPos, SeekOrigin.Begin);
         }
 
-        private void AssignHandles()
+        private void AssignHandles(DwgObjectMap objectMap)
         {
             Layers.ClearHandles();
             Styles.ClearHandles();
 
-            Layers.AssignHandles(ObjectMap);
-            Styles.AssignHandles(ObjectMap);
+            Layers.AssignHandles(objectMap);
+            Styles.AssignHandles(objectMap);
 
             Variables.LayerControlObjectHandle = Layers.Handle;
             Variables.StyleObjectControlHandle = Styles.Handle;
         }
 
-        private void SaveObjects(BitWriter writer, int pointerOffset)
+        private void SaveObjects(BitWriter writer, DwgObjectMap objectMap, int pointerOffset)
         {
             var writtenHandles = new HashSet<int>();
-            Layers.Write(writer, ObjectMap, writtenHandles, pointerOffset);
-            Styles.Write(writer, ObjectMap, writtenHandles, pointerOffset);
+            Layers.Write(writer, objectMap, writtenHandles, pointerOffset);
+            Styles.Write(writer, objectMap, writtenHandles, pointerOffset);
         }
     }
 }

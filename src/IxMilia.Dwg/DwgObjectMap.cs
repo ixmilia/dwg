@@ -1,7 +1,6 @@
 ﻿using IxMilia.Dwg.Objects;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace IxMilia.Dwg
 {
@@ -9,16 +8,6 @@ namespace IxMilia.Dwg
     {
         private int _nextHandle = 1;
         private IDictionary<int, int> _handleOffsets = new Dictionary<int, int>();
-
-        public int GetOffset(int handle)
-        {
-            if (_handleOffsets.TryGetValue(handle, out var offset))
-            {
-                return offset;
-            }
-
-            throw new DwgReadException($"Handle {handle} not found in object map.");
-        }
 
         internal void SetOffset(int handle, int offset)
         {
@@ -34,38 +23,6 @@ namespace IxMilia.Dwg
 
             var next = _nextHandle++;
             obj.Handle = new DwgHandleReference(DwgHandleReferenceCode.Declaration, next);
-        }
-
-        public static DwgObjectMap Parse(BitReader reader)
-        {
-            var objectMap = new DwgObjectMap();
-            var lastHandle = 0;
-            var lastLocation = 0;
-            reader.StartCrcCheck();
-            var sectionSize = reader.ReadShortBigEndian();
-            while (sectionSize != 2)
-            {
-                var sectionStart = reader.Offset;
-                var sectionEnd = sectionStart + sectionSize - 2;
-                while (reader.Offset < sectionEnd)
-                {
-                    // read data
-                    var handleOffset = reader.Read_MC();
-                    var locationOffset = reader.Read_MC();
-                    var handle = lastHandle + handleOffset;
-                    var location = lastLocation + locationOffset;
-                    objectMap._handleOffsets[handle] = location;
-                    lastHandle = handle;
-                    lastLocation = location;
-                }
-
-                reader.ValidateCrc(initialValue: DwgHeaderVariables.InitialCrcValue, readCrcAsMsb: true);
-                reader.StartCrcCheck();
-                sectionSize = reader.ReadShortBigEndian();
-            }
-
-            reader.ValidateCrc(initialValue: DwgHeaderVariables.InitialCrcValue, readCrcAsMsb: true);
-            return objectMap;
         }
 
         private const int MaxSectionSize = 2032;
