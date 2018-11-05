@@ -31,9 +31,9 @@ namespace IxMilia.Dwg
 
         internal void WriteSecondHeader(BitWriter writer, int id)
         {
-            writer.Write_RC((byte)HandleOrOffset);
-            writer.Write_RC(1); // byte count
+            writer.Write_RC(1); // TODO: compute the byte count of `HandleOrOffset`
             writer.Write_RC((byte)id);
+            writer.Write_RC((byte)HandleOrOffset);
         }
 
         public static bool operator ==(DwgHandleReference r1, DwgHandleReference r2)

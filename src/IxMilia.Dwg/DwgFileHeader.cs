@@ -142,12 +142,12 @@ namespace IxMilia.Dwg
         internal void ValidateSecondHeader(BitReader parentReader, DwgHeaderVariables headerVariables)
         {
             var reader = parentReader.FromOffset(SecondHeaderPointer);
-            var sectionStart = reader.Offset;
             reader.ValidateSentinel(SecondHeaderStartSentinel);
+            var sectionStart = reader.Offset;
             reader.StartCrcCheck();
             var reportedSectionSize = reader.Read_RL();
             var expectedLocation = reader.Read_BL();
-            if (expectedLocation != sectionStart)
+            if (expectedLocation != sectionStart - SecondHeaderStartSentinel.Length)
             {
                 throw new DwgReadException("Reported second header location incorrect.");
             }
@@ -199,9 +199,9 @@ namespace IxMilia.Dwg
             var handleRecordCount = reader.Read_BS();
             for (int i = 0; i < handleRecordCount; i++)
             {
-                var handle = reader.Read_RC();
                 var byteCount = reader.Read_RC();
                 var id = reader.Read_RC();
+                var handle = reader.Read_RC();
 
                 if (byteCount > 0)
                 {
@@ -214,46 +214,46 @@ namespace IxMilia.Dwg
                     switch (i)
                     {
                         case 0:
-                            actualHandle = headerVariables.ModelSpaceBlockRecordHandle.HandleOrOffset;
+                            actualHandle = headerVariables.NextAvailableHandle.HandleOrOffset;
                             break;
                         case 1:
-                            // unknown
-                            break;
-                        case 2:
                             actualHandle = headerVariables.BlockControlObjectHandle.HandleOrOffset;
                             break;
-                        case 3:
+                        case 2:
                             actualHandle = headerVariables.LayerControlObjectHandle.HandleOrOffset;
                             break;
-                        case 4:
+                        case 3:
                             actualHandle = headerVariables.StyleObjectControlHandle.HandleOrOffset;
                             break;
-                        case 5:
+                        case 4:
                             actualHandle = headerVariables.LineTypeObjectControlHandle.HandleOrOffset;
                             break;
-                        case 6:
+                        case 5:
                             actualHandle = headerVariables.ViewControlObjectHandle.HandleOrOffset;
                             break;
-                        case 7:
+                        case 6:
                             actualHandle = headerVariables.UcsControlObjectHandle.HandleOrOffset;
                             break;
-                        case 8:
+                        case 7:
                             actualHandle = headerVariables.ViewPortControlObjectHandle.HandleOrOffset;
                             break;
-                        case 9:
+                        case 8:
                             actualHandle = headerVariables.AppIdControlObjectHandle.HandleOrOffset;
                             break;
-                        case 10:
+                        case 9:
                             actualHandle = headerVariables.DimStyleControlObjectHandle.HandleOrOffset;
                             break;
-                        case 11:
+                        case 10:
                             actualHandle = headerVariables.ViewPortEntityHeaderControlObjectHandle.HandleOrOffset;
                             break;
-                        case 12:
+                        case 11:
                             actualHandle = headerVariables.NamedObjectsDictionaryHandle.HandleOrOffset;
                             break;
-                        case 13:
+                        case 12:
                             actualHandle = headerVariables.MLineStyleDictionaryHandle.HandleOrOffset;
+                            break;
+                        case 13:
+                            actualHandle = headerVariables.GropuDictionaryHandle.HandleOrOffset;
                             break;
                     }
 
@@ -269,14 +269,11 @@ namespace IxMilia.Dwg
 
             reader.ReadByte();
             reader.ValidateCrc(initialValue: DwgHeaderVariables.InitialCrcValue);
-            if (version == DwgVersionId.R14)
-            {
-                reader.ReadBytes(8);
-            }
-
+            var junkByteCount = Math.Max(0, reportedSectionSize - (reader.Offset - sectionStart));
+            reader.SkipBytes(junkByteCount);
             reader.ValidateSentinel(SecondHeaderEndSentinel);
 
-            var computedSectionSize = reader.Offset - sectionStart - SecondHeaderStartSentinel.Length - SecondHeaderEndSentinel.Length;
+            var computedSectionSize = reader.Offset - sectionStart - SecondHeaderEndSentinel.Length;
             if (computedSectionSize != reportedSectionSize)
             {
                 throw new DwgReadException($"Reported and actual second header sizes differ.  Expected: {reportedSectionSize}, Actual: {computedSectionSize}");
@@ -338,20 +335,20 @@ namespace IxMilia.Dwg
                 UnknownSection_PaddingLocator.Write(tempWriter, writingSecondHeader: true);
 
                 tempWriter.Write_BS(14);
-                headerVariables.ModelSpaceBlockRecordHandle.WriteSecondHeader(tempWriter, 0);
-                new DwgHandleReference().WriteSecondHeader(tempWriter, 1); // TODO: unknown
-                headerVariables.BlockControlObjectHandle.WriteSecondHeader(tempWriter, 2);
-                headerVariables.LayerControlObjectHandle.WriteSecondHeader(tempWriter, 3);
-                headerVariables.StyleObjectControlHandle.WriteSecondHeader(tempWriter, 4);
-                headerVariables.LineTypeObjectControlHandle.WriteSecondHeader(tempWriter, 5);
-                headerVariables.ViewControlObjectHandle.WriteSecondHeader(tempWriter, 6);
-                headerVariables.UcsControlObjectHandle.WriteSecondHeader(tempWriter, 7);
-                headerVariables.ViewPortControlObjectHandle.WriteSecondHeader(tempWriter, 8);
-                headerVariables.AppIdControlObjectHandle.WriteSecondHeader(tempWriter, 9);
-                headerVariables.DimStyleControlObjectHandle.WriteSecondHeader(tempWriter, 10);
-                headerVariables.ViewPortControlObjectHandle.WriteSecondHeader(tempWriter, 11);
-                headerVariables.NamedObjectsDictionaryHandle.WriteSecondHeader(tempWriter, 12);
-                headerVariables.MLineStyleDictionaryHandle.WriteSecondHeader(tempWriter, 13);
+                headerVariables.NextAvailableHandle.WriteSecondHeader(tempWriter, 0);
+                headerVariables.BlockControlObjectHandle.WriteSecondHeader(tempWriter, 1);
+                headerVariables.LayerControlObjectHandle.WriteSecondHeader(tempWriter, 2);
+                headerVariables.StyleObjectControlHandle.WriteSecondHeader(tempWriter, 3);
+                headerVariables.LineTypeObjectControlHandle.WriteSecondHeader(tempWriter, 4);
+                headerVariables.ViewControlObjectHandle.WriteSecondHeader(tempWriter, 5);
+                headerVariables.UcsControlObjectHandle.WriteSecondHeader(tempWriter, 6);
+                headerVariables.ViewPortControlObjectHandle.WriteSecondHeader(tempWriter, 7);
+                headerVariables.AppIdControlObjectHandle.WriteSecondHeader(tempWriter, 8);
+                headerVariables.DimStyleControlObjectHandle.WriteSecondHeader(tempWriter, 9);
+                headerVariables.ViewPortEntityHeaderControlObjectHandle.WriteSecondHeader(tempWriter, 10);
+                headerVariables.NamedObjectsDictionaryHandle.WriteSecondHeader(tempWriter, 11);
+                headerVariables.MLineStyleDictionaryHandle.WriteSecondHeader(tempWriter, 12);
+                headerVariables.GropuDictionaryHandle.WriteSecondHeader(tempWriter, 13);
 
                 tempWriter.WriteByte(0); // unknown
                 tempWriter.AlignByte();
