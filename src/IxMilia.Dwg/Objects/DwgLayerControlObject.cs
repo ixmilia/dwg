@@ -3,20 +3,20 @@ using System.Collections.Generic;
 
 namespace IxMilia.Dwg.Objects
 {
-    public partial class DwgLayerControlObject : IList<DwgLayer>
+    public partial class DwgLayerControlObject : IDictionary<string, DwgLayer>
     {
-        private List<DwgLayer> _layers = new List<DwgLayer>();
+        private Dictionary<string, DwgLayer> _layers = new Dictionary<string, DwgLayer>();
 
-        internal override IEnumerable<DwgObject> ChildItems => _layers;
+        internal override IEnumerable<DwgObject> ChildItems => _layers.Values;
 
         internal override void PreWrite()
         {
             _layerCount = (short)_layers.Count;
             _layerHandles.Clear();
-            for (int i = 0; i < _layers.Count; i++)
+            foreach (var layer in _layers.Values)
             {
-                _layerHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, _layers[i].Handle.HandleOrOffset));
-                _layers[i].LayerControlHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, Handle.HandleOrOffset);
+                _layerHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, layer.Handle.HandleOrOffset));
+                layer.LayerControlHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, Handle.HandleOrOffset);
             }
         }
 
@@ -56,37 +56,45 @@ namespace IxMilia.Dwg.Objects
                     throw new DwgReadException("Incorrect layer control object parent handle reference.");
                 }
 
-                _layers.Add(layer);
+                _layers.Add(layer.Name, layer);
             }
         }
 
-        #region IList<DwgLayer> implementation
+        public void Add(DwgLayer layer) => Add(layer.Name, layer);
 
-        public int Count => _layers.Count;
+        #region IDictionary<string, DwgLayer> implementation
 
-        public bool IsReadOnly => false;
+        public ICollection<string> Keys => ((IDictionary<string, DwgLayer>)_layers).Keys;
 
-        public DwgLayer this[int index] { get => _layers[index]; set => _layers[index] = value; }
+        public ICollection<DwgLayer> Values => ((IDictionary<string, DwgLayer>)_layers).Values;
 
-        public int IndexOf(DwgLayer item) => _layers.IndexOf(item);
+        public int Count => ((IDictionary<string, DwgLayer>)_layers).Count;
 
-        public void Insert(int index, DwgLayer item) => _layers.Insert(index, item);
+        public bool IsReadOnly => ((IDictionary<string, DwgLayer>)_layers).IsReadOnly;
 
-        public void RemoveAt(int index) => _layers.RemoveAt(index);
+        public DwgLayer this[string key] { get => ((IDictionary<string, DwgLayer>)_layers)[key]; set => ((IDictionary<string, DwgLayer>)_layers)[key] = value; }
 
-        public void Add(DwgLayer item) => _layers.Add(item);
+        public void Add(string key, DwgLayer value) => ((IDictionary<string, DwgLayer>)_layers).Add(key, value);
 
-        public void Clear() => _layers.Clear();
+        public bool ContainsKey(string key) => ((IDictionary<string, DwgLayer>)_layers).ContainsKey(key);
 
-        public bool Contains(DwgLayer item) => _layers.Contains(item);
+        public bool Remove(string key) => ((IDictionary<string, DwgLayer>)_layers).Remove(key);
 
-        public void CopyTo(DwgLayer[] array, int arrayIndex) => _layers.CopyTo(array, arrayIndex);
+        public bool TryGetValue(string key, out DwgLayer value) => ((IDictionary<string, DwgLayer>)_layers).TryGetValue(key, out value);
 
-        public bool Remove(DwgLayer item) => _layers.Remove(item);
+        public void Add(KeyValuePair<string, DwgLayer> item) => ((IDictionary<string, DwgLayer>)_layers).Add(item);
 
-        public IEnumerator<DwgLayer> GetEnumerator() => _layers.GetEnumerator();
+        public void Clear() => ((IDictionary<string, DwgLayer>)_layers).Clear();
 
-        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)_layers).GetEnumerator();
+        public bool Contains(KeyValuePair<string, DwgLayer> item) => ((IDictionary<string, DwgLayer>)_layers).Contains(item);
+
+        public void CopyTo(KeyValuePair<string, DwgLayer>[] array, int arrayIndex) => ((IDictionary<string, DwgLayer>)_layers).CopyTo(array, arrayIndex);
+
+        public bool Remove(KeyValuePair<string, DwgLayer> item) => ((IDictionary<string, DwgLayer>)_layers).Remove(item);
+
+        public IEnumerator<KeyValuePair<string, DwgLayer>> GetEnumerator() => ((IDictionary<string, DwgLayer>)_layers).GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => ((IDictionary<string, DwgLayer>)_layers).GetEnumerator();
 
         #endregion
 
