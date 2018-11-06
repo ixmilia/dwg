@@ -37,6 +37,39 @@
   </Object>
   <!--
 
+  Line Type control
+
+  -->
+  <Object Name="LineTypeControlObject" Value="0x38" IsEntity="false">
+    <Property Name="_reactorCount" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="private" />
+    <Property Name="_lineTypeCount" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="private" />
+    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0)" Accessibility="private" />
+    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, 0)" Accessibility="private" />
+    <Property Name="_lineTypeHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" Accessibility="private" ReadCount="_lineTypeCount" />
+  </Object>
+  <!--
+
+  Line Type
+
+  -->
+  <Object Name="LineType" Value="0x39" IsEntity="false" CustomReader="true" CustomWriter="true">
+    <Property Name="_reactorCount" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="private" />
+    <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
+    <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
+    <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="private" />
+    <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
+    <Property Name="Description" Type="string" BinaryType="T" DefaultValue="null" />
+    <Property Name="PatternLength" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="_alignment" Type="char" BinaryType="RC" DefaultValue="'A'" />
+    <Property Name="_numDashes" Type="int" BinaryType="RC" DefaultValue="0" />
+    <!-- custom dash info -->
+    <Property Name="LineTypeControlHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
+    <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" Accessibility="private" ReadCount="_reactorCount" />
+    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, 0)" Accessibility="private" />
+    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, 0)" Accessibility="private" />
+  </Object>
+  <!--
+
   Style control
 
   -->

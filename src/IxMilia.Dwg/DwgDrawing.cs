@@ -12,19 +12,27 @@ namespace IxMilia.Dwg
         public DwgImageData ImageData { get; private set; }
         public DwgLayerControlObject Layers { get; private set; }
         public DwgStyleControlObject Styles { get; private set; }
+        public DwgLineTypeControlObject LineTypes { get; private set; }
 
         public DwgDrawing()
         {
             FileHeader = new DwgFileHeader(DwgVersionId.Default, 0, 0, 0);
             Variables = new DwgHeaderVariables();
             Classes = new List<DwgClassDefinition>();
+
+            var continuous = new DwgLineType() { Name = "CONTINUOUS", Description = "Solid line" };
+
             Layers = new DwgLayerControlObject
             {
-                new DwgLayer() { Name = "0" }
+                new DwgLayer() { Name = "0", LineType = continuous }
             };
             Styles = new DwgStyleControlObject()
             {
                 new DwgStyle() { Name = "STANDARD" }
+            };
+            LineTypes = new DwgLineTypeControlObject()
+            {
+                continuous
             };
         }
 
@@ -66,6 +74,7 @@ namespace IxMilia.Dwg
         {
             Layers = objectCache.GetObject<DwgLayerControlObject>(reader, Variables.LayerControlObjectHandle.HandleOrOffset);
             Styles = objectCache.GetObject<DwgStyleControlObject>(reader, Variables.StyleObjectControlHandle.HandleOrOffset);
+            LineTypes = objectCache.GetObject<DwgLineTypeControlObject>(reader, Variables.LineTypeObjectControlHandle.HandleOrOffset);
         }
 
 #if HAS_FILESYSTEM_ACCESS
@@ -129,12 +138,15 @@ namespace IxMilia.Dwg
         {
             Layers.ClearHandles();
             Styles.ClearHandles();
+            LineTypes.ClearHandles();
 
             Layers.AssignHandles(objectMap);
             Styles.AssignHandles(objectMap);
+            LineTypes.AssignHandles(objectMap);
 
             Variables.LayerControlObjectHandle = Layers.Handle;
             Variables.StyleObjectControlHandle = Styles.Handle;
+            Variables.LineTypeObjectControlHandle = LineTypes.Handle;
         }
 
         private void SaveObjects(BitWriter writer, DwgObjectMap objectMap, int pointerOffset)
@@ -142,6 +154,7 @@ namespace IxMilia.Dwg
             var writtenHandles = new HashSet<int>();
             Layers.Write(writer, objectMap, writtenHandles, pointerOffset);
             Styles.Write(writer, objectMap, writtenHandles, pointerOffset);
+            LineTypes.Write(writer, objectMap, writtenHandles, pointerOffset);
         }
     }
 }

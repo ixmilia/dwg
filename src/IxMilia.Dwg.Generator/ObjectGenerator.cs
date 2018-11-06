@@ -139,58 +139,64 @@ namespace IxMilia.Dwg.Generator
                 AppendLine();
 
                 // writing
-                AppendLine("internal override void WriteSpecific(BitWriter writer, DwgObjectMap objectMap, int pointerOffset)");
-                AppendLine("{");
-                IncreaseIndent();
-                foreach (var p in o.Elements("Property"))
+                if (!CustomReader(o))
                 {
-                    var readCount = ReadCount(p);
-                    if (string.IsNullOrEmpty(readCount))
+                    AppendLine("internal override void WriteSpecific(BitWriter writer, DwgObjectMap objectMap, int pointerOffset)");
+                    AppendLine("{");
+                    IncreaseIndent();
+                    foreach (var p in o.Elements("Property"))
                     {
-                        var value = ApplyWriteConverter(p, Name(p));
-                        AppendLine($"writer.Write_{BinaryType(p)}({value});");
+                        var readCount = ReadCount(p);
+                        if (string.IsNullOrEmpty(readCount))
+                        {
+                            var value = ApplyWriteConverter(p, Name(p));
+                            AppendLine($"writer.Write_{BinaryType(p)}({value});");
+                        }
+                        else
+                        {
+                            var value = ApplyWriteConverter(p, $"{Name(p)}[i]");
+                            AppendLine($"for (int i = 0; i < {readCount}; i++)");
+                            AppendLine("{");
+                            IncreaseIndent();
+                            AppendLine($"writer.Write_{BinaryType(p)}({value});");
+                            DecreaseIndent();
+                            AppendLine("}");
+                        }
                     }
-                    else
-                    {
-                        var value = ApplyWriteConverter(p, $"{Name(p)}[i]");
-                        AppendLine($"for (int i = 0; i < {readCount}; i++)");
-                        AppendLine("{");
-                        IncreaseIndent();
-                        AppendLine($"writer.Write_{BinaryType(p)}({value});");
-                        DecreaseIndent();
-                        AppendLine("}");
-                    }
-                }
 
-                DecreaseIndent();
-                AppendLine("}");
-                AppendLine();
+                    DecreaseIndent();
+                    AppendLine("}");
+                    AppendLine();
+                }
 
                 // parsing
-                AppendLine("internal override void ParseSpecific(BitReader reader)");
-                AppendLine("{");
-                IncreaseIndent();
-                foreach (var p in o.Elements("Property"))
+                if (!CustomWriter(o))
                 {
-                    var readCount = ReadCount(p);
-                    var value = ApplyReadConverter(p, $"reader.Read_{BinaryType(p)}()");
-                    if (string.IsNullOrEmpty(readCount))
+                    AppendLine("internal override void ParseSpecific(BitReader reader)");
+                    AppendLine("{");
+                    IncreaseIndent();
+                    foreach (var p in o.Elements("Property"))
                     {
-                        AppendLine($"{Name(p)} = {value};");
+                        var readCount = ReadCount(p);
+                        var value = ApplyReadConverter(p, $"reader.Read_{BinaryType(p)}()");
+                        if (string.IsNullOrEmpty(readCount))
+                        {
+                            AppendLine($"{Name(p)} = {value};");
+                        }
+                        else
+                        {
+                            AppendLine($"for (int i = 0; i < {readCount}; i++)");
+                            AppendLine("{");
+                            IncreaseIndent();
+                            AppendLine($"{Name(p)}.Add({value});");
+                            DecreaseIndent();
+                            AppendLine("}");
+                        }
                     }
-                    else
-                    {
-                        AppendLine($"for (int i = 0; i < {readCount}; i++)");
-                        AppendLine("{");
-                        IncreaseIndent();
-                        AppendLine($"{Name(p)}.Add({value});");
-                        DecreaseIndent();
-                        AppendLine("}");
-                    }
-                }
 
-                DecreaseIndent();
-                AppendLine("}");
+                    DecreaseIndent();
+                    AppendLine("}");
+                }
 
                 DecreaseIndent();
                 AppendLine("}");

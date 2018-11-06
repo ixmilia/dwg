@@ -6,6 +6,13 @@ namespace IxMilia.Dwg.Objects
     {
         internal override IEnumerable<DwgObject> ChildItems => new DwgObject[0];
 
+        public DwgLineType LineType { get; internal set; }
+
+        internal override void PreWrite()
+        {
+            _lineTypeHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, LineType.Handle.HandleOrOffset);
+        }
+
         internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {
             if (LayerControlHandle.Code != DwgHandleReferenceCode.HardPointer)
@@ -40,6 +47,8 @@ namespace IxMilia.Dwg.Objects
             {
                 throw new DwgReadException("Incorrect layer line type handle code.");
             }
+
+            LineType = objectCache.GetObject<DwgLineType>(reader, _lineTypeHandle.HandleOrOffset);
         }
     }
 }
