@@ -25,6 +25,13 @@ namespace IxMilia.Dwg
             return writer;
         }
 
+        public static BitWriter Write_4B(this BitWriter writer, int value)
+        {
+            // shift left to align the lower 4 bits to the upper 4
+            writer.WriteBits(value << 4, 4);
+            return writer;
+        }
+
         public static BitWriter Write_BS(this BitWriter writer, short value)
         {
             if (value == 0)

@@ -111,6 +111,14 @@ namespace IxMilia.Dwg.Generator
                         type = $"List<{type}>";
                     }
 
+                    var comment = Comment(p);
+                    if (!string.IsNullOrEmpty(comment))
+                    {
+                        AppendLine("/// <summary>");
+                        AppendLine($"/// {comment}");
+                        AppendLine("/// </summary>");
+                    }
+
                     AppendLine($"{Accessibility(p)} {type} {Name(p)} {{ get; set; }}");
                 }
 

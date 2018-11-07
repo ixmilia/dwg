@@ -105,4 +105,43 @@
     <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, 0)" Accessibility="private" />
     <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, 0)" Accessibility="private" />
   </Object>
+  <!--
+
+  View control
+
+  -->
+  <Object Name="ViewControlObject" Value="0x3C" IsEntity="false">
+    <Property Name="_reactorCount" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="private" />
+    <Property Name="_viewCount" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="private" />
+    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0)" Accessibility="private" />
+    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, 0)" Accessibility="private" />
+    <Property Name="_viewHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" Accessibility="private" ReadCount="_viewCount" />
+  </Object>
+  <!--
+
+  View
+
+  -->
+  <Object Name="View" Value="0x3D" IsEntity="false">
+    <Property Name="_reactorCount" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="private" />
+    <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
+    <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
+    <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="private" />
+    <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
+    <Property Name="Height" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="Width" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="Center" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
+    <Property Name="Target" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="Direction" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="TwistAngle" Type="double" BinaryType="BD" DefaultValue="0.0" Comment="In radians." />
+    <Property Name="LensLength" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="FrontClip" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="BackClip" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="_viewModeBits" Type="int" BinaryType="4B" DefaultValue="0" Accessibility="private" />
+    <Property Name="IsInPaperSpace" Type="bool" BinaryType="B" DefaultValue="false" />
+    <Property Name="ViewControlHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
+    <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" Accessibility="private" ReadCount="_reactorCount" />
+    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, 0)" Accessibility="private" />
+    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, 0)" Accessibility="private" />
+  </Object>
 </Objects>

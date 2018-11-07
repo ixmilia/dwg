@@ -4,8 +4,6 @@ namespace IxMilia.Dwg.Objects
 {
     public partial class DwgLineType : DwgObject
     {
-        internal override IEnumerable<DwgObject> ChildItems => new DwgObject[0];
-
         public IList<DwgLineTypeDashInfo> DashInfos = new List<DwgLineTypeDashInfo>();
 
         internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)

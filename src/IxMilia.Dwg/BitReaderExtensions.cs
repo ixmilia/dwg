@@ -18,6 +18,11 @@ namespace IxMilia.Dwg
             return reader.ReadBits(2);
         }
 
+        public static int Read_4B(this BitReader reader)
+        {
+            return reader.ReadBits(4);
+        }
+
         public static short Read_BS(this BitReader reader)
         {
             var twoBits = reader.Read_BB();

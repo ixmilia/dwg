@@ -4,8 +4,6 @@ namespace IxMilia.Dwg.Objects
 {
     public partial class DwgLayer : DwgObject
     {
-        internal override IEnumerable<DwgObject> ChildItems => new DwgObject[0];
-
         public DwgLineType LineType { get; internal set; }
 
         internal override void PreWrite()

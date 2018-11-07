@@ -2,13 +2,13 @@
 
 namespace IxMilia.Dwg.Objects
 {
-    public partial class DwgStyle : DwgObject
+    public partial class DwgView : DwgObject
     {
         internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {
-            if (StyleControlHandle.Code != DwgHandleReferenceCode.HardPointer)
+            if (ViewControlHandle.Code != DwgHandleReferenceCode.HardPointer)
             {
-                throw new DwgReadException("Incorrect style control object parent handle code.");
+                throw new DwgReadException("Incorrect view control object parent handle code.");
             }
 
             foreach (var reactorHandle in _reactorHandles)

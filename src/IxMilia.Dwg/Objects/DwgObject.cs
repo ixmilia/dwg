@@ -10,7 +10,7 @@ namespace IxMilia.Dwg.Objects
         public abstract bool IsEntity { get; }
         public abstract DwgObjectType Type { get; }
 
-        internal abstract IEnumerable<DwgObject> ChildItems { get; }
+        internal virtual IEnumerable<DwgObject> ChildItems => new DwgObject[0];
 
         internal void ClearHandles()
         {
