@@ -79,6 +79,7 @@ namespace IxMilia.Dwg.Generator
         public string Name(XElement xml) => AttributeValue(xml, "Name");
         public string ReadConverter(XElement xml) => AttributeValue(xml, "ReadConverter");
         public string ReadCount(XElement xml) => AttributeValue(xml, "ReadCount");
+        public string ReaderArgument(XElement xml) => AttributeValue(xml, "ReaderArgument");
         public string ShortName(XElement xml) => AttributeValue(xml, "ShortName");
         public bool SkipCreation(XElement xml) => bool.Parse(AttributeValue(xml, "SkipCreation") ?? "false");
         public string To(XElement xml) => AttributeValue(xml, "To");

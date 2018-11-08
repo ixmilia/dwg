@@ -8,6 +8,7 @@ namespace IxMilia.Dwg.Objects
 
         internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {
+            base.PoseParse(reader, objectCache);
             if (!LineTypeControlHandle.IsEmpty && LineTypeControlHandle.Code != DwgHandleReferenceCode.HardPointer)
             {
                 throw new DwgReadException("Incorrect line type control object parent handle code.");
@@ -39,6 +40,10 @@ namespace IxMilia.Dwg.Objects
 
         internal override void ParseSpecific(BitReader reader)
         {
+            Handle = reader.Read_H();
+            _xDataSize = reader.Read_BS();
+            _xData = reader.Read_Bytes(_xDataSize);
+            _objectSize = reader.Read_RL();
             _reactorCount = reader.Read_BL();
             Name = reader.Read_T();
             _64flag = reader.Read_B();
@@ -64,6 +69,10 @@ namespace IxMilia.Dwg.Objects
 
         internal override void WriteSpecific(BitWriter writer, DwgObjectMap objectMap, int pointerOffset)
         {
+            writer.Write_H(Handle);
+            writer.Write_BS((short)_xDataSize);
+            writer.Write_Bytes(_xData);
+            writer.Write_RL(_objectSize);
             writer.Write_BL(_reactorHandles.Count);
             writer.Write_T(Name);
             writer.Write_B(_64flag);

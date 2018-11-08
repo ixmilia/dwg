@@ -213,7 +213,7 @@ namespace IxMilia.Dwg.Generator
                         }
 
                         var readCount = ReadCount(p);
-                        var value = ApplyReadConverter(p, $"reader.Read_{BinaryType(p)}()");
+                        var value = ApplyReadConverter(p, $"reader.Read_{BinaryType(p)}({ReaderArgument(p)})");
                         if (string.IsNullOrEmpty(readCount))
                         {
                             AppendLine($"{Name(p)} = {value};");

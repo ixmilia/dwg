@@ -129,6 +129,12 @@ namespace IxMilia.Dwg
             return writer;
         }
 
+        public static BitWriter Write_Bytes(this BitWriter writer, byte[] data)
+        {
+            writer.WriteBytes(data);
+            return writer;
+        }
+
         public static BitWriter Write_RL(this BitWriter writer, int value)
         {
             writer.WriteInt(value);

@@ -16,6 +16,7 @@
 
         internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {
+            base.PoseParse(reader, objectCache);
             if (!_noLinks && !_subentityRef.IsEmpty && _subentityRef.Code != DwgHandleReferenceCode.SoftPointer)
             {
                 throw new DwgReadException("Incorrect sub entity handle code.");

@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-
-namespace IxMilia.Dwg.Objects
+﻿namespace IxMilia.Dwg.Objects
 {
     public partial class DwgView : DwgObject
     {
         internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {
+            base.PoseParse(reader, objectCache);
             if (ViewControlHandle.Code != DwgHandleReferenceCode.HardPointer)
             {
                 throw new DwgReadException("Incorrect view control object parent handle code.");

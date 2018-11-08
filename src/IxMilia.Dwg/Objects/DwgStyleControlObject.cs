@@ -22,6 +22,7 @@ namespace IxMilia.Dwg.Objects
 
         internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {
+            base.PoseParse(reader, objectCache);
             _styles.Clear();
             if (_styleHandles.Count != _styleCount)
             {

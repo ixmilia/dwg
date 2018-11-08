@@ -6,7 +6,13 @@
 
   -->
   <Object Name="LayerControlObject" Value="0x32" IsEntity="false">
-    <Property Name="_reactorCount" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="private" />
+    <!-- common object properties -->
+    <Property Name="Handle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" />
+    <Property Name="_xDataSize" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" SkipCreation="true" />
+    <Property Name="_xData" type="byte[]" BinaryType="Bytes" ReaderArgument="_xDataSize" DefaultValue="new byte[0]" SkipCreation="true" />
+    <Property Name="_objectSize" Type="int" BinaryType="RL" DefaultValue="0" SkipCreation="true" />
+    <Property Name="_reactorCount" Type="int" BinaryType="BL" DefaultValue="0" SkipCreation="true" />
+
     <Property Name="_layerCount" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="private" />
     <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0)" Accessibility="private" />
     <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, 0)" Accessibility="private" />
@@ -19,7 +25,13 @@
 
   -->
   <Object Name="Layer" Value="0x33" IsEntity="false">
-    <Property Name="_reactorCount" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="private" />
+    <!-- common object properties -->
+    <Property Name="Handle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" />
+    <Property Name="_xDataSize" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" SkipCreation="true" />
+    <Property Name="_xData" type="byte[]" BinaryType="Bytes" ReaderArgument="_xDataSize" DefaultValue="new byte[0]" SkipCreation="true" />
+    <Property Name="_objectSize" Type="int" BinaryType="RL" DefaultValue="0" SkipCreation="true" />
+    <Property Name="_reactorCount" Type="int" BinaryType="BL" DefaultValue="0" SkipCreation="true" />
+
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
     <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
     <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="private" />
@@ -41,7 +53,17 @@
 
   -->
   <Object Name="Line" Value="0x13" IsEntity="true">
-    <Property Name="_reactorCount" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="private" />
+    <!-- common entity properties -->
+    <Property Name="Handle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" />
+    <Property Name="_xDataSize" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" SkipCreation="true" />
+    <Property Name="_xData" type="byte[]" BinaryType="Bytes" ReaderArgument="_xDataSize" DefaultValue="new byte[0]" SkipCreation="true" />
+    <Property Name="_isGraphicPresent" Type="bool" BinaryType="B" DefaultValue="false" SkipCreation="true" />
+    <Property Name="_graphicsSize" Type="int" BinaryType="RL" DefaultValue="0" Condition="_isGraphicPresent" SkipCreation="true" />
+    <Property Name="_graphicsData" Type="byte[]" BinaryType="Bytes" ReaderArgument="_graphicsSize" DefaultValue="new byte[0]" Condition="_isGraphicPresent" SkipCreation="true" />
+    <Property Name="_objectSize" Type="int" BinaryType="RL" DefaultValue="0" SkipCreation="true" />
+    <Property Name="_entityMode" Type="int" BinaryType="BB" DefaultValue="0" SkipCreation="true" />
+    <Property Name="_reactorCount" Type="int" BinaryType="BL" DefaultValue="0" SkipCreation="true" />
+
     <Property Name="_isLineTypeByLayer" Type="bool" BinaryType="B" DefaultValue="true" Accessibility="private" />
     <Property Name="_noLinks" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
     <Property Name="Color" Type="DwgColor" BinaryType="BS" DefaultValue="DwgColor.ByLayer" ReadConverter="DwgColor.FromRawValue({0})" WriteConverter="{0}.RawValue" />
@@ -65,7 +87,13 @@
 
   -->
   <Object Name="LineTypeControlObject" Value="0x38" IsEntity="false">
-    <Property Name="_reactorCount" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="private" />
+    <!-- common object properties -->
+    <Property Name="Handle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" />
+    <Property Name="_xDataSize" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" SkipCreation="true" />
+    <Property Name="_xData" type="byte[]" BinaryType="Bytes" ReaderArgument="_xDataSize" DefaultValue="new byte[0]" SkipCreation="true" />
+    <Property Name="_objectSize" Type="int" BinaryType="RL" DefaultValue="0" SkipCreation="true" />
+    <Property Name="_reactorCount" Type="int" BinaryType="BL" DefaultValue="0" SkipCreation="true" />
+
     <Property Name="_lineTypeCount" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="private" />
     <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0)" Accessibility="private" />
     <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, 0)" Accessibility="private" />
@@ -77,7 +105,13 @@
 
   -->
   <Object Name="LineType" Value="0x39" IsEntity="false" CustomReader="true" CustomWriter="true">
-    <Property Name="_reactorCount" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="private" />
+    <!-- common object properties -->
+    <Property Name="Handle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" />
+    <Property Name="_xDataSize" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" SkipCreation="true" />
+    <Property Name="_xData" type="byte[]" BinaryType="Bytes" ReaderArgument="_xDataSize" DefaultValue="new byte[0]" SkipCreation="true" />
+    <Property Name="_objectSize" Type="int" BinaryType="RL" DefaultValue="0" SkipCreation="true" />
+    <Property Name="_reactorCount" Type="int" BinaryType="BL" DefaultValue="0" SkipCreation="true" />
+
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
     <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
     <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="private" />
@@ -98,7 +132,13 @@
 
   -->
   <Object Name="StyleControlObject" Value="0x34" IsEntity="false">
-    <Property Name="_reactorCount" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="private" />
+    <!-- common object properties -->
+    <Property Name="Handle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" />
+    <Property Name="_xDataSize" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" SkipCreation="true" />
+    <Property Name="_xData" type="byte[]" BinaryType="Bytes" ReaderArgument="_xDataSize" DefaultValue="new byte[0]" SkipCreation="true" />
+    <Property Name="_objectSize" Type="int" BinaryType="RL" DefaultValue="0" SkipCreation="true" />
+    <Property Name="_reactorCount" Type="int" BinaryType="BL" DefaultValue="0" SkipCreation="true" />
+
     <Property Name="_styleCount" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="private" />
     <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0)" Accessibility="private" />
     <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, 0)" Accessibility="private" />
@@ -110,7 +150,13 @@
 
   -->
   <Object Name="Style" Value="0x35" IsEntity="false">
-    <Property Name="_reactorCount" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="private" />
+    <!-- common object properties -->
+    <Property Name="Handle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" />
+    <Property Name="_xDataSize" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" SkipCreation="true" />
+    <Property Name="_xData" type="byte[]" BinaryType="Bytes" ReaderArgument="_xDataSize" DefaultValue="new byte[0]" SkipCreation="true" />
+    <Property Name="_objectSize" Type="int" BinaryType="RL" DefaultValue="0" SkipCreation="true" />
+    <Property Name="_reactorCount" Type="int" BinaryType="BL" DefaultValue="0" SkipCreation="true" />
+
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
     <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
     <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="private" />
@@ -135,7 +181,13 @@
 
   -->
   <Object Name="ViewControlObject" Value="0x3C" IsEntity="false">
-    <Property Name="_reactorCount" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="private" />
+    <!-- common object properties -->
+    <Property Name="Handle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" />
+    <Property Name="_xDataSize" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" SkipCreation="true" />
+    <Property Name="_xData" type="byte[]" BinaryType="Bytes" ReaderArgument="_xDataSize" DefaultValue="new byte[0]" SkipCreation="true" />
+    <Property Name="_objectSize" Type="int" BinaryType="RL" DefaultValue="0" SkipCreation="true" />
+    <Property Name="_reactorCount" Type="int" BinaryType="BL" DefaultValue="0" SkipCreation="true" />
+
     <Property Name="_viewCount" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="private" />
     <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0)" Accessibility="private" />
     <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, 0)" Accessibility="private" />
@@ -147,7 +199,13 @@
 
   -->
   <Object Name="View" Value="0x3D" IsEntity="false">
-    <Property Name="_reactorCount" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="private" />
+    <!-- common object properties -->
+    <Property Name="Handle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" />
+    <Property Name="_xDataSize" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" SkipCreation="true" />
+    <Property Name="_xData" type="byte[]" BinaryType="Bytes" ReaderArgument="_xDataSize" DefaultValue="new byte[0]" SkipCreation="true" />
+    <Property Name="_objectSize" Type="int" BinaryType="RL" DefaultValue="0" SkipCreation="true" />
+    <Property Name="_reactorCount" Type="int" BinaryType="BL" DefaultValue="0" SkipCreation="true" />
+
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
     <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
     <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="private" />

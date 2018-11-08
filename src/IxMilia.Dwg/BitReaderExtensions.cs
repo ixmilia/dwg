@@ -91,6 +91,11 @@ namespace IxMilia.Dwg
             return reader.ReadByte();
         }
 
+        public static byte[] Read_Bytes(this BitReader reader, int count)
+        {
+            return reader.ReadBytes(count);
+        }
+
         public static short Read_RS(this BitReader reader)
         {
             return reader.ReadShort();

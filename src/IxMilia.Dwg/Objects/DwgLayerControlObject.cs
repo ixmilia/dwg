@@ -33,6 +33,7 @@ namespace IxMilia.Dwg.Objects
 
         internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {
+            base.PoseParse(reader, objectCache);
             _layers.Clear();
             _layersFromHandle.Clear();
             if (_layerHandles.Count != _layerCount)
