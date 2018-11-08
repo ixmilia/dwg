@@ -37,6 +37,30 @@
   </Object>
   <!--
 
+  Line
+
+  -->
+  <Object Name="Line" Value="0x13" IsEntity="true">
+    <Property Name="_reactorCount" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="private" />
+    <Property Name="_isLineTypeByLayer" Type="bool" BinaryType="B" DefaultValue="true" Accessibility="private" />
+    <Property Name="_noLinks" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
+    <Property Name="Color" Type="DwgColor" BinaryType="BS" DefaultValue="DwgColor.ByLayer" ReadConverter="DwgColor.FromRawValue({0})" WriteConverter="{0}.RawValue" />
+    <Property Name="LineTypeScale" Type="double" BinaryType="BD" DefaultValue="1.0" />
+    <Property Name="_invisibility" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="private" />
+    <Property Name="P1" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="P2" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="Thickness" Type="double" BinaryType="BD" DefaultValue="1.0" />
+    <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="_subentityRef" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="private" Condition="_noLinks" />
+    <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" Accessibility="private" ReadCount="_reactorCount" />
+    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, 0)" Accessibility="private" />
+    <Property Name="LayerHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" />
+    <Property Name="_lineTypeHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="private" Condition="!_isLineTypeByLayer" />
+    <Property Name="_previousEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="private" />
+    <Property Name="_nextEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="private" />
+  </Object>
+  <!--
+
   Line Type control
 
   -->

@@ -7,9 +7,9 @@ namespace IxMilia.Dwg.Objects
     public abstract partial class DwgObject
     {
         public DwgHandleReference Handle { get; internal set; }
-        public abstract bool IsEntity { get; }
         public abstract DwgObjectType Type { get; }
 
+        internal virtual bool IsEntity => false;
         internal virtual IEnumerable<DwgObject> ChildItems => new DwgObject[0];
 
         internal void ClearHandles()
@@ -58,8 +58,13 @@ namespace IxMilia.Dwg.Objects
                 if (IsEntity)
                 {
                     var graphicData = new byte[0]; // TODO: promote this to the object
-                    tempWriter.Write_RL(graphicData.Length);
-                    tempWriter.WriteBytes(graphicData);
+                    var hasGraphic = graphicData.Length > 0;
+                    tempWriter.Write_B(hasGraphic);
+                    if (hasGraphic)
+                    {
+                        tempWriter.Write_RL(graphicData.Length);
+                        tempWriter.WriteBytes(graphicData);
+                    }
                 }
 
                 // write object data to memory so the size can be computed
@@ -70,6 +75,11 @@ namespace IxMilia.Dwg.Objects
                     var objectBytes = objectWriter.AsBytes();
 
                     tempWriter.Write_RL(objectBytes.Length * 8); // object size in bits.  not necessarily a multiple of 8?
+                    if (IsEntity)
+                    {
+                        tempWriter.Write_BB(0);
+                    }
+
                     tempWriter.WriteBytes(objectBytes);
                 }
 
@@ -78,6 +88,7 @@ namespace IxMilia.Dwg.Objects
                 // now output everything
                 writer.StartCrcCalculation(initialValue: DwgHeaderVariables.InitialCrcValue);
                 writer.Write_MS(tempBytes.Length);
+
                 writer.WriteBytes(tempBytes);
                 writer.WriteCrc();
             }
@@ -136,8 +147,9 @@ namespace IxMilia.Dwg.Objects
             var dataSizeInBits = reader.Read_RL();
             if (IsEntity)
             {
-                var flags = reader.ReadBytes(6);
-                var commonParams = reader.ReadBytes(6);
+                var entMode = reader.Read_BB();
+                //var flags = reader.ReadBytes(6);
+                //var commonParams = reader.ReadBytes(6);
             }
 
             ParseSpecific(reader);

@@ -96,15 +96,20 @@ namespace IxMilia.Dwg.Generator
                 CreateNewFile("IxMilia.Dwg.Objects", "System.Collections.Generic");
 
                 IncreaseIndent();
-                AppendLine($"{Accessibility(o)} partial class Dwg{Name(o)} : DwgObject");
+                var baseClass = IsEntity(o) ? "DwgEntity" : "DwgObject";
+                AppendLine($"{Accessibility(o)} partial class Dwg{Name(o)} : {baseClass}");
                 AppendLine("{");
                 IncreaseIndent();
 
                 // properties
-                AppendLine($"public override bool IsEntity => {IsEntity(o)};");
                 AppendLine($"public override DwgObjectType Type => DwgObjectType.{Name(o)};");
                 foreach (var p in o.Elements("Property"))
                 {
+                    if (SkipCreation(p))
+                    {
+                        continue;
+                    }
+
                     var type = Type(p);
                     if (ReadCount(p) != null)
                     {
@@ -154,6 +159,14 @@ namespace IxMilia.Dwg.Generator
                     IncreaseIndent();
                     foreach (var p in o.Elements("Property"))
                     {
+                        var condition = Condition(p);
+                        if (condition != null)
+                        {
+                            AppendLine($"if ({condition})");
+                            AppendLine("{");
+                            IncreaseIndent();
+                        }
+
                         var readCount = ReadCount(p);
                         if (string.IsNullOrEmpty(readCount))
                         {
@@ -167,6 +180,12 @@ namespace IxMilia.Dwg.Generator
                             AppendLine("{");
                             IncreaseIndent();
                             AppendLine($"writer.Write_{BinaryType(p)}({value});");
+                            DecreaseIndent();
+                            AppendLine("}");
+                        }
+
+                        if (condition != null)
+                        {
                             DecreaseIndent();
                             AppendLine("}");
                         }
@@ -185,6 +204,14 @@ namespace IxMilia.Dwg.Generator
                     IncreaseIndent();
                     foreach (var p in o.Elements("Property"))
                     {
+                        var condition = Condition(p);
+                        if (condition != null)
+                        {
+                            AppendLine($"if ({condition})");
+                            AppendLine("{");
+                            IncreaseIndent();
+                        }
+
                         var readCount = ReadCount(p);
                         var value = ApplyReadConverter(p, $"reader.Read_{BinaryType(p)}()");
                         if (string.IsNullOrEmpty(readCount))
@@ -197,6 +224,12 @@ namespace IxMilia.Dwg.Generator
                             AppendLine("{");
                             IncreaseIndent();
                             AppendLine($"{Name(p)}.Add({value});");
+                            DecreaseIndent();
+                            AppendLine("}");
+                        }
+
+                        if (condition != null)
+                        {
                             DecreaseIndent();
                             AppendLine("}");
                         }

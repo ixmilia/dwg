@@ -41,6 +41,29 @@ namespace IxMilia.Dwg
             throw new DwgReadException($"Expected object of type {typeof(T)} with handle {handle} but instead found {obj.GetType().Name}.");
         }
 
+        public void LoadEntities(BitReader reader, DwgDrawing drawing)
+        {
+            foreach (var kvp in _handleToOffset)
+            {
+                var handle = kvp.Key;
+                var offset = kvp.Value;
+                if (!_handleToObject.ContainsKey(handle))
+                {
+                    var obj = DwgObject.Parse(reader.FromOffset(offset), this);
+                    if (obj is DwgEntity entity)
+                    {
+                        var matchingLayer = drawing.Layers.LayerFromHandle(entity.LayerHandle.HandleOrOffset);
+                        if (matchingLayer == null)
+                        {
+                            throw new DwgReadException($"Unable to find layer with handle {entity.LayerHandle.HandleOrOffset} for entity with handle {entity.Handle.HandleOrOffset}.");
+                        }
+
+                        matchingLayer.Entities.Add(entity);
+                    }
+                }
+            }
+        }
+
         public static DwgObjectCache Parse(BitReader reader)
         {
             var objectCache = new DwgObjectCache();

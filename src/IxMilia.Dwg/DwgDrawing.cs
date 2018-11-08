@@ -80,6 +80,8 @@ namespace IxMilia.Dwg
             Styles = objectCache.GetObject<DwgStyleControlObject>(reader, Variables.StyleObjectControlHandle.HandleOrOffset);
             LineTypes = objectCache.GetObject<DwgLineTypeControlObject>(reader, Variables.LineTypeObjectControlHandle.HandleOrOffset);
             Views = objectCache.GetObject<DwgViewControlObject>(reader, Variables.ViewControlObjectHandle.HandleOrOffset);
+
+            objectCache.LoadEntities(reader, this);
         }
 
 #if HAS_FILESYSTEM_ACCESS

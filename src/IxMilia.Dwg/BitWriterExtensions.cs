@@ -15,7 +15,7 @@ namespace IxMilia.Dwg
 
         public static BitWriter Write_B(this BitWriter writer, bool value)
         {
-            return Write_B(writer, 0b10000000);
+            return Write_B(writer, value ? 0b10000000 : 0);
         }
 
         public static BitWriter Write_BB(this BitWriter writer, int value)

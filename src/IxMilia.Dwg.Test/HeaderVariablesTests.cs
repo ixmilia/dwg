@@ -1,4 +1,6 @@
 ﻿using System.IO;
+using System.Linq;
+using IxMilia.Dwg.Objects;
 using Xunit;
 
 namespace IxMilia.Dwg.Test
@@ -11,6 +13,9 @@ namespace IxMilia.Dwg.Test
         public void ReadEntireFile()
         {
             var file = DwgDrawing.Load(Path.Combine("Drawings", "R14.dwg"));
+            var line = (DwgLine)file.Layers["0"].Entities.Single();
+            Assert.Equal(DwgPoint.Origin, line.P1);
+            Assert.Equal(new DwgPoint(10.0, 10.0, 0.0), line.P2);
         }
 
         [Fact]
