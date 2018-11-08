@@ -14,6 +14,7 @@ namespace IxMilia.Dwg
         public DwgStyleControlObject Styles { get; private set; }
         public DwgLineTypeControlObject LineTypes { get; private set; }
         public DwgViewControlObject Views { get; private set; }
+        public DwgUCSControlObject UCSs { get; private set; }
 
         public DwgDrawing()
         {
@@ -36,6 +37,9 @@ namespace IxMilia.Dwg
                 continuous
             };
             Views = new DwgViewControlObject()
+            {
+            };
+            UCSs = new DwgUCSControlObject()
             {
             };
         }
@@ -80,6 +84,7 @@ namespace IxMilia.Dwg
             Styles = objectCache.GetObject<DwgStyleControlObject>(reader, Variables.StyleObjectControlHandle.HandleOrOffset);
             LineTypes = objectCache.GetObject<DwgLineTypeControlObject>(reader, Variables.LineTypeObjectControlHandle.HandleOrOffset);
             Views = objectCache.GetObject<DwgViewControlObject>(reader, Variables.ViewControlObjectHandle.HandleOrOffset);
+            UCSs = objectCache.GetObject<DwgUCSControlObject>(reader, Variables.UcsControlObjectHandle.HandleOrOffset);
 
             objectCache.LoadEntities(reader, this);
         }
@@ -147,22 +152,25 @@ namespace IxMilia.Dwg
             Styles.ClearHandles();
             LineTypes.ClearHandles();
             Views.ClearHandles();
+            UCSs.ClearHandles();
 
             Layers.AssignHandles(objectMap);
             Styles.AssignHandles(objectMap);
             LineTypes.AssignHandles(objectMap);
             Views.AssignHandles(objectMap);
+            UCSs.AssignHandles(objectMap);
 
             Variables.LayerControlObjectHandle = Layers.Handle;
             Variables.StyleObjectControlHandle = Styles.Handle;
             Variables.LineTypeObjectControlHandle = LineTypes.Handle;
             Variables.ViewControlObjectHandle = Views.Handle;
+            Variables.UcsControlObjectHandle = UCSs.Handle;
         }
 
         private void SaveObjects(BitWriter writer, DwgObjectMap objectMap, int pointerOffset)
         {
             var writtenHandles = new HashSet<int>();
-            foreach (var groupObject in new DwgObject[] { Layers, Styles, LineTypes, Views })
+            foreach (var groupObject in new DwgObject[] { Layers, Styles, LineTypes, Views, UCSs })
             {
                 groupObject.Write(writer, objectMap, writtenHandles, pointerOffset);
             }
