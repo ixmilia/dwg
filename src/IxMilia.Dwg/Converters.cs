@@ -52,6 +52,16 @@ namespace IxMilia.Dwg
             return Tuple.Create(p.X, p.Y, p.Z);
         }
 
+        public static DwgVector DoubleVector(Tuple<double, double> value)
+        {
+            return new DwgVector(value.Item1, value.Item2, 0.0);
+        }
+
+        public static Tuple<double, double> DoubleVector(DwgVector v)
+        {
+            return Tuple.Create(v.X, v.Y);
+        }
+
         public static DwgVector TripleVector(Tuple<double, double, double> value)
         {
             return new DwgVector(value.Item1, value.Item2, value.Item3);

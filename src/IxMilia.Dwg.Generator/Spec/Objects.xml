@@ -318,6 +318,74 @@
   </Object>
   <!--
 
+  View port control
+
+  -->
+  <Object Name="ViewPortControlObject" Value="0x40" IsEntity="false">
+    <!-- common object properties -->
+    <Property Name="Handle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" />
+    <Property Name="_xDataSize" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" SkipCreation="true" />
+    <Property Name="_xData" type="byte[]" BinaryType="Bytes" ReaderArgument="_xDataSize" DefaultValue="new byte[0]" SkipCreation="true" />
+    <Property Name="_objectSize" Type="int" BinaryType="RL" DefaultValue="0" SkipCreation="true" />
+    <Property Name="_reactorCount" Type="int" BinaryType="BL" DefaultValue="0" SkipCreation="true" />
+
+    <Property Name="_viewPortCount" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="private" />
+
+    <!-- handles -->
+    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" Accessibility="private" />
+    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" Accessibility="private" />
+    <Property Name="_viewPortHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" Accessibility="private" ReadCount="_viewPortCount" />
+  </Object>
+  <!--
+
+  View port
+
+  -->
+  <Object Name="ViewPort" Value="0x41" IsEntity="false">
+    <!-- common object properties -->
+    <Property Name="Handle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" />
+    <Property Name="_xDataSize" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" SkipCreation="true" />
+    <Property Name="_xData" type="byte[]" BinaryType="Bytes" ReaderArgument="_xDataSize" DefaultValue="new byte[0]" SkipCreation="true" />
+    <Property Name="_objectSize" Type="int" BinaryType="RL" DefaultValue="0" SkipCreation="true" />
+    <Property Name="_reactorCount" Type="int" BinaryType="BL" DefaultValue="0" SkipCreation="true" />
+
+    <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
+    <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
+    <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="private" />
+    <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
+    <Property Name="Height" Type="double" BinaryType="BD" DefaultValue="10.0" />
+    <Property Name="AspectRatio" Type="double" BinaryType="BD" DefaultValue="1.0" />
+    <Property Name="Center" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
+    <Property Name="Target" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="Direction" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="TwistAngle" Type="double" BinaryType="BD" DefaultValue="0.0" Comment="In radians." />
+    <Property Name="LensLength" Type="double" BinaryType="BD" DefaultValue="50.0" />
+    <Property Name="FrontClip" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="BackClip" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="_viewModeBits" Type="int" BinaryType="4B" DefaultValue="0" Accessibility="private" />
+    <Property Name="LowerLeft" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
+    <Property Name="UpperRight" Type="DwgPoint" BinaryType="2RD" DefaultValue="new DwgPoint(1.0, 1.0, 0.0)" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
+    <Property Name="UCSFollow" Type="bool" BinaryType="B" DefaultValue="false" />
+    <Property Name="CircleZoomPercent" Type="short" BinaryType="BS" DefaultValue="100" />
+    <Property Name="FastZoom" Type="bool" BinaryType="B" DefaultValue="false" />
+    <Property Name="_ucsIconBits" Type="int" BinaryType="BB" DefaultValue="0" />
+    <Property Name="IsGridOn" Type="bool" BinaryType="B" DefaultValue="false" />
+    <Property Name="GridSpacing" Type="DwgVector" BinaryType="2RD" DefaultValue="new DwgVector(0.5, 0.5, 0.0)" ReadConverter="Converters.DoubleVector({0})" WriteConverter="Converters.DoubleVector({0})" />
+    <Property Name="IsSnapOn" Type="bool" BinaryType="B" DefaultValue="false" />
+    <Property Name="SnapStyle" Type="bool" BinaryType="B" DefaultValue="false" />
+    <Property Name="SnapIsoPair" Type="short" BinaryType="BS" DefaultValue="0" />
+    <Property Name="SnapRotation" Type="short" BinaryType="BS" DefaultValue="0" />
+    <Property Name="SnapBase" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
+    <Property Name="SnapSpacing" Type="DwgVector" BinaryType="2RD" DefaultValue="new DwgVector(0.5, 0.5, 0.0)" ReadConverter="Converters.DoubleVector({0})" WriteConverter="Converters.DoubleVector({0})" />
+
+    <!-- handles -->
+    <Property Name="ViewPortControlHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
+    <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" Accessibility="private" ReadCount="_reactorCount" />
+    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" Accessibility="private" />
+    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" Accessibility="private" />
+  </Object>
+  <!--
+
   UCS control
 
   -->
