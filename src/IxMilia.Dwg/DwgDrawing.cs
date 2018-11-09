@@ -10,12 +10,12 @@ namespace IxMilia.Dwg
         public DwgHeaderVariables Variables { get; private set; }
         public IList<DwgClassDefinition> Classes { get; private set; }
         public DwgImageData ImageData { get; private set; }
+        public DwgBlockControlObject BlockHeaders { get; private set; }
         public DwgLayerControlObject Layers { get; private set; }
         public DwgStyleControlObject Styles { get; private set; }
         public DwgLineTypeControlObject LineTypes { get; private set; }
         public DwgViewControlObject Views { get; private set; }
         public DwgUCSControlObject UCSs { get; private set; }
-        public DwgBlockControlObject BlockHeaders { get; private set; }
         public DwgViewPortControlObject ViewPorts { get; private set; }
         public DwgAppIdControlObject AppIds { get; private set; }
 
@@ -27,6 +27,7 @@ namespace IxMilia.Dwg
 
             var continuous = new DwgLineType() { Name = "CONTINUOUS", Description = "Solid line" };
 
+            BlockHeaders = new DwgBlockControlObject();
             Layers = new DwgLayerControlObject
             {
                 new DwgLayer() { Name = "0", LineType = continuous }
@@ -39,15 +40,8 @@ namespace IxMilia.Dwg
             {
                 continuous
             };
-            Views = new DwgViewControlObject()
-            {
-            };
-            UCSs = new DwgUCSControlObject()
-            {
-            };
-            BlockHeaders = new DwgBlockControlObject()
-            {
-            };
+            Views = new DwgViewControlObject();
+            UCSs = new DwgUCSControlObject();
             ViewPorts = new DwgViewPortControlObject()
             {
                 DwgViewPort.GetActiveViewPort()
@@ -95,12 +89,12 @@ namespace IxMilia.Dwg
 
         private void LoadObjects(BitReader reader, DwgObjectCache objectCache)
         {
+            BlockHeaders = objectCache.GetObject<DwgBlockControlObject>(reader, Variables.BlockControlObjectHandle.HandleOrOffset);
             Layers = objectCache.GetObject<DwgLayerControlObject>(reader, Variables.LayerControlObjectHandle.HandleOrOffset);
             Styles = objectCache.GetObject<DwgStyleControlObject>(reader, Variables.StyleObjectControlHandle.HandleOrOffset);
             LineTypes = objectCache.GetObject<DwgLineTypeControlObject>(reader, Variables.LineTypeObjectControlHandle.HandleOrOffset);
             Views = objectCache.GetObject<DwgViewControlObject>(reader, Variables.ViewControlObjectHandle.HandleOrOffset);
             UCSs = objectCache.GetObject<DwgUCSControlObject>(reader, Variables.UcsControlObjectHandle.HandleOrOffset);
-            BlockHeaders = objectCache.GetObject<DwgBlockControlObject>(reader, Variables.BlockControlObjectHandle.HandleOrOffset);
             ViewPorts = objectCache.GetObject<DwgViewPortControlObject>(reader, Variables.ViewPortControlObjectHandle.HandleOrOffset);
             AppIds = objectCache.GetObject<DwgAppIdControlObject>(reader, Variables.AppIdControlObjectHandle.HandleOrOffset);
 
@@ -166,30 +160,30 @@ namespace IxMilia.Dwg
 
         private void AssignHandles(DwgObjectMap objectMap)
         {
+            BlockHeaders.ClearHandles();
             Layers.ClearHandles();
             Styles.ClearHandles();
             LineTypes.ClearHandles();
             Views.ClearHandles();
             UCSs.ClearHandles();
-            BlockHeaders.ClearHandles();
             ViewPorts.ClearHandles();
             AppIds.ClearHandles();
 
+            BlockHeaders.AssignHandles(objectMap);
             Layers.AssignHandles(objectMap);
             Styles.AssignHandles(objectMap);
             LineTypes.AssignHandles(objectMap);
             Views.AssignHandles(objectMap);
             UCSs.AssignHandles(objectMap);
-            BlockHeaders.AssignHandles(objectMap);
             ViewPorts.AssignHandles(objectMap);
             AppIds.AssignHandles(objectMap);
 
+            Variables.BlockControlObjectHandle = BlockHeaders.Handle;
             Variables.LayerControlObjectHandle = Layers.Handle;
             Variables.StyleObjectControlHandle = Styles.Handle;
             Variables.LineTypeObjectControlHandle = LineTypes.Handle;
             Variables.ViewControlObjectHandle = Views.Handle;
             Variables.UcsControlObjectHandle = UCSs.Handle;
-            Variables.BlockControlObjectHandle = BlockHeaders.Handle;
             Variables.ViewPortControlObjectHandle = ViewPorts.Handle;
             Variables.AppIdControlObjectHandle = AppIds.Handle;
 
@@ -199,7 +193,7 @@ namespace IxMilia.Dwg
         private void SaveObjects(BitWriter writer, DwgObjectMap objectMap, int pointerOffset)
         {
             var writtenHandles = new HashSet<int>();
-            foreach (var groupObject in new DwgObject[] { Layers, Styles, LineTypes, Views, UCSs, BlockHeaders, ViewPorts, AppIds })
+            foreach (var groupObject in new DwgObject[] { BlockHeaders, Layers, Styles, LineTypes, Views, UCSs, ViewPorts, AppIds })
             {
                 groupObject.Write(writer, objectMap, writtenHandles, pointerOffset);
             }
