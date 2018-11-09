@@ -16,6 +16,8 @@ namespace IxMilia.Dwg.Test
             Assert.Equal("*ACTIVE", defaultFile.ViewPorts.Single().Value.Name);
             Assert.True(ReferenceEquals(defaultFile.Layers["0"].LineType, defaultFile.LineTypes["CONTINUOUS"]));
             Assert.Equal(new[] { "ACAD", "ACAD_MLEADERVER" }, defaultFile.AppIds.Values.Select(a => a.Name));
+            Assert.Equal("STANDARD", defaultFile.DimStyles.Single().Value.Name);
+            Assert.True(ReferenceEquals(defaultFile.DimStyles.Single().Value.Style, defaultFile.Styles.Single().Value));
 
             // valiate round-trip
             var roundTrippedFile = RoundTrip(defaultFile);
@@ -25,6 +27,8 @@ namespace IxMilia.Dwg.Test
             Assert.Equal("*ACTIVE", roundTrippedFile.ViewPorts.Single().Value.Name);
             Assert.True(ReferenceEquals(roundTrippedFile.Layers["0"].LineType, roundTrippedFile.LineTypes["CONTINUOUS"]));
             Assert.Equal(new[] { "ACAD", "ACAD_MLEADERVER" }, roundTrippedFile.AppIds.Values.Select(a => a.Name));
+            Assert.Equal("STANDARD", roundTrippedFile.DimStyles.Single().Value.Name);
+            Assert.True(ReferenceEquals(roundTrippedFile.DimStyles.Single().Value.Style, roundTrippedFile.Styles.Single().Value));
         }
     }
 }
