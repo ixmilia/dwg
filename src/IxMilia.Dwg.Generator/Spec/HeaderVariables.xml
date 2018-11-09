@@ -201,7 +201,7 @@
   <Variable Name="AppIdControlObjectHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" Comment="Application ID control object handle." />
   <Variable Name="DimStyleControlObjectHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" Comment="Dimension style control object handle." />
   <Variable Name="ViewPortEntityHeaderControlObjectHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" Comment="View port entity header control object handle." />
-  <Variable Name="GropuDictionaryHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" Comment="Group dictionary handle." />
+  <Variable Name="GroupDictionaryHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" Comment="Group dictionary handle." />
   <Variable Name="MLineStyleDictionaryHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" Comment="MLine style dictionary handle." />
   <Variable Name="NamedObjectsDictionaryHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" Comment="Named objects dictionary handle." />
   <Variable Name="PaperSpaceBlockRecordhandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" Comment="Paper space block record handle." />

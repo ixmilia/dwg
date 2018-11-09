@@ -258,7 +258,7 @@ namespace IxMilia.Dwg
                             actualHandle = headerVariables.MLineStyleDictionaryHandle.HandleOrOffset;
                             break;
                         case 13:
-                            actualHandle = headerVariables.GropuDictionaryHandle.HandleOrOffset;
+                            actualHandle = headerVariables.GroupDictionaryHandle.HandleOrOffset;
                             break;
                     }
 
@@ -353,7 +353,7 @@ namespace IxMilia.Dwg
                 headerVariables.ViewPortEntityHeaderControlObjectHandle.WriteSecondHeader(tempWriter, 10);
                 headerVariables.NamedObjectsDictionaryHandle.WriteSecondHeader(tempWriter, 11);
                 headerVariables.MLineStyleDictionaryHandle.WriteSecondHeader(tempWriter, 12);
-                headerVariables.GropuDictionaryHandle.WriteSecondHeader(tempWriter, 13);
+                headerVariables.GroupDictionaryHandle.WriteSecondHeader(tempWriter, 13);
 
                 tempWriter.WriteByte(0); // unknown
                 tempWriter.AlignByte();
