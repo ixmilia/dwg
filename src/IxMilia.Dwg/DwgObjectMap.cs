@@ -25,6 +25,12 @@ namespace IxMilia.Dwg
             obj.Handle = new DwgHandleReference(DwgHandleReferenceCode.Declaration, next);
         }
 
+        public void SetNextAvailableHandle(DwgHeaderVariables variables)
+        {
+            var next = _nextHandle++;
+            variables.NextAvailableHandle = new DwgHandleReference(DwgHandleReferenceCode.Declaration, next);
+        }
+
         private const int MaxSectionSize = 2032;
         private const int MaxSectionSizeBuffer = 10; // the maximum size of 2 MC values
 

@@ -165,6 +165,8 @@ namespace IxMilia.Dwg
             Variables.LineTypeObjectControlHandle = LineTypes.Handle;
             Variables.ViewControlObjectHandle = Views.Handle;
             Variables.UcsControlObjectHandle = UCSs.Handle;
+
+            objectMap.SetNextAvailableHandle(Variables);
         }
 
         private void SaveObjects(BitWriter writer, DwgObjectMap objectMap, int pointerOffset)

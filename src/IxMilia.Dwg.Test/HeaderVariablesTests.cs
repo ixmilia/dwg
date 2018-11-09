@@ -19,6 +19,19 @@ namespace IxMilia.Dwg.Test
         }
 
         [Fact]
+        public void NextAvailableHandle()
+        {
+            var drawing = new DwgDrawing();
+            Assert.True(drawing.Variables.NextAvailableHandle.IsEmpty);
+            using (var ms = new MemoryStream())
+            {
+                drawing.Save(ms);
+            }
+
+            Assert.False(drawing.Variables.NextAvailableHandle.IsEmpty);
+        }
+
+        [Fact]
         public void RoundTrip()
         {
             foreach (var version in AllVersions)
