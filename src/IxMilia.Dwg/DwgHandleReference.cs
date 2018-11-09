@@ -29,11 +29,21 @@ namespace IxMilia.Dwg
             HandleOrOffset = offset;
         }
 
+        public DwgHandleReference(int code, int offset)
+            : this((DwgHandleReferenceCode)code, offset)
+        {
+        }
+
         internal void WriteSecondHeader(BitWriter writer, int id)
         {
             writer.Write_RC(1); // TODO: compute the byte count of `HandleOrOffset`
             writer.Write_RC((byte)id);
             writer.Write_RC((byte)HandleOrOffset);
+        }
+
+        public override string ToString()
+        {
+            return $"{(int)Code}.{HandleOrOffset}";
         }
 
         public static bool operator ==(DwgHandleReference r1, DwgHandleReference r2)

@@ -15,6 +15,7 @@ namespace IxMilia.Dwg
         public DwgLineTypeControlObject LineTypes { get; private set; }
         public DwgViewControlObject Views { get; private set; }
         public DwgUCSControlObject UCSs { get; private set; }
+        public DwgBlockControlObject BlockHeaders { get; private set; }
 
         public DwgDrawing()
         {
@@ -40,6 +41,9 @@ namespace IxMilia.Dwg
             {
             };
             UCSs = new DwgUCSControlObject()
+            {
+            };
+            BlockHeaders = new DwgBlockControlObject()
             {
             };
         }
@@ -85,6 +89,7 @@ namespace IxMilia.Dwg
             LineTypes = objectCache.GetObject<DwgLineTypeControlObject>(reader, Variables.LineTypeObjectControlHandle.HandleOrOffset);
             Views = objectCache.GetObject<DwgViewControlObject>(reader, Variables.ViewControlObjectHandle.HandleOrOffset);
             UCSs = objectCache.GetObject<DwgUCSControlObject>(reader, Variables.UcsControlObjectHandle.HandleOrOffset);
+            BlockHeaders = objectCache.GetObject<DwgBlockControlObject>(reader, Variables.BlockControlObjectHandle.HandleOrOffset);
 
             objectCache.LoadEntities(reader, this);
         }
@@ -153,18 +158,21 @@ namespace IxMilia.Dwg
             LineTypes.ClearHandles();
             Views.ClearHandles();
             UCSs.ClearHandles();
+            BlockHeaders.ClearHandles();
 
             Layers.AssignHandles(objectMap);
             Styles.AssignHandles(objectMap);
             LineTypes.AssignHandles(objectMap);
             Views.AssignHandles(objectMap);
             UCSs.AssignHandles(objectMap);
+            BlockHeaders.AssignHandles(objectMap);
 
             Variables.LayerControlObjectHandle = Layers.Handle;
             Variables.StyleObjectControlHandle = Styles.Handle;
             Variables.LineTypeObjectControlHandle = LineTypes.Handle;
             Variables.ViewControlObjectHandle = Views.Handle;
             Variables.UcsControlObjectHandle = UCSs.Handle;
+            Variables.BlockControlObjectHandle = BlockHeaders.Handle;
 
             objectMap.SetNextAvailableHandle(Variables);
         }
@@ -172,7 +180,7 @@ namespace IxMilia.Dwg
         private void SaveObjects(BitWriter writer, DwgObjectMap objectMap, int pointerOffset)
         {
             var writtenHandles = new HashSet<int>();
-            foreach (var groupObject in new DwgObject[] { Layers, Styles, LineTypes, Views, UCSs })
+            foreach (var groupObject in new DwgObject[] { Layers, Styles, LineTypes, Views, UCSs, BlockHeaders })
             {
                 groupObject.Write(writer, objectMap, writtenHandles, pointerOffset);
             }
