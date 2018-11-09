@@ -23,11 +23,16 @@ namespace IxMilia.Dwg
         {
             if (bitOffset > 0)
             {
-                CurrentCrcValue = BitReaderExtensions.ComputeCRC(currentByte, CurrentCrcValue);
+                UpdateCrc(currentByte);
                 BaseStream.WriteByte(currentByte);
                 currentByte = 0;
                 bitOffset = 0;
             }
+        }
+
+        private void UpdateCrc(byte value)
+        {
+            CurrentCrcValue = BitReaderExtensions.ComputeCRC(value, CurrentCrcValue);
         }
 
         public void Flush()
@@ -79,7 +84,18 @@ namespace IxMilia.Dwg
 
         public void WriteByte(byte value)
         {
-            WriteBits(value, 8);
+            if (bitOffset == 0)
+            {
+                BaseStream.WriteByte(value);
+                UpdateCrc(value);
+            }
+            else
+            {
+                currentByte |= (byte)(value >> bitOffset);
+                BaseStream.WriteByte(currentByte);
+                UpdateCrc(currentByte);
+                currentByte = (byte)(value << (8 - bitOffset));
+            }
         }
 
         public void WriteBytes(params byte[] values)

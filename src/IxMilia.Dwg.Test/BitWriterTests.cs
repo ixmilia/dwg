@@ -62,6 +62,17 @@ namespace IxMilia.Dwg.Test
         }
 
         [Fact]
+        public void WriteByteNotOnBoundary()
+        {
+            var writer = Writer();
+            writer.WriteBit(1); // A
+            writer.WriteBit(1); // A
+            writer.WriteByte(0b00001111); // B
+            Assert.Equal(Bytes(0b11_000011, 0b11_000000), writer.AsBytes());
+            //                   AA BBBBBB    BB ------
+        }
+
+        [Fact]
         public void WriteBits()
         {
             Assert.Equal(Bytes(0b10000000), Writer().WriteBits(0b11110000, 1).AsBytes());

@@ -258,11 +258,7 @@ namespace IxMilia.Dwg
             writer.Flush();
             writer.BaseStream.Seek(0, SeekOrigin.Begin);
             var bytes = new byte[writer.BaseStream.Length];
-            for (int i = 0; i < bytes.Length; i++)
-            {
-                bytes[i] = (byte)writer.BaseStream.ReadByte();
-            }
-
+            writer.BaseStream.Read(bytes, 0, bytes.Length);
             return bytes;
         }
     }
