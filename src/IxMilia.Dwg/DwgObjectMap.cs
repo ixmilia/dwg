@@ -1,6 +1,7 @@
-﻿using IxMilia.Dwg.Objects;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using IxMilia.Dwg.Objects;
 
 namespace IxMilia.Dwg
 {
@@ -50,7 +51,7 @@ namespace IxMilia.Dwg
             var lastLocation = 0;
             var ms = new MemoryStream();
             var sectionWriter = new BitWriter(ms);
-            foreach (var kvp in _handleOffsets)
+            foreach (var kvp in _handleOffsets.OrderBy(k => k.Key))
             {
                 var sectionSize = writer.Position - sectionStart;
                 if (sectionSize >= MaxSectionSize - MaxSectionSizeBuffer)

@@ -78,7 +78,7 @@ namespace IxMilia.Dwg
                 while (reader.Offset < sectionEnd)
                 {
                     // read data
-                    var handleOffset = reader.Read_MC();
+                    var handleOffset = reader.Read_MC(allowNegation: false);
                     var locationOffset = reader.Read_MC();
                     var handle = lastHandle + handleOffset;
                     var location = lastLocation + locationOffset;

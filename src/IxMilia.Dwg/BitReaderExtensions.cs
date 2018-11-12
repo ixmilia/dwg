@@ -121,7 +121,7 @@ namespace IxMilia.Dwg
             return Tuple.Create(reader.Read_RD(), reader.Read_RD(), reader.Read_RD());
         }
 
-        public static int Read_MC(this BitReader reader)
+        public static int Read_MC(this BitReader reader, bool allowNegation = true)
         {
             // read bytes until no high bit
             var bytes = new Stack<byte>();
@@ -133,7 +133,7 @@ namespace IxMilia.Dwg
             } while ((b & 0x80) != 0); // while high bit set
 
             bool negate = false;
-            if ((b & 0x40) != 0)
+            if (allowNegation && (b & 0x40) != 0)
             {
                 negate = true;
                 bytes.Pop();

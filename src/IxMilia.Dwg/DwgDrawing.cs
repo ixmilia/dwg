@@ -19,6 +19,7 @@ namespace IxMilia.Dwg
         public DwgViewPortControlObject ViewPorts { get; private set; }
         public DwgAppIdControlObject AppIds { get; private set; }
         public DwgDimStyleControlObject DimStyles { get; private set; }
+        public DwgViewPortEntityHeaderControlObject ViewPortEntityHeaders { get; private set; }
 
         public DwgDrawing()
         {
@@ -57,6 +58,7 @@ namespace IxMilia.Dwg
             {
                 DwgDimStyle.GetStandardDimStyle(standardStyle)
             };
+            ViewPortEntityHeaders = new DwgViewPortEntityHeaderControlObject();
         }
 
 #if HAS_FILESYSTEM_ACCESS
@@ -104,6 +106,7 @@ namespace IxMilia.Dwg
             ViewPorts = objectCache.GetObject<DwgViewPortControlObject>(reader, Variables.ViewPortControlObjectHandle.HandleOrOffset);
             AppIds = objectCache.GetObject<DwgAppIdControlObject>(reader, Variables.AppIdControlObjectHandle.HandleOrOffset);
             DimStyles = objectCache.GetObject<DwgDimStyleControlObject>(reader, Variables.DimStyleControlObjectHandle.HandleOrOffset);
+            ViewPortEntityHeaders = objectCache.GetObject<DwgViewPortEntityHeaderControlObject>(reader, Variables.ViewPortEntityHeaderControlObjectHandle.HandleOrOffset);
 
             objectCache.LoadEntities(reader, this);
         }
@@ -176,6 +179,7 @@ namespace IxMilia.Dwg
             ViewPorts.ClearHandles();
             AppIds.ClearHandles();
             DimStyles.ClearHandles();
+            ViewPortEntityHeaders.ClearHandles();
 
             BlockHeaders.AssignHandles(objectMap);
             Layers.AssignHandles(objectMap);
@@ -186,6 +190,7 @@ namespace IxMilia.Dwg
             ViewPorts.AssignHandles(objectMap);
             AppIds.AssignHandles(objectMap);
             DimStyles.AssignHandles(objectMap);
+            ViewPortEntityHeaders.AssignHandles(objectMap);
 
             Variables.BlockControlObjectHandle = BlockHeaders.Handle;
             Variables.LayerControlObjectHandle = Layers.Handle;
@@ -196,6 +201,7 @@ namespace IxMilia.Dwg
             Variables.ViewPortControlObjectHandle = ViewPorts.Handle;
             Variables.AppIdControlObjectHandle = AppIds.Handle;
             Variables.DimStyleControlObjectHandle = DimStyles.Handle;
+            Variables.ViewPortEntityHeaderControlObjectHandle = ViewPortEntityHeaders.Handle;
 
             objectMap.SetNextAvailableHandle(Variables);
         }
@@ -203,7 +209,7 @@ namespace IxMilia.Dwg
         private void SaveObjects(BitWriter writer, DwgObjectMap objectMap, int pointerOffset)
         {
             var writtenHandles = new HashSet<int>();
-            foreach (var groupObject in new DwgObject[] { BlockHeaders, Layers, Styles, LineTypes, Views, UCSs, ViewPorts, AppIds, DimStyles })
+            foreach (var groupObject in new DwgObject[] { BlockHeaders, Layers, Styles, LineTypes, Views, UCSs, ViewPorts, AppIds, DimStyles, ViewPortEntityHeaders })
             {
                 groupObject.Write(writer, objectMap, writtenHandles, pointerOffset);
             }

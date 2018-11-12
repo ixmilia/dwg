@@ -158,6 +158,12 @@ namespace IxMilia.Dwg
                 value >>= 7;
             }
 
+            // if last byte's 64 bit is set (which means it's necessary), add one more emtpy byte so it's not interpreted as a negative sign
+            if (bytes.Count > 0 && (bytes[bytes.Count - 1] & 0x40) != 0)
+            {
+                bytes.Add(0);
+            }
+
             for (int i = 0; i < bytes.Count; i++)
             {
                 var b = bytes[i];
