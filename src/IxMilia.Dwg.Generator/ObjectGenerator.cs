@@ -154,7 +154,7 @@ namespace IxMilia.Dwg.Generator
                 // writing
                 if (!CustomReader(o))
                 {
-                    AppendLine("internal override void WriteSpecific(BitWriter writer, DwgObjectMap objectMap, int pointerOffset)");
+                    AppendLine("internal override void WriteSpecific(BitWriter writer, DwgObjectMap objectMap, int pointerOffset, DwgVersionId version)");
                     AppendLine("{");
                     IncreaseIndent();
                     foreach (var p in o.Elements("Property"))
@@ -199,7 +199,7 @@ namespace IxMilia.Dwg.Generator
                 // parsing
                 if (!CustomWriter(o))
                 {
-                    AppendLine("internal override void ParseSpecific(BitReader reader)");
+                    AppendLine("internal override void ParseSpecific(BitReader reader, DwgVersionId version)");
                     AppendLine("{");
                     IncreaseIndent();
                     foreach (var p in o.Elements("Property"))

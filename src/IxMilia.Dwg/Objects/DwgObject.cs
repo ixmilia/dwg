@@ -39,7 +39,7 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal void Write(BitWriter writer, DwgObjectMap objectMap, HashSet<int> writtenHandles, int pointerOffset)
+        internal void Write(BitWriter writer, DwgObjectMap objectMap, HashSet<int> writtenHandles, int pointerOffset, DwgVersionId version)
         {
             if (!writtenHandles.Add(Handle.HandleOrOffset))
             {
@@ -55,7 +55,7 @@ namespace IxMilia.Dwg.Objects
             {
                 var tempWriter = new BitWriter(ms);
                 tempWriter.Write_BS((short)Type);
-                WriteSpecific(tempWriter, objectMap, pointerOffset);
+                WriteSpecific(tempWriter, objectMap, pointerOffset, version);
                 var tempBytes = tempWriter.AsBytes();
 
                 // now output everything
@@ -67,11 +67,11 @@ namespace IxMilia.Dwg.Objects
 
             foreach (var child in ChildItems)
             {
-                child.Write(writer, objectMap, writtenHandles, pointerOffset);
+                child.Write(writer, objectMap, writtenHandles, pointerOffset, version);
             }
         }
 
-        internal static DwgObject Parse(BitReader reader, DwgObjectCache objectCache)
+        internal static DwgObject Parse(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
             reader.StartCrcCheck();
             var size = reader.Read_MS();
@@ -85,7 +85,7 @@ namespace IxMilia.Dwg.Objects
 
             var type = (DwgObjectType)typeCode;
             var obj = CreateObject(type);
-            obj.ParseSpecific(reader);
+            obj.ParseSpecific(reader, version);
 
             // ensure there's no extra data
             reader.AlignToByte();
@@ -96,9 +96,9 @@ namespace IxMilia.Dwg.Objects
             return obj;
         }
 
-        internal abstract void ParseSpecific(BitReader reader);
+        internal abstract void ParseSpecific(BitReader reader, DwgVersionId version);
 
-        internal abstract void WriteSpecific(BitWriter writer, DwgObjectMap objectMap, int pointerOffset);
+        internal abstract void WriteSpecific(BitWriter writer, DwgObjectMap objectMap, int pointerOffset, DwgVersionId version);
 
         internal virtual void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {

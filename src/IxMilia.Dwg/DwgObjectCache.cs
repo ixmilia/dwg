@@ -7,6 +7,12 @@ namespace IxMilia.Dwg
     {
         private IDictionary<int, int> _handleToOffset = new Dictionary<int, int>();
         private IDictionary<int, DwgObject> _handleToObject = new Dictionary<int, DwgObject>();
+        private DwgVersionId _version;
+
+        private DwgObjectCache(DwgVersionId version)
+        {
+            _version = version;
+        }
 
         public DwgObject GetObject(BitReader reader, int handle)
         {
@@ -17,7 +23,7 @@ namespace IxMilia.Dwg
 
             if (_handleToOffset.TryGetValue(handle, out var offset))
             {
-                obj = DwgObject.Parse(reader.FromOffset(offset), this);
+                obj = DwgObject.Parse(reader.FromOffset(offset), this, _version);
                 if (obj == null)
                 {
                     throw new DwgReadException($"Unsupported object from handle {handle} at offset {offset}.");
@@ -49,7 +55,7 @@ namespace IxMilia.Dwg
                 var offset = kvp.Value;
                 if (!_handleToObject.ContainsKey(handle))
                 {
-                    var obj = DwgObject.Parse(reader.FromOffset(offset), this);
+                    var obj = DwgObject.Parse(reader.FromOffset(offset), this, _version);
                     if (obj is DwgEntity entity)
                     {
                         var matchingLayer = drawing.Layers.LayerFromHandle(entity.LayerHandle.HandleOrOffset);
@@ -64,9 +70,9 @@ namespace IxMilia.Dwg
             }
         }
 
-        public static DwgObjectCache Parse(BitReader reader)
+        public static DwgObjectCache Parse(BitReader reader, DwgVersionId version)
         {
-            var objectCache = new DwgObjectCache();
+            var objectCache = new DwgObjectCache(version);
             var lastHandle = 0;
             var lastLocation = 0;
             reader.StartCrcCheck();

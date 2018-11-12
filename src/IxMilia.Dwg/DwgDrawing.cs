@@ -89,7 +89,7 @@ namespace IxMilia.Dwg
             drawing.FileHeader.ValidateSecondHeader(reader, drawing.Variables);
             drawing.ImageData = DwgImageData.Parse(reader.FromOffset(drawing.FileHeader.ImagePointer));
 
-            var objectCache = DwgObjectCache.Parse(reader.FromOffset(drawing.FileHeader.ObjectMapLocator.Pointer));
+            var objectCache = DwgObjectCache.Parse(reader.FromOffset(drawing.FileHeader.ObjectMapLocator.Pointer), drawing.FileHeader.Version);
             drawing.LoadObjects(reader, objectCache);
 
             return drawing;
@@ -211,7 +211,7 @@ namespace IxMilia.Dwg
             var writtenHandles = new HashSet<int>();
             foreach (var groupObject in new DwgObject[] { BlockHeaders, Layers, Styles, LineTypes, Views, UCSs, ViewPorts, AppIds, DimStyles, ViewPortEntityHeaders })
             {
-                groupObject.Write(writer, objectMap, writtenHandles, pointerOffset);
+                groupObject.Write(writer, objectMap, writtenHandles, pointerOffset, FileHeader.Version);
             }
         }
     }

@@ -2,7 +2,7 @@
 
 namespace IxMilia.Dwg.Objects
 {
-    public partial class DwgLineType : DwgObject
+    public partial class DwgLineType
     {
         public IList<DwgLineTypeDashInfo> DashInfos = new List<DwgLineTypeDashInfo>();
 
@@ -38,7 +38,7 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal override void ParseSpecific(BitReader reader)
+        internal override void ParseSpecific(BitReader reader, DwgVersionId version)
         {
             Handle = reader.Read_H();
             _xDataSize = reader.Read_BS();
@@ -67,7 +67,7 @@ namespace IxMilia.Dwg.Objects
             _nullHandle = reader.Read_H();
         }
 
-        internal override void WriteSpecific(BitWriter writer, DwgObjectMap objectMap, int pointerOffset)
+        internal override void WriteSpecific(BitWriter writer, DwgObjectMap objectMap, int pointerOffset, DwgVersionId version)
         {
             writer.Write_H(Handle);
             writer.Write_BS((short)_xDataSize);
