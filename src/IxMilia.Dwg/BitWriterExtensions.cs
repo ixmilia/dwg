@@ -158,8 +158,14 @@ namespace IxMilia.Dwg
                 value >>= 7;
             }
 
+            if (bytes.Count == 0)
+            {
+                // ensure there's at least one byte written; this happens if `value` is zero
+                bytes.Add(0);
+            }
+
             // if last byte's 64 bit is set (which means it's necessary), add one more emtpy byte so it's not interpreted as a negative sign
-            if (bytes.Count > 0 && (bytes[bytes.Count - 1] & 0x40) != 0)
+            if ((bytes[bytes.Count - 1] & 0x40) != 0)
             {
                 bytes.Add(0);
             }

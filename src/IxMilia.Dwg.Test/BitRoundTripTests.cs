@@ -57,6 +57,7 @@ namespace IxMilia.Dwg.Test
         [InlineData(112823273)]
         [InlineData(-1413)]
         [InlineData(64)]
+        [InlineData(0)]
         public void RoundTrip_MC(int value)
         {
             RoundTrip(writer => writer.Write_MC(value), reader => reader.Read_MC(), value);

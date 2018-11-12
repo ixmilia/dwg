@@ -134,6 +134,7 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(Bytes(0b11101001, 0b10010111, 0b11100110, 0b00110101), Writer().Write_MC(112823273).AsBytes());
             Assert.Equal(Bytes(0b10000101, 0b01001011), Writer().Write_MC(-1413).AsBytes());
             Assert.Equal(Bytes(0b11000000, 0b00000000), Writer().Write_MC(64).AsBytes());
+            Assert.Equal(Bytes(0b00000000), Writer().Write_MC(0).AsBytes());
         }
 
         [Fact]
