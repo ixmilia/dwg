@@ -136,6 +136,29 @@
   </Object>
   <!--
 
+  Dictionary
+
+  -->
+  <Object Name="Dictionary" Value="0x2A" IsEntity="false">
+    <!-- common object properties -->
+    <Property Name="Handle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" />
+    <Property Name="_xDataSize" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" SkipCreation="true" />
+    <Property Name="_xData" type="byte[]" BinaryType="Bytes" ReaderArgument="_xDataSize" DefaultValue="new byte[0]" SkipCreation="true" />
+    <Property Name="_objectSize" Type="int" BinaryType="RL" DefaultValue="0" SkipCreation="true" />
+    <Property Name="_reactorCount" Type="int" BinaryType="BL" DefaultValue="0" SkipCreation="true" />
+
+    <Property Name="_entryCount" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="private" />
+    <Property Name="_unknown" Type="byte" BinaryType="RC" DefaultValue="0" Accessibility="private" Condition="version == DwgVersionId.R14" />
+    <Property Name="_names" Type="string" BinaryType="T" DefaultValue="new List&lt;string&gt;()" Accessibility="private" ReadCount="_entryCount" />
+
+    <!-- handles -->
+    <Property Name="_parentHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" Accessibility="private" />
+    <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" Accessibility="private" ReadCount="_reactorCount" />
+    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" Accessibility="private" />
+    <Property Name="_entryHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" Accessibility="private" ReadCount="_entryCount" />
+  </Object>
+  <!--
+
   Dim style control
 
   -->

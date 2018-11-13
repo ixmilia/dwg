@@ -20,6 +20,9 @@ namespace IxMilia.Dwg
         public DwgAppIdControlObject AppIds { get; private set; }
         public DwgDimStyleControlObject DimStyles { get; private set; }
         public DwgViewPortEntityHeaderControlObject ViewPortEntityHeaders { get; private set; }
+        public DwgDictionary GroupDictionary { get; private set; }
+        public DwgDictionary MLineStyleDictionary { get; private set; }
+        public DwgDictionary NamedObjectDictionary { get; private set; }
 
         public DwgDrawing()
         {
@@ -59,6 +62,9 @@ namespace IxMilia.Dwg
                 DwgDimStyle.GetStandardDimStyle(standardStyle)
             };
             ViewPortEntityHeaders = new DwgViewPortEntityHeaderControlObject();
+            GroupDictionary = new DwgDictionary();
+            MLineStyleDictionary = new DwgDictionary();
+            NamedObjectDictionary = new DwgDictionary();
         }
 
 #if HAS_FILESYSTEM_ACCESS
@@ -107,6 +113,9 @@ namespace IxMilia.Dwg
             AppIds = objectCache.GetObject<DwgAppIdControlObject>(reader, Variables.AppIdControlObjectHandle.HandleOrOffset);
             DimStyles = objectCache.GetObject<DwgDimStyleControlObject>(reader, Variables.DimStyleControlObjectHandle.HandleOrOffset);
             ViewPortEntityHeaders = objectCache.GetObject<DwgViewPortEntityHeaderControlObject>(reader, Variables.ViewPortEntityHeaderControlObjectHandle.HandleOrOffset);
+            GroupDictionary = objectCache.GetObject<DwgDictionary>(reader, Variables.GroupDictionaryHandle.HandleOrOffset);
+            MLineStyleDictionary = objectCache.GetObject<DwgDictionary>(reader, Variables.MLineStyleDictionaryHandle.HandleOrOffset);
+            NamedObjectDictionary = objectCache.GetObject<DwgDictionary>(reader, Variables.NamedObjectsDictionaryHandle.HandleOrOffset);
 
             objectCache.LoadEntities(reader, this);
         }
@@ -180,6 +189,9 @@ namespace IxMilia.Dwg
             AppIds.ClearHandles();
             DimStyles.ClearHandles();
             ViewPortEntityHeaders.ClearHandles();
+            GroupDictionary.ClearHandles();
+            MLineStyleDictionary.ClearHandles();
+            NamedObjectDictionary.ClearHandles();
 
             BlockHeaders.AssignHandles(objectMap);
             Layers.AssignHandles(objectMap);
@@ -191,6 +203,9 @@ namespace IxMilia.Dwg
             AppIds.AssignHandles(objectMap);
             DimStyles.AssignHandles(objectMap);
             ViewPortEntityHeaders.AssignHandles(objectMap);
+            GroupDictionary.AssignHandles(objectMap);
+            MLineStyleDictionary.AssignHandles(objectMap);
+            NamedObjectDictionary.AssignHandles(objectMap);
 
             Variables.BlockControlObjectHandle = BlockHeaders.Handle;
             Variables.LayerControlObjectHandle = Layers.Handle;
@@ -202,14 +217,37 @@ namespace IxMilia.Dwg
             Variables.AppIdControlObjectHandle = AppIds.Handle;
             Variables.DimStyleControlObjectHandle = DimStyles.Handle;
             Variables.ViewPortEntityHeaderControlObjectHandle = ViewPortEntityHeaders.Handle;
+            Variables.GroupDictionaryHandle = GroupDictionary.Handle;
+            Variables.MLineStyleDictionaryHandle = MLineStyleDictionary.Handle;
+            Variables.NamedObjectsDictionaryHandle = NamedObjectDictionary.Handle;
 
             objectMap.SetNextAvailableHandle(Variables);
+        }
+
+        private IEnumerable<DwgObject> TopLevelObjects
+        {
+            get
+            {
+                yield return BlockHeaders;
+                yield return Layers;
+                yield return Styles;
+                yield return LineTypes;
+                yield return Views;
+                yield return UCSs;
+                yield return ViewPorts;
+                yield return AppIds;
+                yield return DimStyles;
+                yield return ViewPortEntityHeaders;
+                yield return GroupDictionary;
+                yield return MLineStyleDictionary;
+                yield return NamedObjectDictionary;
+            }
         }
 
         private void SaveObjects(BitWriter writer, DwgObjectMap objectMap, int pointerOffset)
         {
             var writtenHandles = new HashSet<int>();
-            foreach (var groupObject in new DwgObject[] { BlockHeaders, Layers, Styles, LineTypes, Views, UCSs, ViewPorts, AppIds, DimStyles, ViewPortEntityHeaders })
+            foreach (var groupObject in TopLevelObjects)
             {
                 groupObject.Write(writer, objectMap, writtenHandles, pointerOffset, FileHeader.Version);
             }

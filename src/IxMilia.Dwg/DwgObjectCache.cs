@@ -14,7 +14,7 @@ namespace IxMilia.Dwg
             _version = version;
         }
 
-        public DwgObject GetObject(BitReader reader, int handle)
+        public DwgObject GetObject(BitReader reader, int handle, bool allowNull = false)
         {
             if (_handleToObject.TryGetValue(handle, out var obj))
             {
@@ -24,7 +24,7 @@ namespace IxMilia.Dwg
             if (_handleToOffset.TryGetValue(handle, out var offset))
             {
                 obj = DwgObject.Parse(reader.FromOffset(offset), this, _version);
-                if (obj == null)
+                if (obj == null && !allowNull)
                 {
                     throw new DwgReadException($"Unsupported object from handle {handle} at offset {offset}.");
                 }
