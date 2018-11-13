@@ -1,8 +1,21 @@
-﻿namespace IxMilia.Dwg.Objects
+﻿using System;
+
+namespace IxMilia.Dwg.Objects
 {
     public partial class DwgBlockHeader : DwgObject
     {
         public DwgBlock Block { get; set; }
+
+        public DwgBlockHeader(string name)
+            : this()
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentNullException(nameof(name), "Name cannot be null.");
+            }
+
+            Name = name;
+        }
 
         internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {

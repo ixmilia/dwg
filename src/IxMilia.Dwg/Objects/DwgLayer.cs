@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace IxMilia.Dwg.Objects
 {
@@ -18,6 +19,17 @@ namespace IxMilia.Dwg.Objects
                     yield return entity;
                 }
             }
+        }
+
+        public DwgLayer(string name)
+            : this()
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentNullException(nameof(name), "Name cannot be null.");
+            }
+
+            Name = name;
         }
 
         internal override void PreWrite()

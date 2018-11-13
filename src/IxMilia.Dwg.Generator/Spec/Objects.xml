@@ -25,7 +25,7 @@
   AppId
 
   -->
-  <Object Name="AppId" Value="0x43" IsEntity="false">
+  <Object Name="AppId" Value="0x43" IsEntity="false" ConstructorAccessibility="internal">
     <!-- common object properties -->
     <Property Name="Handle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" />
     <Property Name="_xDataSize" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" SkipCreation="true" />
@@ -72,7 +72,7 @@
   Block header
 
   -->
-  <Object Name="BlockHeader" Value="0x31" IsEntity="false">
+  <Object Name="BlockHeader" Value="0x31" IsEntity="false" ConstructorAccessibility="internal">
     <!-- common object properties -->
     <Property Name="Handle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" />
     <Property Name="_xDataSize" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" SkipCreation="true" />
@@ -106,7 +106,7 @@
   Block
 
   -->
-  <Object Name="Block" Value="0x04" IsEntity="true">
+  <Object Name="Block" Value="0x04" IsEntity="true" ConstructorAccessibility="internal">
     <!-- common entity properties -->
     <Property Name="Handle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" />
     <Property Name="_xDataSize" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" SkipCreation="true" />
@@ -280,7 +280,7 @@
   Layer
 
   -->
-  <Object Name="Layer" Value="0x33" IsEntity="false">
+  <Object Name="Layer" Value="0x33" IsEntity="false" ConstructorAccessibility="internal">
     <!-- common object properties -->
     <Property Name="Handle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" />
     <Property Name="_xDataSize" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" SkipCreation="true" />
@@ -308,7 +308,7 @@
   Line
 
   -->
-  <Object Name="Line" Value="0x13" IsEntity="true">
+  <Object Name="Line" Value="0x13" IsEntity="true" ConstructorAccessibility="internal">
     <!-- common entity properties -->
     <Property Name="Handle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" />
     <Property Name="_xDataSize" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" SkipCreation="true" />
@@ -362,7 +362,7 @@
   Line Type
 
   -->
-  <Object Name="LineType" Value="0x39" IsEntity="false" CustomReader="true" CustomWriter="true">
+  <Object Name="LineType" Value="0x39" IsEntity="false" CustomReader="true" CustomWriter="true" ConstructorAccessibility="internal">
     <!-- common object properties -->
     <Property Name="Handle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" />
     <Property Name="_xDataSize" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" SkipCreation="true" />
@@ -407,7 +407,7 @@
   Style
 
   -->
-  <Object Name="Style" Value="0x35" IsEntity="false">
+  <Object Name="Style" Value="0x35" IsEntity="false" ConstructorAccessibility="internal">
     <!-- common object properties -->
     <Property Name="Handle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" />
     <Property Name="_xDataSize" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" SkipCreation="true" />
@@ -456,7 +456,7 @@
   View
 
   -->
-  <Object Name="View" Value="0x3D" IsEntity="false">
+  <Object Name="View" Value="0x3D" IsEntity="false" ConstructorAccessibility="internal">
     <!-- common object properties -->
     <Property Name="Handle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" />
     <Property Name="_xDataSize" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" SkipCreation="true" />
@@ -509,7 +509,7 @@
   View port
 
   -->
-  <Object Name="ViewPort" Value="0x41" IsEntity="false">
+  <Object Name="ViewPort" Value="0x41" IsEntity="false" ConstructorAccessibility="internal">
     <!-- common object properties -->
     <Property Name="Handle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" />
     <Property Name="_xDataSize" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" SkipCreation="true" />
@@ -577,7 +577,7 @@
   View port entity header
 
   -->
-  <Object Name="ViewPortEntityHeader" Value="0x47" IsEntity="false">
+  <Object Name="ViewPortEntityHeader" Value="0x47" IsEntity="false" ConstructorAccessibility="internal">
     <!-- common object properties -->
     <Property Name="Handle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" />
     <Property Name="_xDataSize" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" SkipCreation="true" />
@@ -620,7 +620,7 @@
   UCS
 
   -->
-  <Object Name="UCS" Value="0x3F" IsEntity="false">
+  <Object Name="UCS" Value="0x3F" IsEntity="false" ConstructorAccessibility="internal">
     <!-- common object properties -->
     <Property Name="Handle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" />
     <Property Name="_xDataSize" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" SkipCreation="true" />

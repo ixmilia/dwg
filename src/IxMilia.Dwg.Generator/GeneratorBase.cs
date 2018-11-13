@@ -70,6 +70,7 @@ namespace IxMilia.Dwg.Generator
         public string BinaryType(XElement xml) => AttributeValue(xml, "BinaryType");
         public string Comment(XElement xml) => AttributeValue(xml, "Comment");
         public string Condition(XElement xml) => AttributeValue(xml, "Condition");
+        public string ConstructorAccessibility(XElement xml, string defaultValue = "public") => AttributeValue(xml, "ConstructorAccessibility") ?? defaultValue;
         public bool CustomReader(XElement xml) => bool.Parse(AttributeValue(xml, "CustomReader") ?? "false");
         public bool CustomWriter(XElement xml) => bool.Parse(AttributeValue(xml, "CustomWriter") ?? "false");
         public string DefaultValue(XElement xml) => AttributeValue(xml, "DefaultValue");

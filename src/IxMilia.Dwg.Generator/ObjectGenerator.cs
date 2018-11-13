@@ -130,7 +130,7 @@ namespace IxMilia.Dwg.Generator
                 AppendLine();
 
                 // .ctor
-                AppendLine($"public Dwg{Name(o)}()");
+                AppendLine($"{ConstructorAccessibility(o)} Dwg{Name(o)}()");
                 AppendLine("{");
                 IncreaseIndent();
                 AppendLine("SetDefaults();");

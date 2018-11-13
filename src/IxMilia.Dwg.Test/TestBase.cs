@@ -31,7 +31,7 @@ namespace IxMilia.Dwg.Test
 
         public static DwgEntity RoundTrip(DwgEntity entity)
         {
-            var layer = new DwgLayer() { Name = "test-layer" };
+            var layer = new DwgLayer("test-layer");
             layer.Entities.Add(entity);
             var roundTrippedLayer = RoundTrip(layer);
             var roundTrippedEntity = roundTrippedLayer.Entities.Single();

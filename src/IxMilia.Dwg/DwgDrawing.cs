@@ -30,13 +30,13 @@ namespace IxMilia.Dwg
             Variables = new DwgHeaderVariables();
             Classes = new List<DwgClassDefinition>();
 
-            var continuous = new DwgLineType() { Name = "CONTINUOUS", Description = "Solid line" };
-            var standardStyle = new DwgStyle() { Name = "STANDARD" };
+            var continuous = new DwgLineType("CONTINUOUS") { Description = "Solid line" };
+            var standardStyle = new DwgStyle("STANDARD");
 
             BlockHeaders = new DwgBlockControlObject();
             Layers = new DwgLayerControlObject
             {
-                new DwgLayer() { Name = "0", LineType = continuous }
+                new DwgLayer("0") { LineType = continuous }
             };
             Styles = new DwgStyleControlObject()
             {

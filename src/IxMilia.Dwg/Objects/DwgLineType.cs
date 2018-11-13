@@ -1,10 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace IxMilia.Dwg.Objects
 {
     public partial class DwgLineType
     {
         public IList<DwgLineTypeDashInfo> DashInfos = new List<DwgLineTypeDashInfo>();
+
+        public DwgLineType(string name)
+            : this()
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentNullException(nameof(name), "Name cannot be null.");
+            }
+
+            Name = name;
+        }
 
         internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {

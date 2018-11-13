@@ -1,7 +1,20 @@
-﻿namespace IxMilia.Dwg.Objects
+﻿using System;
+
+namespace IxMilia.Dwg.Objects
 {
     public partial class DwgViewPort
     {
+        public DwgViewPort(string name)
+            : this()
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentNullException(nameof(name), "Name cannot be null.");
+            }
+
+            Name = name;
+        }
+
         internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {
             base.PoseParse(reader, objectCache);
