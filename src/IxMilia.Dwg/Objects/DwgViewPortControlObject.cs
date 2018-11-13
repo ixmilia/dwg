@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using IxMilia.Dwg.Collections;
 
 namespace IxMilia.Dwg.Objects
 {
     public partial class DwgViewPortControlObject : IDictionary<string, DwgViewPort>
     {
-        private Dictionary<string, DwgViewPort> _viewPorts = new Dictionary<string, DwgViewPort>();
+        private IDictionary<string, DwgViewPort> _viewPorts = new StringDictionary<DwgViewPort>(ignoreCase: true);
 
         internal override IEnumerable<DwgObject> ChildItems => _viewPorts.Values;
 

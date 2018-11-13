@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using IxMilia.Dwg.Collections;
 
 namespace IxMilia.Dwg.Objects
 {
     public partial class DwgLineTypeControlObject : IDictionary<string, DwgLineType>
     {
-        private Dictionary<string, DwgLineType> _lineTypes = new Dictionary<string, DwgLineType>();
+        private IDictionary<string, DwgLineType> _lineTypes = new StringDictionary<DwgLineType>(ignoreCase: true);
 
         internal override IEnumerable<DwgObject> ChildItems => _lineTypes.Values;
 

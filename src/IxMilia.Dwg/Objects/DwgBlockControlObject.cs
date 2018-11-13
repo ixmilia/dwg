@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using IxMilia.Dwg.Collections;
 
 namespace IxMilia.Dwg.Objects
 {
     public partial class DwgBlockControlObject : IDictionary<string, DwgBlockHeader>
     {
-        private Dictionary<string, DwgBlockHeader> _blockHeaders = new Dictionary<string, DwgBlockHeader>();
+        private IDictionary<string, DwgBlockHeader> _blockHeaders = new StringDictionary<DwgBlockHeader>(ignoreCase: true);
 
         internal override IEnumerable<DwgObject> ChildItems => _blockHeaders.Values;
 

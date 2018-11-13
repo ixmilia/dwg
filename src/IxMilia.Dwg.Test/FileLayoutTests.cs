@@ -30,5 +30,12 @@ namespace IxMilia.Dwg.Test
             Assert.Equal("STANDARD", roundTrippedFile.DimStyles.Single().Value.Name);
             Assert.True(ReferenceEquals(roundTrippedFile.DimStyles.Single().Value.Style, roundTrippedFile.Styles.Single().Value));
         }
+
+        [Fact]
+        public void CaseInsensitiveDictionaries()
+        {
+            var drawing = new DwgDrawing();
+            Assert.True(ReferenceEquals(drawing.LineTypes["CONTINUOUS"], drawing.LineTypes["continuous"]));
+        }
     }
 }

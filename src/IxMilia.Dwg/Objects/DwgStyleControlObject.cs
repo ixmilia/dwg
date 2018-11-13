@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using IxMilia.Dwg.Collections;
 
 namespace IxMilia.Dwg.Objects
 {
     public partial class DwgStyleControlObject : IDictionary<string, DwgStyle>
     {
-        private Dictionary<string, DwgStyle> _styles = new Dictionary<string, DwgStyle>();
+        private IDictionary<string, DwgStyle> _styles = new StringDictionary<DwgStyle>(ignoreCase: true);
 
         internal override IEnumerable<DwgObject> ChildItems => _styles.Values;
 
