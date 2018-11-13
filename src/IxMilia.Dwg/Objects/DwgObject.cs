@@ -13,6 +13,7 @@ namespace IxMilia.Dwg.Objects
         protected int _objectSize;
         protected int _reactorCount;
         protected DwgHandleReference _nullHandle;
+        protected DwgHandleReference _xDictionaryObjectHandle;
 
         internal virtual bool IsEntity => false;
         internal virtual IEnumerable<DwgObject> ChildItems => new DwgObject[0];
@@ -122,6 +123,11 @@ namespace IxMilia.Dwg.Objects
             if (_nullHandle.HandleOrOffset != 0)
             {
                 throw new DwgReadException("Invalid null handle value.");
+            }
+
+            if (!_xDictionaryObjectHandle.IsEmpty && _xDictionaryObjectHandle.Code != DwgHandleReferenceCode.SoftPointer)
+            {
+                throw new DwgReadException("Invalid XDictionary object handle code.");
             }
         }
 

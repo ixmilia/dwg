@@ -29,11 +29,6 @@ namespace IxMilia.Dwg.Objects
                 throw new DwgReadException("Mismatch between reported view port count and view port handles read.");
             }
 
-            if (_xDictionaryObjectHandle.Code != DwgHandleReferenceCode.SoftPointer)
-            {
-                throw new DwgReadException("Incorrect XDictionary object handle code.");
-            }
-
             foreach (var viewPortHandle in _viewPortHandles)
             {
                 if (viewPortHandle.Code != DwgHandleReferenceCode.None)

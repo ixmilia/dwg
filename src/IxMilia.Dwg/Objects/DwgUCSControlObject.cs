@@ -29,11 +29,6 @@ namespace IxMilia.Dwg.Objects
                 throw new DwgReadException("Mismatch between reported UCS count and UCS handles read.");
             }
 
-            if (_xDictionaryObjectHandle.Code != DwgHandleReferenceCode.SoftPointer)
-            {
-                throw new DwgReadException("Incorrect XDictionary object handle code.");
-            }
-
             foreach (var ucsHandle in _ucsHandles)
             {
                 if (ucsHandle.Code != DwgHandleReferenceCode.None)

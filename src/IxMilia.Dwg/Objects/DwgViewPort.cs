@@ -32,11 +32,6 @@ namespace IxMilia.Dwg.Objects
                     throw new DwgReadException("Incorrect reactor handle code.");
                 }
             }
-
-            if (_xDictionaryObjectHandle.Code != DwgHandleReferenceCode.SoftPointer)
-            {
-                throw new DwgReadException("Incorrect XDictionary object handle code.");
-            }
         }
 
         internal static DwgViewPort GetActiveViewPort()

@@ -41,11 +41,6 @@ namespace IxMilia.Dwg.Objects
                 throw new DwgReadException("Mismatch between reported layer count and layer handles read.");
             }
 
-            if (_xDictionaryObjectHandle.Code != DwgHandleReferenceCode.SoftPointer)
-            {
-                throw new DwgReadException("Incorrect XDictionary object handle code.");
-            }
-
             foreach (var layerHandle in _layerHandles)
             {
                 if (layerHandle.Code != DwgHandleReferenceCode.None)

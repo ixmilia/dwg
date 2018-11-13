@@ -24,11 +24,6 @@ namespace IxMilia.Dwg.Objects
             {
                 throw new DwgReadException("Incorrect view port entity header control object parent handle code.");
             }
-
-            if (_xDictionaryObjectHandle.Code != DwgHandleReferenceCode.SoftPointer)
-            {
-                throw new DwgReadException("Incorrect XDictionary object handle code.");
-            }
         }
     }
 }

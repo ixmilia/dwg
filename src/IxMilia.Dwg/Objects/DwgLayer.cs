@@ -59,11 +59,6 @@ namespace IxMilia.Dwg.Objects
                 }
             }
 
-            if (_xDictionaryObjectHandle.Code != DwgHandleReferenceCode.SoftPointer)
-            {
-                throw new DwgReadException("Incorrect XDictionary object handle code.");
-            }
-
             if (_lineTypeHandle.Code != DwgHandleReferenceCode.SoftOwner)
             {
                 throw new DwgReadException("Incorrect layer line type handle code.");
