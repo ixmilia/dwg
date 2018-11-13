@@ -174,5 +174,13 @@ namespace IxMilia.Dwg.Test
             var actual = BitReaderExtensions.ComputeCRC(data, 0, data.Length, initialValue);
             Assert.Equal(expected, actual);
         }
+
+        [Theory]
+        [InlineData(12, new int[] { 0b00001100 })]
+        [InlineData(540, new int[] { 0b00000010, 0b00011100 })]
+        public void ReadSecondHeaderHandle(int expected, int[] bits)
+        {
+            Assert.Equal(expected, DwgHandleReference.ReadSecondHeader(Bits(bits), bits.Length));
+        }
     }
 }

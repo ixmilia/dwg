@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace IxMilia.Dwg
 {
@@ -34,11 +35,47 @@ namespace IxMilia.Dwg
         {
         }
 
+        internal static int ReadSecondHeader(BitReader reader, int byteCount)
+        {
+            var handleBytes = reader.ReadBytes(byteCount);
+            if (!BitConverter.IsLittleEndian)
+            {
+                Array.Reverse(handleBytes);
+            }
+
+            var handle = 0;
+            foreach (var b in handleBytes)
+            {
+                handle = (handle << 8) + b;
+            }
+
+            return handle;
+        }
+
         internal void WriteSecondHeader(BitWriter writer, int id)
         {
-            writer.Write_RC(1); // TODO: compute the byte count of `HandleOrOffset`
+            // compute the minimum number of bytes necessary to encode the handle
+            var handleBytes = BitConverter.GetBytes(HandleOrOffset);
+            if (BitConverter.IsLittleEndian)
+            {
+                Array.Reverse(handleBytes);
+            }
+
+            var bytesList = new List<byte>(handleBytes);
+            while (bytesList.Count > 0 && bytesList[0] == 0)
+            {
+                bytesList.RemoveAt(0);
+            }
+
+            if (bytesList.Count == 0)
+            {
+                // ensure there's a least one byte
+                bytesList.Add(0);
+            }
+
+            writer.Write_RC((byte)bytesList.Count);
             writer.Write_RC((byte)id);
-            writer.Write_RC((byte)HandleOrOffset);
+            writer.WriteBytes(bytesList.ToArray());
         }
 
         public override string ToString()

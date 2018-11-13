@@ -200,13 +200,8 @@ namespace IxMilia.Dwg
             for (int i = 0; i < handleRecordCount; i++)
             {
                 var byteCount = reader.Read_RC();
-                if (byteCount > 1)
-                {
-                    throw new DwgReadException("Multi-byte second header handle values not yet supported.");
-                }
-
                 var id = reader.Read_RC();
-                var handle = reader.Read_RC();
+                var handle = DwgHandleReference.ReadSecondHeader(reader, byteCount);
 
                 if (byteCount > 0)
                 {

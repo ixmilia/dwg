@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Xunit;
 
 namespace IxMilia.Dwg.Test
@@ -158,6 +159,21 @@ namespace IxMilia.Dwg.Test
             writer.WriteBits(0b10000_000, 5);
             writer.AlignByte();
             Assert.Equal(0x5555, writer.CurrentCrcValue);
+        }
+
+        [Theory]
+        [InlineData(12, new int[] { 0b00001100 })]
+        [InlineData(540, new int[] { 0b00000010, 0b00011100 })]
+        public void WriteSecondHeaderHandle(int handleValue, int[] expectedBits)
+        {
+            var id = 0;
+            var writer = Writer();
+            var handle = new DwgHandleReference(0, handleValue);
+            handle.WriteSecondHeader(writer, id);
+
+            var expectedPrefix = new int[] { expectedBits.Length, id };
+            var realExpectedBits = expectedPrefix.Concat(expectedBits).Select(b => (byte)b).ToArray();
+            Assert.Equal(realExpectedBits, writer.AsBytes());
         }
     }
 }
