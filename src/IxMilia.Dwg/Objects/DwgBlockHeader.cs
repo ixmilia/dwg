@@ -27,14 +27,6 @@ namespace IxMilia.Dwg.Objects
                 throw new DwgReadException("Incorrect block header control object parent handle code.");
             }
 
-            foreach (var reactorHandle in _reactorHandles)
-            {
-                if (reactorHandle.Code != DwgHandleReferenceCode.HardPointer)
-                {
-                    throw new DwgReadException("Incorrect reactor handle code.");
-                }
-            }
-
             if (BlockEntityHandle.Code != DwgHandleReferenceCode.SoftPointer)
             {
                 throw new DwgReadException("Incorrect block entity handle code.");

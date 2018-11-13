@@ -51,14 +51,6 @@ namespace IxMilia.Dwg.Objects
                 throw new DwgReadException("Incorrect layer control object parent handle code.");
             }
 
-            foreach (var reactorHandle in _reactorHandles)
-            {
-                if (reactorHandle.Code != DwgHandleReferenceCode.HardPointer)
-                {
-                    throw new DwgReadException("Incorrect reactor handle code.");
-                }
-            }
-
             if (_lineTypeHandle.Code != DwgHandleReferenceCode.SoftOwner)
             {
                 throw new DwgReadException("Incorrect layer line type handle code.");

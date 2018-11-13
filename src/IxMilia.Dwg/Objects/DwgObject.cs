@@ -12,6 +12,7 @@ namespace IxMilia.Dwg.Objects
         protected byte[] _xData;
         protected int _objectSize;
         protected int _reactorCount;
+        protected List<DwgHandleReference> _reactorHandles = new List<DwgHandleReference>();
         protected DwgHandleReference _nullHandle;
         protected DwgHandleReference _xDictionaryObjectHandle;
 
@@ -113,6 +114,14 @@ namespace IxMilia.Dwg.Objects
             if (Handle.Code != DwgHandleReferenceCode.Declaration)
             {
                 throw new DwgReadException("Invalid object handle code.");
+            }
+
+            foreach (var reactorHandle in _reactorHandles)
+            {
+                if (reactorHandle.Code != DwgHandleReferenceCode.HardPointer)
+                {
+                    throw new DwgReadException("Incorrect reactor handle code.");
+                }
             }
 
             if (!_nullHandle.IsEmpty && _nullHandle.Code != ExpectedNullHandleCode)
