@@ -29,16 +29,6 @@ namespace IxMilia.Dwg.Objects
                 throw new DwgReadException("Mismatch between reported line type count and line type handles read.");
             }
 
-            if (_nullHandle.Code != DwgHandleReferenceCode.HardPointer)
-            {
-                throw new DwgReadException("Incorrect object NULL handle code.");
-            }
-
-            if (_nullHandle.HandleOrOffset != 0)
-            {
-                throw new DwgReadException("Incorrect object NULL handle value.");
-            }
-
             if (_xDictionaryObjectHandle.Code != DwgHandleReferenceCode.SoftPointer)
             {
                 throw new DwgReadException("Incorrect XDictionary object handle code.");

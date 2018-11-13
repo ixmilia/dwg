@@ -17,6 +17,8 @@ namespace IxMilia.Dwg.Objects
             Name = name;
         }
 
+        internal override DwgHandleReferenceCode ExpectedNullHandleCode => DwgHandleReferenceCode.SoftOwner;
+
         internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {
             base.PoseParse(reader, objectCache);
@@ -36,16 +38,6 @@ namespace IxMilia.Dwg.Objects
             if (_xDictionaryObjectHandle.Code != DwgHandleReferenceCode.SoftPointer)
             {
                 throw new DwgReadException("Incorrect XDictionary object handle code.");
-            }
-
-            if (_nullHandle.Code != DwgHandleReferenceCode.SoftOwner)
-            {
-                throw new DwgReadException("Incorrect object NULL handle code.");
-            }
-
-            if (_nullHandle.HandleOrOffset != 0)
-            {
-                throw new DwgReadException("Incorrect object NULL handle value.");
             }
 
             if (BlockEntityHandle.Code != DwgHandleReferenceCode.SoftPointer)

@@ -7,6 +7,8 @@ namespace IxMilia.Dwg.Objects
     {
         public IList<DwgLineTypeDashInfo> DashInfos = new List<DwgLineTypeDashInfo>();
 
+        internal override DwgHandleReferenceCode ExpectedNullHandleCode => DwgHandleReferenceCode.SoftOwner;
+
         public DwgLineType(string name)
             : this()
         {
@@ -37,16 +39,6 @@ namespace IxMilia.Dwg.Objects
             if (!_xDictionaryObjectHandle.IsEmpty && _xDictionaryObjectHandle.Code != DwgHandleReferenceCode.SoftPointer)
             {
                 throw new DwgReadException("Incorrect XDictionary object handle code.");
-            }
-
-            if (!_nullHandle.IsEmpty && _nullHandle.Code != DwgHandleReferenceCode.SoftOwner)
-            {
-                throw new DwgReadException("Incorrect object NULL handle code.");
-            }
-
-            if (_nullHandle.HandleOrOffset != 0)
-            {
-                throw new DwgReadException("Incorrect object NULL handle value.");
             }
         }
 

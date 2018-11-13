@@ -12,9 +12,11 @@ namespace IxMilia.Dwg.Objects
         protected byte[] _xData;
         protected int _objectSize;
         protected int _reactorCount;
+        protected DwgHandleReference _nullHandle;
 
         internal virtual bool IsEntity => false;
         internal virtual IEnumerable<DwgObject> ChildItems => new DwgObject[0];
+        internal virtual DwgHandleReferenceCode ExpectedNullHandleCode => DwgHandleReferenceCode.HardPointer;
 
         internal void ClearHandles()
         {
@@ -92,6 +94,7 @@ namespace IxMilia.Dwg.Objects
             reader.SkipBytes(Math.Max(0, crcStart - reader.Offset));
 
             reader.ValidateCrc(initialValue: DwgHeaderVariables.InitialCrcValue);
+            obj.ValidateCommonValues();
             obj.PoseParse(reader, objectCache);
             return obj;
         }
@@ -102,9 +105,23 @@ namespace IxMilia.Dwg.Objects
 
         internal virtual void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {
+        }
+
+        private void ValidateCommonValues()
+        {
             if (Handle.Code != DwgHandleReferenceCode.Declaration)
             {
                 throw new DwgReadException("Invalid object handle code.");
+            }
+
+            if (!_nullHandle.IsEmpty && _nullHandle.Code != ExpectedNullHandleCode)
+            {
+                throw new DwgReadException("Invalid null handle code.");
+            }
+
+            if (_nullHandle.HandleOrOffset != 0)
+            {
+                throw new DwgReadException("Invalid null handle value.");
             }
         }
 

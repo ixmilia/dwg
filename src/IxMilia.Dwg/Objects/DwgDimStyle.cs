@@ -15,6 +15,8 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
+        internal override DwgHandleReferenceCode ExpectedNullHandleCode => DwgHandleReferenceCode.SoftOwner;
+
         public DwgDimStyle(string name)
             : this()
         {
@@ -50,16 +52,6 @@ namespace IxMilia.Dwg.Objects
             if (_xDictionaryObjectHandle.Code != DwgHandleReferenceCode.SoftPointer)
             {
                 throw new DwgReadException("Incorrect XDictionary object handle code.");
-            }
-
-            if (_nullHandle.Code != DwgHandleReferenceCode.SoftOwner)
-            {
-                throw new DwgReadException("Incorrect object NULL handle code.");
-            }
-
-            if (_nullHandle.HandleOrOffset != 0)
-            {
-                throw new DwgReadException("Incorrect object NULL handle value.");
             }
 
             if (_styleHandle.Code != DwgHandleReferenceCode.SoftOwner)
