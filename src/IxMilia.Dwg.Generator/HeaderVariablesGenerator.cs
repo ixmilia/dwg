@@ -45,7 +45,7 @@ namespace IxMilia.Dwg.Generator
                     AppendLine("/// <summary>");
                     AppendLine($"/// The {ShortName(v)} header variable.  {Comment(v)}");
                     AppendLine("/// </summary>");
-                    AppendLine($"public {Type(v)} {name} {{ get; set; }}");
+                    AppendLine($"{Accessibility(v)} {Type(v)} {name} {{ get; set; }}");
                     AppendLine();
                 }
             }
