@@ -11,25 +11,17 @@ namespace IxMilia.Dwg.Objects
 
         internal override void PreWrite()
         {
-            _lineTypeCount = (short)_lineTypes.Count;
-            _lineTypeHandles.Clear();
             foreach (var lineType in _lineTypes.Values)
             {
-                _lineTypeHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, lineType.Handle.HandleOrOffset));
+                _entityHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, lineType.Handle.HandleOrOffset));
                 lineType.LineTypeControlHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, Handle.HandleOrOffset);
             }
         }
 
         internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {
-            base.PoseParse(reader, objectCache);
             _lineTypes.Clear();
-            if (_lineTypeHandles.Count != _lineTypeCount)
-            {
-                throw new DwgReadException("Mismatch between reported line type count and line type handles read.");
-            }
-
-            foreach (var lineTypeHandle in _lineTypeHandles)
+            foreach (var lineTypeHandle in _entityHandles)
             {
                 if (lineTypeHandle.Code != DwgHandleReferenceCode.None)
                 {

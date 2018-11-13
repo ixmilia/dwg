@@ -11,25 +11,17 @@ namespace IxMilia.Dwg.Objects
 
         internal override void PreWrite()
         {
-            _viewCount = (short)_views.Count;
-            _viewHandles.Clear();
             foreach (var view in _views.Values)
             {
-                _viewHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, view.Handle.HandleOrOffset));
+                _entityHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, view.Handle.HandleOrOffset));
                 view.ViewControlHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, Handle.HandleOrOffset);
             }
         }
 
         internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {
-            base.PoseParse(reader, objectCache);
             _views.Clear();
-            if (_viewHandles.Count != _viewCount)
-            {
-                throw new DwgReadException("Mismatch between reported view count and view handles read.");
-            }
-
-            foreach (var viewHandle in _viewHandles)
+            foreach (var viewHandle in _entityHandles)
             {
                 if (viewHandle.Code != DwgHandleReferenceCode.None)
                 {

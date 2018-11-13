@@ -19,7 +19,6 @@ namespace IxMilia.Dwg.Objects
 
         internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {
-            base.PoseParse(reader, objectCache);
             if (ViewPortEntityHeaderControlHandle.Code != DwgHandleReferenceCode.HardPointer)
             {
                 throw new DwgReadException("Incorrect view port entity header control object parent handle code.");

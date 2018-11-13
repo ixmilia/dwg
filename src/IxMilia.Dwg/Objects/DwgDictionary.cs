@@ -11,27 +11,24 @@ namespace IxMilia.Dwg.Objects
 
         internal override void PreWrite()
         {
-            _entryCount = (short)_entries.Count;
-            _entryHandles.Clear();
             foreach (var entry in _entries.Values)
             {
-                _entryHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, entry.Handle.HandleOrOffset));
+                _entityHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, entry.Handle.HandleOrOffset));
                 // TODO: set parent handle
             }
         }
 
         internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {
-            base.PoseParse(reader, objectCache);
             _entries.Clear();
-            if (_entryHandles.Count != _entryCount || _names.Count != _entryCount)
+            if (_entityHandles.Count != _names.Count)
             {
                 throw new DwgReadException("Mismatch between reported entry count and entry handles/names read.");
             }
 
-            for (int i = 0; i < _entryCount; i++)
+            for (int i = 0; i < _entityHandles.Count; i++)
             {
-                var entryHandle = _entryHandles[i];
+                var entryHandle = _entityHandles[i];
                 var name = _names[i];
                 if (entryHandle.Code != DwgHandleReferenceCode.None)
                 {

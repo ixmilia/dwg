@@ -19,7 +19,6 @@ namespace IxMilia.Dwg.Objects
 
         internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {
-            base.PoseParse(reader, objectCache);
             if (AppIdControlHandle.Code != DwgHandleReferenceCode.HardPointer)
             {
                 throw new DwgReadException("Incorrect app id control object parent handle code.");

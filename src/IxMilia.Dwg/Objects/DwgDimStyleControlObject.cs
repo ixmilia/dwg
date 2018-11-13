@@ -11,25 +11,17 @@ namespace IxMilia.Dwg.Objects
 
         internal override void PreWrite()
         {
-            _dimStyleCount = (short)_styles.Count;
-            _dimStyleHandles.Clear();
             foreach (var style in _styles.Values)
             {
-                _dimStyleHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, style.Handle.HandleOrOffset));
+                _entityHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, style.Handle.HandleOrOffset));
                 style.DimStyleControlHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, Handle.HandleOrOffset);
             }
         }
 
         internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {
-            base.PoseParse(reader, objectCache);
             _styles.Clear();
-            if (_dimStyleHandles.Count != _dimStyleCount)
-            {
-                throw new DwgReadException("Mismatch between reported style count and style handles read.");
-            }
-
-            foreach (var styleHandle in _dimStyleHandles)
+            foreach (var styleHandle in _entityHandles)
             {
                 if (styleHandle.Code != DwgHandleReferenceCode.None)
                 {

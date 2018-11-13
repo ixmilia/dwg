@@ -19,7 +19,6 @@ namespace IxMilia.Dwg.Objects
 
         internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {
-            base.PoseParse(reader, objectCache);
             if (UCSControlHandle.Code != DwgHandleReferenceCode.HardPointer)
             {
                 throw new DwgReadException("Incorrect UCS control object parent handle code.");

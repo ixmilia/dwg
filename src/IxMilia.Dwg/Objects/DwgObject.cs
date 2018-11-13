@@ -13,6 +13,8 @@ namespace IxMilia.Dwg.Objects
         protected int _objectSize;
         protected int _reactorCount;
         protected List<DwgHandleReference> _reactorHandles = new List<DwgHandleReference>();
+        protected short _entityCount;
+        protected List<DwgHandleReference> _entityHandles = new List<DwgHandleReference>();
         protected DwgHandleReference _nullHandle;
         protected DwgHandleReference _xDictionaryObjectHandle;
 
@@ -51,7 +53,9 @@ namespace IxMilia.Dwg.Objects
                 return;
             }
 
+            PrepareCommonValues();
             PreWrite();
+            SetCommonValues();
             objectMap.SetOffset(Handle.HandleOrOffset, writer.Position);
 
             // write object to memory so the size can be computed
@@ -105,8 +109,22 @@ namespace IxMilia.Dwg.Objects
 
         internal abstract void WriteSpecific(BitWriter writer, DwgObjectMap objectMap, int pointerOffset, DwgVersionId version);
 
+        internal virtual void PreWrite()
+        {
+        }
+
         internal virtual void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {
+        }
+
+        private void PrepareCommonValues()
+        {
+            _entityHandles.Clear();
+        }
+
+        private void SetCommonValues()
+        {
+            _entityCount = (short)_entityHandles.Count;
         }
 
         private void ValidateCommonValues()
@@ -138,10 +156,11 @@ namespace IxMilia.Dwg.Objects
             {
                 throw new DwgReadException("Invalid XDictionary object handle code.");
             }
-        }
 
-        internal virtual void PreWrite()
-        {
+            if (_entityCount != _entityHandles.Count)
+            {
+                throw new DwgReadException("Mismatch between reported entity count and number of read handles.");
+            }
         }
     }
 }

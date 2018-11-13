@@ -19,7 +19,6 @@ namespace IxMilia.Dwg.Objects
 
         internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {
-            base.PoseParse(reader, objectCache);
             if (StyleControlHandle.Code != DwgHandleReferenceCode.HardPointer)
             {
                 throw new DwgReadException("Incorrect style control object parent handle code.");

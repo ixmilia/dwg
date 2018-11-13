@@ -11,25 +11,17 @@ namespace IxMilia.Dwg.Objects
 
         internal override void PreWrite()
         {
-            _viewPortEntityHeaderCount = (short)_viewPortEntityHeaders.Count;
-            _viewPortEntityHeaderHandles.Clear();
             foreach (var viewPortEntityHeader in _viewPortEntityHeaders.Values)
             {
-                _viewPortEntityHeaderHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, viewPortEntityHeader.Handle.HandleOrOffset));
+                _entityHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, viewPortEntityHeader.Handle.HandleOrOffset));
                 viewPortEntityHeader.ViewPortEntityHeaderControlHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, Handle.HandleOrOffset);
             }
         }
 
         internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {
-            base.PoseParse(reader, objectCache);
             _viewPortEntityHeaders.Clear();
-            if (_viewPortEntityHeaderHandles.Count != _viewPortEntityHeaderCount)
-            {
-                throw new DwgReadException("Mismatch between reported view port entity header count and view port entity header handles read.");
-            }
-
-            foreach (var viewPortEntityHeaderHandle in _viewPortEntityHeaderHandles)
+            foreach (var viewPortEntityHeaderHandle in _entityHandles)
             {
                 if (viewPortEntityHeaderHandle.Code != DwgHandleReferenceCode.None)
                 {

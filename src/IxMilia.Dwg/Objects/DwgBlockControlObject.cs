@@ -11,25 +11,17 @@ namespace IxMilia.Dwg.Objects
 
         internal override void PreWrite()
         {
-            _blockHeaderCount = (short)_blockHeaders.Count;
-            _blockHeaderHandles.Clear();
             foreach (var blockHeader in _blockHeaders.Values)
             {
-                _blockHeaderHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, blockHeader.Handle.HandleOrOffset));
+                _entityHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, blockHeader.Handle.HandleOrOffset));
                 blockHeader.BlockControlHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, Handle.HandleOrOffset);
             }
         }
 
         internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {
-            base.PoseParse(reader, objectCache);
             _blockHeaders.Clear();
-            if (_blockHeaderHandles.Count != _blockHeaderCount)
-            {
-                throw new DwgReadException("Mismatch between reported block header count and block header handles read.");
-            }
-
-            foreach (var blockHeaderHandle in _blockHeaderHandles)
+            foreach (var blockHeaderHandle in _entityHandles)
             {
                 if (blockHeaderHandle.Code != DwgHandleReferenceCode.None)
                 {

@@ -22,26 +22,18 @@ namespace IxMilia.Dwg.Objects
 
         internal override void PreWrite()
         {
-            _layerCount = (short)_layers.Count;
-            _layerHandles.Clear();
             foreach (var layer in _layers.Values)
             {
-                _layerHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, layer.Handle.HandleOrOffset));
+                _entityHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, layer.Handle.HandleOrOffset));
                 layer.LayerControlHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, Handle.HandleOrOffset);
             }
         }
 
         internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {
-            base.PoseParse(reader, objectCache);
             _layers.Clear();
             _layersFromHandle.Clear();
-            if (_layerHandles.Count != _layerCount)
-            {
-                throw new DwgReadException("Mismatch between reported layer count and layer handles read.");
-            }
-
-            foreach (var layerHandle in _layerHandles)
+            foreach (var layerHandle in _entityHandles)
             {
                 if (layerHandle.Code != DwgHandleReferenceCode.None)
                 {

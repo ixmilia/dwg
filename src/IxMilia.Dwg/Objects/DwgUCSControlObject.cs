@@ -11,25 +11,17 @@ namespace IxMilia.Dwg.Objects
 
         internal override void PreWrite()
         {
-            _ucsCount = (short)_ucs.Count;
-            _ucsHandles.Clear();
             foreach (var ucs in _ucs.Values)
             {
-                _ucsHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, ucs.Handle.HandleOrOffset));
+                _entityHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, ucs.Handle.HandleOrOffset));
                 ucs.UCSControlHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, Handle.HandleOrOffset);
             }
         }
 
         internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {
-            base.PoseParse(reader, objectCache);
             _ucs.Clear();
-            if (_ucsHandles.Count != _ucsCount)
-            {
-                throw new DwgReadException("Mismatch between reported UCS count and UCS handles read.");
-            }
-
-            foreach (var ucsHandle in _ucsHandles)
+            foreach (var ucsHandle in _entityHandles)
             {
                 if (ucsHandle.Code != DwgHandleReferenceCode.None)
                 {

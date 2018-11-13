@@ -11,25 +11,17 @@ namespace IxMilia.Dwg.Objects
 
         internal override void PreWrite()
         {
-            _appIdCount = (short)_appIds.Count;
-            _appIdHandles.Clear();
             foreach (var appId in _appIds.Values)
             {
-                _appIdHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, appId.Handle.HandleOrOffset));
+                _entityHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, appId.Handle.HandleOrOffset));
                 appId.AppIdControlHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, Handle.HandleOrOffset);
             }
         }
 
         internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {
-            base.PoseParse(reader, objectCache);
             _appIds.Clear();
-            if (_appIdHandles.Count != _appIdCount)
-            {
-                throw new DwgReadException("Mismatch between reported app id count and app id handles read.");
-            }
-
-            foreach (var appIdHandle in _appIdHandles)
+            foreach (var appIdHandle in _entityHandles)
             {
                 if (appIdHandle.Code != DwgHandleReferenceCode.None)
                 {
