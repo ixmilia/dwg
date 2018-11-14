@@ -1,12 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using IxMilia.Dwg.Collections;
 
 namespace IxMilia.Dwg.Objects
 {
     public partial class DwgViewControlObject : IDictionary<string, DwgView>
     {
-        private IDictionary<string, DwgView> _views = new StringDictionary<DwgView>(ignoreCase: true);
+        private Dictionary<string, DwgView> _views = new Dictionary<string, DwgView>(StringComparer.OrdinalIgnoreCase);
 
         internal override IEnumerable<DwgObject> ChildItems => _views.Values;
 

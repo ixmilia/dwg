@@ -1,12 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using IxMilia.Dwg.Collections;
 
 namespace IxMilia.Dwg.Objects
 {
     public partial class DwgLayerControlObject : IDictionary<string, DwgLayer>
     {
-        private IDictionary<string, DwgLayer> _layers = new StringDictionary<DwgLayer>(ignoreCase: true);
+        private Dictionary<string, DwgLayer> _layers = new Dictionary<string, DwgLayer>(StringComparer.OrdinalIgnoreCase);
         private Dictionary<int, DwgLayer> _layersFromHandle = new Dictionary<int, DwgLayer>();
 
         internal override IEnumerable<DwgObject> ChildItems => _layers.Values;
