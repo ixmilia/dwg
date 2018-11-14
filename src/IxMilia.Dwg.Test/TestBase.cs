@@ -20,7 +20,7 @@ namespace IxMilia.Dwg.Test
         public static DwgLayer RoundTrip(DwgLayer layer)
         {
             var drawing = new DwgDrawing();
-            layer.LineType = drawing.LineTypes.Values.Single();
+            layer.LineType = drawing.ContinuousLineType;
             drawing.Layers.Clear();
             drawing.Layers.Add(layer);
             var roundTrippedDrawing = RoundTrip(drawing);

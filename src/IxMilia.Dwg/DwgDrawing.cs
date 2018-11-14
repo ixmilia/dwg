@@ -24,6 +24,10 @@ namespace IxMilia.Dwg
         public DwgDictionary MLineStyleDictionary { get; private set; }
         public DwgDictionary NamedObjectDictionary { get; private set; }
 
+        public DwgLineType ByLayerLineType { get; set; }
+        public DwgLineType ByBlockLineType { get; set; }
+        public DwgLineType ContinuousLineType { get; set; }
+
         public DwgDrawing()
         {
             FileHeader = new DwgFileHeader(DwgVersionId.Default, 0, 0, 0);
@@ -44,6 +48,8 @@ namespace IxMilia.Dwg
             };
             LineTypes = new DwgLineTypeControlObject()
             {
+                new DwgLineType("BYLAYER"),
+                new DwgLineType("BYBLOCK"),
                 continuous
             };
             Views = new DwgViewControlObject();
@@ -65,6 +71,10 @@ namespace IxMilia.Dwg
             GroupDictionary = new DwgDictionary();
             MLineStyleDictionary = new DwgDictionary();
             NamedObjectDictionary = new DwgDictionary();
+
+            ByLayerLineType = LineTypes["BYLAYER"];
+            ByBlockLineType = LineTypes["BYBLOCK"];
+            ContinuousLineType = LineTypes["CONTINUOUS"];
         }
 
 #if HAS_FILESYSTEM_ACCESS
@@ -116,6 +126,9 @@ namespace IxMilia.Dwg
             GroupDictionary = objectCache.GetObject<DwgDictionary>(reader, Variables.GroupDictionaryHandle.HandleOrOffset);
             MLineStyleDictionary = objectCache.GetObject<DwgDictionary>(reader, Variables.MLineStyleDictionaryHandle.HandleOrOffset);
             NamedObjectDictionary = objectCache.GetObject<DwgDictionary>(reader, Variables.NamedObjectsDictionaryHandle.HandleOrOffset);
+            ByLayerLineType = objectCache.GetObject<DwgLineType>(reader, Variables.ByLayerLineTypeHandle.HandleOrOffset);
+            ByBlockLineType = objectCache.GetObject<DwgLineType>(reader, Variables.ByBlockLineTypeHandle.HandleOrOffset);
+            ContinuousLineType = objectCache.GetObject<DwgLineType>(reader, Variables.ContinuousLineTypeHandle.HandleOrOffset);
 
             objectCache.LoadEntities(reader, this);
         }
@@ -220,6 +233,10 @@ namespace IxMilia.Dwg
             Variables.GroupDictionaryHandle = GroupDictionary.Handle;
             Variables.MLineStyleDictionaryHandle = MLineStyleDictionary.Handle;
             Variables.NamedObjectsDictionaryHandle = NamedObjectDictionary.Handle;
+
+            Variables.ByLayerLineTypeHandle = ByLayerLineType.Handle;
+            Variables.ByBlockLineTypeHandle = ByBlockLineType.Handle;
+            Variables.ContinuousLineTypeHandle = ContinuousLineType.Handle;
 
             objectMap.SetNextAvailableHandle(Variables);
         }
