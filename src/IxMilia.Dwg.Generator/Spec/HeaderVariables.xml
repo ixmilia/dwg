@@ -11,7 +11,7 @@
   <Variable BinaryType="BL" DefaultValue="24" Comment="Undocumented." />
   <Variable BinaryType="BL" DefaultValue="0" Comment="Undocumented." />
   <Variable BinaryType="BS" DefaultValue="0" Comment="Undocumented." />
-  <Variable Name="CurrentViewPortEntity" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" Accessibility="internal" Comment="Handle of the current view port entity header." />
+  <Variable Name="CurrentViewPortEntityHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" Accessibility="internal" Comment="Handle of the current view port entity header." />
   <Variable Name="CreateAssociativeDimensioning" BinaryType="B" Type="bool" DefaultValue="true" ShortName="DIMASO" Comment="Controls associative dimensioning." />
   <Variable Name="RecomputeDimensionsWhileDragging" BinaryType="B" Type="bool" DefaultValue="true" ShortName="DIMSHO" Comment="Recompute dimensions while dragging." />
   <Variable BinaryType="B" DefaultValue="true" ShortName="DIMSAV" Comment="Undocumented." />
@@ -111,10 +111,10 @@
   <Variable Name="UserElapsedTimer" BinaryType="2BL" Type="TimeSpan" DefaultValue="TimeSpan.Zero" ShortName="TDUSRTIMER" ReadConverter="Converters.TimeSpan({0})" WriteConverter="Converters.TimeSpan({0})" Comment="User-elapsed timer." />
   <Variable Name="CurrentEntityColor" BinaryType="BS" Type="DwgColor" DefaultValue="DwgColor.ByLayer" ShortName="CECOLOR" ReadConverter="DwgColor.FromRawValue({0})" WriteConverter="{0}.RawValue" Comment="Current entity color." />
   <Variable Name="NextAvailableHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="HANDSEED" Comment="Next available handle." />
-  <Variable Name="CurrentLayer" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="CLAYER" Accessibility="internal" Comment="Current layer." />
-  <Variable Name="TextStyle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="TEXTSTYLE" Accessibility="internal" Comment="Current text style." />
-  <Variable Name="CurrentEntityLineType" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="CELTYPE" Accessibility="internal" Comment="Current entity line type." />
-  <Variable Name="DimensionStyle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="DIMSTYLE" Accessibility="internal" Comment="Current dimension style." />
+  <Variable Name="CurrentLayerHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="CLAYER" Accessibility="internal" Comment="Current layer." />
+  <Variable Name="TextStyleHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="TEXTSTYLE" Accessibility="internal" Comment="Current text style." />
+  <Variable Name="CurrentEntityLineTypeHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="CELTYPE" Accessibility="internal" Comment="Current entity line type." />
+  <Variable Name="DimensionStyleHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="DIMSTYLE" Accessibility="internal" Comment="Current dimension style." />
   <Variable Name="CurrentMultilineStyle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="CMLSTYLE" Accessibility="internal" Comment="Current multiline style." />
   <Variable Name="PaperSpaceInsertionBase" BinaryType="3BD" Type="DwgPoint" DefaultValue="DwgPoint.Origin" ShortName="PINSBASE" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" Comment="Paper space insertion base point." />
   <Variable Name="PaperSpaceMinimumDrawingExtents" BinaryType="3BD" Type="DwgPoint" DefaultValue="DwgPoint.Origin" ShortName="PEXTMIN" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" Comment="X, Y, and Z drawing extents lower-left corner in paper space." />
@@ -125,7 +125,7 @@
   <Variable Name="PaperSpaceUCSOrigin" BinaryType="3BD" Type="DwgPoint" DefaultValue="DwgPoint.Origin" ShortName="PUCSORG" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" Comment="Current paper space origin of UCS." />
   <Variable Name="PaperSpaceUCSXAxis" BinaryType="3BD" Type="DwgVector" DefaultValue="DwgVector.XAxis" ShortName="PUCSXDIR" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" Comment="Current paper space UCS X axis" />
   <Variable Name="PaperSpaceUCSYAxis" BinaryType="3BD" Type="DwgVector" DefaultValue="DwgVector.YAxis" ShortName="PUCSYDIR" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" Comment="Current paper space UCS Y axis" />
-  <Variable Name="PaperSpaceCurrentUCS" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="PUCSNAME" Accessibility="internal" Comment="Current paper space UCS." />
+  <Variable Name="PaperSpaceCurrentUCSHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="PUCSNAME" Accessibility="internal" Comment="Current paper space UCS." />
   <Variable Name="InsertionBase" BinaryType="3BD" Type="DwgPoint" DefaultValue="DwgPoint.Origin" ShortName="INSBASE" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" Comment="Insertion base set by BASE command (in WCS)." />
   <Variable Name="MinimumDrawingExtents" BinaryType="3BD" Type="DwgPoint" DefaultValue="DwgPoint.Origin" ShortName="EXTMIN" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" Comment="X, Y, and Z drawing extents lower-left corner (in WCS)." />
   <Variable Name="MaximumDrawingExtents" BinaryType="3BD" Type="DwgPoint" DefaultValue="DwgPoint.Origin" ShortName="EXTMAX" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" Comment="X, Y, and Z drawing extents upper-left corner (in WCS)." />
@@ -135,7 +135,7 @@
   <Variable Name="UCSOrigin" BinaryType="3BD" Type="DwgPoint" DefaultValue="DwgPoint.Origin" ShortName="UCSORG" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" Comment="Origin of current UCS (in WCS)." />
   <Variable Name="UCSXAxis" BinaryType="3BD" Type="DwgVector" DefaultValue="DwgVector.XAxis" ShortName="UCSXDIR" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" Comment="Direction of the current UCS X axis (in WCS)." />
   <Variable Name="UCSYAxis" BinaryType="3BD" Type="DwgVector" DefaultValue="DwgVector.YAxis" ShortName="UCSYDIR" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" Comment="Direction of the current UCS Y axis (in WCS)." />
-  <Variable Name="CurrentUCS" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="UCSNAME" Accessibility="internal" Comment="Current UCS." />
+  <Variable Name="CurrentUCSHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="UCSNAME" Accessibility="internal" Comment="Current UCS." />
   <Variable Name="GenerateDimensionTolerances" BinaryType="B" Type="bool" DefaultValue="false" ShortName="DIMTOL" Comment="Dimension tolerances generated." />
   <Variable Name="GenerateDimensionLimits" BinaryType="B" Type="bool" DefaultValue="false" ShortName="DIMLIM" Comment="Dimension limits generated." />
   <Variable Name="DimensionTextInsideHorizontal" BinaryType="B" Type="bool" DefaultValue="true" ShortName="DIMTIH" Comment="Text inside horizontal." />
@@ -165,7 +165,7 @@
   <Variable Name="DimensionToleranceDecimalPlaces" BinaryType="BS" Type="short" DefaultValue="4" ShortName="DIMTDEC" Comment="Number of decimal places to display the tolerance values." />
   <Variable Name="AlternateDimensioningUnits" BinaryType="BS" Type="DwgUnitFormat" DefaultValue="DwgUnitFormat.Decimal" ShortName="DIMALTU" ReadConverter="(DwgUnitFormat){0}" WriteConverter="(short){0}" Comment="Units format for alternate units of all dimension style family members except angular." />
   <Variable Name="AlternateDimensioningToleranceDecimalPlaces" BinaryType="BS" Type="short" DefaultValue="2" ShortName="DIMALTTD" Comment="Number of decimal places for tolerance values of an alternate units dimension." />
-  <Variable Name="DimensionTextStyle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="DIMTXSTY" Accessibility="internal" Comment="Dimension text style." />
+  <Variable Name="DimensionTextStyleHandle" BinaryType="H" Type="DwgHandleReference" DefaultValue="default(DwgHandleReference)" ShortName="DIMTXSTY" Accessibility="internal" Comment="Dimension text style." />
   <Variable Name="DimensioningScaleFactor" BinaryType="BD" Type="double" DefaultValue="1.0" ShortName="DIMSCALE" Comment="Overall dimensioning scale factor." />
   <Variable Name="DimensioningArrowSize" BinaryType="BD" Type="double" DefaultValue="0.18" ShortName="DIMASZ" Comment="Dimensioning arrow size." />
   <Variable Name="DimensionExtensionLineOffset" BinaryType="BD" Type="double" DefaultValue="0.0625" ShortName="DIMEXO" Comment="Extension line offset." />

@@ -47,6 +47,22 @@ namespace IxMilia.Dwg
             throw new DwgReadException($"Expected object of type {typeof(T)} with handle {handle} but instead found {obj.GetType().Name}.");
         }
 
+        public T GetObjectOrDefault<T>(BitReader reader, int handle) where T: DwgObject
+        {
+            if (handle == 0)
+            {
+                return null;
+            }
+
+            var obj = GetObject(reader, handle, allowNull: true);
+            if (obj is T specific)
+            {
+                return specific;
+            }
+
+            return null;
+        }
+
         public void LoadEntities(BitReader reader, DwgDrawing drawing)
         {
             foreach (var kvp in _handleToOffset)

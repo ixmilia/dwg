@@ -29,6 +29,15 @@ namespace IxMilia.Dwg
         public DwgLineType ByLayerLineType { get; set; }
         public DwgLineType ByBlockLineType { get; set; }
         public DwgLineType ContinuousLineType { get; set; }
+        public DwgViewPort CurrentViewPort { get; set; }
+        public DwgLayer CurrentLayer { get; set; }
+        public DwgStyle TextStyle { get; set; }
+        public DwgLineType CurrentEntityLineType { get; set; }
+        public DwgDimStyle DimensionStyle { get; set; }
+
+        public DwgUCS PaperSpaceCurrentUCS { get; set; }
+        public DwgUCS CurrentUCS { get; set; }
+        public DwgStyle DimensionTextStyle { get; set; }
 
         public DwgDrawing()
         {
@@ -83,6 +92,11 @@ namespace IxMilia.Dwg
             ByLayerLineType = LineTypes["BYLAYER"];
             ByBlockLineType = LineTypes["BYBLOCK"];
             ContinuousLineType = LineTypes["CONTINUOUS"];
+            CurrentLayer = Layers["0"];
+            TextStyle = Styles["STANDARD"];
+            CurrentEntityLineType = LineTypes["BYBLOCK"];
+            DimensionStyle = DimStyles["STANDARD"];
+            DimensionTextStyle = Styles["STANDARD"];
         }
 
 #if HAS_FILESYSTEM_ACCESS
@@ -139,6 +153,15 @@ namespace IxMilia.Dwg
             ByLayerLineType = objectCache.GetObject<DwgLineType>(reader, Variables.ByLayerLineTypeHandle.HandleOrOffset);
             ByBlockLineType = objectCache.GetObject<DwgLineType>(reader, Variables.ByBlockLineTypeHandle.HandleOrOffset);
             ContinuousLineType = objectCache.GetObject<DwgLineType>(reader, Variables.ContinuousLineTypeHandle.HandleOrOffset);
+            CurrentViewPort = objectCache.GetObjectOrDefault<DwgViewPort>(reader, Variables.CurrentViewPortEntityHandle.HandleOrOffset);
+            CurrentLayer = objectCache.GetObject<DwgLayer>(reader, Variables.CurrentLayerHandle.HandleOrOffset);
+            TextStyle = objectCache.GetObject<DwgStyle>(reader, Variables.TextStyleHandle.HandleOrOffset);
+            CurrentEntityLineType = objectCache.GetObject<DwgLineType>(reader, Variables.CurrentEntityLineTypeHandle.HandleOrOffset);
+            DimensionStyle = objectCache.GetObject<DwgDimStyle>(reader, Variables.DimensionStyleHandle.HandleOrOffset);
+
+            PaperSpaceCurrentUCS = objectCache.GetObjectOrDefault<DwgUCS>(reader, Variables.PaperSpaceCurrentUCSHandle.HandleOrOffset);
+            CurrentUCS = objectCache.GetObjectOrDefault<DwgUCS>(reader, Variables.CurrentUCSHandle.HandleOrOffset);
+            DimensionTextStyle = objectCache.GetObject<DwgStyle>(reader, Variables.DimensionTextStyleHandle.HandleOrOffset);
 
             objectCache.LoadEntities(reader, this);
         }
@@ -249,6 +272,15 @@ namespace IxMilia.Dwg
             Variables.ByLayerLineTypeHandle = ByLayerLineType.Handle;
             Variables.ByBlockLineTypeHandle = ByBlockLineType.Handle;
             Variables.ContinuousLineTypeHandle = ContinuousLineType.Handle;
+            Variables.CurrentViewPortEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, CurrentViewPort?.Handle.HandleOrOffset ?? 0);
+            Variables.CurrentLayerHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, CurrentLayer.Handle.HandleOrOffset);
+            Variables.TextStyleHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, TextStyle.Handle.HandleOrOffset);
+            Variables.CurrentEntityLineTypeHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, CurrentEntityLineType.Handle.HandleOrOffset);
+            Variables.DimensionStyleHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, DimensionStyle.Handle.HandleOrOffset);
+
+            Variables.PaperSpaceCurrentUCSHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, PaperSpaceCurrentUCS?.Handle.HandleOrOffset ?? 0);
+            Variables.CurrentUCSHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, CurrentUCS?.Handle.HandleOrOffset ?? 0);
+            Variables.DimensionTextStyleHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, DimensionTextStyle.Handle.HandleOrOffset);
 
             objectMap.SetNextAvailableHandle(Variables);
         }

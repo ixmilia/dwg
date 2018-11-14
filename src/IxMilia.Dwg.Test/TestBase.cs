@@ -23,6 +23,7 @@ namespace IxMilia.Dwg.Test
             layer.LineType = drawing.ContinuousLineType;
             drawing.Layers.Clear();
             drawing.Layers.Add(layer);
+            drawing.CurrentLayer = layer;
             var roundTrippedDrawing = RoundTrip(drawing);
             var roundTrippedLayer = roundTrippedDrawing.Layers.Values.Single();
             Assert.Equal(layer.Name, roundTrippedLayer.Name);
