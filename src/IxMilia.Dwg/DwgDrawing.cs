@@ -24,6 +24,8 @@ namespace IxMilia.Dwg
         public DwgDictionary MLineStyleDictionary { get; private set; }
         public DwgDictionary NamedObjectDictionary { get; private set; }
 
+        public DwgBlockHeader PaperSpaceBlockRecord { get; set; }
+        public DwgBlockHeader ModelSpaceBlockRecord { get; set; }
         public DwgLineType ByLayerLineType { get; set; }
         public DwgLineType ByBlockLineType { get; set; }
         public DwgLineType ContinuousLineType { get; set; }
@@ -37,7 +39,11 @@ namespace IxMilia.Dwg
             var continuous = new DwgLineType("CONTINUOUS") { Description = "Solid line" };
             var standardStyle = new DwgStyle("STANDARD");
 
-            BlockHeaders = new DwgBlockControlObject();
+            BlockHeaders = new DwgBlockControlObject()
+            {
+                DwgBlockHeader.GetPaperSpaceBlockRecord(),
+                DwgBlockHeader.GetModelSpaceBlockRecord()
+            };
             Layers = new DwgLayerControlObject
             {
                 new DwgLayer("0") { LineType = continuous }
@@ -72,6 +78,8 @@ namespace IxMilia.Dwg
             MLineStyleDictionary = new DwgDictionary();
             NamedObjectDictionary = new DwgDictionary();
 
+            PaperSpaceBlockRecord = BlockHeaders["*PAPER_SPACE"];
+            ModelSpaceBlockRecord = BlockHeaders["*MODEL_SPACE"];
             ByLayerLineType = LineTypes["BYLAYER"];
             ByBlockLineType = LineTypes["BYBLOCK"];
             ContinuousLineType = LineTypes["CONTINUOUS"];
@@ -126,6 +134,8 @@ namespace IxMilia.Dwg
             GroupDictionary = objectCache.GetObject<DwgDictionary>(reader, Variables.GroupDictionaryHandle.HandleOrOffset);
             MLineStyleDictionary = objectCache.GetObject<DwgDictionary>(reader, Variables.MLineStyleDictionaryHandle.HandleOrOffset);
             NamedObjectDictionary = objectCache.GetObject<DwgDictionary>(reader, Variables.NamedObjectsDictionaryHandle.HandleOrOffset);
+            PaperSpaceBlockRecord = objectCache.GetObject<DwgBlockHeader>(reader, Variables.PaperSpaceBlockRecordHandle.HandleOrOffset);
+            ModelSpaceBlockRecord = objectCache.GetObject<DwgBlockHeader>(reader, Variables.ModelSpaceBlockRecordHandle.HandleOrOffset);
             ByLayerLineType = objectCache.GetObject<DwgLineType>(reader, Variables.ByLayerLineTypeHandle.HandleOrOffset);
             ByBlockLineType = objectCache.GetObject<DwgLineType>(reader, Variables.ByBlockLineTypeHandle.HandleOrOffset);
             ContinuousLineType = objectCache.GetObject<DwgLineType>(reader, Variables.ContinuousLineTypeHandle.HandleOrOffset);
@@ -234,6 +244,8 @@ namespace IxMilia.Dwg
             Variables.MLineStyleDictionaryHandle = MLineStyleDictionary.Handle;
             Variables.NamedObjectsDictionaryHandle = NamedObjectDictionary.Handle;
 
+            Variables.PaperSpaceBlockRecordHandle = PaperSpaceBlockRecord.Handle;
+            Variables.ModelSpaceBlockRecordHandle = ModelSpaceBlockRecord.Handle;
             Variables.ByLayerLineTypeHandle = ByLayerLineType.Handle;
             Variables.ByBlockLineTypeHandle = ByBlockLineType.Handle;
             Variables.ContinuousLineTypeHandle = ContinuousLineType.Handle;

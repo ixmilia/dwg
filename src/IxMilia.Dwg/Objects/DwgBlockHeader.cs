@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace IxMilia.Dwg.Objects
 {
@@ -6,7 +7,7 @@ namespace IxMilia.Dwg.Objects
     {
         public DwgBlock Block { get; set; }
 
-        public DwgBlockHeader(string name)
+        public DwgBlockHeader(string name, DwgBlock block)
             : this()
         {
             if (string.IsNullOrEmpty(name))
@@ -15,9 +16,23 @@ namespace IxMilia.Dwg.Objects
             }
 
             Name = name;
+            Block = block;
         }
 
         internal override DwgHandleReferenceCode ExpectedNullHandleCode => DwgHandleReferenceCode.SoftOwner;
+
+        internal override IEnumerable<DwgObject> ChildItems
+        {
+            get
+            {
+                yield return Block;
+            }
+        }
+
+        internal override void PreWrite()
+        {
+            BlockEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, Block.Handle.HandleOrOffset);
+        }
 
         internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
         {
@@ -50,6 +65,21 @@ namespace IxMilia.Dwg.Objects
             }
 
             Block = objectCache.GetObject<DwgBlock>(reader, BlockEntityHandle.HandleOrOffset);
+        }
+
+        private static DwgBlockHeader GetBlockRecordWithName(string name)
+        {
+            return new DwgBlockHeader(name, new DwgBlock(name));
+        }
+
+        internal static DwgBlockHeader GetPaperSpaceBlockRecord()
+        {
+            return GetBlockRecordWithName("*PAPER_SPACE");
+        }
+
+        internal static DwgBlockHeader GetModelSpaceBlockRecord()
+        {
+            return GetBlockRecordWithName("*MODEL_SPACE");
         }
     }
 }

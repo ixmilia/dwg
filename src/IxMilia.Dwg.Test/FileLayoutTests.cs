@@ -12,6 +12,9 @@ namespace IxMilia.Dwg.Test
             var defaultFile = new DwgDrawing();
             Assert.Equal("0", defaultFile.Layers.Single().Value.Name);
             Assert.Equal("STANDARD", defaultFile.Styles.Single().Value.Name);
+            Assert.Equal(2, defaultFile.BlockHeaders.Count);
+            Assert.NotNull(defaultFile.BlockHeaders["*PAPER_SPACE"]);
+            Assert.NotNull(defaultFile.BlockHeaders["*MODEL_SPACE"]);
             Assert.Equal(3, defaultFile.LineTypes.Count);
             Assert.NotNull(defaultFile.LineTypes["BYLAYER"]);
             Assert.NotNull(defaultFile.LineTypes["BYBLOCK"]);
@@ -26,6 +29,9 @@ namespace IxMilia.Dwg.Test
             var roundTrippedFile = RoundTrip(defaultFile);
             Assert.Equal("0", roundTrippedFile.Layers.Single().Value.Name);
             Assert.Equal("STANDARD", roundTrippedFile.Styles.Single().Value.Name);
+            Assert.Equal(2, roundTrippedFile.BlockHeaders.Count);
+            Assert.NotNull(roundTrippedFile.BlockHeaders["*PAPER_SPACE"]);
+            Assert.NotNull(roundTrippedFile.BlockHeaders["*MODEL_SPACE"]);
             Assert.Equal(3, roundTrippedFile.LineTypes.Count);
             Assert.NotNull(roundTrippedFile.LineTypes["BYLAYER"]);
             Assert.NotNull(roundTrippedFile.LineTypes["BYBLOCK"]);
