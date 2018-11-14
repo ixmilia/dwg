@@ -93,7 +93,7 @@ namespace IxMilia.Dwg.Generator
         {
             foreach (var o in _objects)
             {
-                CreateNewFile("IxMilia.Dwg.Objects", "System.Collections.Generic");
+                CreateNewFile("IxMilia.Dwg.Objects", "System", "System.Collections.Generic");
 
                 IncreaseIndent();
                 var baseClass = IsEntity(o) ? "DwgEntity" : "DwgObject";

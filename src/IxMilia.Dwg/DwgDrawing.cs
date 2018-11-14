@@ -34,7 +34,7 @@ namespace IxMilia.Dwg
         public DwgStyle TextStyle { get; set; }
         public DwgLineType CurrentEntityLineType { get; set; }
         public DwgDimStyle DimensionStyle { get; set; }
-
+        public DwgMLineStyle CurrentMultiLineStyle { get; set; }
         public DwgUCS PaperSpaceCurrentUCS { get; set; }
         public DwgUCS CurrentUCS { get; set; }
         public DwgStyle DimensionTextStyle { get; set; }
@@ -47,6 +47,7 @@ namespace IxMilia.Dwg
 
             var continuous = new DwgLineType("CONTINUOUS") { Description = "Solid line" };
             var standardStyle = new DwgStyle("STANDARD");
+            var standardMLineStyle = DwgMLineStyle.GetDefaultMLineStyle();
 
             BlockHeaders = new DwgBlockControlObject()
             {
@@ -84,7 +85,10 @@ namespace IxMilia.Dwg
             };
             ViewPortEntityHeaders = new DwgViewPortEntityHeaderControlObject();
             GroupDictionary = new DwgDictionary();
-            MLineStyleDictionary = new DwgDictionary();
+            MLineStyleDictionary = new DwgDictionary()
+            {
+                { standardMLineStyle.Name, standardMLineStyle }
+            };
             NamedObjectDictionary = new DwgDictionary();
 
             PaperSpaceBlockRecord = BlockHeaders["*PAPER_SPACE"];
@@ -96,6 +100,7 @@ namespace IxMilia.Dwg
             TextStyle = Styles["STANDARD"];
             CurrentEntityLineType = LineTypes["BYBLOCK"];
             DimensionStyle = DimStyles["STANDARD"];
+            CurrentMultiLineStyle = (DwgMLineStyle)MLineStyleDictionary["Standard"];
             DimensionTextStyle = Styles["STANDARD"];
         }
 
@@ -158,7 +163,7 @@ namespace IxMilia.Dwg
             TextStyle = objectCache.GetObject<DwgStyle>(reader, Variables.TextStyleHandle.HandleOrOffset);
             CurrentEntityLineType = objectCache.GetObject<DwgLineType>(reader, Variables.CurrentEntityLineTypeHandle.HandleOrOffset);
             DimensionStyle = objectCache.GetObject<DwgDimStyle>(reader, Variables.DimensionStyleHandle.HandleOrOffset);
-
+            CurrentMultiLineStyle = objectCache.GetObject<DwgMLineStyle>(reader, Variables.CurrentMultiLineStyleHandle.HandleOrOffset);
             PaperSpaceCurrentUCS = objectCache.GetObjectOrDefault<DwgUCS>(reader, Variables.PaperSpaceCurrentUCSHandle.HandleOrOffset);
             CurrentUCS = objectCache.GetObjectOrDefault<DwgUCS>(reader, Variables.CurrentUCSHandle.HandleOrOffset);
             DimensionTextStyle = objectCache.GetObject<DwgStyle>(reader, Variables.DimensionTextStyleHandle.HandleOrOffset);
@@ -277,7 +282,7 @@ namespace IxMilia.Dwg
             Variables.TextStyleHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, TextStyle.Handle.HandleOrOffset);
             Variables.CurrentEntityLineTypeHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, CurrentEntityLineType.Handle.HandleOrOffset);
             Variables.DimensionStyleHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, DimensionStyle.Handle.HandleOrOffset);
-
+            Variables.CurrentMultiLineStyleHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, CurrentMultiLineStyle.Handle.HandleOrOffset);
             Variables.PaperSpaceCurrentUCSHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, PaperSpaceCurrentUCS?.Handle.HandleOrOffset ?? 0);
             Variables.CurrentUCSHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, CurrentUCS?.Handle.HandleOrOffset ?? 0);
             Variables.DimensionTextStyleHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, DimensionTextStyle.Handle.HandleOrOffset);

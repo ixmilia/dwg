@@ -12,9 +12,13 @@ namespace IxMilia.Dwg.Objects
 
         internal override void PreWrite()
         {
-            foreach (var entry in _entries.Values)
+            _names.Clear();
+            foreach (var kvp in _entries)
             {
+                var name = kvp.Key;
+                var entry = kvp.Value;
                 _entityHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, entry.Handle.HandleOrOffset));
+                _names.Add(name);
                 // TODO: set parent handle
             }
         }
