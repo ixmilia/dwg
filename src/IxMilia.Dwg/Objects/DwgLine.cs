@@ -9,15 +9,13 @@
             P2 = p2;
         }
 
-        internal override void PreWrite()
+        internal override void OnBeforeEntityWrite()
         {
-            base.PreWrite();
             _noLinks = _subentityRef.IsEmpty;
         }
 
-        internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
+        internal override void OnAfterEntityRead(BitReader reader, DwgObjectCache objectCache)
         {
-            base.PoseParse(reader, objectCache);
             if (!_noLinks && !_subentityRef.IsEmpty && _subentityRef.Code != DwgHandleReferenceCode.SoftPointer)
             {
                 throw new DwgReadException("Incorrect sub entity handle code.");

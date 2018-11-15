@@ -20,15 +20,23 @@
         internal DwgHandleReference PreviousEntityHandle { get; set; }
         internal DwgHandleReference NextEntityHandle { get; set; }
 
-        internal override void PreWrite()
+        internal virtual void OnBeforeEntityWrite()
         {
-            base.PreWrite();
+        }
+
+        internal virtual void OnAfterEntityRead(BitReader reader, DwgObjectCache objectCache)
+        {
+        }
+
+        internal override void OnBeforeObjectWrite()
+        {
             LayerHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, Layer.Handle.HandleOrOffset);
             LineTypeHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, LineType?.Handle.HandleOrOffset ?? 0);
             _isLineTypeByLayer = LineType == null;
+            OnBeforeEntityWrite();
         }
 
-        internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
+        internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
         {
             if (LayerHandle.Code != DwgHandleReferenceCode.SoftOwner)
             {
@@ -40,12 +48,12 @@
                 throw new DwgReadException("Incorrect line type handle code.");
             }
 
-            if (PreviousEntityHandle.Code != DwgHandleReferenceCode.HardPointer)
+            if (PreviousEntityHandle.Code != DwgHandleReferenceCode.Declaration && PreviousEntityHandle.Code != DwgHandleReferenceCode.HardPointer)
             {
                 throw new DwgReadException("Invalid previous entity handle code.");
             }
 
-            if (NextEntityHandle.Code != DwgHandleReferenceCode.HardPointer)
+            if (NextEntityHandle.Code != DwgHandleReferenceCode.Declaration && NextEntityHandle.Code != DwgHandleReferenceCode.HardPointer)
             {
                 throw new DwgReadException("Invalid next entity handle code.");
             }
@@ -55,6 +63,8 @@
             {
                 LineType = objectCache.GetObject<DwgLineType>(reader, LineTypeHandle.HandleOrOffset);
             }
+
+            OnAfterEntityRead(reader, objectCache);
         }
     }
 }

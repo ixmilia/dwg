@@ -10,7 +10,7 @@ namespace IxMilia.Dwg.Objects
 
         internal override IEnumerable<DwgObject> ChildItems => _viewPorts.Values;
 
-        internal override void PreWrite()
+        internal override void OnBeforeObjectWrite()
         {
             foreach (var viewPort in _viewPorts.Values)
             {
@@ -19,7 +19,7 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
+        internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
         {
             _viewPorts.Clear();
             foreach (var viewPortHandle in _entityHandles)

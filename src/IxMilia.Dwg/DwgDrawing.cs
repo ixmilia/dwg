@@ -46,17 +46,18 @@ namespace IxMilia.Dwg
             Classes = new List<DwgClassDefinition>();
 
             var continuous = new DwgLineType("CONTINUOUS") { Description = "Solid line" };
+            var defaultLayer = new DwgLayer("0") { LineType = continuous };
             var standardStyle = new DwgStyle("STANDARD");
             var standardMLineStyle = DwgMLineStyle.GetDefaultMLineStyle();
 
             BlockHeaders = new DwgBlockControlObject()
             {
-                DwgBlockHeader.GetPaperSpaceBlockRecord(),
-                DwgBlockHeader.GetModelSpaceBlockRecord()
+                DwgBlockHeader.GetPaperSpaceBlockRecord(defaultLayer),
+                DwgBlockHeader.GetModelSpaceBlockRecord(defaultLayer)
             };
             Layers = new DwgLayerControlObject
             {
-                new DwgLayer("0") { LineType = continuous }
+                defaultLayer
             };
             Styles = new DwgStyleControlObject()
             {

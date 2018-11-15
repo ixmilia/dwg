@@ -20,7 +20,7 @@ namespace IxMilia.Dwg.Objects
             Name = name;
         }
 
-        internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
+        internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
         {
             if (!LineTypeControlHandle.IsEmpty && LineTypeControlHandle.Code != DwgHandleReferenceCode.HardPointer)
             {

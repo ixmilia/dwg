@@ -2,12 +2,12 @@
 {
     public partial class DwgEndBlock
     {
-        internal override void PreWrite()
+        internal override void OnBeforeEntityWrite()
         {
             _noLinks = _subentityRef.IsEmpty;
         }
 
-        internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
+        internal override void OnAfterEntityRead(BitReader reader, DwgObjectCache objectCache)
         {
             if (!_noLinks && !_subentityRef.IsEmpty && _subentityRef.Code != DwgHandleReferenceCode.SoftPointer)
             {

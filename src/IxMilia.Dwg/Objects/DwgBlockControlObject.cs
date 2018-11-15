@@ -10,7 +10,7 @@ namespace IxMilia.Dwg.Objects
 
         internal override IEnumerable<DwgObject> ChildItems => _blockHeaders.Values;
 
-        internal override void PreWrite()
+        internal override void OnBeforeObjectWrite()
         {
             foreach (var blockHeader in _blockHeaders.Values)
             {
@@ -19,7 +19,7 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
+        internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
         {
             _blockHeaders.Clear();
             foreach (var blockHeaderHandle in _entityHandles)

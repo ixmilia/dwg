@@ -37,7 +37,7 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal override void PreWrite()
+        internal override void OnBeforeObjectWrite()
         {
             BlockEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, Block.Handle.HandleOrOffset);
             EndBlockEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, EndBlock.Handle.HandleOrOffset);
@@ -67,7 +67,7 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
+        internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
         {
             if (BlockControlHandle.Code != DwgHandleReferenceCode.HardPointer)
             {
@@ -121,19 +121,21 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        private static DwgBlockHeader GetBlockRecordWithName(string name)
+        private static DwgBlockHeader GetBlockRecordWithName(string name, DwgLayer layer)
         {
-            return new DwgBlockHeader(name, new DwgBlock(name), new DwgEndBlock());
+            var block = new DwgBlock(name) { Layer = layer };
+            var endBlock = new DwgEndBlock() { Layer = layer };
+            return new DwgBlockHeader(name, block, endBlock);
         }
 
-        internal static DwgBlockHeader GetPaperSpaceBlockRecord()
+        internal static DwgBlockHeader GetPaperSpaceBlockRecord(DwgLayer layer)
         {
-            return GetBlockRecordWithName("*PAPER_SPACE");
+            return GetBlockRecordWithName("*PAPER_SPACE", layer);
         }
 
-        internal static DwgBlockHeader GetModelSpaceBlockRecord()
+        internal static DwgBlockHeader GetModelSpaceBlockRecord(DwgLayer layer)
         {
-            return GetBlockRecordWithName("*MODEL_SPACE");
+            return GetBlockRecordWithName("*MODEL_SPACE", layer);
         }
     }
 }

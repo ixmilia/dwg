@@ -17,12 +17,12 @@ namespace IxMilia.Dwg.Objects
             Name = name;
         }
 
-        internal override void PreWrite()
+        internal override void OnBeforeObjectWrite()
         {
             _reactorCount = _reactorHandles.Count;
         }
 
-        internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
+        internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
         {
         }
 

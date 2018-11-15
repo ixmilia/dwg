@@ -10,7 +10,7 @@ namespace IxMilia.Dwg.Objects
 
         internal override IEnumerable<DwgObject> ChildItems => _entries.Values;
 
-        internal override void PreWrite()
+        internal override void OnBeforeObjectWrite()
         {
             _names.Clear();
             foreach (var kvp in _entries)
@@ -23,7 +23,7 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
+        internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
         {
             _entries.Clear();
             if (_entityHandles.Count != _names.Count)

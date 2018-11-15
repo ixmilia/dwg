@@ -10,7 +10,7 @@ namespace IxMilia.Dwg.Objects
 
         internal override IEnumerable<DwgObject> ChildItems => _ucs.Values;
 
-        internal override void PreWrite()
+        internal override void OnBeforeObjectWrite()
         {
             foreach (var ucs in _ucs.Values)
             {
@@ -19,7 +19,7 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
+        internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
         {
             _ucs.Clear();
             foreach (var ucsHandle in _entityHandles)

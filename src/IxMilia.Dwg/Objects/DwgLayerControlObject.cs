@@ -21,7 +21,7 @@ namespace IxMilia.Dwg.Objects
             return null;
         }
 
-        internal override void PreWrite()
+        internal override void OnBeforeObjectWrite()
         {
             foreach (var layer in _layers.Values)
             {
@@ -30,7 +30,7 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
+        internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
         {
             _layers.Clear();
             _layersFromHandle.Clear();

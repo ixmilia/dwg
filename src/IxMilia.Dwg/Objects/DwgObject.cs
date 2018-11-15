@@ -54,7 +54,7 @@ namespace IxMilia.Dwg.Objects
             }
 
             PrepareCommonValues();
-            PreWrite();
+            OnBeforeObjectWrite();
             SetCommonValues();
             objectMap.SetOffset(Handle.HandleOrOffset, writer.Position);
 
@@ -101,7 +101,7 @@ namespace IxMilia.Dwg.Objects
 
             reader.ValidateCrc(initialValue: DwgHeaderVariables.InitialCrcValue);
             obj.ValidateCommonValues();
-            obj.PoseParse(reader, objectCache);
+            obj.OnAfterObjectRead(reader, objectCache);
             return obj;
         }
 
@@ -109,11 +109,11 @@ namespace IxMilia.Dwg.Objects
 
         internal abstract void WriteSpecific(BitWriter writer, DwgObjectMap objectMap, int pointerOffset, DwgVersionId version);
 
-        internal virtual void PreWrite()
+        internal virtual void OnBeforeObjectWrite()
         {
         }
 
-        internal virtual void PoseParse(BitReader reader, DwgObjectCache objectCache)
+        internal virtual void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
         {
         }
 
