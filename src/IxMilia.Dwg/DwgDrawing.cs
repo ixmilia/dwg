@@ -140,6 +140,25 @@ namespace IxMilia.Dwg
 
         private void LoadObjects(BitReader reader, DwgObjectCache objectCache)
         {
+            AssertHandleType(Variables.BlockControlObjectHandle, DwgHandleReferenceCode.SoftPointer, nameof(Variables.BlockControlObjectHandle));
+            AssertHandleType(Variables.LayerControlObjectHandle, DwgHandleReferenceCode.SoftPointer, nameof(Variables.LayerControlObjectHandle));
+            AssertHandleType(Variables.StyleObjectControlHandle, DwgHandleReferenceCode.SoftPointer, nameof(Variables.StyleObjectControlHandle));
+            AssertHandleType(Variables.LineTypeObjectControlHandle, DwgHandleReferenceCode.SoftPointer, nameof(Variables.LineTypeObjectControlHandle));
+            AssertHandleType(Variables.ViewControlObjectHandle, DwgHandleReferenceCode.SoftPointer, nameof(Variables.ViewControlObjectHandle));
+            AssertHandleType(Variables.UcsControlObjectHandle, DwgHandleReferenceCode.SoftPointer, nameof(Variables.UcsControlObjectHandle));
+            AssertHandleType(Variables.ViewPortControlObjectHandle, DwgHandleReferenceCode.SoftPointer, nameof(Variables.ViewPortControlObjectHandle));
+            AssertHandleType(Variables.AppIdControlObjectHandle, DwgHandleReferenceCode.SoftPointer, nameof(Variables.AppIdControlObjectHandle));
+            AssertHandleType(Variables.DimStyleControlObjectHandle, DwgHandleReferenceCode.SoftPointer, nameof(Variables.DimStyleControlObjectHandle));
+            AssertHandleType(Variables.ViewPortEntityHeaderControlObjectHandle, DwgHandleReferenceCode.SoftPointer, nameof(Variables.ViewPortEntityHeaderControlObjectHandle));
+            AssertHandleType(Variables.GroupDictionaryHandle, DwgHandleReferenceCode.SoftOwner, nameof(Variables.GroupDictionaryHandle));
+            AssertHandleType(Variables.MLineStyleDictionaryHandle, DwgHandleReferenceCode.SoftOwner, nameof(Variables.MLineStyleDictionaryHandle));
+            AssertHandleType(Variables.NamedObjectsDictionaryHandle, DwgHandleReferenceCode.SoftPointer, nameof(Variables.NamedObjectsDictionaryHandle));
+            AssertHandleType(Variables.PaperSpaceBlockRecordHandle, DwgHandleReferenceCode.SoftOwner, nameof(Variables.PaperSpaceBlockRecordHandle));
+            AssertHandleType(Variables.ModelSpaceBlockRecordHandle, DwgHandleReferenceCode.SoftOwner, nameof(Variables.ModelSpaceBlockRecordHandle));
+            AssertHandleType(Variables.ByLayerLineTypeHandle, DwgHandleReferenceCode.SoftOwner, nameof(Variables.ByLayerLineTypeHandle));
+            AssertHandleType(Variables.ByBlockLineTypeHandle, DwgHandleReferenceCode.SoftOwner, nameof(Variables.ByBlockLineTypeHandle));
+            AssertHandleType(Variables.ContinuousLineTypeHandle, DwgHandleReferenceCode.SoftOwner, nameof(Variables.ContinuousLineTypeHandle));
+
             BlockHeaders = objectCache.GetObject<DwgBlockControlObject>(reader, Variables.BlockControlObjectHandle.HandleOrOffset);
             Layers = objectCache.GetObject<DwgLayerControlObject>(reader, Variables.LayerControlObjectHandle.HandleOrOffset);
             Styles = objectCache.GetObject<DwgStyleControlObject>(reader, Variables.StyleObjectControlHandle.HandleOrOffset);
@@ -167,6 +186,14 @@ namespace IxMilia.Dwg
             PaperSpaceCurrentUCS = objectCache.GetObjectOrDefault<DwgUCS>(reader, Variables.PaperSpaceCurrentUCSHandle.HandleOrOffset);
             CurrentUCS = objectCache.GetObjectOrDefault<DwgUCS>(reader, Variables.CurrentUCSHandle.HandleOrOffset);
             DimensionTextStyle = objectCache.GetObject<DwgStyle>(reader, Variables.DimensionTextStyleHandle.HandleOrOffset);
+        }
+
+        private static void AssertHandleType(DwgHandleReference handle, DwgHandleReferenceCode expectedHandleCode, string itemName)
+        {
+            if (handle.Code != expectedHandleCode)
+            {
+                throw new DwgReadException($"Invalid handle code for {itemName}.");
+            }
         }
 
 #if HAS_FILESYSTEM_ACCESS
@@ -256,25 +283,25 @@ namespace IxMilia.Dwg
             MLineStyleDictionary.AssignHandles(objectMap);
             NamedObjectDictionary.AssignHandles(objectMap);
 
-            Variables.BlockControlObjectHandle = BlockHeaders.Handle;
-            Variables.LayerControlObjectHandle = Layers.Handle;
-            Variables.StyleObjectControlHandle = Styles.Handle;
-            Variables.LineTypeObjectControlHandle = LineTypes.Handle;
-            Variables.ViewControlObjectHandle = Views.Handle;
-            Variables.UcsControlObjectHandle = UCSs.Handle;
-            Variables.ViewPortControlObjectHandle = ViewPorts.Handle;
-            Variables.AppIdControlObjectHandle = AppIds.Handle;
-            Variables.DimStyleControlObjectHandle = DimStyles.Handle;
-            Variables.ViewPortEntityHeaderControlObjectHandle = ViewPortEntityHeaders.Handle;
-            Variables.GroupDictionaryHandle = GroupDictionary.Handle;
-            Variables.MLineStyleDictionaryHandle = MLineStyleDictionary.Handle;
-            Variables.NamedObjectsDictionaryHandle = NamedObjectDictionary.Handle;
+            Variables.BlockControlObjectHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, BlockHeaders.Handle.HandleOrOffset);
+            Variables.LayerControlObjectHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, Layers.Handle.HandleOrOffset);
+            Variables.StyleObjectControlHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, Styles.Handle.HandleOrOffset);
+            Variables.LineTypeObjectControlHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, LineTypes.Handle.HandleOrOffset);
+            Variables.ViewControlObjectHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, Views.Handle.HandleOrOffset);
+            Variables.UcsControlObjectHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, UCSs.Handle.HandleOrOffset);
+            Variables.ViewPortControlObjectHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, ViewPorts.Handle.HandleOrOffset);
+            Variables.AppIdControlObjectHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, AppIds.Handle.HandleOrOffset);
+            Variables.DimStyleControlObjectHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, DimStyles.Handle.HandleOrOffset);
+            Variables.ViewPortEntityHeaderControlObjectHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, ViewPortEntityHeaders.Handle.HandleOrOffset);
+            Variables.GroupDictionaryHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, GroupDictionary.Handle.HandleOrOffset);
+            Variables.MLineStyleDictionaryHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, MLineStyleDictionary.Handle.HandleOrOffset);
+            Variables.NamedObjectsDictionaryHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, NamedObjectDictionary.Handle.HandleOrOffset);
 
-            Variables.PaperSpaceBlockRecordHandle = PaperSpaceBlockRecord.Handle;
-            Variables.ModelSpaceBlockRecordHandle = ModelSpaceBlockRecord.Handle;
-            Variables.ByLayerLineTypeHandle = ByLayerLineType.Handle;
-            Variables.ByBlockLineTypeHandle = ByBlockLineType.Handle;
-            Variables.ContinuousLineTypeHandle = ContinuousLineType.Handle;
+            Variables.PaperSpaceBlockRecordHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, PaperSpaceBlockRecord.Handle.HandleOrOffset);
+            Variables.ModelSpaceBlockRecordHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, ModelSpaceBlockRecord.Handle.HandleOrOffset);
+            Variables.ByLayerLineTypeHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, ByLayerLineType.Handle.HandleOrOffset);
+            Variables.ByBlockLineTypeHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, ByBlockLineType.Handle.HandleOrOffset);
+            Variables.ContinuousLineTypeHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, ContinuousLineType.Handle.HandleOrOffset);
             Variables.CurrentViewPortEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, CurrentViewPort?.Handle.HandleOrOffset ?? 0);
             Variables.CurrentLayerHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, CurrentLayer.Handle.HandleOrOffset);
             Variables.TextStyleHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, TextStyle.Handle.HandleOrOffset);
