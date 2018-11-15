@@ -6,9 +6,10 @@ namespace IxMilia.Dwg.Objects
     public partial class DwgBlockHeader : DwgObject
     {
         public DwgBlock Block { get; set; }
+        public DwgEndBlock EndBlock { get; set; }
         public List<DwgEntity> Entities { get; } = new List<DwgEntity>();
 
-        public DwgBlockHeader(string name, DwgBlock block)
+        public DwgBlockHeader(string name, DwgBlock block, DwgEndBlock endBlock)
             : this()
         {
             if (string.IsNullOrEmpty(name))
@@ -18,6 +19,7 @@ namespace IxMilia.Dwg.Objects
 
             Name = name;
             Block = block;
+            EndBlock = endBlock;
         }
 
         internal override DwgHandleReferenceCode ExpectedNullHandleCode => DwgHandleReferenceCode.SoftOwner;
@@ -27,6 +29,7 @@ namespace IxMilia.Dwg.Objects
             get
             {
                 yield return Block;
+                yield return EndBlock;
                 foreach (var entity in Entities)
                 {
                     yield return entity;
@@ -37,6 +40,7 @@ namespace IxMilia.Dwg.Objects
         internal override void PreWrite()
         {
             BlockEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, Block.Handle.HandleOrOffset);
+            EndBlockEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, EndBlock.Handle.HandleOrOffset);
             if (Entities.Count == 0)
             {
                 _firstEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0);
@@ -94,6 +98,7 @@ namespace IxMilia.Dwg.Objects
             }
 
             Block = objectCache.GetObject<DwgBlock>(reader, BlockEntityHandle.HandleOrOffset);
+            EndBlock = objectCache.GetObject<DwgEndBlock>(reader, EndBlockEntityHandle.HandleOrOffset);
             LoadEntities(reader, objectCache);
         }
 
@@ -118,7 +123,7 @@ namespace IxMilia.Dwg.Objects
 
         private static DwgBlockHeader GetBlockRecordWithName(string name)
         {
-            return new DwgBlockHeader(name, new DwgBlock(name));
+            return new DwgBlockHeader(name, new DwgBlock(name), new DwgEndBlock());
         }
 
         internal static DwgBlockHeader GetPaperSpaceBlockRecord()
