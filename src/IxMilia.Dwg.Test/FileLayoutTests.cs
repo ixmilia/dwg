@@ -1,10 +1,21 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
+using IxMilia.Dwg.Objects;
 using Xunit;
 
 namespace IxMilia.Dwg.Test
 {
     public class FileLayoutTests : TestBase
     {
+        [Fact]
+        public void ReadEntireFile()
+        {
+            var drawing = DwgDrawing.Load(Path.Combine("Drawings", "R14.dwg"));
+            var line = (DwgLine)drawing.ModelSpaceBlockRecord.Entities.Single();
+            Assert.Equal(DwgPoint.Origin, line.P1);
+            Assert.Equal(new DwgPoint(10.0, 10.0, 0.0), line.P2);
+        }
+
         [Fact]
         public void RoundTripDefaultFile()
         {
