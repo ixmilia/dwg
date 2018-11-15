@@ -80,7 +80,7 @@ namespace IxMilia.Dwg
 
         public override string ToString()
         {
-            return $"{(int)Code}.{HandleOrOffset}";
+            return $"{(int)Code}.{HandleOrOffset:X}";
         }
 
         public static bool operator ==(DwgHandleReference r1, DwgHandleReference r2)
