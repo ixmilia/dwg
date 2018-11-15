@@ -167,8 +167,6 @@ namespace IxMilia.Dwg
             PaperSpaceCurrentUCS = objectCache.GetObjectOrDefault<DwgUCS>(reader, Variables.PaperSpaceCurrentUCSHandle.HandleOrOffset);
             CurrentUCS = objectCache.GetObjectOrDefault<DwgUCS>(reader, Variables.CurrentUCSHandle.HandleOrOffset);
             DimensionTextStyle = objectCache.GetObject<DwgStyle>(reader, Variables.DimensionTextStyleHandle.HandleOrOffset);
-
-            objectCache.LoadEntities(reader, this);
         }
 
 #if HAS_FILESYSTEM_ACCESS

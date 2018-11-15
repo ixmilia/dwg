@@ -12,8 +12,8 @@ namespace IxMilia.Dwg.Test
         [Fact]
         public void ReadEntireFile()
         {
-            var file = DwgDrawing.Load(Path.Combine("Drawings", "R14.dwg"));
-            var line = (DwgLine)file.Layers["0"].Entities.Single();
+            var drawing = DwgDrawing.Load(Path.Combine("Drawings", "R14.dwg"));
+            var line = (DwgLine)drawing.ModelSpaceBlockRecord.Entities.Single();
             Assert.Equal(DwgPoint.Origin, line.P1);
             Assert.Equal(new DwgPoint(10.0, 10.0, 0.0), line.P2);
         }

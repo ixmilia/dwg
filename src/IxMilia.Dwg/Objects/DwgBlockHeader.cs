@@ -6,6 +6,7 @@ namespace IxMilia.Dwg.Objects
     public partial class DwgBlockHeader : DwgObject
     {
         public DwgBlock Block { get; set; }
+        public List<DwgEntity> Entities { get; } = new List<DwgEntity>();
 
         public DwgBlockHeader(string name, DwgBlock block)
             : this()
@@ -26,12 +27,40 @@ namespace IxMilia.Dwg.Objects
             get
             {
                 yield return Block;
+                foreach (var entity in Entities)
+                {
+                    yield return entity;
+                }
             }
         }
 
         internal override void PreWrite()
         {
             BlockEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, Block.Handle.HandleOrOffset);
+            if (Entities.Count == 0)
+            {
+                _firstEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0);
+                _lastEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0);
+            }
+            else
+            {
+                _firstEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, Entities[0].Handle.HandleOrOffset);
+                _lastEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, Entities[Entities.Count - 1].Handle.HandleOrOffset);
+                for (int i = 0; i < Entities.Count; i++)
+                {
+                    var currentEntity = Entities[i];
+                    var previousEntity = i == 0
+                        ? null
+                        : Entities[i - 1];
+                    var nextEntity = i == Entities.Count - 1
+                        ? null
+                        : Entities[i + 1];
+                    var previousEntityHandleOffset = previousEntity?.Handle.HandleOrOffset ?? 0;
+                    var nextEntityHandleOffset = nextEntity?.Handle.HandleOrOffset ?? 0;
+                    currentEntity.PreviousEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, previousEntityHandleOffset);
+                    currentEntity.NextEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, nextEntityHandleOffset);
+                }
+            }
         }
 
         internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
@@ -65,6 +94,26 @@ namespace IxMilia.Dwg.Objects
             }
 
             Block = objectCache.GetObject<DwgBlock>(reader, BlockEntityHandle.HandleOrOffset);
+            LoadEntities(reader, objectCache);
+        }
+
+        private void LoadEntities(BitReader reader, DwgObjectCache objectCache)
+        {
+            Entities.Clear();
+            var currentEntityHandle = _firstEntityHandle;
+            while (currentEntityHandle.HandleOrOffset != 0)
+            {
+                var obj = objectCache.GetObject(reader, currentEntityHandle.HandleOrOffset, allowNull: true);
+                if (obj is DwgEntity entity)
+                {
+                    Entities.Add(entity);
+                    currentEntityHandle = entity.NextEntityHandle;
+                }
+                else
+                {
+                    currentEntityHandle = default(DwgHandleReference);
+                }
+            }
         }
 
         private static DwgBlockHeader GetBlockRecordWithName(string name)

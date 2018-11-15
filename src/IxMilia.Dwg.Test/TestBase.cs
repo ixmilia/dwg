@@ -17,26 +17,13 @@ namespace IxMilia.Dwg.Test
             }
         }
 
-        public static DwgLayer RoundTrip(DwgLayer layer)
-        {
-            var drawing = new DwgDrawing();
-            layer.LineType = drawing.ContinuousLineType;
-            drawing.Layers.Clear();
-            drawing.Layers.Add(layer);
-            drawing.CurrentLayer = layer;
-            var roundTrippedDrawing = RoundTrip(drawing);
-            var roundTrippedLayer = roundTrippedDrawing.Layers.Values.Single();
-            Assert.Equal(layer.Name, roundTrippedLayer.Name);
-            return roundTrippedLayer;
-        }
-
         public static DwgEntity RoundTrip(DwgEntity entity)
         {
-            var layer = new DwgLayer("test-layer");
-            layer.Entities.Add(entity);
-            var roundTrippedLayer = RoundTrip(layer);
-            var roundTrippedEntity = roundTrippedLayer.Entities.Single();
-            return roundTrippedEntity;
+            var drawing = new DwgDrawing();
+            entity.Layer = drawing.CurrentLayer;
+            drawing.ModelSpaceBlockRecord.Entities.Add(entity);
+            var roundTrippedDrawing = RoundTrip(drawing);
+            return roundTrippedDrawing.ModelSpaceBlockRecord.Entities.Single();
         }
     }
 }

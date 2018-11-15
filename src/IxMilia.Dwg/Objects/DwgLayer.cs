@@ -7,17 +7,11 @@ namespace IxMilia.Dwg.Objects
     {
         public DwgLineType LineType { get; internal set; }
 
-        public IList<DwgEntity> Entities { get; private set; } = new List<DwgEntity>();
-
         internal override IEnumerable<DwgObject> ChildItems
         {
             get
             {
                 yield return LineType;
-                foreach (var entity in Entities)
-                {
-                    yield return entity;
-                }
             }
         }
 
@@ -37,10 +31,6 @@ namespace IxMilia.Dwg.Objects
         internal override void PreWrite()
         {
             _lineTypeHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, LineType.Handle.HandleOrOffset);
-            foreach (var entity in Entities)
-            {
-                entity.LayerHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, Handle.HandleOrOffset);
-            }
         }
 
         internal override void PoseParse(BitReader reader, DwgObjectCache objectCache)
