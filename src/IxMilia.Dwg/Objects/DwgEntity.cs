@@ -9,6 +9,7 @@
         protected byte[] _graphicsData;
         protected int _entityMode;
         protected bool _isLineTypeByLayer;
+        protected DwgHandleReference _subentityRef { get; set; }
         protected bool _noLinks;
         public DwgColor Color { get; set; }
         public double LineTypeScale { get; set; }
@@ -33,6 +34,7 @@
             LayerHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, Layer.Handle.HandleOrOffset);
             LineTypeHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, LineType?.Handle.HandleOrOffset ?? 0);
             _isLineTypeByLayer = LineType == null;
+            _noLinks = _subentityRef.IsEmpty;
             OnBeforeEntityWrite();
         }
 
@@ -48,14 +50,19 @@
                 throw new DwgReadException("Incorrect line type handle code.");
             }
 
-            if (PreviousEntityHandle.Code != DwgHandleReferenceCode.Declaration && PreviousEntityHandle.Code != DwgHandleReferenceCode.HardPointer)
+            if (PreviousEntityHandle.Code != DwgHandleReferenceCode.HardPointer)
             {
                 throw new DwgReadException("Invalid previous entity handle code.");
             }
 
-            if (NextEntityHandle.Code != DwgHandleReferenceCode.Declaration && NextEntityHandle.Code != DwgHandleReferenceCode.HardPointer)
+            if (NextEntityHandle.Code != DwgHandleReferenceCode.HardPointer)
             {
                 throw new DwgReadException("Invalid next entity handle code.");
+            }
+
+            if (!_noLinks && !_subentityRef.IsEmpty && _subentityRef.Code != DwgHandleReferenceCode.SoftPointer)
+            {
+                throw new DwgReadException("Incorrect sub entity handle code.");
             }
 
             Layer = objectCache.GetObject<DwgLayer>(reader, LayerHandle.HandleOrOffset);
