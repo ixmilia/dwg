@@ -129,6 +129,36 @@ namespace IxMilia.Dwg.Generator
 
                 AppendLine();
 
+                // flags
+                foreach (var p in o.Elements("Property"))
+                {
+                    var flags = p.Elements("Flag").ToList();
+                    if (flags.Count > 0)
+                    {
+                        AppendLine($"// {Name(p)} flags");
+                        AppendLine();
+
+                        foreach (var f in flags)
+                        {
+                            AppendLine($"public bool {Name(f)}");
+                            AppendLine("{");
+                            IncreaseIndent();
+                            AppendLine($"get => Converters.GetFlag(this.{Name(p)}, {Mask(f)});");
+                            AppendLine("set");
+                            AppendLine("{");
+                            IncreaseIndent();
+                            AppendLine($"var flags = this.{Name(p)};");
+                            AppendLine($"Converters.SetFlag(value, ref flags, {Mask(f)});");
+                            AppendLine($"this.{Name(p)} = flags;");
+                            DecreaseIndent();
+                            AppendLine("}");
+                            DecreaseIndent();
+                            AppendLine("}");
+                            AppendLine();
+                        }
+                    }
+                }
+
                 // .ctor
                 AppendLine($"{ConstructorAccessibility(o)} Dwg{Name(o)}()");
                 AppendLine("{");
