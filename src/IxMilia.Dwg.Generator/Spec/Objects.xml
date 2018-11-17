@@ -47,6 +47,44 @@
   </Object>
   <!--
 
+  Arc
+
+  -->
+  <Object Name="Arc" Value="0x11" IsEntity="true" ConstructorAccessibility="internal">
+    <!-- common entity properties -->
+    <Property Name="Handle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" />
+    <Property Name="_xDataSize" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" SkipCreation="true" />
+    <Property Name="_xData" type="byte[]" BinaryType="Bytes" ReaderArgument="_xDataSize" DefaultValue="new byte[0]" SkipCreation="true" />
+    <Property Name="_isGraphicPresent" Type="bool" BinaryType="B" DefaultValue="false" SkipCreation="true" />
+    <Property Name="_graphicsSize" Type="int" BinaryType="RL" DefaultValue="0" Condition="_isGraphicPresent" SkipCreation="true" />
+    <Property Name="_graphicsData" Type="byte[]" BinaryType="Bytes" ReaderArgument="_graphicsSize" DefaultValue="new byte[0]" Condition="_isGraphicPresent" SkipCreation="true" />
+    <Property Name="_objectSize" Type="int" BinaryType="RL" DefaultValue="0" SkipCreation="true" />
+    <Property Name="_entityMode" Type="int" BinaryType="BB" DefaultValue="2" SkipCreation="true" />
+    <Property Name="_reactorCount" Type="int" BinaryType="BL" DefaultValue="0" SkipCreation="true" />
+    <Property Name="_isLineTypeByLayer" Type="bool" BinaryType="B" DefaultValue="true" SkipCreation="true" />
+    <Property Name="_noLinks" Type="bool" BinaryType="B" DefaultValue="false" SkipCreation="true" />
+    <Property Name="Color" Type="DwgColor" BinaryType="BS" DefaultValue="DwgColor.ByLayer" ReadConverter="DwgColor.FromRawValue({0})" WriteConverter="{0}.RawValue" SkipCreation="true" />
+    <Property Name="LineTypeScale" Type="double" BinaryType="BD" DefaultValue="1.0" SkipCreation="true" />
+    <Property Name="_invisibility" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
+
+    <Property Name="Center" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="Radius" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="Thickness" Type="double" BinaryType="BD" DefaultValue="1.0" />
+    <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="StartAngle" Type="double" BinaryType="BD" DefaultValue="0.0" Comment="Arc start angle in degrees." />
+    <Property Name="EndAngle" Type="double" BinaryType="BD" DefaultValue="360.0" Comment="Arc end angle in degrees." />
+
+    <!-- handles -->
+    <Property Name="_subentityRef" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" Condition="_noLinks" />
+    <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
+    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
+    <Property Name="LayerHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
+    <Property Name="LineTypeHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" Condition="!_isLineTypeByLayer" />
+    <Property Name="PreviousEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
+    <Property Name="NextEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
+  </Object>
+  <!--
+
   Block control
 
   -->
