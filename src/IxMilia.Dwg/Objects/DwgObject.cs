@@ -134,14 +134,6 @@ namespace IxMilia.Dwg.Objects
                 throw new DwgReadException("Invalid object handle code.");
             }
 
-            foreach (var reactorHandle in _reactorHandles)
-            {
-                if (reactorHandle.Code != DwgHandleReferenceCode.HardPointer)
-                {
-                    throw new DwgReadException("Incorrect reactor handle code.");
-                }
-            }
-
             if (!_nullHandle.IsEmpty && _nullHandle.Code != ExpectedNullHandleCode)
             {
                 throw new DwgReadException("Invalid null handle code.");
@@ -152,15 +144,34 @@ namespace IxMilia.Dwg.Objects
                 throw new DwgReadException("Invalid null handle value.");
             }
 
-            if (!_xDictionaryObjectHandle.IsEmpty && _xDictionaryObjectHandle.Code != DwgHandleReferenceCode.SoftPointer)
-            {
-                throw new DwgReadException("Invalid XDictionary object handle code.");
-            }
-
             if (_entityCount != _entityHandles.Count)
             {
                 throw new DwgReadException("Mismatch between reported entity count and number of read handles.");
             }
+        }
+
+        internal DwgHandleReference GetNavigationHandle(DwgHandleReference destinationHandle)
+        {
+            if (destinationHandle.PointsToNull)
+            {
+                return destinationHandle;
+            }
+
+            var handleDistance = destinationHandle.HandleOrOffset - Handle.HandleOrOffset;
+            switch (handleDistance)
+            {
+                case 1:
+                    return new DwgHandleReference(DwgHandleReferenceCode.HandlePlus1, 0);
+                case -1:
+                    return new DwgHandleReference(DwgHandleReferenceCode.HandleMinus1, 0);
+                default:
+                    return destinationHandle;
+            }
+        }
+
+        internal DwgHandleReference GetHandleToObject(DwgObject other, DwgHandleReferenceCode absoluteCodeType)
+        {
+            return GetNavigationHandle(new DwgHandleReference(absoluteCodeType, other?.Handle.HandleOrOffset ?? 0));
         }
     }
 }

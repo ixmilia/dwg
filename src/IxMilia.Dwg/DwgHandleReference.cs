@@ -78,17 +78,39 @@ namespace IxMilia.Dwg
             writer.WriteBytes(bytesList.ToArray());
         }
 
-        internal DwgHandleReference GetNavigationHandle(int destinationHandle)
+        internal bool PointsToNull
         {
-            var handleDistance = destinationHandle - HandleOrOffset;
-            switch (handleDistance)
+            get
             {
-                case 1:
-                    return new DwgHandleReference(DwgHandleReferenceCode.HandlePlus1, 0);
-                case -1:
-                    return new DwgHandleReference(DwgHandleReferenceCode.HandleMinus1, 0);
-                default:
-                    return new DwgHandleReference(DwgHandleReferenceCode.HardPointer, destinationHandle);
+                switch (Code)
+                {
+                    case DwgHandleReferenceCode.SoftOwner:
+                    case DwgHandleReferenceCode.SoftPointer:
+                    case DwgHandleReferenceCode.HardOwner:
+                    case DwgHandleReferenceCode.HardPointer:
+                        return HandleOrOffset == 0;
+                    default:
+                        return false;
+                }
+            }
+        }
+
+        internal bool IsValidNavigationHandle
+        {
+            get
+            {
+                switch (Code)
+                {
+                    case DwgHandleReferenceCode.HardPointer:
+                    case DwgHandleReferenceCode.SoftPointer:
+                    case DwgHandleReferenceCode.HandlePlus1:
+                    case DwgHandleReferenceCode.HandleMinus1:
+                    case DwgHandleReferenceCode.HandlePlusOffset:
+                    case DwgHandleReferenceCode.HandleMinusOffset:
+                        return true;
+                    default:
+                        return false;
+                }
             }
         }
 

@@ -31,8 +31,8 @@
 
         internal override void OnBeforeObjectWrite()
         {
-            LayerHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, Layer.Handle.HandleOrOffset);
-            LineTypeHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, LineType?.Handle.HandleOrOffset ?? 0);
+            LayerHandle = GetHandleToObject(Layer, DwgHandleReferenceCode.SoftOwner);
+            LineTypeHandle = GetHandleToObject(LineType, DwgHandleReferenceCode.SoftOwner);
             _isLineTypeByLayer = LineType == null;
             _noLinks = _subentityRef.IsEmpty;
             OnBeforeEntityWrite();
@@ -45,59 +45,33 @@
                 throw new DwgReadException("Incorrect layer handle code.");
             }
 
-            if (!_isLineTypeByLayer && (LineTypeHandle.IsEmpty || LineTypeHandle.Code != DwgHandleReferenceCode.SoftOwner))
+            if (!_isLineTypeByLayer && (LineTypeHandle.IsEmpty || !LineTypeHandle.IsValidNavigationHandle))
             {
                 throw new DwgReadException("Incorrect line type handle code.");
             }
 
-            if (!IsValidEntityNavigationHandle(PreviousEntityHandle.Code))
+            if (!PreviousEntityHandle.IsValidNavigationHandle)
             {
                 throw new DwgReadException("Invalid previous entity handle code.");
             }
 
-            if (!IsValidEntityNavigationHandle(NextEntityHandle.Code))
+            if (!NextEntityHandle.IsValidNavigationHandle)
             {
                 throw new DwgReadException("Invalid next entity handle code.");
             }
 
-            if (!_noLinks && !_subentityRef.IsEmpty && _subentityRef.Code != DwgHandleReferenceCode.SoftPointer)
+            if (!_noLinks && !_subentityRef.IsEmpty && !_subentityRef.IsValidNavigationHandle)
             {
                 throw new DwgReadException("Incorrect sub entity handle code.");
             }
 
-            Layer = objectCache.GetObject<DwgLayer>(reader, LayerHandle.HandleOrOffset);
+            Layer = objectCache.GetObject<DwgLayer>(reader, GetNavigationHandle(LayerHandle).HandleOrOffset);
             if (!_isLineTypeByLayer)
             {
-                LineType = objectCache.GetObject<DwgLineType>(reader, LineTypeHandle.HandleOrOffset);
+                LineType = objectCache.GetObject<DwgLineType>(reader, GetNavigationHandle(LineTypeHandle).HandleOrOffset);
             }
 
             OnAfterEntityRead(reader, objectCache);
-        }
-
-        internal DwgHandleReference GetRelativeHandleToEntity(DwgEntity other)
-        {
-            if (other == null)
-            {
-                return new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0);
-            }
-
-            return Handle.GetNavigationHandle(other.Handle.HandleOrOffset);
-        }
-
-        private static bool IsValidEntityNavigationHandle(DwgHandleReferenceCode code)
-        {
-            switch (code)
-            {
-                case DwgHandleReferenceCode.HardPointer:
-                case DwgHandleReferenceCode.SoftPointer:
-                case DwgHandleReferenceCode.HandlePlus1:
-                case DwgHandleReferenceCode.HandleMinus1:
-                case DwgHandleReferenceCode.HandlePlusOffset:
-                case DwgHandleReferenceCode.HandleMinusOffset:
-                    return true;
-                default:
-                    return false;
-            }
         }
     }
 }

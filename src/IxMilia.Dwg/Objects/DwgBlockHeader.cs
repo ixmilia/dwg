@@ -59,8 +59,8 @@ namespace IxMilia.Dwg.Objects
                     var nextEntity = i == Entities.Count - 1
                         ? null
                         : Entities[i + 1];
-                    currentEntity.PreviousEntityHandle = currentEntity.GetRelativeHandleToEntity(previousEntity);
-                    currentEntity.NextEntityHandle = currentEntity.GetRelativeHandleToEntity(nextEntity);
+                    currentEntity.PreviousEntityHandle = currentEntity.GetHandleToObject(previousEntity, DwgHandleReferenceCode.HardPointer);
+                    currentEntity.NextEntityHandle = currentEntity.GetHandleToObject(nextEntity, DwgHandleReferenceCode.HardPointer);
                 }
             }
         }
