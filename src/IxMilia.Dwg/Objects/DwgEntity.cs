@@ -40,7 +40,7 @@
 
         internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
         {
-            if (LayerHandle.Code != DwgHandleReferenceCode.SoftOwner)
+            if (LayerHandle.Code != DwgHandleReferenceCode.SoftOwner && LayerHandle.Code != DwgHandleReferenceCode.HardOwner)
             {
                 throw new DwgReadException("Incorrect layer handle code.");
             }
@@ -50,12 +50,12 @@
                 throw new DwgReadException("Incorrect line type handle code.");
             }
 
-            if (PreviousEntityHandle.Code != DwgHandleReferenceCode.HardPointer)
+            if (!IsValidEntityNavigationHandle(PreviousEntityHandle.Code))
             {
                 throw new DwgReadException("Invalid previous entity handle code.");
             }
 
-            if (NextEntityHandle.Code != DwgHandleReferenceCode.HardPointer)
+            if (!IsValidEntityNavigationHandle(NextEntityHandle.Code))
             {
                 throw new DwgReadException("Invalid next entity handle code.");
             }
@@ -72,6 +72,32 @@
             }
 
             OnAfterEntityRead(reader, objectCache);
+        }
+
+        internal DwgHandleReference GetRelativeHandleToEntity(DwgEntity other)
+        {
+            if (other == null)
+            {
+                return new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0);
+            }
+
+            return Handle.GetNavigationHandle(other.Handle.HandleOrOffset);
+        }
+
+        private static bool IsValidEntityNavigationHandle(DwgHandleReferenceCode code)
+        {
+            switch (code)
+            {
+                case DwgHandleReferenceCode.HardPointer:
+                case DwgHandleReferenceCode.SoftPointer:
+                case DwgHandleReferenceCode.HandlePlus1:
+                case DwgHandleReferenceCode.HandleMinus1:
+                case DwgHandleReferenceCode.HandlePlusOffset:
+                case DwgHandleReferenceCode.HandleMinusOffset:
+                    return true;
+                default:
+                    return false;
+            }
         }
     }
 }

@@ -55,6 +55,33 @@ namespace IxMilia.Dwg.Test
         }
 
         [Fact]
+        public void RoundTripMultipleEntities()
+        {
+            var drawing = new DwgDrawing();
+            drawing.ModelSpaceBlockRecord.Entities.Add(new DwgLine(new DwgPoint(0.0, 0.0, 0.0), new DwgPoint(10.0, 10.0, 0.0)) { Layer = drawing.CurrentLayer });
+            drawing.ModelSpaceBlockRecord.Entities.Add(new DwgLine(new DwgPoint(5.0, 5.0, 0.0), new DwgPoint(15.0, 15.0, 0.0)) { Layer = drawing.CurrentLayer });
+            var roundTrippedDrawing = RoundTrip(drawing);
+
+            // verify handles
+            var entities = roundTrippedDrawing.ModelSpaceBlockRecord.Entities;
+            Assert.Equal(2, entities.Count);
+            var l1 = (DwgLine)entities.First();
+            var l2 = (DwgLine)entities.Last();
+            Assert.Equal(l1.Handle.HandleOrOffset + 1, l2.Handle.HandleOrOffset);
+            Assert.Equal(l1.PreviousEntityHandle, new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0));
+            Assert.Equal(l1.NextEntityHandle, new DwgHandleReference(DwgHandleReferenceCode.HandlePlus1, 0));
+            Assert.Equal(l2.PreviousEntityHandle, new DwgHandleReference(DwgHandleReferenceCode.HandleMinus1, 0));
+            Assert.Equal(l2.NextEntityHandle, new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0));
+
+            // verify data
+            Assert.Equal(2, entities.Count);
+            Assert.Equal(new DwgPoint(0.0, 0.0, 0.0), l1.P1);
+            Assert.Equal(new DwgPoint(10.0, 10.0, 0.0), l1.P2);
+            Assert.Equal(new DwgPoint(5.0, 5.0, 0.0), l2.P1);
+            Assert.Equal(new DwgPoint(15.0, 15.0, 0.0), l2.P2);
+        }
+
+        [Fact]
         public void CaseInsensitiveDictionaries()
         {
             var drawing = new DwgDrawing();

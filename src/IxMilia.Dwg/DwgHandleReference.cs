@@ -78,6 +78,20 @@ namespace IxMilia.Dwg
             writer.WriteBytes(bytesList.ToArray());
         }
 
+        internal DwgHandleReference GetNavigationHandle(int destinationHandle)
+        {
+            var handleDistance = destinationHandle - HandleOrOffset;
+            switch (handleDistance)
+            {
+                case 1:
+                    return new DwgHandleReference(DwgHandleReferenceCode.HandlePlus1, 0);
+                case -1:
+                    return new DwgHandleReference(DwgHandleReferenceCode.HandleMinus1, 0);
+                default:
+                    return new DwgHandleReference(DwgHandleReferenceCode.HardPointer, destinationHandle);
+            }
+        }
+
         public override string ToString()
         {
             return $"{(int)Code}.{HandleOrOffset:X}";
@@ -110,6 +124,28 @@ namespace IxMilia.Dwg
             hashCode = hashCode * -1521134295 + Code.GetHashCode();
             hashCode = hashCode * -1521134295 + HandleOrOffset.GetHashCode();
             return hashCode;
+        }
+
+        internal DwgHandleReference GetNextHandle(DwgHandleReference nextEntityHandle)
+        {
+            switch (nextEntityHandle.Code)
+            {
+                case DwgHandleReferenceCode.SoftPointer:
+                case DwgHandleReferenceCode.SoftOwner:
+                case DwgHandleReferenceCode.HardPointer:
+                //case DwgHandleReferenceCode.HardOwner:
+                    return nextEntityHandle;
+                case DwgHandleReferenceCode.HandlePlus1:
+                    return new DwgHandleReference(DwgHandleReferenceCode.HardPointer, HandleOrOffset + 1);
+                case DwgHandleReferenceCode.HandleMinus1:
+                    return new DwgHandleReference(DwgHandleReferenceCode.HardPointer, HandleOrOffset - 1);
+                case DwgHandleReferenceCode.HandlePlusOffset:
+                    return new DwgHandleReference(DwgHandleReferenceCode.HardPointer, HandleOrOffset + nextEntityHandle.HandleOrOffset);
+                case DwgHandleReferenceCode.HandleMinusOffset:
+                    return new DwgHandleReference(DwgHandleReferenceCode.HardPointer, HandleOrOffset - nextEntityHandle.HandleOrOffset);
+                default:
+                    return default(DwgHandleReference);
+            }
         }
     }
 }

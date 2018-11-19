@@ -59,10 +59,8 @@ namespace IxMilia.Dwg.Objects
                     var nextEntity = i == Entities.Count - 1
                         ? null
                         : Entities[i + 1];
-                    var previousEntityHandleOffset = previousEntity?.Handle.HandleOrOffset ?? 0;
-                    var nextEntityHandleOffset = nextEntity?.Handle.HandleOrOffset ?? 0;
-                    currentEntity.PreviousEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, previousEntityHandleOffset);
-                    currentEntity.NextEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, nextEntityHandleOffset);
+                    currentEntity.PreviousEntityHandle = currentEntity.GetRelativeHandleToEntity(previousEntity);
+                    currentEntity.NextEntityHandle = currentEntity.GetRelativeHandleToEntity(nextEntity);
                 }
             }
         }
@@ -112,7 +110,7 @@ namespace IxMilia.Dwg.Objects
                 if (obj is DwgEntity entity)
                 {
                     Entities.Add(entity);
-                    currentEntityHandle = entity.NextEntityHandle;
+                    currentEntityHandle = currentEntityHandle.GetNextHandle(entity.NextEntityHandle);
                 }
                 else
                 {
