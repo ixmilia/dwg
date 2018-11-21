@@ -9,7 +9,7 @@ namespace IxMilia.Dwg.Objects
         public abstract DwgObjectType Type { get; }
         public DwgHandleReference Handle { get; internal set; }
         protected int _xDataSize;
-        protected byte[] _xData;
+        protected byte[] _xData = new byte[0];
         protected int _objectSize;
         protected int _reactorCount;
         protected List<DwgHandleReference> _reactorHandles = new List<DwgHandleReference>();
@@ -63,7 +63,9 @@ namespace IxMilia.Dwg.Objects
             {
                 var tempWriter = new BitWriter(ms);
                 tempWriter.Write_BS((short)Type);
+                WriteCommonDataStart(tempWriter, objectMap, pointerOffset);
                 WriteSpecific(tempWriter, objectMap, pointerOffset, version);
+                WriteCommonDataEnd(tempWriter, objectMap, pointerOffset);
                 var tempBytes = tempWriter.AsBytes();
 
                 // now output everything
@@ -93,7 +95,9 @@ namespace IxMilia.Dwg.Objects
 
             var type = (DwgObjectType)typeCode;
             var obj = CreateObject(type);
+            obj.ReadCommonDataStart(reader);
             obj.ParseSpecific(reader, version);
+            obj.ReadCommonDataEnd(reader);
 
             // ensure there's no extra data
             reader.AlignToByte();
@@ -108,6 +112,22 @@ namespace IxMilia.Dwg.Objects
         internal abstract void ParseSpecific(BitReader reader, DwgVersionId version);
 
         internal abstract void WriteSpecific(BitWriter writer, DwgObjectMap objectMap, int pointerOffset, DwgVersionId version);
+
+        internal virtual void ReadCommonDataStart(BitReader reader)
+        {
+        }
+
+        internal virtual void ReadCommonDataEnd(BitReader reader)
+        {
+        }
+
+        internal virtual void WriteCommonDataStart(BitWriter writer, DwgObjectMap objectMap, int pointerOffset)
+        {
+        }
+
+        internal virtual void WriteCommonDataEnd(BitWriter writer, DwgObjectMap objectMap, int pointerOffset)
+        {
+        }
 
         internal virtual void OnBeforeObjectWrite()
         {
