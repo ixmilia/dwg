@@ -75,13 +75,13 @@
     <Property Name="EndAngle" Type="double" BinaryType="BD" DefaultValue="360.0" Comment="Arc end angle in degrees." />
 
     <!-- handles -->
-    <Property Name="_subentityRef" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" Condition="_noLinks" />
+    <Property Name="_subentityRef" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" Condition="_entityMode == 0" />
     <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
     <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
     <Property Name="LayerHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
     <Property Name="LineTypeHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" Condition="!_isLineTypeByLayer" />
-    <Property Name="PreviousEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
-    <Property Name="NextEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
+    <Property Name="PreviousEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" Condition="!_noLinks" />
+    <Property Name="NextEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" Condition="!_noLinks" />
   </Object>
   <!--
 
@@ -164,13 +164,13 @@
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
 
     <!-- handles -->
-    <Property Name="_subentityRef" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" Condition="_noLinks" />
+    <Property Name="_subentityRef" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" Condition="_entityMode == 0" />
     <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
     <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
     <Property Name="LayerHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
     <Property Name="LineTypeHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" Condition="!_isLineTypeByLayer" />
-    <Property Name="PreviousEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
-    <Property Name="NextEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
+    <Property Name="PreviousEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" Condition="!_noLinks" />
+    <Property Name="NextEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" Condition="!_noLinks" />
   </Object>
   <!--
 
@@ -195,13 +195,13 @@
     <Property Name="_invisibility" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true"  />
 
     <!-- handles -->
-    <Property Name="_subentityRef" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" Condition="_noLinks" />
+    <Property Name="_subentityRef" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" Condition="_entityMode == 0" />
     <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
     <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
     <Property Name="LayerHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
     <Property Name="LineTypeHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" Condition="!_isLineTypeByLayer" />
-    <Property Name="PreviousEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
-    <Property Name="NextEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
+    <Property Name="PreviousEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" Condition="!_noLinks" />
+    <Property Name="NextEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" Condition="!_noLinks" />
   </Object>
   <!--
 
@@ -404,13 +404,13 @@
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
 
     <!-- handles -->
-    <Property Name="_subentityRef" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" Condition="_noLinks" />
+    <Property Name="_subentityRef" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" Condition="_entityMode == 0" />
     <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
     <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
     <Property Name="LayerHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
     <Property Name="LineTypeHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" Condition="!_isLineTypeByLayer" />
-    <Property Name="PreviousEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
-    <Property Name="NextEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
+    <Property Name="PreviousEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" Condition="!_noLinks" />
+    <Property Name="NextEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" Condition="!_noLinks" />
   </Object>
   <!--
 
@@ -584,14 +584,14 @@
     <Property Name="VerticalAlignment" Type="DwgVerticalTextJustification" BinaryType="BS" DefaultValue="DwgVerticalTextJustification.Baseline" ReadConverter="(DwgVerticalTextJustification){0}" WriteConverter="(short){0}" />
 
     <!-- handles -->
-    <Property Name="_subentityRef" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" Condition="_noLinks" />
+    <Property Name="_subentityRef" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" SkipCreation="true" Condition="_entityMode == 0" />
     <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
     <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
     <Property Name="LayerHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
     <Property Name="LineTypeHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" Condition="!_isLineTypeByLayer" />
     <Property Name="PreviousEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
-    <Property Name="NextEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
-    <Property Name="_styleHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" Accessibility="private" />
+    <Property Name="NextEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" Condition="!_noLinks" />
+    <Property Name="_styleHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" Accessibility="private" Condition="!_noLinks" />
   </Object>
   <!--
 

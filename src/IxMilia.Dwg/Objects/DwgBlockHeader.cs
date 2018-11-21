@@ -9,6 +9,12 @@ namespace IxMilia.Dwg.Objects
         public DwgEndBlock EndBlock { get; set; }
         public List<DwgEntity> Entities { get; } = new List<DwgEntity>();
 
+        private const string ModelSpaceBlockName = "*MODEL_SPACE";
+        private const string PaperSpaceBlockName = "*PAPER_SPACE";
+
+        public bool IsModelSpaceBlock => string.Compare(Name, ModelSpaceBlockName, StringComparison.OrdinalIgnoreCase) == 0;
+        public bool IsPaperSpaceBlock => string.Compare(Name, PaperSpaceBlockName, StringComparison.OrdinalIgnoreCase) == 0;
+
         public DwgBlockHeader(string name, DwgBlock block, DwgEndBlock endBlock)
             : this()
         {
@@ -61,7 +67,24 @@ namespace IxMilia.Dwg.Objects
                         : Entities[i + 1];
                     currentEntity.PreviousEntityHandle = currentEntity.GetHandleToObject(previousEntity, DwgHandleReferenceCode.HardPointer);
                     currentEntity.NextEntityHandle = currentEntity.GetHandleToObject(nextEntity, DwgHandleReferenceCode.HardPointer);
+                    AssignEntityMode(currentEntity);
                 }
+            }
+        }
+
+        private void AssignEntityMode(DwgEntity entity)
+        {
+            switch (Name.ToUpperInvariant())
+            {
+                case ModelSpaceBlockName:
+                    entity._entityMode = 0b10;
+                    break;
+                case PaperSpaceBlockName:
+                    entity._entityMode = 0b01;
+                    break;
+                default:
+                    entity._entityMode = 0b00;
+                    break;
             }
         }
 
@@ -102,6 +125,9 @@ namespace IxMilia.Dwg.Objects
 
         private void LoadEntities(BitReader reader, DwgObjectCache objectCache)
         {
+            var isModelSpaceBlock = IsModelSpaceBlock;
+            var isPaperSpaceBlock = IsPaperSpaceBlock;
+
             Entities.Clear();
             var currentEntityHandle = _firstEntityHandle;
             while (currentEntityHandle.HandleOrOffset != 0)
@@ -111,6 +137,18 @@ namespace IxMilia.Dwg.Objects
                 {
                     Entities.Add(entity);
                     currentEntityHandle = currentEntityHandle.GetNextHandle(entity.NextEntityHandle);
+                    if (isModelSpaceBlock && entity._entityMode != 0b10)
+                    {
+                        throw new DwgReadException("Expected entity mode 2 for children of model space block.");
+                    }
+                    if (isPaperSpaceBlock && entity._entityMode != 0b01)
+                    {
+                        throw new DwgReadException("Expected entity mode 1 for children of paper space block.");
+                    }
+                    if (!isModelSpaceBlock && !isPaperSpaceBlock && entity._entityMode != 0b00)
+                    {
+                        throw new DwgReadException("Expected entity mode 0 for children of regular blocks.");
+                    }
                 }
                 else
                 {
@@ -128,12 +166,12 @@ namespace IxMilia.Dwg.Objects
 
         internal static DwgBlockHeader GetPaperSpaceBlockRecord(DwgLayer layer)
         {
-            return GetBlockRecordWithName("*PAPER_SPACE", layer);
+            return GetBlockRecordWithName(PaperSpaceBlockName, layer);
         }
 
         internal static DwgBlockHeader GetModelSpaceBlockRecord(DwgLayer layer)
         {
-            return GetBlockRecordWithName("*MODEL_SPACE", layer);
+            return GetBlockRecordWithName(ModelSpaceBlockName, layer);
         }
     }
 }

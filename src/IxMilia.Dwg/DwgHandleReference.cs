@@ -95,19 +95,22 @@ namespace IxMilia.Dwg
             }
         }
 
+        internal bool IsNullNavigationHandle => Code == DwgHandleReferenceCode.HardPointer && HandleOrOffset == 0;
+
         internal bool IsValidNavigationHandle
         {
             get
             {
                 switch (Code)
                 {
-                    case DwgHandleReferenceCode.HardPointer:
-                    case DwgHandleReferenceCode.SoftPointer:
                     case DwgHandleReferenceCode.HandlePlus1:
                     case DwgHandleReferenceCode.HandleMinus1:
                     case DwgHandleReferenceCode.HandlePlusOffset:
                     case DwgHandleReferenceCode.HandleMinusOffset:
                         return true;
+                    case DwgHandleReferenceCode.HardPointer:
+                    case DwgHandleReferenceCode.SoftPointer:
+                        return HandleOrOffset != 0;
                     default:
                         return false;
                 }

@@ -7,7 +7,7 @@
         protected bool _isGraphicPresent;
         protected int _graphicsSize;
         protected byte[] _graphicsData;
-        protected int _entityMode;
+        internal int _entityMode;
         protected bool _isLineTypeByLayer;
         protected DwgHandleReference _subentityRef { get; set; }
         protected bool _noLinks;
@@ -34,7 +34,7 @@
             LayerHandle = GetHandleToObject(Layer, DwgHandleReferenceCode.SoftOwner);
             LineTypeHandle = GetHandleToObject(LineType, DwgHandleReferenceCode.SoftOwner);
             _isLineTypeByLayer = LineType == null;
-            _noLinks = _subentityRef.IsEmpty;
+            _noLinks = PreviousEntityHandle.IsValidNavigationHandle && NextEntityHandle.IsValidNavigationHandle;
             OnBeforeEntityWrite();
         }
 
@@ -50,17 +50,17 @@
                 throw new DwgReadException("Incorrect line type handle code.");
             }
 
-            if (!PreviousEntityHandle.IsValidNavigationHandle)
+            if (!_noLinks && !PreviousEntityHandle.IsNullNavigationHandle && !PreviousEntityHandle.IsValidNavigationHandle)
             {
                 throw new DwgReadException("Invalid previous entity handle code.");
             }
 
-            if (!NextEntityHandle.IsValidNavigationHandle)
+            if (!_noLinks && !NextEntityHandle.IsNullNavigationHandle && !NextEntityHandle.IsValidNavigationHandle)
             {
                 throw new DwgReadException("Invalid next entity handle code.");
             }
 
-            if (!_noLinks && !_subentityRef.IsEmpty && !_subentityRef.IsValidNavigationHandle)
+            if (_entityMode == 0 && !_subentityRef.IsValidNavigationHandle)
             {
                 throw new DwgReadException("Incorrect sub entity handle code.");
             }
