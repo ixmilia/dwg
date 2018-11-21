@@ -69,6 +69,30 @@
   </Object>
   <!--
 
+  Attribute definition
+
+  -->
+  <Object Name="AttributeDefinition" Value="0x03" IsEntity="true" ConstructorAccessibility="internal">
+    <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="InsertionPoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
+    <Property Name="AlignmentPoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
+    <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="Thickness" Type="double" BinaryType="BD" DefaultValue="1.0" />
+    <Property Name="ObliqueAngle" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="RotationAngle" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="Height" Type="double" BinaryType="BD" DefaultValue="1.0" />
+    <Property Name="WidthFactor" Type="double" BinaryType="BD" DefaultValue="1.0" />
+    <Property Name="DefaultValue" Type="string" BinaryType="T" DefaultValue="null" />
+    <Property Name="Generation" Type="short" BinaryType="BS" DefaultValue="0" />
+    <Property Name="HorizontalAlignment" Type="DwgHorizontalTextJustification" BinaryType="BS" DefaultValue="DwgHorizontalTextJustification.Left" ReadConverter="(DwgHorizontalTextJustification){0}" WriteConverter="(short){0}" />
+    <Property Name="VerticalAlignment" Type="DwgVerticalTextJustification" BinaryType="BS" DefaultValue="DwgVerticalTextJustification.Baseline" ReadConverter="(DwgVerticalTextJustification){0}" WriteConverter="(short){0}" />
+    <Property Name="Tag" Type="string" BinaryType="T" DefaultValue="null" />
+    <Property Name="FieldLength" Type="short" BinaryType="BS" DefaultValue="0" />
+    <Property Name="Flags" Type="byte" BinaryType="RC" DefaultValue="0" />
+    <Property Name="Prompt" Type="string" BinaryType="T" DefaultValue="null" />
+  </Object>
+  <!--
+
   Block control
 
   -->
