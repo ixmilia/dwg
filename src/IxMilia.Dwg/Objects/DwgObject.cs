@@ -8,7 +8,6 @@ namespace IxMilia.Dwg.Objects
     {
         public abstract DwgObjectType Type { get; }
         public DwgHandleReference Handle { get; internal set; }
-        protected int _xDataSize;
         protected byte[] _xData = new byte[0];
         protected int _objectSize;
         protected int _reactorCount;
@@ -115,6 +114,11 @@ namespace IxMilia.Dwg.Objects
 
         internal virtual void ReadCommonDataStart(BitReader reader)
         {
+            Handle = reader.Read_H();
+            var xDataSize = reader.Read_BS();
+            _xData = reader.Read_Bytes(xDataSize);
+            _objectSize = reader.Read_RL();
+            _reactorCount = reader.Read_BL();
         }
 
         internal virtual void ReadCommonDataEnd(BitReader reader)
@@ -123,6 +127,11 @@ namespace IxMilia.Dwg.Objects
 
         internal virtual void WriteCommonDataStart(BitWriter writer, DwgObjectMap objectMap, int pointerOffset)
         {
+            writer.Write_H(Handle);
+            writer.Write_BS((short)_xData.Length);
+            writer.Write_Bytes(_xData);
+            writer.Write_RL(_objectSize);
+            writer.Write_BL(_reactorCount);
         }
 
         internal virtual void WriteCommonDataEnd(BitWriter writer, DwgObjectMap objectMap, int pointerOffset)

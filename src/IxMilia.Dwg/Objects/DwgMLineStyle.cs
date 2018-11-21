@@ -28,11 +28,6 @@ namespace IxMilia.Dwg.Objects
 
         internal override void WriteSpecific(BitWriter writer, DwgObjectMap objectMap, int pointerOffset, DwgVersionId version)
         {
-            writer.Write_H(Handle);
-            writer.Write_BS((short)_xDataSize);
-            writer.Write_Bytes(_xData);
-            writer.Write_RL(_objectSize);
-            writer.Write_BL(_reactorCount);
             writer.Write_T(Name);
             writer.Write_T(Description);
             writer.Write_BS(Flags);
@@ -56,11 +51,6 @@ namespace IxMilia.Dwg.Objects
 
         internal override void ParseSpecific(BitReader reader, DwgVersionId version)
         {
-            Handle = reader.Read_H();
-            _xDataSize = reader.Read_BS();
-            _xData = reader.Read_Bytes(_xDataSize);
-            _objectSize = reader.Read_RL();
-            _reactorCount = reader.Read_BL();
             Name = reader.Read_T();
             Description = reader.Read_T();
             Flags = reader.Read_BS();
