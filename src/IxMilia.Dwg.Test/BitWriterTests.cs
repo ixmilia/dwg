@@ -87,6 +87,47 @@ namespace IxMilia.Dwg.Test
         }
 
         [Fact]
+        public void CopyToOther()
+        {
+            var a = Writer();
+            a.WriteBit(0);
+            a.WriteBit(0);
+            a.WriteBit(0);
+            Assert.Equal(3, a.BitCount);
+
+            var b = Writer();
+            b.WriteBit(1);
+            b.WriteBit(1);
+            b.WriteBit(1);
+            b.WriteBit(1);
+            Assert.Equal(4, b.BitCount);
+
+            b.CopyTo(a);
+            Assert.Equal(7, a.BitCount);
+            Assert.Equal(Bytes(0b00011110), a.AsBytes());
+            //                   aaabbbb-
+
+            // now inverted
+            a = Writer();
+            a.WriteBit(1);
+            a.WriteBit(1);
+            a.WriteBit(1);
+            Assert.Equal(3, a.BitCount);
+
+            b = Writer();
+            b.WriteBit(0);
+            b.WriteBit(0);
+            b.WriteBit(0);
+            b.WriteBit(0);
+            Assert.Equal(4, b.BitCount);
+
+            b.CopyTo(a);
+            Assert.Equal(7, a.BitCount);
+            Assert.Equal(Bytes(0b11100000), a.AsBytes());
+            //                   aaabbbb-
+        }
+
+        [Fact]
         public void Write_BS()
         {
             Assert.Equal(Bytes(0b00010101, 0b10000000, 0b01000000), Writer().Write_BS(342).AsBytes());

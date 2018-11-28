@@ -8,15 +8,18 @@ namespace IxMilia.Dwg
     {
         private int bitOffset;
         private byte currentByte;
+        private int startPosition;
 
         public Stream BaseStream { get; }
         public ushort CurrentCrcValue { get; private set; }
         public int Position => (int)BaseStream.Position;
+        public int BitCount => (Position - startPosition) * 8 + bitOffset;
 
         public BitWriter(Stream stream)
         {
             bitOffset = 0;
             BaseStream = stream;
+            startPosition = Position;
         }
 
         private void FlushCurrentByte()
@@ -47,6 +50,20 @@ namespace IxMilia.Dwg
             {
                 FlushCurrentByte();
             }
+        }
+
+        public void CopyTo(BitWriter other)
+        {
+            var bits = BitCount;
+            var bytes = this.AsBytes();
+            var spareBits = bits % 8;
+            var fullBytesCount = spareBits == 0 ? bytes.Length : bytes.Length - 1;
+            for (int i = 0; i < fullBytesCount; i++)
+            {
+                other.WriteByte(bytes[i]);
+            }
+
+            other.WriteBits(bytes[bytes.Length - 1], spareBits);
         }
 
         public BitWriter WriteBit(int value)
