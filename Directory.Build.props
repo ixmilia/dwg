@@ -1,0 +1,10 @@
+<Project>
+
+  <PropertyGroup>
+    <VersionPrefix>$([System.IO.File]::ReadAllText('$(MSBuildThisFileDirectory)version.txt').Trim())</VersionPrefix>
+    <ArtifactsDir>$(MSBuildThisFileDirectory)artifacts</ArtifactsDir>
+    <BaseOutputPath>$(ArtifactsDir)\bin\$(MSBuildProjectName)</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(ArtifactsDir)\obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
+  </PropertyGroup>
+
+</Project>
