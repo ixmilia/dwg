@@ -264,6 +264,19 @@
   </Object>
   <!--
 
+  Ellipse
+
+  -->
+  <Object Name="Ellipse" Value="0x23" IsEntity="true" ConstructorAccessibility="internal">
+    <Property Name="Center" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="MajorAxis" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.XAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="MinorAxisRatio" Type="double" BinaryType="BD" DefaultValue="1.0" />
+    <Property Name="StartAngle" Type="double" BinaryType="BD" DefaultValue="0.0" Comment="Ellipse start angle in radians." />
+    <Property Name="EndAngle" Type="double" BinaryType="BD" DefaultValue="Math.PI * 2.0" Comment="Ellipse end angle in radians." />
+  </Object>
+  <!--
+
   Layer control
 
   -->
