@@ -151,6 +151,17 @@
   </Object>
   <!--
 
+  Circle
+
+  -->
+  <Object Name="Circle" Value="0x12" IsEntity="true" ConstructorAccessibility="internal">
+    <Property Name="Center" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="Radius" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="Thickness" Type="double" BinaryType="BD" DefaultValue="1.0" />
+    <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+  </Object>
+  <!--
+
   Dictionary
 
   -->
