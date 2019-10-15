@@ -32,7 +32,7 @@ dotnet run "$LIBRARY_DIR"
 cd -
 
 # build
-SOLUTION=$_SCRIPT_DIR/src/IxMilia.Converters.sln
+SOLUTION=$_SCRIPT_DIR/src/IxMilia.Dwg.sln
 dotnet restore $SOLUTION
 dotnet build $SOLUTION -c $CONFIGURATION
 
