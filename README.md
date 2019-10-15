@@ -3,8 +3,6 @@
 
 A portable .NET library for reading and writing DWG files.
 
-[![Build Status](https://dev.azure.com/ixmilia/public/_apis/build/status/Dwg?branchName=master)](https://dev.azure.com/ixmilia/public/_build/latest?definitionId=29)
-
 ### DWG reference
 
 Reference for the closed DWG format come from the [Open Design Alliance](https://www.opendesign.com/).
