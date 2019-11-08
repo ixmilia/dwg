@@ -5,6 +5,7 @@
     <ArtifactsDir>$(MSBuildThisFileDirectory)artifacts</ArtifactsDir>
     <BaseOutputPath>$(ArtifactsDir)\bin\$(MSBuildProjectName)</BaseOutputPath>
     <BaseIntermediateOutputPath>$(ArtifactsDir)\obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
+    <DebugType>embedded</DebugType>
   </PropertyGroup>
 
 </Project>
