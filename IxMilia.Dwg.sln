@@ -1,20 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28119.50
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IxMilia.Dwg", "IxMilia.Dwg\IxMilia.Dwg.csproj", "{F0E0DC0D-D86F-4905-BA5D-15984EACD1C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IxMilia.Dwg", "src\IxMilia.Dwg\IxMilia.Dwg.csproj", "{F0E0DC0D-D86F-4905-BA5D-15984EACD1C9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IxMilia.Dwg.Test", "IxMilia.Dwg.Test\IxMilia.Dwg.Test.csproj", "{8016CE51-1C73-4F1C-83C7-4CF3691ABB4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IxMilia.Dwg.Test", "src\IxMilia.Dwg.Test\IxMilia.Dwg.Test.csproj", "{8016CE51-1C73-4F1C-83C7-4CF3691ABB4A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CB86E5F9-ECEC-490E-BA89-E9D5EF4282CC}"
-	ProjectSection(SolutionItems) = preProject
-		..\build-and-test.cmd = ..\build-and-test.cmd
-		..\build-and-test.sh = ..\build-and-test.sh
-		..\README.md = ..\README.md
-	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IxMilia.Dwg.Generator", "IxMilia.Dwg.Generator\IxMilia.Dwg.Generator.csproj", "{8DEAD223-FCD6-4192-9495-DE846C0F848F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IxMilia.Dwg.Generator", "src\IxMilia.Dwg.Generator\IxMilia.Dwg.Generator.csproj", "{8DEAD223-FCD6-4192-9495-DE846C0F848F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,5 +30,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8181D97E-2ED4-4E55-B1AD-0D6823C5BFFB}
 	EndGlobalSection
 EndGlobal

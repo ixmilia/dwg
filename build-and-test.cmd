@@ -37,7 +37,7 @@ if errorlevel 1 goto error
 popd
 
 :: build
-set SOLUTION=%~dp0src\IxMilia.Dwg.sln
+set SOLUTION=%~dp0IxMilia.Dwg.sln
 dotnet restore %SOLUTION%
 if errorlevel 1 exit /b 1
 dotnet build %SOLUTION% -c %configuration%
