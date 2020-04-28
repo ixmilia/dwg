@@ -382,6 +382,14 @@
   </Object>
   <!--
 
+  SEQEND
+
+  -->
+  <Object Name="SeqEnd" Value="0x06" IsEntity="true">
+    <!-- only common values -->
+  </Object>
+  <!--
+
   Style control
 
   -->
