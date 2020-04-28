@@ -90,7 +90,20 @@ namespace IxMilia.Dwg
             {
                 { standardMLineStyle.Name, standardMLineStyle }
             };
-            NamedObjectDictionary = new DwgDictionary();
+            NamedObjectDictionary = new DwgDictionary()
+            {
+                { "ACAD_GROUP", new DwgDictionary() },
+                { "ACAD_MLINESTYLE", new DwgDictionary() },
+                { "ACAD_PLOTSETTINGS", new DwgDictionary() },
+                { "ACAD_LAYOUT", new DwgDictionary() },
+                { "ACAD_SCALELIST", new DwgDictionary() },
+                { "ACAD_VISUALSTYLE", new DwgDictionary() },
+                { "ACAD_MATERIAL", new DwgDictionary() },
+                { "ACAD_TABLESTYLE", new DwgDictionary() },
+                { "ACAD_MLEADERSTYLE", new DwgDictionary() },
+                { "ACDBHEADERROUNDTRIPXREC", new DwgDictionary() },
+                { "ACDBVARIABLEDICTIONARY", new DwgDictionary() },
+            };
 
             PaperSpaceBlockRecord = BlockHeaders["*PAPER_SPACE"];
             ModelSpaceBlockRecord = BlockHeaders["*MODEL_SPACE"];

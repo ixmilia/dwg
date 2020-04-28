@@ -21,39 +21,45 @@ namespace IxMilia.Dwg.Test
         {
             // validate default values
             var defaultFile = new DwgDrawing();
-            Assert.Equal(30, defaultFile.FileHeader.CodePage);
-            Assert.Equal("0", defaultFile.Layers.Single().Value.Name);
-            Assert.Equal("STANDARD", defaultFile.Styles.Single().Value.Name);
-            Assert.Equal(2, defaultFile.BlockHeaders.Count);
-            Assert.NotNull(defaultFile.BlockHeaders["*PAPER_SPACE"]);
-            Assert.NotNull(defaultFile.BlockHeaders["*MODEL_SPACE"]);
-            Assert.Equal(3, defaultFile.LineTypes.Count);
-            Assert.NotNull(defaultFile.LineTypes["BYLAYER"]);
-            Assert.NotNull(defaultFile.LineTypes["BYBLOCK"]);
-            Assert.NotNull(defaultFile.LineTypes["CONTINUOUS"]);
-            Assert.Equal("*ACTIVE", defaultFile.ViewPorts.Single().Value.Name);
-            Assert.True(ReferenceEquals(defaultFile.Layers["0"].LineType, defaultFile.LineTypes["CONTINUOUS"]));
-            Assert.Equal(new[] { "ACAD", "ACAD_MLEADERVER" }, defaultFile.AppIds.Values.Select(a => a.Name));
-            Assert.Equal("STANDARD", defaultFile.DimStyles.Single().Value.Name);
-            Assert.True(ReferenceEquals(defaultFile.DimStyles.Single().Value.Style, defaultFile.Styles.Single().Value));
+            VerifyDefaults(defaultFile);
 
             // valiate round-trip
             var roundTrippedFile = RoundTrip(defaultFile);
-            Assert.Equal(30, roundTrippedFile.FileHeader.CodePage);
-            Assert.Equal("0", roundTrippedFile.Layers.Single().Value.Name);
-            Assert.Equal("STANDARD", roundTrippedFile.Styles.Single().Value.Name);
-            Assert.Equal(2, roundTrippedFile.BlockHeaders.Count);
-            Assert.NotNull(roundTrippedFile.BlockHeaders["*PAPER_SPACE"]);
-            Assert.NotNull(roundTrippedFile.BlockHeaders["*MODEL_SPACE"]);
-            Assert.Equal(3, roundTrippedFile.LineTypes.Count);
-            Assert.NotNull(roundTrippedFile.LineTypes["BYLAYER"]);
-            Assert.NotNull(roundTrippedFile.LineTypes["BYBLOCK"]);
-            Assert.NotNull(roundTrippedFile.LineTypes["CONTINUOUS"]);
-            Assert.Equal("*ACTIVE", roundTrippedFile.ViewPorts.Single().Value.Name);
-            Assert.True(ReferenceEquals(roundTrippedFile.Layers["0"].LineType, roundTrippedFile.LineTypes["CONTINUOUS"]));
-            Assert.Equal(new[] { "ACAD", "ACAD_MLEADERVER" }, roundTrippedFile.AppIds.Values.Select(a => a.Name));
-            Assert.Equal("STANDARD", roundTrippedFile.DimStyles.Single().Value.Name);
-            Assert.True(ReferenceEquals(roundTrippedFile.DimStyles.Single().Value.Style, roundTrippedFile.Styles.Single().Value));
+            VerifyDefaults(roundTrippedFile);
+
+            void VerifyDefaults(DwgDrawing drawing)
+            {
+                Assert.Equal(30, drawing.FileHeader.CodePage);
+                Assert.Equal("0", drawing.Layers.Single().Value.Name);
+                Assert.Equal("STANDARD", drawing.Styles.Single().Value.Name);
+                Assert.Equal(2, drawing.BlockHeaders.Count);
+                Assert.NotNull(drawing.BlockHeaders["*PAPER_SPACE"]);
+                Assert.NotNull(drawing.BlockHeaders["*MODEL_SPACE"]);
+                Assert.Equal(3, drawing.LineTypes.Count);
+                Assert.NotNull(drawing.LineTypes["BYLAYER"]);
+                Assert.NotNull(drawing.LineTypes["BYBLOCK"]);
+                Assert.NotNull(drawing.LineTypes["CONTINUOUS"]);
+                Assert.Equal("*ACTIVE", drawing.ViewPorts.Single().Value.Name);
+                Assert.True(ReferenceEquals(drawing.Layers["0"].LineType, drawing.LineTypes["CONTINUOUS"]));
+                Assert.Equal(new[] { "ACAD", "ACAD_MLEADERVER" }, drawing.AppIds.Values.Select(a => a.Name));
+                Assert.Equal("STANDARD", drawing.DimStyles.Single().Value.Name);
+                Assert.True(ReferenceEquals(drawing.DimStyles.Single().Value.Style, drawing.Styles.Single().Value));
+
+                Assert.Equal(new[]
+                {
+                    "ACAD_GROUP",
+                    "ACAD_LAYOUT",
+                    "ACAD_MATERIAL",
+                    "ACAD_MLEADERSTYLE",
+                    "ACAD_MLINESTYLE",
+                    "ACAD_PLOTSETTINGS",
+                    "ACAD_SCALELIST",
+                    "ACAD_TABLESTYLE",
+                    "ACAD_VISUALSTYLE",
+                    "ACDBHEADERROUNDTRIPXREC",
+                    "ACDBVARIABLEDICTIONARY",
+                }, drawing.NamedObjectDictionary.Keys.OrderBy(x => x));
+            }
         }
 
         [Fact]
