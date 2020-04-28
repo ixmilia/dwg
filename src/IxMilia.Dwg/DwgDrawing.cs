@@ -41,7 +41,7 @@ namespace IxMilia.Dwg
 
         public DwgDrawing()
         {
-            FileHeader = new DwgFileHeader(DwgVersionId.Default, 0, 0, 0);
+            FileHeader = new DwgFileHeader(DwgVersionId.Default, 0, 0, 30);
             Variables = new DwgHeaderVariables();
             Classes = new List<DwgClassDefinition>();
 

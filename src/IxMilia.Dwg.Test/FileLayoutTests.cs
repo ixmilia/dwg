@@ -21,6 +21,7 @@ namespace IxMilia.Dwg.Test
         {
             // validate default values
             var defaultFile = new DwgDrawing();
+            Assert.Equal(30, defaultFile.FileHeader.CodePage);
             Assert.Equal("0", defaultFile.Layers.Single().Value.Name);
             Assert.Equal("STANDARD", defaultFile.Styles.Single().Value.Name);
             Assert.Equal(2, defaultFile.BlockHeaders.Count);
@@ -38,6 +39,7 @@ namespace IxMilia.Dwg.Test
 
             // valiate round-trip
             var roundTrippedFile = RoundTrip(defaultFile);
+            Assert.Equal(30, roundTrippedFile.FileHeader.CodePage);
             Assert.Equal("0", roundTrippedFile.Layers.Single().Value.Name);
             Assert.Equal("STANDARD", roundTrippedFile.Styles.Single().Value.Name);
             Assert.Equal(2, roundTrippedFile.BlockHeaders.Count);
