@@ -120,5 +120,12 @@ namespace IxMilia.Dwg
             if (value) SetFlag(ref flags, mask);
             else ClearFlag(ref flags, mask);
         }
+
+        public static double NegativeIfEqual(double value1, double value2)
+        {
+            return value1 == value2
+                ? -Math.Abs(value1)
+                : value1;
+        }
     }
 }

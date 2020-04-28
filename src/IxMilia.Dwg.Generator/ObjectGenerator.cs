@@ -189,7 +189,7 @@ namespace IxMilia.Dwg.Generator
                     IncreaseIndent();
                     foreach (var p in o.Elements("Property"))
                     {
-                        var condition = Condition(p);
+                        var condition = WriteCondition(p);
                         if (condition != null)
                         {
                             AppendLine($"if ({condition})");
@@ -234,7 +234,7 @@ namespace IxMilia.Dwg.Generator
                     IncreaseIndent();
                     foreach (var p in o.Elements("Property"))
                     {
-                        var condition = Condition(p);
+                        var condition = ReadCondition(p);
                         if (condition != null)
                         {
                             AppendLine($"if ({condition})");

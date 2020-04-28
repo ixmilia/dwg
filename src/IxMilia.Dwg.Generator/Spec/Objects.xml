@@ -129,8 +129,8 @@
     <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
     <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
     <Property Name="BlockEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" Accessibility="private" />
-    <Property Name="_firstEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" Accessibility="private" Condition="!IsXRef &amp;&amp; !IsOverlaidXref" />
-    <Property Name="_lastEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" Accessibility="private" Condition="!IsXRef &amp;&amp; !IsOverlaidXref" />
+    <Property Name="_firstEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" Accessibility="private" ReadCondition="!IsXRef &amp;&amp; !IsOverlaidXref" WriteCondition="!IsXRef &amp;&amp; !IsOverlaidXref" />
+    <Property Name="_lastEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" Accessibility="private" ReadCondition="!IsXRef &amp;&amp; !IsOverlaidXref" WriteCondition="!IsXRef &amp;&amp; !IsOverlaidXref" />
     <Property Name="EndBlockEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" Accessibility="private" />
   </Object>
   <!--
@@ -167,7 +167,7 @@
   -->
   <Object Name="Dictionary" Value="0x2A" IsEntity="false">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
-    <Property Name="_unknown" Type="byte" BinaryType="RC" DefaultValue="0" Accessibility="private" Condition="version == DwgVersionId.R14" />
+    <Property Name="_unknown" Type="byte" BinaryType="RC" DefaultValue="0" Accessibility="private" ReadCondition="version == DwgVersionId.R14" WriteCondition="version == DwgVersionId.R14" />
     <Property Name="_names" Type="string" BinaryType="T" DefaultValue="new List&lt;string&gt;()" Accessibility="private" ReadCount="_entityCount" />
 
     <!-- handles -->
@@ -482,6 +482,19 @@
     <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
     <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
     <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
+  </Object>
+  <!--
+
+  Vertex (2D)
+
+  -->
+  <Object Name="Vertex2D" Value="0x0A" IsEntity="true">
+    <Property Name="Flags" Type="int" BinaryType="RC" DefaultValue="0" WriteConverter="(byte){0}" />
+    <Property Name="Point" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="StartWidth" Type="double" BinaryType="BD" DefaultValue="0.0" WriteConverter="Converters.NegativeIfEqual(StartWidth, EndWidth)" />
+    <Property Name="EndWidth" Type="double" BinaryType="BD" DefaultValue="0.0" ReadCondition="StartWidth &gt;= 0.0" WriteCondition="StartWidth != EndWidth" />
+    <Property Name="Bulge" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="TangentDirection" Type="double" BinaryType="BD" DefaultValue="0.0" />
   </Object>
   <!--
 
