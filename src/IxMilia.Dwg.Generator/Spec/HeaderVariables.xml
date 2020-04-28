@@ -101,7 +101,7 @@
   <Variable Name="SecondChamferDistance" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="CHAMFERB" Comment="Second chamfer distance." />
   <Variable Name="ChamferLength" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="CHAMFERC" Comment="Chamfer length." />
   <Variable Name="ChamferAngle" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="CHAMFERD" Comment="Chamfer angle." />
-  <Variable BinaryType="BD" DefaultValue="0.0" ShortName="FACETRES" Comment="Undocumented." />
+  <Variable BinaryType="BD" DefaultValue="0.5" ShortName="FACETRES" Comment="Undocumented.  Valid values seem to be [0.01, 10.0]" />
   <Variable Name="CurrentMultilineScale" BinaryType="BD" Type="double" DefaultValue="1.0" ShortName="CMLSCALE" Comment="Current multiline scale." />
   <Variable Name="CurrentEntityLineTypeScale" BinaryType="BD" Type="double" DefaultValue="1.0" ShortName="CELTSCALE" Comment="Current entity line type scale." />
   <Variable Name="FileName" BinaryType="T" Type="string" DefaultValue='"."' ShortName="MENUNAME" Comment="Name of menu file." />
