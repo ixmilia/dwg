@@ -121,6 +121,12 @@ namespace IxMilia.Dwg
             return (bytes[3] << 24) + (bytes[2] << 16) + (bytes[1] << 8) + bytes[0];
         }
 
+        public uint ReadUInt()
+        {
+            var bytes = ReadBytes(4);
+            return (uint)(bytes[3] << 24) + (uint)(bytes[2] << 16) + (uint)(bytes[1] << 8) + (uint)bytes[0];
+        }
+
         public double ReadDouble()
         {
             var bytes = ReadBytes(8);

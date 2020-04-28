@@ -151,6 +151,15 @@ namespace IxMilia.Dwg
             WriteBytes((byte)a, (byte)b, (byte)c, (byte)d);
         }
 
+        public void WriteUInt(uint value)
+        {
+            var a = value & 0xFF;
+            var b = (value >> 8) & 0xFF;
+            var c = (value >> 16) & 0xFF;
+            var d = (value >> 24) & 0xFF;
+            WriteBytes((byte)a, (byte)b, (byte)c, (byte)d);
+        }
+
         public void WriteDouble(double value)
         {
             var bytes = BitConverter.GetBytes(value);

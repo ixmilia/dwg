@@ -136,6 +136,11 @@ namespace IxMilia.Dwg
             var objectCache = DwgObjectCache.Parse(reader.FromOffset(drawing.FileHeader.ObjectMapLocator.Pointer), drawing.FileHeader.Version);
             drawing.LoadObjects(reader, objectCache);
 
+            var freeSpaceSection = DwgObjectFreeSpaceSection.Parse(reader.FromOffset(drawing.FileHeader.ObjectFreeSpaceLocator.Pointer));
+            var objectOffset = objectCache.GetOffsetFromHandle(drawing.Variables.BlockControlObjectHandle.HandleOrOffset);
+            // TODO: if (version > DwgVersionId.R14) TDUUPDATE else TDUPDATE
+            freeSpaceSection.Validate((uint)objectCache.ObjectCount, drawing.Variables.UpdateDate, (uint)objectOffset);
+
             return drawing;
         }
 
@@ -236,9 +241,12 @@ namespace IxMilia.Dwg
             objectMap.Write(writer);
             FileHeader.ObjectMapLocator = DwgFileHeader.DwgSectionLocator.ObjectMapLocator(objectMapStart - fileHeaderLocation, writer.Position - objectMapStart);
 
-            var unknownR13C3Start = writer.Position;
-            DwgUnknownSectionR13C3.Write(writer);
-            FileHeader.UnknownSection_R13C3AndLaterLocator = DwgFileHeader.DwgSectionLocator.UnknownSection_R13C3AndLaterLocator(unknownR13C3Start - fileHeaderLocation, writer.Position - unknownR13C3Start);
+            var objectFreeSpaceStart = writer.Position;
+            // TODO: if (version > DwgVersionId.R14) TDUUPDATE else TDUPDATE
+            var objectStart = objectMap.GetOffsetFromHandle(Variables.BlockControlObjectHandle.HandleOrOffset);
+            var freeSpaceSection = new DwgObjectFreeSpaceSection((uint)objectMap.HandleCount, Variables.UpdateDate, (uint)objectStart);
+            freeSpaceSection.Write(writer);
+            FileHeader.ObjectFreeSpaceLocator = DwgFileHeader.DwgSectionLocator.ObjectFreeSpaceLocator(objectFreeSpaceStart - fileHeaderLocation, writer.Position - objectFreeSpaceStart);
 
             var secondHeaderStart = writer.Position;
             FileHeader.WriteSecondHeader(writer, Variables, secondHeaderStart - fileHeaderLocation);

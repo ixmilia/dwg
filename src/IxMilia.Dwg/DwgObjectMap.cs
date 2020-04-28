@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using IxMilia.Dwg.Objects;
@@ -10,9 +11,21 @@ namespace IxMilia.Dwg
         private int _nextHandle = 1;
         private IDictionary<int, int> _handleOffsets = new Dictionary<int, int>();
 
+        public int HandleCount => _handleOffsets.Count;
+
         internal void SetOffset(int handle, int offset)
         {
             _handleOffsets.Add(handle, offset);
+        }
+
+        public int GetOffsetFromHandle(int handle)
+        {
+            if (_handleOffsets.TryGetValue(handle, out var offset))
+            {
+                return offset;
+            }
+
+            throw new InvalidOperationException($"Unable to get offset from handle {handle}.");
         }
 
         internal void AssignHandle(DwgObject obj)

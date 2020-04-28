@@ -48,10 +48,10 @@ namespace IxMilia.Dwg
         internal DwgSectionLocator HeaderVariablesLocator { get; set; }
         internal DwgSectionLocator ClassSectionLocator { get; set; }
         internal DwgSectionLocator ObjectMapLocator { get; set; }
-        internal DwgSectionLocator UnknownSection_R13C3AndLaterLocator { get; set; }
+        internal DwgSectionLocator ObjectFreeSpaceLocator { get; set; }
         internal DwgSectionLocator UnknownSection_PaddingLocator { get; set; }
 
-        private int SecondHeaderPointer => UnknownSection_R13C3AndLaterLocator.Pointer + UnknownSection_R13C3AndLaterLocator.Length;
+        private int SecondHeaderPointer => ObjectFreeSpaceLocator.Pointer + ObjectFreeSpaceLocator.Length;
 
         internal DwgFileHeader(DwgVersionId version, int maintenenceVersion, int imagePointer, short codePage)
         {
@@ -101,7 +101,7 @@ namespace IxMilia.Dwg
                         header.ObjectMapLocator = locator;
                         break;
                     case 3:
-                        header.UnknownSection_R13C3AndLaterLocator = locator;
+                        header.ObjectFreeSpaceLocator = locator;
                         break;
                     case 4:
                         header.UnknownSection_PaddingLocator = locator;
@@ -187,7 +187,7 @@ namespace IxMilia.Dwg
                             ObjectMapLocator.ValidateLocator(id, pointer, length);
                             break;
                         case 3:
-                            UnknownSection_R13C3AndLaterLocator.ValidateLocator(id, pointer, length);
+                            ObjectFreeSpaceLocator.ValidateLocator(id, pointer, length);
                             break;
                         case 4:
                             UnknownSection_PaddingLocator.ValidateLocator(id, pointer, length);
@@ -303,7 +303,7 @@ namespace IxMilia.Dwg
             HeaderVariablesLocator.Write(writer);
             ClassSectionLocator.Write(writer);
             ObjectMapLocator.Write(writer);
-            UnknownSection_R13C3AndLaterLocator.Write(writer);
+            ObjectFreeSpaceLocator.Write(writer);
             UnknownSection_PaddingLocator.Write(writer);
 
             writer.WriteCrc(xorValue: 0x3CC4); // value for 5 records
@@ -331,7 +331,7 @@ namespace IxMilia.Dwg
                 HeaderVariablesLocator.Write(tempWriter, writingSecondHeader: true);
                 ClassSectionLocator.Write(tempWriter, writingSecondHeader: true);
                 ObjectMapLocator.Write(tempWriter, writingSecondHeader: true);
-                UnknownSection_R13C3AndLaterLocator.Write(tempWriter, writingSecondHeader: true);
+                ObjectFreeSpaceLocator.Write(tempWriter, writingSecondHeader: true);
                 UnknownSection_PaddingLocator.Write(tempWriter, writingSecondHeader: true);
 
                 tempWriter.Write_BS(14);
@@ -395,7 +395,7 @@ namespace IxMilia.Dwg
             private const byte HeaderVariablesRecordNumber = 0;
             private const byte ClassSectionLocatorRecordNumber = 1;
             private const byte ObjectMapLocatorRecordNumber = 2;
-            private const byte UnknownSection_R13C3AndLaterLocatorRecordNumber = 3;
+            private const byte ObjectFreeSpaceLocatorRecordNumber = 3;
             private const byte UnknownSection_PaddingLocatorRecordNumber = 4;
 
             public byte RecordNumber { get; }
@@ -467,9 +467,9 @@ namespace IxMilia.Dwg
                 return new DwgSectionLocator(ObjectMapLocatorRecordNumber, pointer, length);
             }
 
-            public static DwgSectionLocator UnknownSection_R13C3AndLaterLocator(int pointer, int length)
+            public static DwgSectionLocator ObjectFreeSpaceLocator(int pointer, int length)
             {
-                return new DwgSectionLocator(UnknownSection_R13C3AndLaterLocatorRecordNumber, pointer, length);
+                return new DwgSectionLocator(ObjectFreeSpaceLocatorRecordNumber, pointer, length);
             }
 
             public static DwgSectionLocator UnknownSection_PaddingLocator(int pointer, int length)

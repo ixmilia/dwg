@@ -9,9 +9,21 @@ namespace IxMilia.Dwg
         private IDictionary<int, DwgObject> _handleToObject = new Dictionary<int, DwgObject>();
         private DwgVersionId _version;
 
+        public int ObjectCount => _handleToOffset.Count;
+
         private DwgObjectCache(DwgVersionId version)
         {
             _version = version;
+        }
+
+        public int GetOffsetFromHandle(int handle)
+        {
+            if (_handleToOffset.TryGetValue(handle, out var offset))
+            {
+                return offset;
+            }
+
+            throw new DwgReadException($"Unable to get offset for object handle {handle}");
         }
 
         public DwgObject GetObject(BitReader reader, int handle, bool allowNull = false)
