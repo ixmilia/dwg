@@ -20,7 +20,7 @@ namespace IxMilia.Dwg.Generator
         public void Run()
         {
             _xml = XDocument.Load(Path.Combine("Spec", "Objects.xml")).Root;
-            _objects = _xml.Elements("Object");
+            _objects = _xml.Elements("Object").Where(IsImplemented);
 
             OutputObjects();
         }

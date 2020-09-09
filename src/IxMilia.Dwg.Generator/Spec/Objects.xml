@@ -96,6 +96,27 @@
   </Object>
   <!--
 
+  INSERT
+
+  -->
+  <Object Name="Insert" Value="0x07" IsEntity="true" NotImplemented="true">
+  </Object>
+  <!--
+
+  MINSERT
+
+  -->
+  <Object Name="MInsert" Value="0x08" IsEntity="true" NotImplemented="true">
+  </Object>
+  <!--
+
+  *UNUSED*
+
+  -->
+  <Object Name="*UNUSED*" Value="0x09" IsEntity="false" NotImplemented="true">
+  </Object>
+  <!--
+
   Vertex (2D)
 
   -->
@@ -106,6 +127,34 @@
     <Property Name="EndWidth" Type="double" BinaryType="BD" DefaultValue="0.0" ReadCondition="StartWidth &gt;= 0.0" WriteCondition="StartWidth != EndWidth || StartWidth == 0.0" />
     <Property Name="Bulge" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="TangentDirection" Type="double" BinaryType="BD" DefaultValue="0.0" />
+  </Object>
+  <!--
+
+  Vertex (3D)
+
+  -->
+  <Object Name="Vertex3D" Value="0x0B" IsEntity="true" NotImplemented="true">
+  </Object>
+  <!--
+
+  Vertex (Mesh)
+
+  -->
+  <Object Name="VertexMesh" Value="0x0C" IsEntity="true" NotImplemented="true">
+  </Object>
+  <!--
+
+  Vertex (PFace)
+
+  -->
+  <Object Name="VertexPFace" Value="0x0D" IsEntity="true" NotImplemented="true">
+  </Object>
+  <!--
+
+  Vertex (PFace Face)
+
+  -->
+  <Object Name="VertexPFaceFace" Value="0x0E" IsEntity="true" NotImplemented="true">
   </Object>
   <!--
 
@@ -120,6 +169,13 @@
     <Property Name="Thickness" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+  </Object>
+  <!--
+
+  Polyline (3D)
+
+  -->
+  <Object Name="Polyline3D" Value="0x10" IsEntity="true" NotImplemented="true">
   </Object>
   <!--
 
@@ -158,6 +214,111 @@
   </Object>
   <!--
 
+  Dimension (Ordinate)
+
+  -->
+  <Object Name="DimensionOrdinate" Value="0x14" IsEntity="true" NotImplemented="true">
+  </Object>
+  <!--
+
+  Dimension (Linear)
+
+  -->
+  <Object Name="DimensionLinear" Value="0x15" IsEntity="true" NotImplemented="true">
+  </Object>
+  <!--
+
+  Dimension (Aligned)
+
+  -->
+  <Object Name="DimensionAligned" Value="0x16" IsEntity="true" NotImplemented="true">
+  </Object>
+  <!--
+
+  Dimension (Angular 3 Point)
+
+  -->
+  <Object Name="DimensionAngular3Point" Value="0x17" IsEntity="true" NotImplemented="true">
+  </Object>
+  <!--
+
+  Dimension (Angular 2 Point)
+
+  -->
+  <Object Name="DimensionAngular2Point" Value="0x18" IsEntity="true" NotImplemented="true">
+  </Object>
+  <!--
+
+  Dimension (Radius)
+
+  -->
+  <Object Name="DimensionRadius" Value="0x19" IsEntity="true" NotImplemented="true">
+  </Object>
+  <!--
+
+  Dimension (Diameter)
+
+  -->
+  <Object Name="DimensionDiameter" Value="0x1A" IsEntity="true" NotImplemented="true">
+  </Object>
+  <!--
+
+  Point
+
+  -->
+  <Object Name="Point" Value="0x1B" IsEntity="true" NotImplemented="true">
+  </Object>
+  <!--
+
+  3D Face
+
+  -->
+  <Object Name="Face3D" Value="0x1C" IsEntity="true" NotImplemented="true">
+  </Object>
+  <!--
+
+  Polyline (PFace)
+
+  -->
+  <Object Name="PolylinePFace" Value="0x1D" IsEntity="true" NotImplemented="true">
+  </Object>
+  <!--
+
+  Polyline (Mesh)
+
+  -->
+  <Object Name="PolylineMesh" Value="0x1E" IsEntity="true" NotImplemented="true">
+  </Object>
+  <!--
+
+  Solid
+
+  -->
+  <Object Name="Solid" Value="0x1F" IsEntity="true" NotImplemented="true">
+  </Object>
+  <!--
+
+  Trace
+
+  -->
+  <Object Name="Trace" Value="0x20" IsEntity="true" NotImplemented="true">
+  </Object>
+  <!--
+
+  Shape
+
+  -->
+  <Object Name="Shape" Value="0x21" IsEntity="true" NotImplemented="true">
+  </Object>
+  <!--
+
+  Viewport
+
+  -->
+  <Object Name="Viewport" Value="0x22" IsEntity="false" NotImplemented="true">
+  </Object>
+  <!--
+
   Ellipse
 
   -->
@@ -168,6 +329,48 @@
     <Property Name="MinorAxisRatio" Type="double" BinaryType="BD" DefaultValue="1.0" />
     <Property Name="StartAngle" Type="double" BinaryType="BD" DefaultValue="0.0" Comment="Ellipse start angle in radians." />
     <Property Name="EndAngle" Type="double" BinaryType="BD" DefaultValue="Math.PI * 2.0" Comment="Ellipse end angle in radians." />
+  </Object>
+  <!--
+
+  Spline
+
+  -->
+  <Object Name="Spline" Value="0x24" IsEntity="true" NotImplemented="true">
+  </Object>
+  <!--
+
+  Region
+
+  -->
+  <Object Name="Region" Value="0x25" IsEntity="false" NotImplemented="true">
+  </Object>
+  <!--
+
+  3D Solid
+
+  -->
+  <Object Name="Solid3D" Value="0x26" IsEntity="true" NotImplemented="true">
+  </Object>
+  <!--
+
+  Body
+
+  -->
+  <Object Name="Body" Value="0x27" IsEntity="true" NotImplemented="true">
+  </Object>
+  <!--
+
+  Ray
+
+  -->
+  <Object Name="Ray" Value="0x28" IsEntity="true" NotImplemented="true">
+  </Object>
+  <!--
+
+  XLine
+
+  -->
+  <Object Name="XLine" Value="0x29" IsEntity="true" NotImplemented="true">
   </Object>
   <!--
 
@@ -184,6 +387,41 @@
     <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
     <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
     <Property Name="_entityHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_entityCount" />
+  </Object>
+  <!--
+
+  *UNUSED*
+
+  -->
+  <Object Name="*UNUSED*" Value="0x2B" IsEntity="false" NotImplemented="true">
+  </Object>
+  <!--
+
+  MText
+
+  -->
+  <Object Name="MText" Value="0x2C" IsEntity="true" NotImplemented="true">
+  </Object>
+  <!--
+
+  Leader
+
+  -->
+  <Object Name="Leader" Value="0x2D" IsEntity="true" NotImplemented="true">
+  </Object>
+  <!--
+
+  Tolerance
+
+  -->
+  <Object Name="Tolerance" Value="0x2E" IsEntity="true" NotImplemented="true">
+  </Object>
+  <!--
+
+  MLine
+
+  -->
+  <Object Name="MLine" Value="0x2F" IsEntity="true" NotImplemented="true">
   </Object>
   <!--
 
@@ -304,6 +542,20 @@
   </Object>
   <!--
 
+  *UNUSED*
+
+  -->
+  <Object Name="*UNUSED*" Value="0x36" IsEntity="false" NotImplemented="true">
+  </Object>
+  <!--
+
+  *UNUSED*
+
+  -->
+  <Object Name="*UNUSED*" Value="0x37" IsEntity="false" NotImplemented="true">
+  </Object>
+  <!--
+
   Line Type control
 
   -->
@@ -336,6 +588,20 @@
     <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
     <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
     <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
+  </Object>
+  <!--
+
+  *UNUSED*
+
+  -->
+  <Object Name="*UNUSED*" Value="0x3A" IsEntity="false" NotImplemented="true">
+  </Object>
+  <!--
+
+  UNUSED
+
+  -->
+  <Object Name="*UNUSED*" Value="0x3B" IsEntity="false" NotImplemented="true">
   </Object>
   <!--
 
@@ -612,6 +878,13 @@
     <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
     <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
     <Property Name="_nextViewPortEntityHeaderHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="private" />
+  </Object>
+  <!--
+
+  Group
+
+  -->
+  <Object Name="Group" Value="0x48" IsEntity="false" NotImplemented="true">
   </Object>
   <!--
 
