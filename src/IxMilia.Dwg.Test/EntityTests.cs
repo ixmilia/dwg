@@ -13,5 +13,23 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(line.P1, roundTrippedLine.P1);
             Assert.Equal(line.P2, roundTrippedLine.P2);
         }
+
+        [Fact]
+        public void RoundTripPolyline2DWithoutVertices()
+        {
+            var poly = new DwgPolyline2D();
+            var roundTripped = (DwgPolyline2D)RoundTrip(poly);
+            Assert.Empty(roundTripped.Vertices);
+        }
+
+        [Fact]
+        public void RoundTripPolyline2DWithVertices()
+        {
+            var poly = new DwgPolyline2D(new DwgVertex2D(new DwgPoint(0.0, 0.0, 0.0)), new DwgVertex2D(new DwgPoint(10.0, 10.0, 0.0)));
+            var roundTripped = (DwgPolyline2D)RoundTrip(poly);
+            Assert.Equal(2, roundTripped.Vertices.Count);
+            Assert.Equal(new DwgPoint(0.0, 0.0, 0.0), roundTripped.Vertices[0].Point);
+            Assert.Equal(new DwgPoint(10.0, 10.0, 0.0), roundTripped.Vertices[1].Point);
+        }
     }
 }

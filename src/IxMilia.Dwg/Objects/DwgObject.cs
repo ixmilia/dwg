@@ -65,6 +65,7 @@ namespace IxMilia.Dwg.Objects
                 WriteCommonDataStart(tempWriter, objectMap, pointerOffset);
                 WriteSpecific(tempWriter, objectMap, pointerOffset, version);
                 WriteCommonDataEnd(tempWriter, objectMap, pointerOffset);
+                WritePostData(tempWriter, objectMap, pointerOffset);
                 var tempBytes = tempWriter.AsBytes();
 
                 // now output everything
@@ -97,6 +98,7 @@ namespace IxMilia.Dwg.Objects
             obj.ReadCommonDataStart(reader);
             obj.ParseSpecific(reader, version);
             obj.ReadCommonDataEnd(reader);
+            obj.ReadPostData(reader);
 
             // ensure there's no extra data
             reader.AlignToByte();
@@ -125,6 +127,10 @@ namespace IxMilia.Dwg.Objects
         {
         }
 
+        internal virtual void ReadPostData(BitReader reader)
+        {
+        }
+
         internal virtual void WriteCommonDataStart(BitWriter writer, DwgObjectMap objectMap, int pointerOffset)
         {
             writer.Write_H(Handle);
@@ -135,6 +141,10 @@ namespace IxMilia.Dwg.Objects
         }
 
         internal virtual void WriteCommonDataEnd(BitWriter writer, DwgObjectMap objectMap, int pointerOffset)
+        {
+        }
+
+        internal virtual void WritePostData(BitWriter writer, DwgObjectMap objectMap, int pointerOffset)
         {
         }
 

@@ -4,6 +4,12 @@ namespace IxMilia.Dwg.Objects
 {
     public partial class DwgVertex2D
     {
+        public DwgVertex2D(DwgPoint point)
+            : this()
+        {
+            Point = point;
+        }
+
         internal override void OnAfterEntityRead(BitReader reader, DwgObjectCache objectCache)
         {
             if (StartWidth < 0.0)

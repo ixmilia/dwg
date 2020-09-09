@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace IxMilia.Dwg.Objects
 {
@@ -54,21 +55,14 @@ namespace IxMilia.Dwg.Objects
             }
             else
             {
-                _firstEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, Entities[0].Handle.HandleOrOffset);
-                _lastEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, Entities[Entities.Count - 1].Handle.HandleOrOffset);
-                for (int i = 0; i < Entities.Count; i++)
+                var flatList = DwgEntityHelpers.FlattenAndAssignPointersForWrite(Entities);
+                foreach (var entity in Entities)
                 {
-                    var currentEntity = Entities[i];
-                    var previousEntity = i == 0
-                        ? null
-                        : Entities[i - 1];
-                    var nextEntity = i == Entities.Count - 1
-                        ? null
-                        : Entities[i + 1];
-                    currentEntity.PreviousEntityHandle = currentEntity.GetHandleToObject(previousEntity, DwgHandleReferenceCode.HardPointer);
-                    currentEntity.NextEntityHandle = currentEntity.GetHandleToObject(nextEntity, DwgHandleReferenceCode.HardPointer);
-                    AssignEntityMode(currentEntity);
+                    AssignEntityMode(entity);
                 }
+
+                _firstEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, flatList.First().Handle.HandleOrOffset);
+                _lastEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, flatList.Last().Handle.HandleOrOffset);
             }
         }
 

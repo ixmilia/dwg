@@ -1,5 +1,13 @@
 ﻿namespace IxMilia.Dwg
 {
+    public enum DwgCurveType
+    {
+        None = 0,
+        QuadraticBSpline = 5,
+        CubicBSpline = 6,
+        Bezier = 8
+    }
+
     public enum DwgHorizontalTextJustification
     {
         Left = 0,

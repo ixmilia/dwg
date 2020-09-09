@@ -382,6 +382,20 @@
   </Object>
   <!--
 
+  Polyline (2D)
+
+  -->
+  <Object Name="Polyline2D" Value="0x0F" IsEntity="true">
+    <Property Name="Flags" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" />
+    <Property Name="CurveType" Type="DwgCurveType" BinaryType="BS" DefaultValue="0" ReadConverter="(DwgCurveType){0}" WriteConverter="(short){0}" />
+    <Property Name="StartWidth" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="EndWidth" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="Thickness" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+  </Object>
+  <!--
+
   SEQEND
 
   -->
@@ -488,11 +502,11 @@
   Vertex (2D)
 
   -->
-  <Object Name="Vertex2D" Value="0x0A" IsEntity="true">
+  <Object Name="Vertex2D" Value="0x0A" IsEntity="true" ConstructorAccessibility="internal">
     <Property Name="Flags" Type="int" BinaryType="RC" DefaultValue="0" WriteConverter="(byte){0}" />
     <Property Name="Point" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="StartWidth" Type="double" BinaryType="BD" DefaultValue="0.0" WriteConverter="Converters.NegativeIfEqual(StartWidth, EndWidth)" />
-    <Property Name="EndWidth" Type="double" BinaryType="BD" DefaultValue="0.0" ReadCondition="StartWidth &gt;= 0.0" WriteCondition="StartWidth != EndWidth" />
+    <Property Name="EndWidth" Type="double" BinaryType="BD" DefaultValue="0.0" ReadCondition="StartWidth &gt;= 0.0" WriteCondition="StartWidth != EndWidth || StartWidth == 0.0" />
     <Property Name="Bulge" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="TangentDirection" Type="double" BinaryType="BD" DefaultValue="0.0" />
   </Object>
