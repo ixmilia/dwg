@@ -372,7 +372,9 @@
   XLine
 
   -->
-  <Object Name="XLine" Value="0x29" IsEntity="true" NotImplemented="true">
+  <Object Name="XLine" Value="0x29" IsEntity="true" ConstructorAccessibility="internal">
+    <Property Name="Point" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="Vector" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.XAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
   </Object>
   <!--
 
