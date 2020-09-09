@@ -86,6 +86,11 @@ namespace IxMilia.Dwg
             return Tuple.Create(reader.Read_BD(), reader.Read_BD(), reader.Read_BD());
         }
 
+        public static byte Read_EC(this BitReader reader)
+        {
+            return reader.Read_RC();
+        }
+
         public static byte Read_RC(this BitReader reader)
         {
             return reader.ReadByte();

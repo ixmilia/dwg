@@ -110,6 +110,11 @@ namespace IxMilia.Dwg
             return writer;
         }
 
+        public static BitWriter Write_EC(this BitWriter writer, byte value)
+        {
+            return writer.Write_RC(value);
+        }
+
         public static BitWriter Write_RD(this BitWriter writer, double value)
         {
             writer.WriteDouble(value);
