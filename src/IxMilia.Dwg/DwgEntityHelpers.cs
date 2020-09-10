@@ -42,5 +42,15 @@ namespace IxMilia.Dwg
                 }
             }
         }
+
+        public static bool HasFlag(int flags, int mask)
+        {
+            return (flags & mask) == mask;
+        }
+
+        public static int WithFlag(int flags, int mask)
+        {
+            return flags | mask;
+        }
     }
 }

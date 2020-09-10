@@ -177,7 +177,9 @@
   Polyline (3D)
 
   -->
-  <Object Name="Polyline3D" Value="0x10" IsEntity="true" NotImplemented="true">
+  <Object Name="Polyline3D" Value="0x10" IsEntity="true">
+    <Property Name="_flags1" Type="int" BinaryType="RC" DefaultValue="0" WriteConverter="(byte){0}" Accessibility="private" />
+    <Property Name="_flags2" Type="int" BinaryType="RC" DefaultValue="0b00001000" WriteConverter="(byte){0}" Accessibility="private" />
   </Object>
   <!--
 
