@@ -48,9 +48,16 @@ namespace IxMilia.Dwg
             return (flags & mask) == mask;
         }
 
-        public static int WithFlag(int flags, int mask)
+        public static int WithFlag(bool value, int flags, int mask)
         {
-            return flags | mask;
+            if (value)
+            {
+                return flags | mask;
+            }
+            else
+            {
+                return flags & ~mask;
+            }
         }
     }
 }

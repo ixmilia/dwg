@@ -15,7 +15,7 @@ namespace IxMilia.Dwg.Objects
         public bool IsClosed
         {
             get => DwgEntityHelpers.HasFlag(_flags2, 0b00000001);
-            set => _flags2 = DwgEntityHelpers.WithFlag(_flags2, 0b00000001);
+            set => _flags2 = DwgEntityHelpers.WithFlag(value, _flags2, 0b00000001);
         }
 
         internal override IEnumerable<DwgObject> ChildItems
