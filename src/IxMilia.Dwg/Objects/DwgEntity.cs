@@ -134,7 +134,7 @@
 
         internal override void OnBeforeObjectWrite()
         {
-            LayerHandle = GetHandleToObject(Layer, DwgHandleReferenceCode.SoftOwner);
+            LayerHandle = GetHandleToObject(Layer, DwgHandleReferenceCode.SoftOwner, throwOnNull: true);
             LineTypeHandle = GetHandleToObject(LineType, DwgHandleReferenceCode.SoftOwner);
             _isLineTypeByLayer = LineType == null;
             _noLinks = PreviousEntityHandle.IsValidNavigationHandle && NextEntityHandle.IsValidNavigationHandle;

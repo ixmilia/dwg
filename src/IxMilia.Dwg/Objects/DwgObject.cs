@@ -208,8 +208,13 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal DwgHandleReference GetHandleToObject(DwgObject other, DwgHandleReferenceCode absoluteCodeType)
+        internal DwgHandleReference GetHandleToObject(DwgObject other, DwgHandleReferenceCode absoluteCodeType, bool throwOnNull = false)
         {
+            if (throwOnNull && other == null)
+            {
+                throw new ArgumentNullException(nameof(other), "The object handle was not allowed to be null.");
+            }
+
             return GetNavigationHandle(new DwgHandleReference(absoluteCodeType, other?.Handle.HandleOrOffset ?? 0));
         }
     }
