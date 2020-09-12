@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace IxMilia.Dwg.Objects
 {
@@ -73,19 +72,11 @@ namespace IxMilia.Dwg.Objects
         internal override void OnAfterEntityRead(BitReader reader, DwgObjectCache objectCache)
         {
             BlockHeader = objectCache.GetObject<DwgBlockHeader>(reader, _blockHeaderHandle.HandleOrOffset);
-
             Attributes.Clear();
-
             if (_hasAttributes)
             {
-                var currentAttribHandle = _firstAttribHandle;
-                while (!currentAttribHandle.PointsToNull)
-                {
-                    var attrib = objectCache.GetObject<DwgAttribute>(reader, currentAttribHandle.HandleOrOffset);
-                    Attributes.Add(attrib);
-                    currentAttribHandle = attrib.Handle.GetNextHandle(attrib.NextEntityHandle);
-                }
-
+                var attributes = DwgEntityHelpers.EntitiesFromHandlePointer<DwgAttribute>(objectCache, reader, _firstAttribHandle);
+                Attributes.AddRange(attributes);
                 SeqEnd = objectCache.GetObject<DwgSeqEnd>(reader, _seqEndHandle.HandleOrOffset);
             }
         }
@@ -93,34 +84,8 @@ namespace IxMilia.Dwg.Objects
         internal override void OnBeforeEntityWrite()
         {
             _blockHeaderHandle = BlockHeader.Handle;
-
-            for (int i = 0; i < Attributes.Count; i++)
-            {
-                var currentAttribute = Attributes[i];
-                currentAttribute.Layer = Layer;
-                var previousAttribute = i == 0
-                    ? null
-                    : Attributes[i - 1];
-                var nextAttribute = i == Attributes.Count - 1
-                    ? null
-                    : Attributes[i + 1];
-                currentAttribute.PreviousEntityHandle = currentAttribute.GetHandleToObject(previousAttribute, DwgHandleReferenceCode.HardPointer);
-                currentAttribute.NextEntityHandle = currentAttribute.GetHandleToObject(nextAttribute, DwgHandleReferenceCode.HardPointer);
-            }
-
-            if (Attributes.Count == 0)
-            {
-                _hasAttributes = false;
-                _firstAttribHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0);
-                _lastAttribHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0);
-            }
-            else
-            {
-                _hasAttributes = true;
-                _firstAttribHandle = Attributes.First().Handle;
-                _lastAttribHandle = Attributes.Last().Handle;
-            }
-
+            DwgEntityHelpers.PopulateEntityPointers(Attributes, ref _firstAttribHandle, ref _lastAttribHandle, Layer);
+            _hasAttributes = Attributes.Count > 0;
             SeqEnd.Layer = Layer;
             _seqEndHandle = SeqEnd.Handle;
         }

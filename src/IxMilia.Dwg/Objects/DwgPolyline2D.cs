@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace IxMilia.Dwg.Objects
 {
@@ -60,44 +59,14 @@ namespace IxMilia.Dwg.Objects
         internal override void OnAfterEntityRead(BitReader reader, DwgObjectCache objectCache)
         {
             Vertices.Clear();
-            var currentVertexHandle = _firstVertexHandle;
-            while (!currentVertexHandle.PointsToNull)
-            {
-                var vertex = objectCache.GetObject<DwgVertex2D>(reader, currentVertexHandle.HandleOrOffset);
-                Vertices.Add(vertex);
-                currentVertexHandle = vertex.Handle.GetNextHandle(vertex.NextEntityHandle);
-            }
-
+            var vertices = DwgEntityHelpers.EntitiesFromHandlePointer<DwgVertex2D>(objectCache, reader, _firstVertexHandle);
+            Vertices.AddRange(vertices);
             SeqEnd = objectCache.GetObject<DwgSeqEnd>(reader, _seqEndHandle.HandleOrOffset);
         }
 
         internal override void OnBeforeEntityWrite()
         {
-            for (int i = 0; i < Vertices.Count; i++)
-            {
-                var currentVertex = Vertices[i];
-                currentVertex.Layer = Layer;
-                var previousVertex = i == 0
-                    ? null
-                    : Vertices[i - 1];
-                var nextVertex = i == Vertices.Count - 1
-                    ? null
-                    : Vertices[i + 1];
-                currentVertex.PreviousEntityHandle = currentVertex.GetHandleToObject(previousVertex, DwgHandleReferenceCode.HardPointer);
-                currentVertex.NextEntityHandle = currentVertex.GetHandleToObject(nextVertex, DwgHandleReferenceCode.HardPointer);
-            }
-
-            if (Vertices.Count == 0)
-            {
-                _firstVertexHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0);
-                _lastVertexHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0);
-            }
-            else
-            {
-                _firstVertexHandle = Vertices.First().Handle;
-                _lastVertexHandle = Vertices.Last().Handle;
-            }
-
+            DwgEntityHelpers.PopulateEntityPointers(Vertices, ref _firstVertexHandle, ref _lastVertexHandle, Layer);
             SeqEnd.Layer = Layer;
             _seqEndHandle = SeqEnd.Handle;
         }

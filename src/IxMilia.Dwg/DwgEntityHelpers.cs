@@ -59,5 +59,53 @@ namespace IxMilia.Dwg
                 return flags & ~mask;
             }
         }
+
+        public static IEnumerable<TEntity> EntitiesFromHandlePointer<TEntity>(DwgObjectCache objectCache, BitReader reader, DwgHandleReference startHandle)
+            where TEntity : DwgEntity
+        {
+            var result = new List<TEntity>();
+            var currentEntityHandle = startHandle;
+            while (!currentEntityHandle.PointsToNull)
+            {
+                var entity = objectCache.GetObject<TEntity>(reader, currentEntityHandle.HandleOrOffset);
+                result.Add(entity);
+                currentEntityHandle = entity.Handle.GetNextHandle(entity.NextEntityHandle);
+            }
+
+            return result;
+        }
+
+        public static void PopulateEntityPointers<TEntity>(IList<TEntity> entities, ref DwgHandleReference firstEntityHandle, ref DwgHandleReference lastEntityHandle, DwgLayer layerToAssign = null)
+            where TEntity : DwgEntity
+        {
+            for (int i = 0; i < entities.Count; i++)
+            {
+                var currentEntity = entities[i];
+                if (layerToAssign != null)
+                {
+                    currentEntity.Layer = layerToAssign;
+                }
+
+                var previousEntity = i == 0
+                    ? null
+                    : entities[i - 1];
+                var nextEntity = i == entities.Count - 1
+                    ? null
+                    : entities[i + 1];
+                currentEntity.PreviousEntityHandle = currentEntity.GetHandleToObject(previousEntity, DwgHandleReferenceCode.HardPointer);
+                currentEntity.NextEntityHandle = currentEntity.GetHandleToObject(nextEntity, DwgHandleReferenceCode.HardPointer);
+            }
+
+            if (entities.Count == 0)
+            {
+                firstEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0);
+                lastEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0);
+            }
+            else
+            {
+                firstEntityHandle = entities[0].Handle;
+                lastEntityHandle = entities[entities.Count - 1].Handle;
+            }
+        }
     }
 }
