@@ -99,7 +99,14 @@
   INSERT
 
   -->
-  <Object Name="Insert" Value="0x07" IsEntity="true" NotImplemented="true">
+  <Object Name="Insert" Value="0x07" IsEntity="true">
+    <Property Name="Location" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="XScale" Type="double" BinaryType="BD" DefaultValue="1.0" />
+    <Property Name="YScale" Type="double" BinaryType="BD" DefaultValue="1.0" />
+    <Property Name="ZScale" Type="double" BinaryType="BD" DefaultValue="1.0" />
+    <Property Name="Rotation" Type="double" BinaryType="BD" DefaultValue="1.0" />
+    <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="_hasAttributes" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
   </Object>
   <!--
 
