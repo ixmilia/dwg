@@ -178,7 +178,11 @@
   Vertex (PFace Face)
 
   -->
-  <Object Name="VertexPFaceFace" Value="0x0E" IsEntity="true" NotImplemented="true">
+  <Object Name="VertexPFaceFace" Value="0x0E" IsEntity="true">
+    <Property Name="Index1" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" />
+    <Property Name="Index2" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" />
+    <Property Name="Index3" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" />
+    <Property Name="Index4" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" />
   </Object>
   <!--
 
