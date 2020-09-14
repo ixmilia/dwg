@@ -58,6 +58,8 @@ namespace IxMilia.Dwg
 
         public static DwgVector ZAxis => new DwgVector(0.0, 0.0, 1.0);
 
+        public static DwgVector One => new DwgVector(1.0, 1.0, 1.0);
+
         public static DwgVector Zero => new DwgVector(0.0, 0.0, 0.0);
 
         public static DwgVector SixtyDegrees => new DwgVector(0.5, Math.Sqrt(3.0) * 0.5, 0);

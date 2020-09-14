@@ -96,7 +96,7 @@ namespace IxMilia.Dwg.Generator
                 CreateNewFile("IxMilia.Dwg.Objects", "System", "System.Collections.Generic");
 
                 IncreaseIndent();
-                var baseClass = IsEntity(o) ? "DwgEntity" : "DwgObject";
+                var baseClass = BaseClass(o) ?? (IsEntity(o) ? "DwgEntity" : "DwgObject");
                 AppendLine($"{Accessibility(o)} partial class Dwg{Name(o)} : {baseClass}");
                 AppendLine("{");
                 IncreaseIndent();

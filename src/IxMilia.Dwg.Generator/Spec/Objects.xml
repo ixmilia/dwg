@@ -247,49 +247,146 @@
   Dimension (Ordinate)
 
   -->
-  <Object Name="DimensionOrdinate" Value="0x14" IsEntity="true" NotImplemented="true">
+  <Object Name="DimensionOrdinate" Value="0x14" IsEntity="true" BaseClass="DwgDimension">
+    <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="TextMidpoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
+    <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="_flags1" Type="int" BinaryType="RC" DefaultValue="0" WriteConverter="(byte){0}" Accessibility="private" />
+    <Property Name="Text" Type="string" BinaryType="T" DefaultValue='"&lt;&gt;"' />
+    <Property Name="TextRotation" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="HorizontalDirection" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="InsertionScale" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.One" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="InsertionRotation" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="_unknown" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" Accessibility="private" />
+    <Property Name="FirstDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="SecondDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="ThirdDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="_flags2" Type="int" BinaryType="RC" DefaultValue="0" WriteConverter="(byte){0}" Accessibility="private" />
   </Object>
   <!--
 
   Dimension (Linear)
 
   -->
-  <Object Name="DimensionLinear" Value="0x15" IsEntity="true" NotImplemented="true">
+  <Object Name="DimensionLinear" Value="0x15" IsEntity="true" BaseClass="DwgDimension">
+    <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="TextMidpoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
+    <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="_flags" Type="int" BinaryType="RC" DefaultValue="0" WriteConverter="(byte){0}" Accessibility="private" />
+    <Property Name="Text" Type="string" BinaryType="T" DefaultValue='"&lt;&gt;"' />
+    <Property Name="TextRotation" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="HorizontalDirection" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="InsertionScale" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.One" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="InsertionRotation" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="InsertionPoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
+    <Property Name="SecondDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="ThirdDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="FirstDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="ExtensionLineRotation" Type="double" BinaryType="BD" DefaultValue="0.0" />
   </Object>
   <!--
 
   Dimension (Aligned)
 
   -->
-  <Object Name="DimensionAligned" Value="0x16" IsEntity="true" NotImplemented="true">
+  <Object Name="DimensionAligned" Value="0x16" IsEntity="true" BaseClass="DwgDimension">
+    <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="TextMidpoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
+    <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="_flags" Type="int" BinaryType="RC" DefaultValue="0" WriteConverter="(byte){0}" Accessibility="private" />
+    <Property Name="Text" Type="string" BinaryType="T" DefaultValue='"&lt;&gt;"' />
+    <Property Name="TextRotation" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="HorizontalDirection" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="InsertionScale" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.One" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="InsertionRotation" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="InsertionPoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
+    <Property Name="SecondDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="ThirdDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="FirstDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="ExtensionLineRotation" Type="double" BinaryType="BD" DefaultValue="0.0" />
   </Object>
   <!--
 
   Dimension (Angular 3 Point)
 
   -->
-  <Object Name="DimensionAngular3Point" Value="0x17" IsEntity="true" NotImplemented="true">
+  <Object Name="DimensionAngular3Point" Value="0x17" IsEntity="true" BaseClass="DwgDimension">
+    <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="TextMidpoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
+    <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="_flags" Type="int" BinaryType="RC" DefaultValue="0" WriteConverter="(byte){0}" Accessibility="private" />
+    <Property Name="Text" Type="string" BinaryType="T" DefaultValue='"&lt;&gt;"' />
+    <Property Name="TextRotation" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="HorizontalDirection" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="InsertionScale" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.One" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="InsertionRotation" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="InsertionPoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
+    <Property Name="FirstDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="SecondDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="ThirdDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="FourthDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
   </Object>
   <!--
 
   Dimension (Angular 2 Point)
 
   -->
-  <Object Name="DimensionAngular2Point" Value="0x18" IsEntity="true" NotImplemented="true">
+  <Object Name="DimensionAngular2Point" Value="0x18" IsEntity="true" BaseClass="DwgDimension">
+    <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="TextMidpoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
+    <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="_flags" Type="int" BinaryType="RC" DefaultValue="0" WriteConverter="(byte){0}" Accessibility="private" />
+    <Property Name="Text" Type="string" BinaryType="T" DefaultValue='"&lt;&gt;"' />
+    <Property Name="TextRotation" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="HorizontalDirection" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="InsertionScale" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.One" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="InsertionRotation" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="FirstInsertionPoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
+    <Property Name="SecondInsertionPoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
+    <Property Name="FirstDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="SecondDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="ThirdDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="FourthDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
   </Object>
   <!--
 
   Dimension (Radius)
 
   -->
-  <Object Name="DimensionRadius" Value="0x19" IsEntity="true" NotImplemented="true">
+  <Object Name="DimensionRadius" Value="0x19" IsEntity="true" BaseClass="DwgDimension">
+    <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="TextMidpoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
+    <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="_flags" Type="int" BinaryType="RC" DefaultValue="0" WriteConverter="(byte){0}" Accessibility="private" />
+    <Property Name="Text" Type="string" BinaryType="T" DefaultValue='"&lt;&gt;"' />
+    <Property Name="TextRotation" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="HorizontalDirection" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="InsertionScale" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.One" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="InsertionRotation" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="InsertionPoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
+    <Property Name="FirstDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="SecondDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="LeaderLength" Type="double" BinaryType="BD" DefaultValue="0.0" />
   </Object>
   <!--
 
   Dimension (Diameter)
 
   -->
-  <Object Name="DimensionDiameter" Value="0x1A" IsEntity="true" NotImplemented="true">
+  <Object Name="DimensionDiameter" Value="0x1A" IsEntity="true" BaseClass="DwgDimension">
+    <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="TextMidpoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
+    <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="_flags" Type="int" BinaryType="RC" DefaultValue="0" WriteConverter="(byte){0}" Accessibility="private" />
+    <Property Name="Text" Type="string" BinaryType="T" DefaultValue='"&lt;&gt;"' />
+    <Property Name="TextRotation" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="HorizontalDirection" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="InsertionScale" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.One" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="InsertionRotation" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="InsertionPoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
+    <Property Name="FirstDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="SecondDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="LeaderLength" Type="double" BinaryType="BD" DefaultValue="0.0" />
   </Object>
   <!--
 
