@@ -96,5 +96,51 @@ namespace IxMilia.Dwg.Test
             Assert.Single(roundTripped.Attributes);
             Assert.Equal("some-attribute", roundTripped.Attributes[0].Value);
         }
+
+        [Fact]
+        public void RoundTripMInsertWithoutAttributes()
+        {
+            var drawing = new DwgDrawing();
+
+            var blockHeader = new DwgBlockHeader("some-block", new DwgBlock("some-block") { Layer = drawing.CurrentLayer }, new DwgEndBlock() { Layer = drawing.CurrentLayer });
+            drawing.BlockHeaders.Add(blockHeader);
+
+            var ins = new DwgMInsert();
+            ins.BlockHeader = blockHeader;
+            ins.Layer = drawing.CurrentLayer;
+            ins.Location = new DwgPoint(1.0, 2.0, 3.0);
+
+            drawing.ModelSpaceBlockRecord.Entities.Add(ins);
+            var roundTrippedDrawing = RoundTrip(drawing);
+
+            var roundTripped = (DwgMInsert)roundTrippedDrawing.ModelSpaceBlockRecord.Entities.Single();
+            Assert.Equal("some-block", roundTripped.BlockHeader.Name);
+            Assert.Equal(new DwgPoint(1.0, 2.0, 3.0), roundTripped.Location);
+            Assert.Empty(roundTripped.Attributes);
+        }
+
+        [Fact]
+        public void RoundTripMInsertWithAttributes()
+        {
+            var drawing = new DwgDrawing();
+
+            var blockHeader = new DwgBlockHeader("some-block", new DwgBlock("some-block") { Layer = drawing.CurrentLayer }, new DwgEndBlock() { Layer = drawing.CurrentLayer });
+            drawing.BlockHeaders.Add(blockHeader);
+
+            var ins = new DwgMInsert();
+            ins.BlockHeader = blockHeader;
+            ins.Layer = drawing.CurrentLayer;
+            ins.Location = new DwgPoint(1.0, 2.0, 3.0);
+            ins.Attributes.Add(new DwgAttribute("some-attribute"));
+
+            drawing.ModelSpaceBlockRecord.Entities.Add(ins);
+            var roundTrippedDrawing = RoundTrip(drawing);
+
+            var roundTripped = (DwgMInsert)roundTrippedDrawing.ModelSpaceBlockRecord.Entities.Single();
+            Assert.Equal("some-block", roundTripped.BlockHeader.Name);
+            Assert.Equal(new DwgPoint(1.0, 2.0, 3.0), roundTripped.Location);
+            Assert.Single(roundTripped.Attributes);
+            Assert.Equal("some-attribute", roundTripped.Attributes[0].Value);
+        }
     }
 }
