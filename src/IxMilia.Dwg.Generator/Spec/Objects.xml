@@ -106,7 +106,7 @@
     <Property Name="ZScale" Type="double" BinaryType="BD" DefaultValue="1.0" />
     <Property Name="Rotation" Type="double" BinaryType="BD" DefaultValue="1.0" />
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
-    <Property Name="_hasAttributes" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
+    <Property Name="_hasAttributes" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
   </Object>
   <!--
 
@@ -120,11 +120,11 @@
     <Property Name="ZScale" Type="double" BinaryType="BD" DefaultValue="1.0" />
     <Property Name="Rotation" Type="double" BinaryType="BD" DefaultValue="1.0" />
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
-    <Property Name="_hasAttributes" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
-    <Property Name="_columnCount" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" />
-    <Property Name="_rowCount" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" />
-    <Property Name="_columnSpacing" Type="double" BinaryType="BD" DefaultValue="0.0" />
-    <Property Name="_rowSpacing" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="_hasAttributes" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
+    <Property Name="ColumnCount" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" />
+    <Property Name="RowCount" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" />
+    <Property Name="ColumnSpacing" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="RowSpacing" Type="double" BinaryType="BD" DefaultValue="0.0" />
   </Object>
   <!--
 
@@ -152,7 +152,7 @@
 
   -->
   <Object Name="Vertex3D" Value="0x0B" IsEntity="true" ConstructorAccessibility="internal">
-    <Property Name="Flags" Type="int" BinaryType="EC" DefaultValue="0" WriteConverter="(byte){0}" />
+    <Property Name="Flags" Type="int" BinaryType="EC" DefaultValue="0x20" WriteConverter="(byte){0}" />
     <Property Name="Point" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
   </Object>
   <!--
@@ -161,7 +161,7 @@
 
   -->
   <Object Name="VertexMesh" Value="0x0C" IsEntity="true" ConstructorAccessibility="internal">
-    <Property Name="Flags" Type="int" BinaryType="EC" DefaultValue="0" WriteConverter="(byte){0}" />
+    <Property Name="Flags" Type="int" BinaryType="EC" DefaultValue="0x40" WriteConverter="(byte){0}" />
     <Property Name="Point" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
   </Object>
   <!--
@@ -170,7 +170,7 @@
 
   -->
   <Object Name="VertexPFace" Value="0x0D" IsEntity="true" ConstructorAccessibility="internal">
-    <Property Name="Flags" Type="int" BinaryType="EC" DefaultValue="0" WriteConverter="(byte){0}" />
+    <Property Name="Flags" Type="int" BinaryType="EC" DefaultValue="0xC0" WriteConverter="(byte){0}" />
     <Property Name="Point" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
   </Object>
   <!--
@@ -204,8 +204,8 @@
 
   -->
   <Object Name="Polyline3D" Value="0x10" IsEntity="true">
-    <Property Name="_flags1" Type="int" BinaryType="RC" DefaultValue="0" WriteConverter="(byte){0}" Accessibility="private" />
-    <Property Name="_flags2" Type="int" BinaryType="RC" DefaultValue="0b00001000" WriteConverter="(byte){0}" Accessibility="private" />
+    <Property Name="_flags1" Type="int" BinaryType="RC" DefaultValue="0" WriteConverter="(byte){0}" Accessibility="internal" />
+    <Property Name="_flags2" Type="int" BinaryType="RC" DefaultValue="0b00001000" WriteConverter="(byte){0}" Accessibility="internal" />
   </Object>
   <!--
 

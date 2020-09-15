@@ -81,7 +81,7 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal static DwgObject Parse(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
+        internal static DwgObject ParseRaw(BitReader reader, DwgVersionId version)
         {
             reader.StartCrcCheck();
             var size = reader.Read_MS();
@@ -106,7 +106,14 @@ namespace IxMilia.Dwg.Objects
 
             reader.ValidateCrc(initialValue: DwgHeaderVariables.InitialCrcValue);
             obj.ValidateCommonValues();
-            obj.OnAfterObjectRead(reader, objectCache);
+
+            return obj;
+        }
+
+        internal static DwgObject Parse(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
+        {
+            var obj = ParseRaw(reader, version);
+            obj?.OnAfterObjectRead(reader, objectCache);
             return obj;
         }
 

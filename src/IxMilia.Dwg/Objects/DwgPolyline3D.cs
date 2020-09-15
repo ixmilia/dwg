@@ -7,9 +7,9 @@ namespace IxMilia.Dwg.Objects
         public DwgSeqEnd SeqEnd { get; private set; } = new DwgSeqEnd();
         public List<DwgVertex3D> Vertices { get; } = new List<DwgVertex3D>();
 
-        private DwgHandleReference _firstVertexHandle;
-        private DwgHandleReference _lastVertexHandle;
-        private DwgHandleReference _seqEndHandle;
+        internal DwgHandleReference _firstVertexHandle;
+        internal DwgHandleReference _lastVertexHandle;
+        internal DwgHandleReference _seqEndHandle;
 
         public bool IsClosed
         {

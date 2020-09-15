@@ -8,10 +8,10 @@ namespace IxMilia.Dwg.Objects
         public DwgSeqEnd SeqEnd { get; private set; } = new DwgSeqEnd();
         public List<DwgAttribute> Attributes { get; } = new List<DwgAttribute>();
 
-        private DwgHandleReference _firstAttribHandle;
-        private DwgHandleReference _lastAttribHandle;
-        private DwgHandleReference _blockHeaderHandle;
-        private DwgHandleReference _seqEndHandle;
+        internal DwgHandleReference _firstAttribHandle;
+        internal DwgHandleReference _lastAttribHandle;
+        internal DwgHandleReference _blockHeaderHandle;
+        internal DwgHandleReference _seqEndHandle;
 
         internal override IEnumerable<DwgObject> ChildItems
         {
