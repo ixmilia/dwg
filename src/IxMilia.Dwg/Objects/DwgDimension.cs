@@ -2,8 +2,8 @@
 {
     public abstract class DwgDimension : DwgEntity
     {
-        private DwgHandleReference _dimStyleHandle;
-        private DwgHandleReference _anonymousBlockHandle;
+        internal DwgHandleReference _dimStyleHandle;
+        internal DwgHandleReference _anonymousBlockHandle;
 
         public DwgDimStyle DimensionStyle { get; set; }
 
