@@ -31,8 +31,7 @@
         internal override void ReadCommonDataStart(BitReader reader)
         {
             Handle = reader.Read_H();
-            var xDataSize = reader.Read_BS();
-            _xData = reader.Read_Bytes(xDataSize);
+            XData = DwgXData.Parse(reader);
             _isGraphicPresent = reader.Read_B();
             if (_isGraphicPresent)
             {
@@ -83,8 +82,7 @@
         internal override void WriteCommonDataStart(BitWriter writer)
         {
             writer.Write_H(Handle);
-            writer.Write_BS((short)_xData.Length);
-            writer.Write_Bytes(_xData);
+            XData.Write(writer);
             writer.Write_B(_isGraphicPresent);
             if (_isGraphicPresent)
             {

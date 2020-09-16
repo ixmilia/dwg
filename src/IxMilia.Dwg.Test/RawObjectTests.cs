@@ -577,7 +577,7 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(0xBB, dim._anonymousBlockHandle.HandleOrOffset);
         }
 
-        [Fact(Skip = "Example data parses as nonsense.  Has 20 bytes of XData.")]
+        [Fact]
         public void ReadRawDimensionRadius()
         {
             var dim = (DwgDimensionRadius)ParseRaw(
@@ -601,23 +601,23 @@ namespace IxMilia.Dwg.Test
             );
             Assert.Equal(0xD5, dim.Handle.HandleOrOffset);
             Assert.Equal(DwgVector.ZAxis, dim.Extrusion);
-            Assert.Equal(new DwgPoint(5.9067493404213405, 8.283625940930222, 0.0), dim.TextMidpoint);
+            Assert.Equal(new DwgPoint(9.008727710047191, 7.813185684328929, 0.0), dim.TextMidpoint);
             Assert.Equal(0.0, dim.Elevation);
-            Assert.Equal(0x0B, dim._flags);
+            Assert.Equal(0x0A, dim._flags);
             Assert.Equal("", dim.Text);
             Assert.Equal(0.0, dim.TextRotation);
             Assert.Equal(0.0, dim.HorizontalDirection);
             Assert.Equal(DwgVector.One, dim.InsertionScale);
             Assert.Equal(0.0, dim.InsertionRotation);
             Assert.Equal(DwgPoint.Origin, dim.InsertionPoint);
-            Assert.Equal(new DwgPoint(6.433933144322921, 8.814283498566308, 0.0), dim.FirstDefinitionPoint);
-            Assert.Equal(new DwgPoint(7.396838476320547, 8.111621503553016, 0.0), dim.SecondDefinitionPoint);
+            Assert.Equal(new DwgPoint(6.74854272681235, 7.974538217801873, 0.0), dim.FirstDefinitionPoint);
+            Assert.Equal(new DwgPoint(7.407191444010848, 7.902004960633177, 0.0), dim.SecondDefinitionPoint);
             Assert.Equal(0.0, dim.LeaderLength);
             Assert.Equal(0x1D, dim._dimStyleHandle.HandleOrOffset);
-            Assert.Equal(0xBB, dim._anonymousBlockHandle.HandleOrOffset);
+            Assert.Equal(0xCA, dim._anonymousBlockHandle.HandleOrOffset);
         }
 
-        [Fact(Skip = "Example data parses as nonsense.  Has 20 bytes of XData.")]
+        [Fact]
         public void ReadRawDimensionDiameter()
         {
             var dim = (DwgDimensionDiameter)ParseRaw(
@@ -640,20 +640,20 @@ namespace IxMilia.Dwg.Test
             );
             Assert.Equal(0xE1, dim.Handle.HandleOrOffset);
             Assert.Equal(DwgVector.ZAxis, dim.Extrusion);
-            Assert.Equal(new DwgPoint(5.9067493404213405, 8.283625940930222, 0.0), dim.TextMidpoint);
+            Assert.Equal(new DwgPoint(8.695723994389645, 7.180187318948261, 0.0), dim.TextMidpoint);
             Assert.Equal(0.0, dim.Elevation);
-            Assert.Equal(0x0B, dim._flags);
+            Assert.Equal(0x0A, dim._flags);
             Assert.Equal("", dim.Text);
             Assert.Equal(0.0, dim.TextRotation);
             Assert.Equal(0.0, dim.HorizontalDirection);
             Assert.Equal(DwgVector.One, dim.InsertionScale);
             Assert.Equal(0.0, dim.InsertionRotation);
             Assert.Equal(DwgPoint.Origin, dim.InsertionPoint);
-            Assert.Equal(new DwgPoint(6.433933144322921, 8.814283498566308, 0.0), dim.FirstDefinitionPoint);
-            Assert.Equal(new DwgPoint(7.396838476320547, 8.111621503553016, 0.0), dim.SecondDefinitionPoint);
+            Assert.Equal(new DwgPoint(7.296343720312474, 7.601720195728098, 0.0), dim.FirstDefinitionPoint);
+            Assert.Equal(new DwgPoint(6.200741733312223, 8.347356239875644, 0.0), dim.SecondDefinitionPoint);
             Assert.Equal(0.0, dim.LeaderLength);
             Assert.Equal(0x1D, dim._dimStyleHandle.HandleOrOffset);
-            Assert.Equal(0xBB, dim._anonymousBlockHandle.HandleOrOffset);
+            Assert.Equal(0xD6, dim._anonymousBlockHandle.HandleOrOffset);
         }
     }
 }
