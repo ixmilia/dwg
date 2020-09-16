@@ -77,7 +77,7 @@ namespace IxMilia.Dwg.Objects
             _seqEndHandle = SeqEnd.Handle;
         }
 
-        internal override void WritePostData(BitWriter writer, DwgObjectMap objectMap, int pointerOffset)
+        internal override void WritePostData(BitWriter writer)
         {
             writer.Write_H(new DwgHandleReference(DwgHandleReferenceCode.HardPointer, _firstVertexHandle.HandleOrOffset));
             writer.Write_H(new DwgHandleReference(DwgHandleReferenceCode.HardPointer, _lastVertexHandle.HandleOrOffset));

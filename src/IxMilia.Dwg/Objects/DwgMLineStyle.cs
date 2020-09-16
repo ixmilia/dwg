@@ -26,7 +26,7 @@ namespace IxMilia.Dwg.Objects
         {
         }
 
-        internal override void WriteSpecific(BitWriter writer, DwgObjectMap objectMap, int pointerOffset, DwgVersionId version)
+        internal override void WriteSpecific(BitWriter writer, DwgVersionId version)
         {
             writer.Write_T(Name);
             writer.Write_T(Description);

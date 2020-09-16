@@ -52,7 +52,7 @@ namespace IxMilia.Dwg.Objects
             _nullHandle = reader.Read_H();
         }
 
-        internal override void WriteSpecific(BitWriter writer, DwgObjectMap objectMap, int pointerOffset, DwgVersionId version)
+        internal override void WriteSpecific(BitWriter writer, DwgVersionId version)
         {
             writer.Write_T(Name);
             writer.Write_B(_64flag);

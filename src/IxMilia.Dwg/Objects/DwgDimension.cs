@@ -36,7 +36,7 @@
             _anonymousBlockHandle = AnonymousBlock.Handle;
         }
 
-        internal override void WritePostData(BitWriter writer, DwgObjectMap objectMap, int pointerOffset)
+        internal override void WritePostData(BitWriter writer)
         {
             writer.Write_H(new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, _dimStyleHandle.HandleOrOffset));
             writer.Write_H(new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, _anonymousBlockHandle.HandleOrOffset));

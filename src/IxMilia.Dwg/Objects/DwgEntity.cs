@@ -80,7 +80,7 @@
             }
         }
 
-        internal override void WriteCommonDataStart(BitWriter writer, DwgObjectMap objectMap, int pointerOffset)
+        internal override void WriteCommonDataStart(BitWriter writer)
         {
             writer.Write_H(Handle);
             writer.Write_BS((short)_xData.Length);
@@ -102,7 +102,7 @@
             writer.Write_BS(_invisibility);
         }
 
-        internal override void WriteCommonDataEnd(BitWriter writer, DwgObjectMap objectMap, int pointerOffset)
+        internal override void WriteCommonDataEnd(BitWriter writer)
         {
             if (_entityMode == 0)
             {

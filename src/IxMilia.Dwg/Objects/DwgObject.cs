@@ -57,15 +57,25 @@ namespace IxMilia.Dwg.Objects
             SetCommonValues();
             objectMap.SetOffset(Handle.HandleOrOffset, writer.Position);
 
+            WriteCoreRaw(writer, version);
+
+            foreach (var child in ChildItems)
+            {
+                child.Write(writer, objectMap, writtenHandles, pointerOffset, version);
+            }
+        }
+
+        internal void WriteCoreRaw(BitWriter writer, DwgVersionId version)
+        {
             // write object to memory so the size can be computed
             using (var ms = new MemoryStream())
             {
                 var tempWriter = new BitWriter(ms);
                 tempWriter.Write_BS((short)Type);
-                WriteCommonDataStart(tempWriter, objectMap, pointerOffset);
-                WriteSpecific(tempWriter, objectMap, pointerOffset, version);
-                WriteCommonDataEnd(tempWriter, objectMap, pointerOffset);
-                WritePostData(tempWriter, objectMap, pointerOffset);
+                WriteCommonDataStart(tempWriter);
+                WriteSpecific(tempWriter, version);
+                WriteCommonDataEnd(tempWriter);
+                WritePostData(tempWriter);
                 var tempBytes = tempWriter.AsBytes();
 
                 // now output everything
@@ -73,11 +83,6 @@ namespace IxMilia.Dwg.Objects
                 writer.Write_MS(tempBytes.Length);
                 writer.WriteBytes(tempBytes);
                 writer.WriteCrc();
-            }
-
-            foreach (var child in ChildItems)
-            {
-                child.Write(writer, objectMap, writtenHandles, pointerOffset, version);
             }
         }
 
@@ -119,7 +124,7 @@ namespace IxMilia.Dwg.Objects
 
         internal abstract void ParseSpecific(BitReader reader, DwgVersionId version);
 
-        internal abstract void WriteSpecific(BitWriter writer, DwgObjectMap objectMap, int pointerOffset, DwgVersionId version);
+        internal abstract void WriteSpecific(BitWriter writer, DwgVersionId version);
 
         internal virtual void ReadCommonDataStart(BitReader reader)
         {
@@ -138,7 +143,7 @@ namespace IxMilia.Dwg.Objects
         {
         }
 
-        internal virtual void WriteCommonDataStart(BitWriter writer, DwgObjectMap objectMap, int pointerOffset)
+        internal virtual void WriteCommonDataStart(BitWriter writer)
         {
             writer.Write_H(Handle);
             writer.Write_BS((short)_xData.Length);
@@ -147,11 +152,11 @@ namespace IxMilia.Dwg.Objects
             writer.Write_BL(_reactorCount);
         }
 
-        internal virtual void WriteCommonDataEnd(BitWriter writer, DwgObjectMap objectMap, int pointerOffset)
+        internal virtual void WriteCommonDataEnd(BitWriter writer)
         {
         }
 
-        internal virtual void WritePostData(BitWriter writer, DwgObjectMap objectMap, int pointerOffset)
+        internal virtual void WritePostData(BitWriter writer)
         {
         }
 
