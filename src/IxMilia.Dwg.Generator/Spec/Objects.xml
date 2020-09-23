@@ -405,7 +405,7 @@
   3D Face
 
   -->
-  <Object Name="Face3D" Value="0x1C" IsEntity="true" NotImplemented="true">
+  <Object Name="Face3D" Value="0x1C" IsEntity="true" ConstructorAccessibility="internal">
     <Property Name="FirstCorner" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="SecondCorner" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="ThirdCorner" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
