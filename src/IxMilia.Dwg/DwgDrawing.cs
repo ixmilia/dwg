@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using IxMilia.Dwg.Objects;
 
 namespace IxMilia.Dwg
@@ -212,6 +214,8 @@ namespace IxMilia.Dwg
 
         public void Save(Stream stream)
         {
+            EnsureObjectMemberships();
+
             var objectMap = new DwgObjectMap();
             AssignHandles(objectMap);
 
@@ -320,6 +324,51 @@ namespace IxMilia.Dwg
             Variables.DimensionTextStyleHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, DimensionTextStyle.Handle.HandleOrOffset);
 
             objectMap.SetNextAvailableHandle(Variables);
+        }
+
+        private void EnsureObjectMemberships()
+        {
+            EnsureCollectionContains(BlockHeaders, nameof(BlockHeaders),
+                Tuple.Create(PaperSpaceBlockRecord, nameof(PaperSpaceBlockRecord)),
+                Tuple.Create(ModelSpaceBlockRecord, nameof(ModelSpaceBlockRecord)));
+            EnsureCollectionContains(LineTypes, nameof(LineTypes),
+                Tuple.Create(ByLayerLineType, nameof(ByLayerLineType)),
+                Tuple.Create(ByBlockLineType, nameof(ByBlockLineType)),
+                Tuple.Create(ContinuousLineType, nameof(ContinuousLineType)),
+                Tuple.Create(CurrentEntityLineType, nameof(CurrentEntityLineType)));
+            EnsureCollectionContains(ViewPorts, nameof(ViewPorts), CurrentViewPort, nameof(CurrentViewPort), allowNull: true);
+            EnsureCollectionContains(Layers, nameof(Layers), CurrentLayer, nameof(CurrentLayer));
+            EnsureCollectionContains(Styles, nameof(Styles),
+                Tuple.Create(TextStyle, nameof(TextStyle)),
+                Tuple.Create(DimensionTextStyle, nameof(DimensionTextStyle)));
+            EnsureCollectionContains(DimStyles, nameof(DimStyles), DimensionStyle, nameof(DimensionStyle));
+            EnsureCollectionContains(MLineStyleDictionary, nameof(MLineStyleDictionary), CurrentMultiLineStyle, nameof(CurrentMultiLineStyle));
+            EnsureCollectionContains(UCSs, nameof(UCSs), PaperSpaceCurrentUCS, nameof(PaperSpaceCurrentUCS), allowNull: true);
+            EnsureCollectionContains(UCSs, nameof(UCSs), CurrentUCS, nameof(CurrentUCS), allowNull: true);
+        }
+
+        private static void EnsureCollectionContains<TKey, TValue>(IDictionary<TKey, TValue> collection, string collectionName, params Tuple<TValue, string>[] items)
+        {
+            foreach (var item in items)
+            {
+                EnsureCollectionContains(collection, collectionName, item.Item1, item.Item2);
+            }
+        }
+
+        private static void EnsureCollectionContains<TKey, TValue>(IDictionary<TKey, TValue> collection, string collectionName, TValue item, string itemName, bool allowNull = false)
+        {
+            if (!allowNull)
+            {
+                if (item == null)
+                {
+                    throw new InvalidOperationException($"The item '{itemName}' is not allowed to be null.");
+                }
+
+                if (!collection.Values.Any(v => ReferenceEquals(v, item)))
+                {
+                    throw new InvalidOperationException($"The item '{itemName}' is not a member of the collection '{collectionName}'.");
+                }
+            }
         }
 
         private IEnumerable<DwgObject> TopLevelObjects
