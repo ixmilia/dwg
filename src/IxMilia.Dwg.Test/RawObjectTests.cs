@@ -761,5 +761,178 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(new DwgPoint(7.890890331687, 3.158785956362916, 0.0), xl.Point);
             Assert.Equal(new DwgVector(0.8926910070322923, 0.4506692423093374, 0.0), xl.Vector);
         }
+
+        [Fact]
+        public void ReadRawDictionary()
+        {
+            var dict = (DwgDictionary)ParseRaw(
+                0x2C, 0x00,                                     // length
+                0x4A, 0x80, 0x43, 0x22, 0xC0, 0x10, 0x00, 0x09, // data
+                0x02, 0x00, 0x42, 0x90, 0x50, 0xD0, 0x51, 0x17,
+                0xD1, 0xD4, 0x93, 0xD5, 0x54, 0x10, 0xF4, 0x14,
+                0x34, 0x14, 0x45, 0xF4, 0xD4, 0xC4, 0x94, 0xE4,
+                0x55, 0x35, 0x45, 0x94, 0xC4, 0x54, 0x03, 0x02,
+                0x10, 0xD2, 0x10, 0xEC,
+                0xD2, 0x36                                      // crc
+            );
+            Assert.Equal(0x0C, dict.Handle.HandleOrOffset);
+            Assert.Equal(2, dict._entityCount);
+            Assert.Equal("ACAD_GROUP", dict._names[0]);
+            Assert.Equal("ACAD_MLINESTYLE", dict._names[1]);
+            Assert.Equal(0x0D, dict._entityHandles[0].HandleOrOffset);
+            Assert.Equal(0x0E, dict._entityHandles[1].HandleOrOffset);
+        }
+
+        [Fact]
+        public void ReadRawBlockControl()
+        {
+            var bc = (DwgBlockControlObject)ParseRaw(
+                0x20, 0x00,                                     // length
+                0x4C, 0x00, 0x40, 0x64, 0x80, 0x00, 0x00, 0x09, // data
+                0x08, 0x40, 0x30, 0x21, 0x93, 0x21, 0x9F, 0x21,
+                0xAD, 0x21, 0xBB, 0x21, 0xCA, 0x21, 0xD6, 0x21,
+                0xF4, 0x22, 0x01, 0x13, 0x31, 0x19, 0x31, 0x16,
+                0xC1, 0x3A                                      // crc
+            );
+            Assert.Equal(0x01, bc.Handle.HandleOrOffset);
+            Assert.Equal(8, bc._entityCount);
+            Assert.Equal(0x93, bc._entityHandles[0].HandleOrOffset);
+            Assert.Equal(0x9F, bc._entityHandles[1].HandleOrOffset);
+            Assert.Equal(0xAD, bc._entityHandles[2].HandleOrOffset);
+            Assert.Equal(0xBB, bc._entityHandles[3].HandleOrOffset);
+            Assert.Equal(0xCA, bc._entityHandles[4].HandleOrOffset);
+            Assert.Equal(0xD6, bc._entityHandles[5].HandleOrOffset);
+            Assert.Equal(0xF4, bc._entityHandles[6].HandleOrOffset);
+            Assert.Equal(0x0113, bc._entityHandles[7].HandleOrOffset);
+            Assert.Equal(0x19, bc._modelSpaceBlockHeaderHandle.HandleOrOffset);
+            Assert.Equal(0x16, bc._paperSpaceBlockHeaderHandle.HandleOrOffset);
+        }
+
+        [Fact]
+        public void ReadRawBlockHeader()
+        {
+            var b = (DwgBlockHeader)ParseRaw(
+                0x19, 0x00,                                     // length
+                0x4C, 0x40, 0x72, 0xA6, 0x80, 0x00, 0x00, 0x09, // data
+                0x02, 0x2A, 0x44, 0xC8, 0xAA, 0x41, 0x01, 0x30,
+                0x50, 0x31, 0xCB, 0x41, 0xCC, 0x41, 0xD3, 0x31,
+                0xD4,
+                0xE5, 0xAA                                      // crc
+            );
+            Assert.Equal(0xCA, b.Handle.HandleOrOffset);
+            Assert.Equal("*D", b.Name);
+            Assert.True(b._64flag);
+            Assert.Equal(0, b._xrefIndex);
+            Assert.False(b._isDependentOnXRef);
+            Assert.True(b.IsAnonymous);
+            Assert.False(b.HasAttributes);
+            Assert.False(b.IsXRef);
+            Assert.False(b.IsOverlaidXref);
+            Assert.Equal(DwgPoint.Origin, b.BasePoint);
+            Assert.Equal("", b.PathName);
+            Assert.Equal(0x01, b.BlockControlHandle.HandleOrOffset);
+            Assert.Equal(0xCB, b.BlockEntityHandle.HandleOrOffset);
+            Assert.Equal(0xD4, b.EndBlockEntityHandle.HandleOrOffset);
+        }
+
+        [Fact]
+        public void ReadRawLayerControl()
+        {
+            var lc = (DwgLayerControlObject)ParseRaw(
+                0x0F, 0x00,                                     // length
+                0x4C, 0x80, 0x40, 0xA4, 0x80, 0x00, 0x00, 0x09, // data
+                0x02, 0x40, 0x30, 0x21, 0x0F, 0x21, 0x99,
+                0xC3, 0x1D                                      // crc
+            );
+            Assert.Equal(0x02, lc.Handle.HandleOrOffset);
+            Assert.Equal(2, lc._entityCount);
+            Assert.Equal(0x0F, lc._entityHandles[0].HandleOrOffset);
+            Assert.Equal(0x99, lc._entityHandles[1].HandleOrOffset);
+        }
+
+        [Fact]
+        public void ReadRawLayer()
+        {
+            var l = (DwgLayer)ParseRaw(
+                0x1B, 0x00,                                     // length
+                0x4C, 0xC0, 0x66, 0x6A, 0x20, 0x00, 0x00, 0x09, // data
+                0x09, 0x44, 0x45, 0x46, 0x50, 0x4F, 0x49, 0x4E,
+                0x54, 0x53, 0xC0, 0x41, 0xD0, 0x40, 0x8C, 0x14,
+                0x14, 0x45, 0x48,
+                0x34, 0x8F                                      // crc
+            );
+            Assert.Equal(0x99, l.Handle.HandleOrOffset);
+            Assert.Equal("DEFPOINTS", l.Name);
+            Assert.True(l._64flag);
+            Assert.Equal(0, l._xrefIndex);
+            Assert.False(l._isDependentOnXRef);
+            Assert.False(l.IsFrozen);
+            Assert.False(l.IsOn);
+            Assert.False(l.IsFrozenInNew);
+            Assert.False(l.IsLocked);
+            Assert.Equal(0x07, l.Color.RawValue);
+            Assert.Equal(0x15, l._lineTypeHandle.HandleOrOffset);
+        }
+
+        [Fact]
+        public void ReadRawStyleControl()
+        {
+            var sc = (DwgStyleControlObject)ParseRaw(
+                0x0F, 0x00,                                     // length
+                0x4D, 0x00, 0x40, 0xE4, 0x80, 0x00, 0x00, 0x09, // data
+                0x02, 0x40, 0x30, 0x21, 0x10, 0x21, 0xF3,
+                0x33, 0x8B                                      // crc
+            );
+            Assert.Equal(0x03, sc.Handle.HandleOrOffset);
+            Assert.Equal(2, sc._entityCount);
+            Assert.Equal(0x10, sc._entityHandles[0].HandleOrOffset);
+            Assert.Equal(0xF3, sc._entityHandles[1].HandleOrOffset);
+        }
+
+        [Fact]
+        public void ReadRawStyle()
+        {
+            var s = (DwgStyle)ParseRaw(
+                0x25, 0x00,                                     // length
+                0x4D, 0x40, 0x44, 0x20, 0x20, 0x10, 0x00, 0x09, // data
+                0x08, 0x53, 0x54, 0x41, 0x4E, 0x44, 0x41, 0x52,
+                0x44, 0xC2, 0x60, 0x02, 0x6A, 0x66, 0x66, 0x66,
+                0x66, 0x67, 0x24, 0xFD, 0x03, 0x74, 0x78, 0x74,
+                0x90, 0x40, 0xCC, 0x14, 0x28,
+                0xEC, 0x6E                                      // crc
+            );
+            Assert.Equal(0x10, s.Handle.HandleOrOffset);
+            Assert.Equal("STANDARD", s.Name);
+            Assert.True(s._64flag);
+            Assert.Equal(0, s._xrefIndex);
+            Assert.False(s._isDependentOnXRef);
+            Assert.False(s.IsVertical);
+            Assert.False(s.IsShapeFile);
+            Assert.Equal(0.0, s.FixedHeight);
+            Assert.Equal(1.0, s.WidthFactor);
+            Assert.Equal(0.0, s.ObliqueAngle);
+            Assert.Equal(0x00, s._generationFlags);
+            Assert.Equal(0.2, s.LastHeight);
+            Assert.Equal("txt", s.FontName);
+            Assert.Equal("", s.BigFontName);
+            Assert.Equal(0x03, s.StyleControlHandle.HandleOrOffset);
+        }
+
+        [Fact]
+        public void ReadRawLineTypeControl()
+        {
+            var lc = (DwgLineTypeControlObject)ParseRaw(
+                0x11, 0x00,                                     // length
+                0x4E, 0x00, 0x41, 0x64, 0x80, 0x00, 0x00, 0x09, // data
+                0x01, 0x40, 0x30, 0x21, 0x15, 0x31, 0x13, 0x31,
+                0x14,
+                0x82, 0x54                                      // crc
+            );
+            Assert.Equal(0x05, lc.Handle.HandleOrOffset);
+            Assert.Equal(1, lc._entityCount);
+            Assert.Equal(0x15, lc._entityHandles[0].HandleOrOffset);
+            Assert.Equal(0x13, lc._byLayerHandle.HandleOrOffset);
+            Assert.Equal(0x14, lc._byBlockHandle.HandleOrOffset);
+        }
     }
 }

@@ -521,7 +521,7 @@
   <Object Name="Dictionary" Value="0x2A" IsEntity="false">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
     <Property Name="_unknown" Type="byte" BinaryType="RC" DefaultValue="0" Accessibility="private" ReadCondition="version == DwgVersionId.R14" WriteCondition="version == DwgVersionId.R14" />
-    <Property Name="_names" Type="string" BinaryType="T" DefaultValue="new List&lt;string&gt;()" Accessibility="private" ReadCount="_entityCount" />
+    <Property Name="_names" Type="string" BinaryType="T" DefaultValue="new List&lt;string&gt;()" Accessibility="internal" ReadCount="_entityCount" />
 
     <!-- handles -->
     <Property Name="_parentHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" Accessibility="private" />
@@ -576,8 +576,8 @@
     <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
     <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
     <Property Name="_entityHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_entityCount" />
-    <Property Name="_modelSpaceBlockHeaderHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" Accessibility="private" />
-    <Property Name="_paperSpaceBlockHeaderHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" Accessibility="private" />
+    <Property Name="_modelSpaceBlockHeaderHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" Accessibility="internal" />
+    <Property Name="_paperSpaceBlockHeaderHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" Accessibility="internal" />
   </Object>
   <!--
 
@@ -586,9 +586,9 @@
   -->
   <Object Name="BlockHeader" Value="0x31" IsEntity="false" ConstructorAccessibility="internal">
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
-    <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
-    <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="private" />
-    <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
+    <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
+    <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
+    <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
     <Property Name="IsAnonymous" Type="bool" BinaryType="B" DefaultValue="false" />
     <Property Name="HasAttributes" Type="bool" BinaryType="B" DefaultValue="false" />
     <Property Name="IsXRef" Type="bool" BinaryType="B" DefaultValue="false" />
@@ -601,10 +601,10 @@
     <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
     <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
     <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
-    <Property Name="BlockEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" Accessibility="private" />
-    <Property Name="_firstEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" Accessibility="private" ReadCondition="!IsXRef &amp;&amp; !IsOverlaidXref" WriteCondition="!IsXRef &amp;&amp; !IsOverlaidXref" />
-    <Property Name="_lastEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" Accessibility="private" ReadCondition="!IsXRef &amp;&amp; !IsOverlaidXref" WriteCondition="!IsXRef &amp;&amp; !IsOverlaidXref" />
-    <Property Name="EndBlockEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" Accessibility="private" />
+    <Property Name="BlockEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" Accessibility="internal" />
+    <Property Name="_firstEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" Accessibility="internal" ReadCondition="!IsXRef &amp;&amp; !IsOverlaidXref" WriteCondition="!IsXRef &amp;&amp; !IsOverlaidXref" />
+    <Property Name="_lastEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" Accessibility="internal" ReadCondition="!IsXRef &amp;&amp; !IsOverlaidXref" WriteCondition="!IsXRef &amp;&amp; !IsOverlaidXref" />
+    <Property Name="EndBlockEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" Accessibility="internal" />
   </Object>
   <!--
 
@@ -626,9 +626,9 @@
   -->
   <Object Name="Layer" Value="0x33" IsEntity="false" ConstructorAccessibility="internal">
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
-    <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
-    <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="private" />
-    <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
+    <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
+    <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
+    <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
     <Property Name="IsFrozen" Type="bool" BinaryType="B" DefaultValue="false" />
     <Property Name="IsOn" Type="bool" BinaryType="B" DefaultValue="false" />
     <Property Name="IsFrozenInNew" Type="bool" BinaryType="B" DefaultValue="false" />
@@ -640,7 +640,7 @@
     <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
     <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
     <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
-    <Property Name="_lineTypeHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, 0)" Accessibility="private" />
+    <Property Name="_lineTypeHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, 0)" Accessibility="internal" />
   </Object>
   <!--
 
@@ -662,15 +662,15 @@
   -->
   <Object Name="Style" Value="0x35" IsEntity="false" ConstructorAccessibility="internal">
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
-    <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
-    <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="private" />
-    <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
+    <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
+    <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
+    <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
     <Property Name="IsVertical" Type="bool" BinaryType="B" DefaultValue="false" />
     <Property Name="IsShapeFile" Type="bool" BinaryType="B" DefaultValue="false" />
     <Property Name="FixedHeight" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="WidthFactor" Type="double" BinaryType="BD" DefaultValue="1.0" />
     <Property Name="ObliqueAngle" Type="double" BinaryType="BD" DefaultValue="0.0" />
-    <Property Name="_generationFlags" Type="byte" BinaryType="RC" DefaultValue="0" />
+    <Property Name="_generationFlags" Type="byte" BinaryType="RC" DefaultValue="0" Accessibility="internal" />
     <Property Name="LastHeight" Type="double" BinaryType="BD" DefaultValue="0.2" />
     <Property Name="FontName" Type="string" BinaryType="T" DefaultValue='"txt"' />
     <Property Name="BigFontName" Type="string" BinaryType="T" DefaultValue="null" />
@@ -700,13 +700,15 @@
   Line Type control
 
   -->
-  <Object Name="LineTypeControlObject" Value="0x38" IsEntity="false">
+  <Object Name="LineTypeControlObject" Value="0x38" IsEntity="false" ConstructorAccessibility="internal">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
 
     <!-- handles -->
     <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
     <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
     <Property Name="_entityHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_entityCount" />
+    <Property Name="_byLayerHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" Accessibility="internal" />
+    <Property Name="_byBlockHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" Accessibility="internal" />
   </Object>
   <!--
 

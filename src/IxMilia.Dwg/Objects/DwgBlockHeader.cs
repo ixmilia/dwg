@@ -10,8 +10,8 @@ namespace IxMilia.Dwg.Objects
         public DwgEndBlock EndBlock { get; set; }
         public List<DwgEntity> Entities { get; } = new List<DwgEntity>();
 
-        private const string ModelSpaceBlockName = "*MODEL_SPACE";
-        private const string PaperSpaceBlockName = "*PAPER_SPACE";
+        public const string ModelSpaceBlockName = "*MODEL_SPACE";
+        public const string PaperSpaceBlockName = "*PAPER_SPACE";
 
         public bool IsModelSpaceBlock => string.Compare(Name, ModelSpaceBlockName, StringComparison.OrdinalIgnoreCase) == 0;
         public bool IsPaperSpaceBlock => string.Compare(Name, PaperSpaceBlockName, StringComparison.OrdinalIgnoreCase) == 0;
@@ -151,21 +151,11 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        private static DwgBlockHeader GetBlockRecordWithName(string name, DwgLayer layer)
+        internal static DwgBlockHeader GetBlockRecordWithName(string name, DwgLayer layer)
         {
             var block = new DwgBlock(name) { Layer = layer };
             var endBlock = new DwgEndBlock() { Layer = layer };
             return new DwgBlockHeader(name, block, endBlock);
-        }
-
-        internal static DwgBlockHeader GetPaperSpaceBlockRecord(DwgLayer layer)
-        {
-            return GetBlockRecordWithName(PaperSpaceBlockName, layer);
-        }
-
-        internal static DwgBlockHeader GetModelSpaceBlockRecord(DwgLayer layer)
-        {
-            return GetBlockRecordWithName(ModelSpaceBlockName, layer);
         }
     }
 }

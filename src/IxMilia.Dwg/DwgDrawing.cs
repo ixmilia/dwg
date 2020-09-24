@@ -50,11 +50,7 @@ namespace IxMilia.Dwg
             var standardStyle = new DwgStyle("STANDARD");
             var standardMLineStyle = DwgMLineStyle.GetDefaultMLineStyle();
 
-            BlockHeaders = new DwgBlockControlObject()
-            {
-                DwgBlockHeader.GetPaperSpaceBlockRecord(defaultLayer),
-                DwgBlockHeader.GetModelSpaceBlockRecord(defaultLayer)
-            };
+            BlockHeaders = DwgBlockControlObject.Create(defaultLayer);
             Layers = new DwgLayerControlObject
             {
                 defaultLayer
@@ -63,12 +59,9 @@ namespace IxMilia.Dwg
             {
                 standardStyle
             };
-            LineTypes = new DwgLineTypeControlObject()
-            {
-                new DwgLineType("BYLAYER"),
-                new DwgLineType("BYBLOCK"),
+            LineTypes = DwgLineTypeControlObject.Create(
                 continuous
-            };
+            );
             Views = new DwgViewControlObject();
             UCSs = new DwgUCSControlObject();
             ViewPorts = new DwgViewPortControlObject()
@@ -105,14 +98,14 @@ namespace IxMilia.Dwg
                 { "ACDBVARIABLEDICTIONARY", new DwgDictionary() },
             };
 
-            PaperSpaceBlockRecord = BlockHeaders["*PAPER_SPACE"];
-            ModelSpaceBlockRecord = BlockHeaders["*MODEL_SPACE"];
-            ByLayerLineType = LineTypes["BYLAYER"];
-            ByBlockLineType = LineTypes["BYBLOCK"];
+            PaperSpaceBlockRecord = BlockHeaders.PaperSpace;
+            ModelSpaceBlockRecord = BlockHeaders.ModelSpace;
+            ByLayerLineType = LineTypes.ByLayer;
+            ByBlockLineType = LineTypes.ByBlock;
             ContinuousLineType = LineTypes["CONTINUOUS"];
             CurrentLayer = Layers["0"];
             TextStyle = Styles["STANDARD"];
-            CurrentEntityLineType = LineTypes["BYBLOCK"];
+            CurrentEntityLineType = LineTypes.ByBlock;
             DimensionStyle = DimStyles["STANDARD"];
             CurrentMultiLineStyle = (DwgMLineStyle)MLineStyleDictionary["Standard"];
             DimensionTextStyle = Styles["STANDARD"];

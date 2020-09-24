@@ -12,8 +12,8 @@ namespace IxMilia.Dwg.Objects
         protected int _objectSize;
         protected int _reactorCount;
         protected List<DwgHandleReference> _reactorHandles = new List<DwgHandleReference>();
-        protected short _entityCount;
-        protected List<DwgHandleReference> _entityHandles = new List<DwgHandleReference>();
+        internal short _entityCount;
+        internal List<DwgHandleReference> _entityHandles = new List<DwgHandleReference>();
         protected DwgHandleReference _nullHandle;
         protected DwgHandleReference _xDictionaryObjectHandle;
 
@@ -35,7 +35,7 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal void AssignHandles(DwgObjectMap objectMap)
+        internal virtual void AssignHandles(DwgObjectMap objectMap)
         {
             objectMap.AssignHandle(this);
             foreach (var child in ChildItems)

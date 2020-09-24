@@ -1,22 +1,60 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace IxMilia.Dwg.Objects
 {
     public partial class DwgBlockControlObject : IDictionary<string, DwgBlockHeader>
     {
+        private static bool IsHardCodedName(string name)
+        {
+            switch (name.ToUpperInvariant())
+            {
+                case DwgBlockHeader.ModelSpaceBlockName:
+                case DwgBlockHeader.PaperSpaceBlockName:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
         private Dictionary<string, DwgBlockHeader> _blockHeaders = new Dictionary<string, DwgBlockHeader>(StringComparer.OrdinalIgnoreCase);
+
+        public DwgBlockHeader ModelSpace { get => _blockHeaders[DwgBlockHeader.ModelSpaceBlockName]; set => _blockHeaders[DwgBlockHeader.ModelSpaceBlockName] = value; }
+
+        public DwgBlockHeader PaperSpace { get => _blockHeaders[DwgBlockHeader.PaperSpaceBlockName]; set => _blockHeaders[DwgBlockHeader.PaperSpaceBlockName] = value; }
+
+        public static DwgBlockControlObject Create(DwgLayer layer)
+        {
+            var control = new DwgBlockControlObject();
+            control.ModelSpace = DwgBlockHeader.GetBlockRecordWithName(DwgBlockHeader.ModelSpaceBlockName, layer);
+            control.PaperSpace = DwgBlockHeader.GetBlockRecordWithName(DwgBlockHeader.PaperSpaceBlockName, layer);
+            return control;
+        }
 
         internal override IEnumerable<DwgObject> ChildItems => _blockHeaders.Values;
 
+        internal override void AssignHandles(DwgObjectMap objectMap)
+        {
+            base.AssignHandles(objectMap);
+            foreach (var blockHeader in _blockHeaders.Values)
+            {
+                blockHeader.BlockControlHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, Handle.HandleOrOffset);
+            }
+        }
+
         internal override void OnBeforeObjectWrite()
         {
-            foreach (var blockHeader in _blockHeaders.Values)
+            _entityHandles.Clear();
+            foreach (var blockHeader in _blockHeaders.Values.Where(b => !IsHardCodedName(b.Name)))
             {
                 _entityHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, blockHeader.Handle.HandleOrOffset));
                 blockHeader.BlockControlHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, Handle.HandleOrOffset);
             }
+
+            _modelSpaceBlockHeaderHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, ModelSpace.Handle.HandleOrOffset);
+            _paperSpaceBlockHeaderHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, PaperSpace.Handle.HandleOrOffset);
         }
 
         internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
@@ -47,6 +85,9 @@ namespace IxMilia.Dwg.Objects
             {
                 throw new DwgReadException("Incorrect paper space block header handle code.");
             }
+
+            ModelSpace = objectCache.GetObject<DwgBlockHeader>(reader, _modelSpaceBlockHeaderHandle.HandleOrOffset);
+            PaperSpace = objectCache.GetObject<DwgBlockHeader>(reader, _paperSpaceBlockHeaderHandle.HandleOrOffset);
         }
 
         public void Add(DwgBlockHeader blockHeader) => Add(blockHeader.Name, blockHeader);

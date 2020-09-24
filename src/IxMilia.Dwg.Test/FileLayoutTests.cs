@@ -33,11 +33,11 @@ namespace IxMilia.Dwg.Test
                 Assert.Equal("0", drawing.Layers.Single().Value.Name);
                 Assert.Equal("STANDARD", drawing.Styles.Single().Value.Name);
                 Assert.Equal(2, drawing.BlockHeaders.Count);
-                Assert.NotNull(drawing.BlockHeaders["*PAPER_SPACE"]);
-                Assert.NotNull(drawing.BlockHeaders["*MODEL_SPACE"]);
+                Assert.NotNull(drawing.BlockHeaders.PaperSpace);
+                Assert.NotNull(drawing.BlockHeaders.ModelSpace);
                 Assert.Equal(3, drawing.LineTypes.Count);
-                Assert.NotNull(drawing.LineTypes["BYLAYER"]);
-                Assert.NotNull(drawing.LineTypes["BYBLOCK"]);
+                Assert.NotNull(drawing.LineTypes.ByLayer);
+                Assert.NotNull(drawing.LineTypes.ByBlock);
                 Assert.NotNull(drawing.LineTypes["CONTINUOUS"]);
                 Assert.Equal("*ACTIVE", drawing.ViewPorts.Single().Value.Name);
                 Assert.True(ReferenceEquals(drawing.Layers["0"].LineType, drawing.LineTypes["CONTINUOUS"]));
