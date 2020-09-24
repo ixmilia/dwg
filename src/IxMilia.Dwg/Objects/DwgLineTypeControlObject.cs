@@ -9,6 +9,7 @@ namespace IxMilia.Dwg.Objects
     {
         public const string ByLayerName = "BYLAYER";
         public const string ByBlockName = "BYBLOCK";
+        public const string ContinuousName = "CONTINUOUS";
 
         private static bool IsHardCodedname(string name)
         {
@@ -28,11 +29,14 @@ namespace IxMilia.Dwg.Objects
 
         public DwgLineType ByBlock { get => _lineTypes[ByBlockName]; set => _lineTypes[ByBlockName] = value; }
 
+        public DwgLineType Continuous { get => _lineTypes[ContinuousName]; set => _lineTypes[ContinuousName] = value; }
+
         public static DwgLineTypeControlObject Create(params DwgLineType[] lineTypes)
         {
             var control = new DwgLineTypeControlObject();
             control.ByLayer = new DwgLineType(ByLayerName);
             control.ByBlock = new DwgLineType(ByBlockName);
+            control.Continuous = new DwgLineType(ContinuousName) { Description = "Solid line" };
             foreach (var lineType in lineTypes)
             {
                 control.Add(lineType);

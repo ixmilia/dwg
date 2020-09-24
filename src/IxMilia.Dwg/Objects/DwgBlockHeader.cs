@@ -151,7 +151,7 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal static DwgBlockHeader GetBlockRecordWithName(string name, DwgLayer layer)
+        internal static DwgBlockHeader CreateBlockRecordWithName(string name, DwgLayer layer)
         {
             var block = new DwgBlock(name) { Layer = layer };
             var endBlock = new DwgEndBlock() { Layer = layer };

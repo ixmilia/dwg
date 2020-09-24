@@ -28,8 +28,8 @@ namespace IxMilia.Dwg.Objects
         public static DwgBlockControlObject Create(DwgLayer layer)
         {
             var control = new DwgBlockControlObject();
-            control.ModelSpace = DwgBlockHeader.GetBlockRecordWithName(DwgBlockHeader.ModelSpaceBlockName, layer);
-            control.PaperSpace = DwgBlockHeader.GetBlockRecordWithName(DwgBlockHeader.PaperSpaceBlockName, layer);
+            control.ModelSpace = DwgBlockHeader.CreateBlockRecordWithName(DwgBlockHeader.ModelSpaceBlockName, layer);
+            control.PaperSpace = DwgBlockHeader.CreateBlockRecordWithName(DwgBlockHeader.PaperSpaceBlockName, layer);
             return control;
         }
 

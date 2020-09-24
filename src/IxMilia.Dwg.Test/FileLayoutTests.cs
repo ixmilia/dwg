@@ -40,10 +40,10 @@ namespace IxMilia.Dwg.Test
                 Assert.NotNull(drawing.LineTypes.ByBlock);
                 Assert.NotNull(drawing.LineTypes["CONTINUOUS"]);
                 Assert.Equal("*ACTIVE", drawing.ViewPorts.Single().Value.Name);
-                Assert.True(ReferenceEquals(drawing.Layers["0"].LineType, drawing.LineTypes["CONTINUOUS"]));
+                Assert.Same(drawing.Layers["0"].LineType, drawing.LineTypes["CONTINUOUS"]);
                 Assert.Equal(new[] { "ACAD", "ACAD_MLEADERVER" }, drawing.AppIds.Values.Select(a => a.Name));
                 Assert.Equal("STANDARD", drawing.DimStyles.Single().Value.Name);
-                Assert.True(ReferenceEquals(drawing.DimStyles.Single().Value.Style, drawing.Styles.Single().Value));
+                Assert.Same(drawing.DimStyles.Single().Value.Style, drawing.Styles.Single().Value);
 
                 Assert.Equal(new[]
                 {
@@ -87,13 +87,6 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(new DwgPoint(10.0, 10.0, 0.0), l1.P2);
             Assert.Equal(new DwgPoint(5.0, 5.0, 0.0), l2.P1);
             Assert.Equal(new DwgPoint(15.0, 15.0, 0.0), l2.P2);
-        }
-
-        [Fact]
-        public void CaseInsensitiveDictionaries()
-        {
-            var drawing = new DwgDrawing();
-            Assert.True(ReferenceEquals(drawing.LineTypes["CONTINUOUS"], drawing.LineTypes["continuous"]));
         }
     }
 }

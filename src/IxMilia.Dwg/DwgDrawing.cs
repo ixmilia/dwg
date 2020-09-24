@@ -24,11 +24,11 @@ namespace IxMilia.Dwg
         public DwgDictionary MLineStyleDictionary { get; private set; }
         public DwgDictionary NamedObjectDictionary { get; private set; }
 
-        public DwgBlockHeader PaperSpaceBlockRecord { get; set; }
-        public DwgBlockHeader ModelSpaceBlockRecord { get; set; }
-        public DwgLineType ByLayerLineType { get; set; }
-        public DwgLineType ByBlockLineType { get; set; }
-        public DwgLineType ContinuousLineType { get; set; }
+        public DwgBlockHeader PaperSpaceBlockRecord { get => BlockHeaders.PaperSpace; set => BlockHeaders.PaperSpace = value; }
+        public DwgBlockHeader ModelSpaceBlockRecord { get => BlockHeaders.ModelSpace; set => BlockHeaders.ModelSpace = value; }
+        public DwgLineType ByLayerLineType { get => LineTypes.ByLayer; set => LineTypes.ByLayer = value; }
+        public DwgLineType ByBlockLineType { get => LineTypes.ByBlock; set => LineTypes.ByBlock = value; }
+        public DwgLineType ContinuousLineType { get => LineTypes.Continuous; set => LineTypes.Continuous = value; }
         public DwgViewPort CurrentViewPort { get; set; }
         public DwgLayer CurrentLayer { get; set; }
         public DwgStyle TextStyle { get; set; }
@@ -45,11 +45,11 @@ namespace IxMilia.Dwg
             Variables = new DwgHeaderVariables();
             Classes = new List<DwgClassDefinition>();
 
-            var continuous = new DwgLineType("CONTINUOUS") { Description = "Solid line" };
-            var defaultLayer = new DwgLayer("0") { LineType = continuous };
             var standardStyle = new DwgStyle("STANDARD");
             var standardMLineStyle = DwgMLineStyle.GetDefaultMLineStyle();
 
+            LineTypes = DwgLineTypeControlObject.Create();
+            var defaultLayer = new DwgLayer("0") { LineType = LineTypes.Continuous };
             BlockHeaders = DwgBlockControlObject.Create(defaultLayer);
             Layers = new DwgLayerControlObject
             {
@@ -59,9 +59,6 @@ namespace IxMilia.Dwg
             {
                 standardStyle
             };
-            LineTypes = DwgLineTypeControlObject.Create(
-                continuous
-            );
             Views = new DwgViewControlObject();
             UCSs = new DwgUCSControlObject();
             ViewPorts = new DwgViewPortControlObject()
@@ -98,11 +95,6 @@ namespace IxMilia.Dwg
                 { "ACDBVARIABLEDICTIONARY", new DwgDictionary() },
             };
 
-            PaperSpaceBlockRecord = BlockHeaders.PaperSpace;
-            ModelSpaceBlockRecord = BlockHeaders.ModelSpace;
-            ByLayerLineType = LineTypes.ByLayer;
-            ByBlockLineType = LineTypes.ByBlock;
-            ContinuousLineType = LineTypes["CONTINUOUS"];
             CurrentLayer = Layers["0"];
             TextStyle = Styles["STANDARD"];
             CurrentEntityLineType = LineTypes.ByBlock;
