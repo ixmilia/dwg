@@ -9,7 +9,7 @@ namespace IxMilia.Dwg.Test
     /// <summary>
     /// All tests in this class parse the raw bits (e.g., no pointers are bound) as given in the example PDF spec.
     /// </summary>
-    public class RawObjectTests : AbstractReaderTests
+    public class RawObjectReadTests : AbstractReaderTests
     {
         private static IList<DwgClassDefinition> Classes()
         {
