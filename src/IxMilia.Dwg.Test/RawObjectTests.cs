@@ -1,4 +1,5 @@
-﻿using IxMilia.Dwg.Objects;
+﻿using System;
+using IxMilia.Dwg.Objects;
 using Xunit;
 
 namespace IxMilia.Dwg.Test
@@ -933,6 +934,378 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(0x15, lc._entityHandles[0].HandleOrOffset);
             Assert.Equal(0x13, lc._byLayerHandle.HandleOrOffset);
             Assert.Equal(0x14, lc._byBlockHandle.HandleOrOffset);
+        }
+
+        [Fact]
+        public void ReadRawViewControl()
+        {
+            var vc = (DwgViewControlObject)ParseRaw(
+                0x0D, 0x00,                                     // length
+                0x4F, 0x00, 0x41, 0xA4, 0x80, 0x00, 0x00, 0x09, // data
+                0x01, 0x40, 0x30, 0x21, 0x3F,
+                0xE1, 0x20                                      // crc
+            );
+            Assert.Equal(0x06, vc.Handle.HandleOrOffset);
+            Assert.Equal(1, vc._entityCount);
+            Assert.Equal(0x3F, vc._entityHandles[0].HandleOrOffset);
+        }
+
+        [Fact]
+        public void ReadRawView()
+        {
+            var v = (DwgView)ParseRaw(
+                0x40, 0x00,                                     // length
+                0x4F, 0x40, 0x4F, 0xED, 0x90, 0x10, 0x00, 0x09, // data
+                0x06, 0x4D, 0x59, 0x56, 0x49, 0x45, 0x57, 0xC2,
+                0xF1, 0x38, 0x4A, 0xE7, 0xEB, 0xB4, 0xA9, 0x00,
+                0x9E, 0xEA, 0x45, 0x5D, 0x73, 0x27, 0x34, 0x40,
+                0x9D, 0xEA, 0x45, 0x5D, 0x73, 0x27, 0x24, 0x40,
+                0xBC, 0x4E, 0x12, 0xB9, 0xFA, 0xED, 0x1A, 0x40,
+                0xAA, 0x98, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                0x49, 0x40, 0xA1, 0x20, 0x83, 0x18, 0x28, 0x00,
+                0x0C, 0x90                                      // crc
+            );
+            Assert.Equal(0x3F, v.Handle.HandleOrOffset);
+            Assert.Equal("MYVIEW", v.Name);
+            Assert.True(v._64flag);
+            Assert.Equal(0, v._xrefIndex);
+            Assert.False(v._isDependentOnXRef);
+            Assert.Equal(13.464803489193734, v.Height);
+            Assert.Equal(20.154104070252849, v.Width);
+            Assert.Equal(new DwgPoint(10.077052035126423, 6.732401744596867, 0.0), v.Center);
+            Assert.Equal(DwgPoint.Origin, v.Target);
+            Assert.Equal(DwgVector.ZAxis, v.Direction);
+            Assert.Equal(0.0, v.TwistAngle);
+            Assert.Equal(50.0, v.LensLength);
+            Assert.Equal(0.0, v.FrontClip);
+            Assert.Equal(0.0, v.BackClip);
+            Assert.Equal(0x01, v._viewModeBits);
+            Assert.False(v.IsInPaperSpace);
+            Assert.Equal(0x06, v.ViewControlHandle.HandleOrOffset);
+        }
+
+        [Fact]
+        public void ReadRawUcsControl()
+        {
+            var uc = (DwgUCSControlObject)ParseRaw(
+                0x0D, 0x00,                                     // length
+                0x4F, 0x80, 0x41, 0xE4, 0x80, 0x00, 0x00, 0x09, // data
+                0x01, 0x40, 0x30, 0x21, 0x4C,
+                0xA0, 0x6F                                      // crc
+            );
+            Assert.Equal(0x07, uc.Handle.HandleOrOffset);
+            Assert.Equal(1, uc._entityCount);
+            Assert.Equal(0x4C, uc._entityHandles[0].HandleOrOffset);
+        }
+
+        [Fact]
+        public void ReadRawUcs()
+        {
+            var u = (DwgUCS)ParseRaw(
+                0x45, 0x00,                                     // length
+                0x4F, 0xC0, 0x53, 0x20, 0x60, 0x20, 0x00, 0x09, // data
+                0x05, 0x4D, 0x59, 0x55, 0x43, 0x53, 0xCA, 0x8F,
+                0xDF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFE, 0x73, 0xF2,
+                0x14, 0xE5, 0x08, 0xBB, 0x73, 0x23, 0x90, 0xFC,
+                0xEC, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xBF, 0xBF,
+                0x2B, 0xD3, 0x16, 0x3A, 0x1E, 0xAD, 0xB6, 0xEF,
+                0xCF, 0x8F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFE, 0x33,
+                0xF2, 0x18, 0xE5, 0x08, 0xBB, 0x73, 0x23, 0x90,
+                0xFD, 0x04, 0x1C, 0xC1, 0x40,
+                0xBE, 0x62                                      // crc
+            );
+            Assert.Equal(0x4C, u.Handle.HandleOrOffset);
+            Assert.Equal("MYUCS", u.Name);
+            Assert.True(u._64flag);
+            Assert.Equal(0, u._xrefIndex);
+            Assert.False(u._isDependentOnXRef);
+            Assert.Equal(DwgPoint.Origin, u.Origin);
+            Assert.Equal(new DwgVector(0.7499999999999997, 0.6495190528383296, -0.12499999999999972), u.XDirection);
+            Assert.Equal(new DwgVector(-0.4330127018922196, 0.6249999999999991, 0.6495190528383297), u.YDirection);
+            Assert.Equal(0x07, u.UCSControlHandle.HandleOrOffset);
+        }
+
+        [Fact]
+        public void ReadRawViewPortControl()
+        {
+            var vc = (DwgViewPortControlObject)ParseRaw(
+                0x12, 0x00,                                     // length
+                0x50, 0x00, 0x42, 0x24, 0x80, 0x00, 0x00, 0x09, // data
+                0x04, 0x40, 0x30, 0x20, 0x21, 0x4E, 0x21, 0x4F,
+                0x21, 0x50,
+                0x9E, 0x1F                                      // crc
+            );
+            Assert.Equal(0x08, vc.Handle.HandleOrOffset);
+            Assert.Equal(4, vc._entityCount);
+            Assert.Equal(0x00, vc._entityHandles[0].HandleOrOffset);
+            Assert.Equal(0x4E, vc._entityHandles[1].HandleOrOffset);
+            Assert.Equal(0x4F, vc._entityHandles[2].HandleOrOffset);
+            Assert.Equal(0x50, vc._entityHandles[3].HandleOrOffset);
+        }
+
+        [Fact]
+        public void ReadRawViewPort()
+        {
+            var v = (DwgViewPort)ParseRaw(
+                0x93, 0x00,                                     // length
+                0x50, 0x40, 0x53, 0xA7, 0x50, 0x40, 0x00, 0x09, // data
+                0x07, 0x2A, 0x41, 0x43, 0x54, 0x49, 0x56, 0x45,
+                0xC2, 0x1E, 0x94, 0x3B, 0x21, 0xCD, 0xA4, 0xCD,
+                0x00, 0xA5, 0x86, 0x68, 0x4A, 0x2C, 0x0E, 0x2D,
+                0x40, 0xA5, 0x86, 0x68, 0x4A, 0x2C, 0x0E, 0x1D,
+                0x40, 0x87, 0xA5, 0x0E, 0xC8, 0x73, 0x69, 0x23,
+                0x40, 0xAA, 0x98, 0x00, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x49, 0x40, 0xA1, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0xE0, 0x3F, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0xF0, 0x3F, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0xF0, 0x3F, 0x2C, 0x98, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x01, 0xC0, 0x7E, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x01, 0xC0, 0x7E, 0x50, 0x00,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x00, 0x07, 0x01, 0xF8, 0x00,
+                0x00, 0x00, 0x00, 0x00, 0x07, 0x01, 0xFA, 0x08,
+                0x41, 0x82, 0x80,
+                0x7D, 0x31                                      // crc
+            );
+            Assert.Equal(0x4E, v.Handle.HandleOrOffset);
+            Assert.Equal("*ACTIVE", v.Name);
+            Assert.True(v._64flag);
+            Assert.Equal(0, v._xrefIndex);
+            Assert.False(v._isDependentOnXRef);
+            Assert.Equal(19.411922935081318, v.Height);
+            Assert.Equal(14.527681660899654, v.AspectRatio);
+            Assert.Equal(new DwgPoint(7.263840830449827, 9.705961467540659, 0.0), v.Center);
+            Assert.Equal(DwgPoint.Origin, v.Target);
+            Assert.Equal(DwgVector.ZAxis, v.Direction);
+            Assert.Equal(0.0, v.TwistAngle);
+            Assert.Equal(50.0, v.LensLength);
+            Assert.Equal(0.0, v.FrontClip);
+            Assert.Equal(0.0, v.BackClip);
+            Assert.Equal(0x01, v._viewModeBits);
+            Assert.Equal(new DwgPoint(0.5, 0.0, 0.0), v.LowerLeft);
+            Assert.Equal(new DwgPoint(1.0, 1.0, 0.0), v.UpperRight);
+            Assert.False(v.UCSFollow);
+            Assert.Equal(100, v.CircleZoomPercent);
+            Assert.True(v.FastZoom);
+            Assert.Equal(0x02, v._ucsIconBits);
+            Assert.False(v.IsGridOn);
+            Assert.Equal(new DwgVector(0.5, 0.5, 0.0), v.GridSpacing);
+            Assert.False(v.IsSnapOn);
+            Assert.False(v.SnapStyle);
+            Assert.Equal(0x00, v.SnapIsoPair);
+            Assert.Equal(0, v.SnapRotation);
+            Assert.Equal(DwgPoint.Origin, v.SnapBase);
+            Assert.Equal(new DwgVector(0.5, 0.5, 0.0), v.SnapSpacing);
+            Assert.Equal(0x08, v.ViewPortControlHandle.HandleOrOffset);
+        }
+
+        [Fact]
+        public void ReadRawAppIdControl()
+        {
+            var ac = (DwgAppIdControlObject)ParseRaw(
+                0x0F, 0x00,                                     // length
+                0x50, 0x80, 0x42, 0x64, 0x80, 0x00, 0x00, 0x09, // data
+                0x02, 0x40, 0x30, 0x21, 0x11, 0x21, 0x86,
+                0xFA, 0xD9                                      // crc
+            );
+            Assert.Equal(0x09, ac.Handle.HandleOrOffset);
+            Assert.Equal(2, ac._entityCount);
+            Assert.Equal(0x11, ac._entityHandles[0].HandleOrOffset);
+            Assert.Equal(0x86, ac._entityHandles[1].HandleOrOffset);
+        }
+
+        [Fact]
+        public void ReadRawAppId()
+        {
+            var a = (DwgAppId)ParseRaw(
+                0x13, 0x00,                                     // length
+                0x50, 0xC0, 0x44, 0x67, 0x40, 0x00, 0x00, 0x09, // data
+                0x04, 0x41, 0x43, 0x41, 0x44, 0xC0, 0x0C, 0x10,
+                0x83, 0x05, 0x0A,
+                0x8C, 0xE9                                      // crc
+            );
+            Assert.Equal(0x11, a.Handle.HandleOrOffset);
+            Assert.Equal("ACAD", a.Name);
+            Assert.True(a._64flag);
+            Assert.Equal(0, a._xrefIndex);
+            Assert.False(a._isDependentOnXRef);
+            Assert.Equal(0x00, a._unknown);
+            Assert.Equal(0x09, a.Handle.ResolveHandleReference(a.AppIdControlHandle).HandleOrOffset);
+        }
+
+        [Fact]
+        public void ReadRawDimStyleControl()
+        {
+            var dc = (DwgDimStyleControlObject)ParseRaw(
+                0x10, 0x00,                                     // length
+                0x51, 0x00, 0x42, 0xA4, 0x80, 0x00, 0x00, 0x09, // data
+                0x03, 0x40, 0x30, 0x21, 0x1D, 0x21, 0x4D, 0x20,
+                0xBA, 0x14                                      // crc
+            );
+            Assert.Equal(0x0A, dc.Handle.HandleOrOffset);
+            Assert.Equal(3, dc._entityCount);
+            Assert.Equal(0x1D, dc._entityHandles[0].HandleOrOffset);
+            Assert.Equal(0x4D, dc._entityHandles[1].HandleOrOffset);
+            Assert.Equal(0x00, dc._entityHandles[2].HandleOrOffset);
+        }
+
+        [Fact]
+        public void ReadRawDimStyle()
+        {
+            var d = (DwgDimStyle)ParseRaw(
+                0x70, 0x00,                                     // length
+                0x51, 0x40, 0x47, 0x64, 0x90, 0x30, 0x00, 0x09, // data
+                0x08, 0x53, 0x54, 0x41, 0x4E, 0x44, 0x41, 0x52,
+                0x44, 0xC3, 0x00, 0x04, 0x00, 0x00, 0x80, 0x01,
+                0x80, 0x00, 0x00, 0x00, 0x10, 0x29, 0x04, 0x41,
+                0x10, 0x24, 0x09, 0x02, 0xB5, 0xE8, 0xDC, 0x0F,
+                0x42, 0xB1, 0xCF, 0xC0, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x0B, 0x03, 0xF1, 0x4A, 0xE0, 0x7A, 0x17,
+                0xAD, 0x47, 0x60, 0xFC, 0x0A, 0xD7, 0xA3, 0x70,
+                0x3D, 0x0A, 0xC7, 0x3F, 0xAA, 0x02, 0xB5, 0xE8,
+                0xDC, 0x0F, 0x42, 0xB1, 0xCF, 0xC0, 0xAD, 0x7A,
+                0x37, 0x03, 0xD0, 0xAB, 0x73, 0xF8, 0x66, 0x66,
+                0x66, 0x66, 0x66, 0x66, 0x39, 0x40, 0x64, 0x0A,
+                0xD7, 0xA3, 0x70, 0x3D, 0x0A, 0xB7, 0x3F, 0xAA,
+                0xAA, 0x20, 0x85, 0x18, 0x28, 0x28, 0x88, 0x00,
+                0xCC, 0x33                                      // crc
+            );
+            Assert.Equal(0x1D, d.Handle.HandleOrOffset);
+            Assert.Equal("STANDARD", d.Name);
+            Assert.True(d._64flag);
+            Assert.Equal(0, d._xrefIndex);
+            Assert.False(d._isDependentOnXRef);
+            Assert.False(d.GenerateDimensionTolerances);
+            Assert.False(d.GenerateDimensionLimits);
+            Assert.True(d.DimensionTextInsideHorizontal);
+            Assert.True(d.DimensionTextOutsideHorizontal);
+            Assert.False(d.SuppressFirstDimensionExtensionLine);
+            Assert.False(d.SuppressSecondDimensionExtensionLine);
+            Assert.False(d.UseAlternateDimensioning);
+            Assert.False(d.ForceDimensionLineExtensionsOutsideIfTextIs);
+            Assert.False(d.UseSeparateArrowBlocksForDimensions);
+            Assert.False(d.ForceDimensionTextInsideExtensions);
+            Assert.False(d.SuppressOutsideExtensionDimensionLines);
+            Assert.Equal(2, d.AlternateDimensioningDecimalPlaces);
+            Assert.Equal(DwgUnitZeroSuppression.SuppressZeroFeetAndZeroInches, d.DimensionUnitZeroSuppression);
+            Assert.False(d.DIMSD1);
+            Assert.False(d.DIMSD2);
+            Assert.Equal(DwgJustification.Middle, d.DimensionToleranceVerticalJustification);
+            Assert.Equal(DwgDimensionTextJustification.AboveLineCenter, d.DimensionTextJustification);
+            Assert.Equal(DwgDimensionFit.MoveEitherForBestFit, d.DimensionTextAndArrowPlacement);
+            Assert.False(d.DimensionCursorControlsTextPosition);
+            Assert.Equal(DwgUnitZeroSuppression.SuppressZeroFeetAndZeroInches, d.DimensionToleranceZeroSuppression);
+            Assert.Equal(DwgUnitZeroSuppression.SuppressZeroFeetAndZeroInches, d.AlternateDimensioningZeroSupression);
+            Assert.Equal(DwgUnitZeroSuppression.SuppressZeroFeetAndZeroInches, d.AlternateDimensioningToleranceZeroSupression);
+            Assert.False(d.TextAboveDimensionLine);
+            Assert.Equal(DwgUnitFormat.Decimal, d.DimensionUnitFormat);
+            Assert.Equal(DwgAngleFormat.DecimalDegrees, d.DimensioningAngleFormat);
+            Assert.Equal(4, d.DimensionUnitToleranceDecimalPlaces);
+            Assert.Equal(4, d.DimensionToleranceDecimalPlaces);
+            Assert.Equal(DwgUnitFormat.Decimal, d.AlternateDimensioningUnits);
+            Assert.Equal(2, d.AlternateDimensioningToleranceDecimalPlaces);
+            Assert.Equal(1.0, d.DimensioningScaleFactor);
+            Assert.Equal(0.18, d.DimensioningArrowSize);
+            Assert.Equal(0.0625, d.DimensionExtensionLineOffset);
+            Assert.Equal(0.38, d.DimensionLineIncrement);
+            Assert.Equal(0.18, d.DimensionExtensionLineExtension);
+            Assert.Equal(0.0, d.DimensionDistanceRoundingValue);
+            Assert.Equal(0.0, d.DimensionLineExtension);
+            Assert.Equal(0.0, d.DimensionPlusTolerance);
+            Assert.Equal(0.0, d.DimensionMinusTolerance);
+            Assert.Equal(0.18, d.DimensioningTextHeight);
+            Assert.Equal(0.09, d.CenterMarkSize);
+            Assert.Equal(0.0, d.DimensioningTickSize);
+            Assert.Equal(25.4, d.AlternateDimensioningScaleFactor);
+            Assert.Equal(1.0, d.DimensionLinearMeasurementsScaleFactor);
+            Assert.Equal(0.0, d.DimensionVerticalTextPosition);
+            Assert.Equal(1.0, d.DimensionToleranceDisplayScaleFactor);
+            Assert.Equal(0.09, d.DimensionLineGap);
+            Assert.Equal("", d.DimensioningSuffix);
+            Assert.Equal("", d.AlternateDimensioningSuffix);
+            Assert.Equal("", d.ArrowBlockName);
+            Assert.Equal("", d.FirstArrowBlockName);
+            Assert.Equal("", d.SecondArrowBlockName);
+            Assert.Equal(DwgColor.ByBlock, d.DimensionLineColor);
+            Assert.Equal(DwgColor.ByBlock, d.DimensionExtensionLineColor);
+            Assert.Equal(DwgColor.ByBlock, d.DimensionTextColor);
+            Assert.False(d._unknown);
+            Assert.Equal(0x0A, d.Handle.ResolveHandleReference(d.DimStyleControlHandle).HandleOrOffset);
+            Assert.Equal(0x10, d.Handle.ResolveHandleReference(d._styleHandle).HandleOrOffset);
+        }
+
+        [Fact]
+        public void ReadRawViewPortEntityHeaderControl()
+        {
+            var vc = (DwgViewPortEntityHeaderControlObject)ParseRaw(
+                0x17, 0x00,                                     // length
+                0x51, 0x80, 0x42, 0xE4, 0x80, 0x00, 0x00, 0x09, // data
+                0x06, 0x40, 0x30, 0x21, 0x51, 0x21, 0x52, 0x21,
+                0x54, 0x21, 0x56, 0x21, 0x58, 0x21, 0x5A,
+                0x9E, 0x84                                      // crc
+            );
+            Assert.Equal(0x0B, vc.Handle.HandleOrOffset);
+            Assert.Equal(6, vc._entityCount);
+            Assert.Equal(0x51, vc._entityHandles[0].HandleOrOffset);
+            Assert.Equal(0x52, vc._entityHandles[1].HandleOrOffset);
+            Assert.Equal(0x54, vc._entityHandles[2].HandleOrOffset);
+            Assert.Equal(0x56, vc._entityHandles[3].HandleOrOffset);
+            Assert.Equal(0x58, vc._entityHandles[4].HandleOrOffset);
+            Assert.Equal(0x5A, vc._entityHandles[5].HandleOrOffset);
+        }
+
+        [Fact]
+        public void ReadRawViewPortEntityHeader()
+        {
+            var v = (DwgViewPortEntityHeader)ParseRaw(
+                0x11, 0x00,                                     // length
+                0x51, 0xC0, 0x56, 0x24, 0x50, 0x00, 0x00, 0x0A, // data
+                0xCA, 0x08, 0x59, 0x82, 0x82, 0x0A, 0xCA, 0x8A,
+                0xB4,
+                0x2F, 0x9E                                      // crc
+            );
+            Assert.Equal(0x58, v.Handle.HandleOrOffset);
+            Assert.Equal("", v.Name);
+            Assert.True(v._64flag);
+            Assert.Equal(0, v._xrefIndex);
+            Assert.False(v._isDependentOnXRef);
+            Assert.True(v._1flag);
+            Assert.Equal(0x0B, v.Handle.ResolveHandleReference(v.ViewPortEntityHeaderControlHandle).HandleOrOffset);
+            Assert.Equal(0x59, v.Handle.ResolveHandleReference(v._nextViewPortEntityHeaderHandle).HandleOrOffset);
+        }
+
+        [Fact]
+        public void ReadRawMLineStyle()
+        {
+            var m = (DwgMLineStyle)ParseRaw(
+                0x55, 0x00,                                     // length
+                0x52, 0x40, 0x5D, 0x27, 0xC0, 0x20, 0x00, 0x04, // data
+                0x05, 0x09, 0x4D, 0x59, 0x4D, 0x4C, 0x53, 0x54,
+                0x59, 0x4C, 0x45, 0x44, 0x9B, 0x5E, 0x48, 0x1B,
+                0x5D, 0x5B, 0x1D, 0x1A, 0x5B, 0x1A, 0x5B, 0x99,
+                0x48, 0x1C, 0xDD, 0x1E, 0x5B, 0x19, 0x68, 0x18,
+                0x2D, 0x44, 0x54, 0xFB, 0x21, 0xF9, 0x3F, 0x06,
+                0x0B, 0x51, 0x15, 0x3E, 0xC8, 0x7E, 0x4F, 0xC0,
+                0xC0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0E, 0x03,
+                0xFD, 0x01, 0x90, 0x44, 0x08, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0xE0, 0xBF, 0x40, 0x90, 0x34,
+                0x10, 0xE4, 0x10, 0xE3, 0x00,
+                0x8F, 0xAA                                      // crc
+            );
+            Assert.Equal(0x74, m.Handle.HandleOrOffset);
+            Assert.Equal("MYMLSTYLE", m.Name);
+            Assert.Equal("my multiline style", m.Description);
+            Assert.Equal(0x00, m.Flags);
+            Assert.Equal(DwgColor.ByBlock, m.FillColor);
+            Assert.Equal(Math.PI / 2.0, m.StartAngle);
+            Assert.Equal(Math.PI / 2.0, m.EndAngle);
+            Assert.Equal(3, m._lineStyleCount);
+            Assert.Equal(new double[] { 0.5, 0.0, -0.5 }, m._lineStyleOffsets);
+            Assert.Equal(new short[] { 256, 4, 2 }, m._lineStyleColors);
+            Assert.Equal(new short[] { 1, 2, 3 }, m._lineStyleLineTypeIndicies);
+            Assert.Equal(0x0E, m.Handle.ResolveHandleReference(m._parentHandle).HandleOrOffset);
         }
     }
 }

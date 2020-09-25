@@ -766,9 +766,9 @@
   -->
   <Object Name="View" Value="0x3D" IsEntity="false" ConstructorAccessibility="internal">
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
-    <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
-    <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="private" />
-    <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
+    <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
+    <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
+    <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
     <Property Name="Height" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="Width" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="Center" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
@@ -778,7 +778,7 @@
     <Property Name="LensLength" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="FrontClip" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="BackClip" Type="double" BinaryType="BD" DefaultValue="0.0" />
-    <Property Name="_viewModeBits" Type="int" BinaryType="4B" DefaultValue="0" Accessibility="private" />
+    <Property Name="_viewModeBits" Type="int" BinaryType="4B" DefaultValue="0" Accessibility="internal" />
     <Property Name="IsInPaperSpace" Type="bool" BinaryType="B" DefaultValue="false" />
 
     <!-- handles -->
@@ -807,9 +807,9 @@
   -->
   <Object Name="UCS" Value="0x3F" IsEntity="false" ConstructorAccessibility="internal">
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
-    <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
-    <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="private" />
-    <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
+    <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
+    <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
+    <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
     <Property Name="Origin" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="XDirection" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.XAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
     <Property Name="YDirection" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.YAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
@@ -840,9 +840,9 @@
   -->
   <Object Name="ViewPort" Value="0x41" IsEntity="false" ConstructorAccessibility="internal">
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
-    <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
-    <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="private" />
-    <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
+    <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
+    <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
+    <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
     <Property Name="Height" Type="double" BinaryType="BD" DefaultValue="10.0" />
     <Property Name="AspectRatio" Type="double" BinaryType="BD" DefaultValue="1.0" />
     <Property Name="Center" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
@@ -852,7 +852,7 @@
     <Property Name="LensLength" Type="double" BinaryType="BD" DefaultValue="50.0" />
     <Property Name="FrontClip" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="BackClip" Type="double" BinaryType="BD" DefaultValue="0.0" />
-    <Property Name="_viewModeBits" Type="int" BinaryType="4B" DefaultValue="0" Accessibility="private" />
+    <Property Name="_viewModeBits" Type="int" BinaryType="4B" DefaultValue="0" Accessibility="internal" />
     <Property Name="LowerLeft" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
     <Property Name="UpperRight" Type="DwgPoint" BinaryType="2RD" DefaultValue="new DwgPoint(1.0, 1.0, 0.0)" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
     <Property Name="UCSFollow" Type="bool" BinaryType="B" DefaultValue="false" />
@@ -894,10 +894,10 @@
   -->
   <Object Name="AppId" Value="0x43" IsEntity="false" ConstructorAccessibility="internal">
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
-    <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
-    <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="private" />
-    <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
-    <Property Name="_unknown" Type="byte" BinaryType="RC" DefaultValue="0" Accessibility="private" />
+    <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
+    <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
+    <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
+    <Property Name="_unknown" Type="byte" BinaryType="RC" DefaultValue="0" Accessibility="internal" />
 
     <!-- handles -->
     <Property Name="AppIdControlHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
@@ -925,9 +925,9 @@
   -->
   <Object Name="DimStyle" Value="0x45" IsEntity="false">
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
-    <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
-    <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="private" />
-    <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
+    <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
+    <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
+    <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
     <Property Name="GenerateDimensionTolerances" Type="bool" BinaryType="B" DefaultValue="false" Comment="DIMTOL variable.  Dimension tolerances generated." />
     <Property Name="GenerateDimensionLimits" Type="bool" BinaryType="B" DefaultValue="false" Comment="DIMLIM variable.  Dimension limits generated." />
     <Property Name="DimensionTextInsideHorizontal" Type="bool" BinaryType="B" DefaultValue="true" Comment="DIMTIH variable.  Text inside horizontal." />
@@ -989,7 +989,7 @@
     <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
     <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
     <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
-    <Property Name="_styleHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" Accessibility="private" />
+    <Property Name="_styleHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" Accessibility="internal" />
   </Object>
   <!--
 
@@ -1011,16 +1011,16 @@
   -->
   <Object Name="ViewPortEntityHeader" Value="0x47" IsEntity="false" ConstructorAccessibility="internal">
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
-    <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
-    <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="private" />
-    <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
-    <Property Name="_1flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
+    <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
+    <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
+    <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
+    <Property Name="_1flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
 
     <!-- handles -->
     <Property Name="ViewPortEntityHeaderControlHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
     <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
     <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
-    <Property Name="_nextViewPortEntityHeaderHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="private" />
+    <Property Name="_nextViewPortEntityHeaderHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
   </Object>
   <!--
 
@@ -1041,14 +1041,14 @@
     <Property Name="FillColor" Type="DwgColor" BinaryType="BS" DefaultValue="DwgColor.ByLayer" />
     <Property Name="StartAngle" Type="double" BinaryType="BD" DefaultValue="Math.PI / 2.0" />
     <Property Name="EndAngle" Type="double" BinaryType="BD" DefaultValue="Math.PI / 2.0" />
-    <Property Name="_lineStyleCount" Type="byte" BinaryType="RC" DefaultValue="0" Accessibility="private" />
+    <Property Name="_lineStyleCount" Type="byte" BinaryType="RC" DefaultValue="0" Accessibility="internal" />
     <!-- custom line style info -->
-    <Property Name="_lineStyleOffsets" Type="double" BinaryType="BD" DefaultValue="new List&lt;double&gt;()" ReadCount="_lineStyleCount" Accessibility="private" />
-    <Property Name="_lineStyleColors" Type="short" BinaryType="BS" DefaultValue="new List&lt;short&gt;()" ReadCount="_lineStyleCount" Accessibility="private" />
-    <Property Name="_lineStyleLineTypeIndicies" Type="short" BinaryType="BS" DefaultValue="new List&lt;short&gt;()" ReadCount="_lineStyleCount" Accessibility="private" />
+    <Property Name="_lineStyleOffsets" Type="double" BinaryType="BD" DefaultValue="new List&lt;double&gt;()" ReadCount="_lineStyleCount" Accessibility="internal" />
+    <Property Name="_lineStyleColors" Type="short" BinaryType="BS" DefaultValue="new List&lt;short&gt;()" ReadCount="_lineStyleCount" Accessibility="internal" />
+    <Property Name="_lineStyleLineTypeIndicies" Type="short" BinaryType="BS" DefaultValue="new List&lt;short&gt;()" ReadCount="_lineStyleCount" Accessibility="internal" />
 
     <!-- handles -->
-    <Property Name="_parentHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" Accessibility="private" />
+    <Property Name="_parentHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" Accessibility="internal" />
     <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
     <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
   </Object>

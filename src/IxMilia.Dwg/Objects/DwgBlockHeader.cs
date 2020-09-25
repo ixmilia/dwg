@@ -130,7 +130,7 @@ namespace IxMilia.Dwg.Objects
                 if (obj is DwgEntity entity)
                 {
                     Entities.Add(entity);
-                    currentEntityHandle = currentEntityHandle.GetNextHandle(entity.NextEntityHandle);
+                    currentEntityHandle = currentEntityHandle.ResolveHandleReference(entity.NextEntityHandle);
                     if (isModelSpaceBlock && entity._entityMode != 0b10)
                     {
                         throw new DwgReadException("Expected entity mode 2 for children of model space block.");

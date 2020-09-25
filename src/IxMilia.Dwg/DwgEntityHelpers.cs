@@ -69,7 +69,7 @@ namespace IxMilia.Dwg
             {
                 var entity = objectCache.GetObject<TEntity>(reader, currentEntityHandle.HandleOrOffset);
                 result.Add(entity);
-                currentEntityHandle = entity.Handle.GetNextHandle(entity.NextEntityHandle);
+                currentEntityHandle = entity.Handle.ResolveHandleReference(entity.NextEntityHandle);
             }
 
             return result;

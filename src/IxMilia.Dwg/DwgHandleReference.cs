@@ -151,23 +151,23 @@ namespace IxMilia.Dwg
             return hashCode;
         }
 
-        internal DwgHandleReference GetNextHandle(DwgHandleReference nextEntityHandle)
+        internal DwgHandleReference ResolveHandleReference(DwgHandleReference relativeOrAbsoluteHandle)
         {
-            switch (nextEntityHandle.Code)
+            switch (relativeOrAbsoluteHandle.Code)
             {
                 case DwgHandleReferenceCode.SoftPointer:
                 case DwgHandleReferenceCode.SoftOwner:
                 case DwgHandleReferenceCode.HardPointer:
                 //case DwgHandleReferenceCode.HardOwner:
-                    return nextEntityHandle;
+                    return relativeOrAbsoluteHandle;
                 case DwgHandleReferenceCode.HandlePlus1:
                     return new DwgHandleReference(DwgHandleReferenceCode.HardPointer, HandleOrOffset + 1);
                 case DwgHandleReferenceCode.HandleMinus1:
                     return new DwgHandleReference(DwgHandleReferenceCode.HardPointer, HandleOrOffset - 1);
                 case DwgHandleReferenceCode.HandlePlusOffset:
-                    return new DwgHandleReference(DwgHandleReferenceCode.HardPointer, HandleOrOffset + nextEntityHandle.HandleOrOffset);
+                    return new DwgHandleReference(DwgHandleReferenceCode.HardPointer, HandleOrOffset + relativeOrAbsoluteHandle.HandleOrOffset);
                 case DwgHandleReferenceCode.HandleMinusOffset:
-                    return new DwgHandleReference(DwgHandleReferenceCode.HardPointer, HandleOrOffset - nextEntityHandle.HandleOrOffset);
+                    return new DwgHandleReference(DwgHandleReferenceCode.HardPointer, HandleOrOffset - relativeOrAbsoluteHandle.HandleOrOffset);
                 default:
                     return default(DwgHandleReference);
             }
