@@ -37,6 +37,7 @@ namespace IxMilia.Dwg.Generator
             CreateNewFile("IxMilia.Dwg.Objects");
 
             IncreaseIndent();
+            
             AppendLine("public enum DwgObjectType : short");
             AppendLine("{");
             IncreaseIndent();
@@ -46,6 +47,32 @@ namespace IxMilia.Dwg.Generator
             }
             DecreaseIndent();
             AppendLine("}");
+
+            AppendLine();
+
+            AppendLine("public static class DwgObjectTypeExtensions");
+            AppendLine("{");
+            IncreaseIndent();
+            AppendLine("public static short? TypeCodeFromClassName(string className)");
+            AppendLine("{");
+            IncreaseIndent();
+            AppendLine("switch (className.ToUpperInvariant())");
+            AppendLine("{");
+            IncreaseIndent();
+            foreach (var o in _objects.Where(o => AttributeValue(o, "ClassName") != null))
+            {
+                AppendLine($"case \"{AttributeValue(o, "ClassName")}\":");
+                AppendLine($"    return {Value(o)};");
+            }
+            AppendLine("default:");
+            AppendLine("    return null;");
+            DecreaseIndent();
+            AppendLine("}");
+            DecreaseIndent();
+            AppendLine("}");
+            DecreaseIndent();
+            AppendLine("}");
+
             DecreaseIndent();
 
             FinishFile(Path.Combine(_outputDir, "DwgObjectType.Generated.cs"));

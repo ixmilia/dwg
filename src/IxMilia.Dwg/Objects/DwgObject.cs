@@ -86,13 +86,34 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal static DwgObject ParseRaw(BitReader reader, DwgVersionId version)
+        internal static DwgObject ParseRaw(BitReader reader, DwgVersionId version, IList<DwgClassDefinition> classes)
         {
             reader.StartCrcCheck();
             var size = reader.Read_MS();
             var crcStart = reader.Offset + size;
             var typeCode = reader.Read_BS();
-            if (!Enum.IsDefined(typeof(DwgObjectType), typeCode))
+            if (typeCode >= 500)
+            {
+                if ((typeCode - 500) <= classes.Count)
+                {
+                    // non-static type code
+                    var className = classes[typeCode - 500].DxfClassName;
+                    var dynamicTypeCode = DwgObjectTypeExtensions.TypeCodeFromClassName(className);
+                    if (!dynamicTypeCode.HasValue)
+                    {
+                        // unknown dynamic object type
+                        return null;
+                    }
+
+                    typeCode = dynamicTypeCode.GetValueOrDefault();
+                }
+                else
+                {
+                    // unknown
+                    return null;
+                }
+            }
+            else if (!Enum.IsDefined(typeof(DwgObjectType), typeCode))
             {
                 // unsupported
                 return null;
@@ -117,7 +138,7 @@ namespace IxMilia.Dwg.Objects
 
         internal static DwgObject Parse(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
-            var obj = ParseRaw(reader, version);
+            var obj = ParseRaw(reader, version, objectCache.Classes);
             obj?.OnAfterObjectRead(reader, objectCache);
             return obj;
         }

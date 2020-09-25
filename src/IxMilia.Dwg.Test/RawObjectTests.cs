@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using IxMilia.Dwg.Objects;
 using Xunit;
 
@@ -9,10 +11,24 @@ namespace IxMilia.Dwg.Test
     /// </summary>
     public class RawObjectTests : AbstractReaderTests
     {
+        private static IList<DwgClassDefinition> Classes()
+        {
+            return new List<DwgClassDefinition>()
+            {
+                null,
+                null,
+                null,
+                null,
+                null,
+                new DwgClassDefinition(0, 0, "", "", "DICTIONARYVAR", false, false)
+            };
+        }
+
         public static DwgObject ParseRaw(params int[] data)
         {
             var reader = Bits(data);
-            var obj = DwgObject.ParseRaw(reader, DwgVersionId.R14);
+            var classes = Classes();
+            var obj = DwgObject.ParseRaw(reader, DwgVersionId.R14, classes);
             return obj;
         }
 
@@ -1306,6 +1322,22 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(new short[] { 256, 4, 2 }, m._lineStyleColors);
             Assert.Equal(new short[] { 1, 2, 3 }, m._lineStyleLineTypeIndicies);
             Assert.Equal(0x0E, m.Handle.ResolveHandleReference(m._parentHandle).HandleOrOffset);
+        }
+
+        [Fact]
+        public void ReadRawDictionaryVar()
+        {
+            var d = (DwgDictionaryVar)ParseRaw(
+                0x12, 0x00,                                     // length
+                0x3E, 0x40, 0x40, 0x80, 0x7A, 0xA7, 0x00, 0x00, // data
+                0x00, 0x04, 0x04, 0x01, 0x01, 0x33, 0x40, 0x41,
+                0xA2, 0x30,
+                0xAC, 0xDA                                      // crc
+            );
+            Assert.Equal(0x01EA, d.Handle.HandleOrOffset);
+            Assert.Equal(0x00, d.IntVal);
+            Assert.Equal("3", d.Str);
+            Assert.Equal(0x00, d.Handle.ResolveHandleReference(d._parentHandle).HandleOrOffset);
         }
     }
 }

@@ -133,7 +133,7 @@ namespace IxMilia.Dwg
             drawing.FileHeader.ValidateSecondHeader(reader, drawing.Variables);
             drawing.ImageData = DwgImageData.Parse(reader.FromOffset(drawing.FileHeader.ImagePointer));
 
-            var objectCache = DwgObjectCache.Parse(reader.FromOffset(drawing.FileHeader.ObjectMapLocator.Pointer), drawing.FileHeader.Version);
+            var objectCache = DwgObjectCache.Parse(reader.FromOffset(drawing.FileHeader.ObjectMapLocator.Pointer), drawing.FileHeader.Version, drawing.Classes);
             drawing.LoadObjects(reader, objectCache);
 
             var freeSpaceSection = DwgObjectFreeSpaceSection.Parse(reader.FromOffset(drawing.FileHeader.ObjectFreeSpaceLocator.Pointer));

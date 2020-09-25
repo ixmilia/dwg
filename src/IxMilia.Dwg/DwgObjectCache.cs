@@ -11,9 +11,12 @@ namespace IxMilia.Dwg
 
         public int ObjectCount => _handleToOffset.Count;
 
-        private DwgObjectCache(DwgVersionId version)
+        public IList<DwgClassDefinition> Classes { get; }
+
+        private DwgObjectCache(DwgVersionId version, IList<DwgClassDefinition> classes)
         {
             _version = version;
+            Classes = classes;
         }
 
         public int GetOffsetFromHandle(int handle)
@@ -75,9 +78,9 @@ namespace IxMilia.Dwg
             return null;
         }
 
-        public static DwgObjectCache Parse(BitReader reader, DwgVersionId version)
+        public static DwgObjectCache Parse(BitReader reader, DwgVersionId version, IList<DwgClassDefinition> classes)
         {
-            var objectCache = new DwgObjectCache(version);
+            var objectCache = new DwgObjectCache(version, classes);
             var lastHandle = 0;
             var lastLocation = 0;
             reader.StartCrcCheck();

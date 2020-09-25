@@ -19,20 +19,27 @@
             set => ProducesEntities = !value;
         }
 
-        private DwgClassDefinition()
+        internal DwgClassDefinition(short number, short versionFlag, string applicationName, string cPlusPlusClassName, string dxfClassName, bool wasAZombie, bool producesEntities)
         {
+            Number = number;
+            VersionFlag = versionFlag;
+            ApplicationName = applicationName;
+            CPlusPlusClassName = cPlusPlusClassName;
+            DxfClassName = dxfClassName;
+            WasAZombie = wasAZombie;
+            ProducesEntities = producesEntities;
         }
 
         internal static DwgClassDefinition Parse(BitReader reader)
         {
-            var def = new DwgClassDefinition();
-            def.Number = reader.Read_BS();
-            def.VersionFlag = reader.Read_BS();
-            def.ApplicationName = reader.Read_T();
-            def.CPlusPlusClassName = reader.Read_T();
-            def.DxfClassName = reader.Read_T();
-            def.WasAZombie = reader.Read_B();
-            def.ProducesEntities = reader.Read_BS() == ProducesEntitiesConstant;
+            var number = reader.Read_BS();
+            var versionFlag = reader.Read_BS();
+            var applicationName = reader.Read_T();
+            var cPlusPlusClassName = reader.Read_T();
+            var dxfClassName = reader.Read_T();
+            var wasAZombie = reader.Read_B();
+            var producesEntities = reader.Read_BS() == ProducesEntitiesConstant;
+            var def = new DwgClassDefinition(number, versionFlag, applicationName, cPlusPlusClassName, dxfClassName, wasAZombie, producesEntities);
             return def;
         }
 

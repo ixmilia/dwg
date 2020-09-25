@@ -1052,4 +1052,21 @@
     <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
     <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
   </Object>
+  <!--
+
+  The objects below this point have no fixed value, but are always >= 500.  The value assigned is simply to make the internal enum work.
+
+  -->
+  <!--
+
+  DICTIONARYVAR
+
+  -->
+  <Object Name="DictionaryVar" Value="500" IsEntity="false" ClassName="DICTIONARYVAR">
+    <Property Name="IntVal" Type="int" BinaryType="RC" DefaultValue="0x00" WriteConverter="(byte){0}" />
+    <Property Name="Str" Type="string" BinaryType="T" DefaultValue="null" />
+    <Property Name="_parentHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" Accessibility="internal" />
+    <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
+    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
+  </Object>
 </Objects>
