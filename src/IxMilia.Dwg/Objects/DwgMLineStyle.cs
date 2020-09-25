@@ -17,11 +17,6 @@ namespace IxMilia.Dwg.Objects
             Name = name;
         }
 
-        internal override void OnBeforeObjectWrite()
-        {
-            _reactorCount = _reactorHandles.Count;
-        }
-
         internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
         {
         }

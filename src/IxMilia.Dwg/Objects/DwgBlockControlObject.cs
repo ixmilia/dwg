@@ -46,6 +46,7 @@ namespace IxMilia.Dwg.Objects
 
         internal override void OnBeforeObjectWrite()
         {
+            base.OnBeforeObjectWrite();
             _entityHandles.Clear();
             foreach (var blockHeader in _blockHeaders.Values.Where(b => !IsHardCodedName(b.Name)))
             {

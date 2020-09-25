@@ -46,6 +46,7 @@ namespace IxMilia.Dwg.Objects
 
         internal override void OnBeforeObjectWrite()
         {
+            base.OnBeforeObjectWrite();
             BlockEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, Block.Handle.HandleOrOffset);
             EndBlockEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, EndBlock.Handle.HandleOrOffset);
             if (Entities.Count == 0)

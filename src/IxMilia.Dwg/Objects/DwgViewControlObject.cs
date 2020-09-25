@@ -12,6 +12,7 @@ namespace IxMilia.Dwg.Objects
 
         internal override void OnBeforeObjectWrite()
         {
+            base.OnBeforeObjectWrite();
             foreach (var view in _views.Values)
             {
                 _entityHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, view.Handle.HandleOrOffset));

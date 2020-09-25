@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace IxMilia.Dwg.Objects
 {
@@ -11,7 +12,7 @@ namespace IxMilia.Dwg.Objects
         internal DwgXData XData { get; set; } = new DwgXData();
         protected int _objectSize;
         protected int _reactorCount;
-        protected List<DwgHandleReference> _reactorHandles = new List<DwgHandleReference>();
+        internal List<DwgHandleReference> _reactorHandles = new List<DwgHandleReference>();
         internal short _entityCount;
         internal List<DwgHandleReference> _entityHandles = new List<DwgHandleReference>();
         protected DwgHandleReference _nullHandle;
@@ -44,7 +45,7 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal void Write(BitWriter writer, DwgObjectMap objectMap, HashSet<int> writtenHandles, int pointerOffset, DwgVersionId version)
+        internal void Write(BitWriter writer, DwgObjectMap objectMap, HashSet<int> writtenHandles, int pointerOffset, DwgVersionId version, IDictionary<string, short> classMap)
         {
             if (!writtenHandles.Add(Handle.HandleOrOffset))
             {
@@ -57,21 +58,36 @@ namespace IxMilia.Dwg.Objects
             SetCommonValues();
             objectMap.SetOffset(Handle.HandleOrOffset, writer.Position);
 
-            WriteCoreRaw(writer, version);
+            WriteCoreRaw(writer, version, classMap);
 
             foreach (var child in ChildItems)
             {
-                child.Write(writer, objectMap, writtenHandles, pointerOffset, version);
+                child.Write(writer, objectMap, writtenHandles, pointerOffset, version, classMap);
             }
         }
 
-        internal void WriteCoreRaw(BitWriter writer, DwgVersionId version)
+        internal void WriteCoreRaw(BitWriter writer, DwgVersionId version, IDictionary<string, short> classMap)
         {
             // write object to memory so the size can be computed
             using (var ms = new MemoryStream())
             {
                 var tempWriter = new BitWriter(ms);
-                tempWriter.Write_BS((short)Type);
+                var typeCode = (short)Type;
+                if (typeCode >= 500)
+                {
+                    var className = DwgObjectTypeExtensions.ClassNameFromTypeCode(Type);
+                    if (classMap.TryGetValue(className, out typeCode))
+                    {
+                        typeCode += 500;
+                    }
+                    else
+                    {
+                        // unknown
+                        return;
+                    }
+                }
+
+                tempWriter.Write_BS(typeCode);
                 WriteCommonDataStart(tempWriter);
                 WriteSpecific(tempWriter, version);
                 WriteCommonDataEnd(tempWriter);
@@ -181,6 +197,7 @@ namespace IxMilia.Dwg.Objects
 
         internal virtual void OnBeforeObjectWrite()
         {
+            _reactorCount = _reactorHandles.Count;
         }
 
         internal virtual void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)

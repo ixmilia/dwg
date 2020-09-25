@@ -12,6 +12,7 @@ namespace IxMilia.Dwg.Objects
 
         internal override void OnBeforeObjectWrite()
         {
+            base.OnBeforeObjectWrite();
             _names.Clear();
             foreach (var kvp in _entries)
             {

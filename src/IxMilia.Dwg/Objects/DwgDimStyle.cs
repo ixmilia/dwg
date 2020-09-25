@@ -30,6 +30,7 @@ namespace IxMilia.Dwg.Objects
 
         internal override void OnBeforeObjectWrite()
         {
+            base.OnBeforeObjectWrite();
             _styleHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, Style.Handle.HandleOrOffset);
         }
 

@@ -393,10 +393,16 @@ namespace IxMilia.Dwg
 
         private void SaveObjects(BitWriter writer, DwgObjectMap objectMap, int pointerOffset)
         {
+            var classMap = new Dictionary<string, short>();
+            for (int i = 0; i < Classes.Count; i++)
+            {
+                classMap.Add(Classes[i].DxfClassName.ToUpperInvariant(), (short)i);
+            }
+
             var writtenHandles = new HashSet<int>();
             foreach (var groupObject in TopLevelObjects)
             {
-                groupObject.Write(writer, objectMap, writtenHandles, pointerOffset, FileHeader.Version);
+                groupObject.Write(writer, objectMap, writtenHandles, pointerOffset, FileHeader.Version, classMap);
             }
         }
     }

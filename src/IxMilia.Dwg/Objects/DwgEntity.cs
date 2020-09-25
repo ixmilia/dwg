@@ -132,6 +132,7 @@
 
         internal override void OnBeforeObjectWrite()
         {
+            base.OnBeforeObjectWrite();
             LayerHandle = GetHandleToObject(Layer, DwgHandleReferenceCode.SoftOwner, throwOnNull: true);
             LineTypeHandle = GetHandleToObject(LineType, DwgHandleReferenceCode.SoftOwner);
             _isLineTypeByLayer = LineType == null;

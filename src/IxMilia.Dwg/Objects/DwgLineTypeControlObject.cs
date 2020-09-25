@@ -49,6 +49,7 @@ namespace IxMilia.Dwg.Objects
 
         internal override void OnBeforeObjectWrite()
         {
+            base.OnBeforeObjectWrite();
             _entityHandles.Clear();
             foreach (var lineType in _lineTypes.Values.Where(lt => !IsHardCodedname(lt.Name)))
             {

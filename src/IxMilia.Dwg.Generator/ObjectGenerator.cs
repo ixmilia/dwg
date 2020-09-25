@@ -70,9 +70,29 @@ namespace IxMilia.Dwg.Generator
             AppendLine("}");
             DecreaseIndent();
             AppendLine("}");
+
+            AppendLine();
+
+            AppendLine("public static string ClassNameFromTypeCode(DwgObjectType type)");
+            AppendLine("{");
+            IncreaseIndent();
+            AppendLine("switch (type)");
+            AppendLine("{");
+            IncreaseIndent();
+            foreach (var o in _objects.Where(o => AttributeValue(o, "ClassName") != null))
+            {
+                AppendLine($"case DwgObjectType.{Name(o)}:");
+                AppendLine($"    return \"{AttributeValue(o, "ClassName")}\";");
+            }
+            AppendLine("default:");
+            AppendLine("    return null;");
+            DecreaseIndent();
+            AppendLine("}");
             DecreaseIndent();
             AppendLine("}");
 
+            DecreaseIndent();
+            AppendLine("}");
             DecreaseIndent();
 
             FinishFile(Path.Combine(_outputDir, "DwgObjectType.Generated.cs"));
