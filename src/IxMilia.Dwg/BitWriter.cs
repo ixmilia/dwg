@@ -144,11 +144,8 @@ namespace IxMilia.Dwg
 
         public void WriteInt(int value)
         {
-            var a = value & 0xFF;
-            var b = (value >> 8) & 0xFF;
-            var c = (value >> 16) & 0xFF;
-            var d = (value >> 24) & 0xFF;
-            WriteBytes((byte)a, (byte)b, (byte)c, (byte)d);
+            var bytes = BitWriterExtensions.GetBytes(value);
+            WriteBytes(bytes);
         }
 
         public void WriteUInt(uint value)
@@ -188,6 +185,54 @@ namespace IxMilia.Dwg
             {
                 WriteShort(toWrite);
             }
+        }
+
+        public static void WriteByteAtPosition(byte[] data, byte value, int bitLocation)
+        {
+            if (data == null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+
+            if (bitLocation < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(bitLocation), "Location must not be negative.");
+            }
+
+            var byteOffset = bitLocation / 8;
+            var bitOffset = bitLocation % 8;
+
+            if (bitOffset == 0)
+            {
+                // byte-aligned insertion
+                if (byteOffset > data.Length - 1)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(bitLocation), "Not enough bytes for insertion");
+                }
+
+                data[byteOffset] = value;
+            }
+            else
+            {
+                // arbitrary insertion
+                if (byteOffset > data.Length - 2)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(bitLocation), "Not enough bytes for insertion");
+                }
+
+                var keepMask = 0b11111111 << bitOffset;
+                data[byteOffset] = (byte)((data[byteOffset] & keepMask) | (value >> 8 - bitOffset));
+                data[byteOffset + 1] = (byte)(data[byteOffset + 1] & (~keepMask) | (value << bitOffset));
+            }
+        }
+
+        public static void WriteRLAtPosition(byte[] data, int value, int bitLocation)
+        {
+            var bytes = BitWriterExtensions.GetBytes(value);
+            WriteByteAtPosition(data, bytes[0], bitLocation);
+            WriteByteAtPosition(data, bytes[1], bitLocation + 8);
+            WriteByteAtPosition(data, bytes[2], bitLocation + 16);
+            WriteByteAtPosition(data, bytes[3], bitLocation + 24);
         }
     }
 }

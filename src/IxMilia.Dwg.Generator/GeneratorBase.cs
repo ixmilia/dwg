@@ -78,6 +78,7 @@ namespace IxMilia.Dwg.Generator
         public string From(XElement xml) => AttributeValue(xml, "From");
         public bool IsEntity(XElement xml) => bool.Parse(AttributeValue(xml, "IsEntity") ?? "false");
         public bool IsImplemented(XElement xml) => !bool.Parse(AttributeValue(xml, "NotImplemented") ?? "false");
+        public bool LastPropertyForObjectSize(XElement xml) => bool.Parse(AttributeValue(xml, "LastPropertyForObjectSize") ?? "false");
         public string Mask(XElement xml) => AttributeValue(xml, "Mask");
         public string Name(XElement xml) => AttributeValue(xml, "Name");
         public string ReadCondition(XElement xml) => AttributeValue(xml, "ReadCondition");

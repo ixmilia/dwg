@@ -79,7 +79,7 @@
             }
         }
 
-        internal override void WriteCommonDataStart(BitWriter writer)
+        internal override int WriteCommonDataStart(BitWriter writer)
         {
             writer.Write_H(Handle);
             XData.Write(writer);
@@ -90,6 +90,7 @@
                 writer.Write_Bytes(_graphicsData);
             }
 
+            var objectSizeOffset = writer.BitCount;
             writer.Write_RL(_objectSize);
             writer.Write_BB(_entityMode);
             writer.Write_BL(_reactorCount);
@@ -98,6 +99,7 @@
             writer.Write_BS(Color.RawValue);
             writer.Write_BD(LineTypeScale);
             writer.Write_BS(_invisibility);
+            return objectSizeOffset;
         }
 
         internal override void WriteCommonDataEnd(BitWriter writer)

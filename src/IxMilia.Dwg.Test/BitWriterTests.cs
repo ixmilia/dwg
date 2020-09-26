@@ -216,5 +216,74 @@ namespace IxMilia.Dwg.Test
             var realExpectedBits = expectedPrefix.Concat(expectedBits).Select(b => (byte)b).ToArray();
             Assert.Equal(realExpectedBits, writer.AsBytes());
         }
+
+        [Fact]
+        public void ByteArrayValueInsertOnAlignedByte1()
+        {
+            var data = new byte[]
+            {
+                0b00000000,
+                0b00000000,
+                0b00000000,
+                0b00000000,
+                0b00000000,
+            };
+            BitWriter.WriteRLAtPosition(data, 0x55555555, 0);
+            var expected = new byte[]
+            {
+                0b01010101,
+                0b01010101,
+                0b01010101,
+                0b01010101,
+                0b00000000,
+            };
+            Assert.Equal(expected, data);
+        }
+
+        [Fact]
+        public void ByteArrayValueInsertOnAlignedByte2()
+        {
+            var data = new byte[]
+            {
+                0b00000000,
+                0b00000000,
+                0b00000000,
+                0b00000000,
+                0b00000000,
+            };
+            BitWriter.WriteRLAtPosition(data, 0x55555555, 8);
+            var expected = new byte[]
+            {
+                0b00000000,
+                0b01010101,
+                0b01010101,
+                0b01010101,
+                0b01010101,
+            };
+            Assert.Equal(expected, data);
+        }
+
+        [Fact]
+        public void ByteArrayValueInsertOnUnalignedByte()
+        {
+            var data = new byte[]
+            {
+                0b11110000,
+                0b00000000,
+                0b00000000,
+                0b00000000,
+                0b00001111,
+            };
+            BitWriter.WriteRLAtPosition(data, 0x55555555, 4);
+            var expected = new byte[]
+            {
+                0b11110101,
+                0b01010101,
+                0b01010101,
+                0b01010101,
+                0b01011111,
+            };
+            Assert.Equal(expected, data);
+        }
     }
 }

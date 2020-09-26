@@ -278,5 +278,20 @@ namespace IxMilia.Dwg
             writer.BaseStream.Read(bytes, 0, bytes.Length);
             return bytes;
         }
+
+        public static byte[] GetBytes(int value)
+        {
+            var a = value & 0xFF;
+            var b = (value >> 8) & 0xFF;
+            var c = (value >> 16) & 0xFF;
+            var d = (value >> 24) & 0xFF;
+            return new byte[]
+            {
+                (byte)a,
+                (byte)b,
+                (byte)c,
+                (byte)d,
+            };
+        }
     }
 }

@@ -266,6 +266,11 @@ namespace IxMilia.Dwg.Generator
                             DecreaseIndent();
                             AppendLine("}");
                         }
+
+                        if (LastPropertyForObjectSize(p))
+                        {
+                            AppendLine("_objectSize = writer.BitCount;");
+                        }
                     }
 
                     DecreaseIndent();

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace IxMilia.Dwg.Objects
 {
@@ -88,11 +87,13 @@ namespace IxMilia.Dwg.Objects
                 }
 
                 tempWriter.Write_BS(typeCode);
-                WriteCommonDataStart(tempWriter);
+                var objectSizeOffset = WriteCommonDataStart(tempWriter);
                 WriteSpecific(tempWriter, version);
                 WriteCommonDataEnd(tempWriter);
                 WritePostData(tempWriter);
                 var tempBytes = tempWriter.AsBytes();
+
+                BitWriter.WriteRLAtPosition(tempBytes, _objectSize, objectSizeOffset);
 
                 // now output everything
                 writer.StartCrcCalculation(initialValue: DwgHeaderVariables.InitialCrcValue);
@@ -179,12 +180,14 @@ namespace IxMilia.Dwg.Objects
         {
         }
 
-        internal virtual void WriteCommonDataStart(BitWriter writer)
+        internal virtual int WriteCommonDataStart(BitWriter writer)
         {
             writer.Write_H(Handle);
             XData.Write(writer);
+            var objectSizeOffset = writer.BitCount;
             writer.Write_RL(_objectSize);
             writer.Write_BL(_reactorCount);
+            return objectSizeOffset;
         }
 
         internal virtual void WriteCommonDataEnd(BitWriter writer)
@@ -197,16 +200,16 @@ namespace IxMilia.Dwg.Objects
 
         internal virtual void OnBeforeObjectWrite()
         {
-            _reactorCount = _reactorHandles.Count;
         }
 
         internal virtual void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
         {
         }
 
-        private void PrepareCommonValues()
+        internal void PrepareCommonValues()
         {
             _entityHandles.Clear();
+            _reactorCount = _reactorHandles.Count;
         }
 
         private void SetCommonValues()
