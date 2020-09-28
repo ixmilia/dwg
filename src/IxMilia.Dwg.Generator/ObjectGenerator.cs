@@ -299,39 +299,49 @@ namespace IxMilia.Dwg.Generator
                 // parsing
                 if (!CustomWriter(o))
                 {
-                    AppendLine("internal override void ParseSpecific(BitReader reader, DwgVersionId version)");
+                    AppendLine("internal override void ParseSpecific(BitReader reader, int objectBitOffsetStart, DwgVersionId version)");
                     AppendLine("{");
                     IncreaseIndent();
-                    foreach (var p in o.Elements("Property"))
+                    foreach (var p in o.Elements())
                     {
-                        var condition = ReadCondition(p);
-                        if (condition != null)
+                        switch (p.Name.LocalName)
                         {
-                            AppendLine($"if ({condition})");
-                            AppendLine("{");
-                            IncreaseIndent();
-                        }
+                            case "Property":
+                                var condition = ReadCondition(p);
+                                if (condition != null)
+                                {
+                                    AppendLine($"if ({condition})");
+                                    AppendLine("{");
+                                    IncreaseIndent();
+                                }
 
-                        var readCount = ReadCount(p);
-                        var value = ApplyReadConverter(p, $"reader.Read_{BinaryType(p)}({ReaderArgument(p)})");
-                        if (string.IsNullOrEmpty(readCount))
-                        {
-                            AppendLine($"{Name(p)} = {value};");
-                        }
-                        else
-                        {
-                            AppendLine($"for (int i = 0; i < {readCount}; i++)");
-                            AppendLine("{");
-                            IncreaseIndent();
-                            AppendLine($"{Name(p)}.Add({value});");
-                            DecreaseIndent();
-                            AppendLine("}");
-                        }
+                                var readCount = ReadCount(p);
+                                var value = ApplyReadConverter(p, $"reader.Read_{BinaryType(p)}({ReaderArgument(p)})");
+                                if (string.IsNullOrEmpty(readCount))
+                                {
+                                    AppendLine($"{Name(p)} = {value};");
+                                }
+                                else
+                                {
+                                    AppendLine($"for (int i = 0; i < {readCount}; i++)");
+                                    AppendLine("{");
+                                    IncreaseIndent();
+                                    AppendLine($"{Name(p)}.Add({value});");
+                                    DecreaseIndent();
+                                    AppendLine("}");
+                                }
 
-                        if (condition != null)
-                        {
-                            DecreaseIndent();
-                            AppendLine("}");
+                                if (condition != null)
+                                {
+                                    DecreaseIndent();
+                                    AppendLine("}");
+                                }
+                                break;
+                            case "ObjectSizeEnd":
+                                AppendLine("AssertObjectSize(reader, objectBitOffsetStart);");
+                                break;
+                            default:
+                                throw new Exception($"Unsupported element '{p.Name.LocalName}' on object '{Name(o)}'");
                         }
                     }
 

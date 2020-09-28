@@ -7,16 +7,17 @@ namespace IxMilia.Dwg
 {
     internal class BitReader
     {
-        internal int bitOffset;
+        private int _bitOffset;
 
         public byte[] Data { get; private set; }
         public int Offset { get; set; }
+        public int BitOffset => (Offset * 8) + _bitOffset;
 
         private Stack<int> _crcStartValues = new Stack<int>();
 
         public BitReader(byte[] data, int offset = 0)
         {
-            bitOffset = 0;
+            _bitOffset = 0;
             Data = data;
             Offset = offset;
         }
@@ -38,20 +39,20 @@ namespace IxMilia.Dwg
 
         public void AlignToByte()
         {
-            if (bitOffset != 0)
+            if (_bitOffset != 0)
             {
-                bitOffset = 0;
+                _bitOffset = 0;
                 Offset++;
             }
         }
 
         public int ReadBit()
         {
-            int result = (GetCurrentByte() >> (8 - bitOffset - 1)) & 0x01;
-            bitOffset++;
-            if (bitOffset >= 8)
+            int result = (GetCurrentByte() >> (8 - _bitOffset - 1)) & 0x01;
+            _bitOffset++;
+            if (_bitOffset >= 8)
             {
-                bitOffset = 0;
+                _bitOffset = 0;
                 Offset++;
             }
 
@@ -77,7 +78,7 @@ namespace IxMilia.Dwg
 
         public byte ReadByte()
         {
-            if (bitOffset == 0)
+            if (_bitOffset == 0)
             {
                 var result = GetCurrentByte();
                 Offset++;
@@ -85,9 +86,9 @@ namespace IxMilia.Dwg
             }
             else
             {
-                var temp = (GetCurrentByte() << bitOffset);
+                var temp = (GetCurrentByte() << _bitOffset);
                 Offset++;
-                temp |= (GetCurrentByte() >> (8 - bitOffset));
+                temp |= (GetCurrentByte() >> (8 - _bitOffset));
                 return (byte)temp;
             }
         }
@@ -171,7 +172,7 @@ namespace IxMilia.Dwg
             }
 
             var startOffset = _crcStartValues.Pop();
-            var endOffset = bitOffset == 0
+            var endOffset = _bitOffset == 0
                 ? Offset
                 : Offset + 1;
 

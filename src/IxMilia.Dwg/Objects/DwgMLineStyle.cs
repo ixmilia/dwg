@@ -43,7 +43,7 @@ namespace IxMilia.Dwg.Objects
             writer.Write_H(_xDictionaryObjectHandle);
         }
 
-        internal override void ParseSpecific(BitReader reader, DwgVersionId version)
+        internal override void ParseSpecific(BitReader reader, int objectBitOffsetStart, DwgVersionId version)
         {
             Name = reader.Read_T();
             Description = reader.Read_T();
@@ -58,6 +58,7 @@ namespace IxMilia.Dwg.Objects
                 _lineStyleColors.Add(reader.Read_BS());
                 _lineStyleLineTypeIndicies.Add(reader.Read_BS());
             }
+            AssertObjectSize(reader, objectBitOffsetStart);
             _parentHandle = reader.Read_H();
             for (int i = 0; i < _reactorCount; i++)
             {

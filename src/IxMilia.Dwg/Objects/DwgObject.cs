@@ -9,6 +9,7 @@ namespace IxMilia.Dwg.Objects
         public abstract DwgObjectType Type { get; }
         public DwgHandleReference Handle { get; internal set; }
         internal DwgXData XData { get; set; } = new DwgXData();
+        private bool _objectSizeVerified;
         protected int _objectSize;
         protected int _reactorCount;
         internal List<DwgHandleReference> _reactorHandles = new List<DwgHandleReference>();
@@ -114,6 +115,7 @@ namespace IxMilia.Dwg.Objects
             reader.StartCrcCheck();
             var size = reader.Read_MS();
             var crcStart = reader.Offset + size;
+            var objectBitOffsetStart = reader.BitOffset;
             var typeCode = reader.Read_BS();
             if (typeCode >= 500)
             {
@@ -144,9 +146,14 @@ namespace IxMilia.Dwg.Objects
             var type = (DwgObjectType)typeCode;
             var obj = CreateObject(type);
             obj.ReadCommonDataStart(reader);
-            obj.ParseSpecific(reader, version);
+            obj.ParseSpecific(reader, objectBitOffsetStart, version);
             obj.ReadCommonDataEnd(reader);
             obj.ReadPostData(reader);
+
+            if (!obj._objectSizeVerified)
+            {
+                throw new InvalidOperationException($"Size was not verified for object of type {type}.  This should never happen; it means there's an error with this library.");
+            }
 
             // ensure there's no extra data
             reader.AlignToByte();
@@ -165,9 +172,20 @@ namespace IxMilia.Dwg.Objects
             return obj;
         }
 
-        internal abstract void ParseSpecific(BitReader reader, DwgVersionId version);
+        internal abstract void ParseSpecific(BitReader reader, int objectBitOffsetStart, DwgVersionId version);
 
         internal abstract void WriteSpecific(BitWriter writer, DwgVersionId version);
+
+        internal void AssertObjectSize(BitReader reader, int objectBitOffsetStart)
+        {
+            _objectSizeVerified = true;
+            var currentOffset = reader.BitOffset;
+            var actualSize = currentOffset - objectBitOffsetStart;
+            if (actualSize != _objectSize)
+            {
+                throw new DwgReadException($"Expected object size of {_objectSize} but actually read {actualSize} for object of type {Type}.");
+            }
+        }
 
         internal virtual void ReadCommonDataStart(BitReader reader)
         {

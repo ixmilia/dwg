@@ -28,7 +28,7 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal override void ParseSpecific(BitReader reader, DwgVersionId version)
+        internal override void ParseSpecific(BitReader reader, int objectBitOffsetStart, DwgVersionId version)
         {
             Name = reader.Read_T();
             _64flag = reader.Read_B();
@@ -43,6 +43,8 @@ namespace IxMilia.Dwg.Objects
                 var dashInfo = DwgLineTypeDashInfo.Parse(reader);
                 DashInfos.Add(dashInfo);
             }
+            _stringData = reader.ReadBytes(256); // TODO: handle the string data
+            AssertObjectSize(reader, objectBitOffsetStart);
             LineTypeControlHandle = reader.Read_H();
             for (int i = 0; i < _reactorCount; i++)
             {
@@ -66,6 +68,7 @@ namespace IxMilia.Dwg.Objects
             {
                 dashInfo.Write(writer);
             }
+            writer.WriteBytes(_stringData); // TODO: handle the string data
             _objectSize = writer.BitCount;
             writer.Write_H(LineTypeControlHandle);
             foreach (var reactorHandle in _reactorHandles)

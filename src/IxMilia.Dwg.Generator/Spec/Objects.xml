@@ -762,6 +762,7 @@
     <Property Name="PatternLength" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="_alignment" Type="char" BinaryType="RC" DefaultValue="'A'" />
     <Property Name="_numDashes" Type="int" BinaryType="RC" DefaultValue="0" />
+    <Property Name="_stringData" Type="byte[]" BinaryType="RC" DefaultValue="new byte[256]" Accessibility="private" />
     <ObjectSizeEnd />
     <!-- custom dash info -->
     <Property Name="LineTypeControlHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
