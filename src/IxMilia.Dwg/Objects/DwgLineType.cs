@@ -66,6 +66,7 @@ namespace IxMilia.Dwg.Objects
             {
                 dashInfo.Write(writer);
             }
+            _objectSize = writer.BitCount;
             writer.Write_H(LineTypeControlHandle);
             foreach (var reactorHandle in _reactorHandles)
             {

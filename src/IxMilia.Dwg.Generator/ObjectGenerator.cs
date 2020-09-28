@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -231,46 +232,63 @@ namespace IxMilia.Dwg.Generator
                 // writing
                 if (!CustomReader(o))
                 {
+                    var foundEndOfEntity = false;
                     AppendLine("internal override void WriteSpecific(BitWriter writer, DwgVersionId version)");
                     AppendLine("{");
                     IncreaseIndent();
-                    foreach (var p in o.Elements("Property"))
+                    foreach (var p in o.Elements())
                     {
-                        var condition = WriteCondition(p);
-                        if (condition != null)
+                        switch (p.Name.LocalName)
                         {
-                            AppendLine($"if ({condition})");
-                            AppendLine("{");
-                            IncreaseIndent();
-                        }
+                            case "Property":
+                                var condition = WriteCondition(p);
+                                if (condition != null)
+                                {
+                                    AppendLine($"if ({condition})");
+                                    AppendLine("{");
+                                    IncreaseIndent();
+                                }
 
-                        var readCount = ReadCount(p);
-                        if (string.IsNullOrEmpty(readCount))
-                        {
-                            var value = ApplyWriteConverter(p, Name(p));
-                            AppendLine($"writer.Write_{BinaryType(p)}({value});");
-                        }
-                        else
-                        {
-                            var value = ApplyWriteConverter(p, $"{Name(p)}[i]");
-                            AppendLine($"for (int i = 0; i < {readCount}; i++)");
-                            AppendLine("{");
-                            IncreaseIndent();
-                            AppendLine($"writer.Write_{BinaryType(p)}({value});");
-                            DecreaseIndent();
-                            AppendLine("}");
-                        }
+                                var readCount = ReadCount(p);
+                                if (string.IsNullOrEmpty(readCount))
+                                {
+                                    var value = ApplyWriteConverter(p, Name(p));
+                                    AppendLine($"writer.Write_{BinaryType(p)}({value});");
+                                }
+                                else
+                                {
+                                    var value = ApplyWriteConverter(p, $"{Name(p)}[i]");
+                                    AppendLine($"for (int i = 0; i < {readCount}; i++)");
+                                    AppendLine("{");
+                                    IncreaseIndent();
+                                    AppendLine($"writer.Write_{BinaryType(p)}({value});");
+                                    DecreaseIndent();
+                                    AppendLine("}");
+                                }
 
-                        if (condition != null)
-                        {
-                            DecreaseIndent();
-                            AppendLine("}");
-                        }
+                                if (condition != null)
+                                {
+                                    DecreaseIndent();
+                                    AppendLine("}");
+                                }
+                                break;
+                            case "ObjectSizeEnd":
+                                if (foundEndOfEntity)
+                                {
+                                    throw new Exception($"Duplicate 'LastPropertyForObjectSize' attributes on object '{Name(o)}'.");
+                                }
 
-                        if (LastPropertyForObjectSize(p))
-                        {
-                            AppendLine("_objectSize = writer.BitCount;");
+                                foundEndOfEntity = true;
+                                AppendLine("_objectSize = writer.BitCount;");
+                                break;
+                            default:
+                                throw new Exception($"Unsupported element '{p.Name.LocalName}' on object '{Name(o)}'");
                         }
+                    }
+
+                    if (!foundEndOfEntity)
+                    {
+                        throw new Exception($"Missing 'ObjectSizeEnd' element on object '{Name(o)}'");
                     }
 
                     DecreaseIndent();

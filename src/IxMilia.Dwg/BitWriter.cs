@@ -220,9 +220,9 @@ namespace IxMilia.Dwg
                     throw new ArgumentOutOfRangeException(nameof(bitLocation), "Not enough bytes for insertion");
                 }
 
-                var keepMask = 0b11111111 << bitOffset;
-                data[byteOffset] = (byte)((data[byteOffset] & keepMask) | (value >> 8 - bitOffset));
-                data[byteOffset + 1] = (byte)(data[byteOffset + 1] & (~keepMask) | (value << bitOffset));
+                var keepMask = 0b11111111 << (8 - bitOffset);
+                data[byteOffset] = (byte)((data[byteOffset] & keepMask) | (value >> bitOffset));
+                data[byteOffset + 1] = (byte)(data[byteOffset + 1] & (~keepMask) | (value << (8 - bitOffset)));
             }
         }
 

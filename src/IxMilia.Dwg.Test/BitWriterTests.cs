@@ -268,20 +268,20 @@ namespace IxMilia.Dwg.Test
         {
             var data = new byte[]
             {
-                0b11110000,
+                0b11111000,
                 0b00000000,
                 0b00000000,
                 0b00000000,
-                0b00001111,
+                0b00000111,
             };
-            BitWriter.WriteRLAtPosition(data, 0x55555555, 4);
+            BitWriter.WriteRLAtPosition(data, 0x55555555, 5);
             var expected = new byte[]
             {
-                0b11110101,
-                0b01010101,
-                0b01010101,
-                0b01010101,
-                0b01011111,
+                0b11111010,
+                0b10101010,
+                0b10101010,
+                0b10101010,
+                0b10101111,
             };
             Assert.Equal(expected, data);
         }

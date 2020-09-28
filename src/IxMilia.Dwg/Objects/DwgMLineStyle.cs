@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace IxMilia.Dwg.Objects
 {
@@ -36,6 +34,7 @@ namespace IxMilia.Dwg.Objects
                 writer.Write_BS(_lineStyleColors[i]);
                 writer.Write_BS(_lineStyleLineTypeIndicies[i]);
             }
+            _objectSize = writer.BitCount;
             writer.Write_H(_parentHandle);
             for (int i = 0; i < _reactorCount; i++)
             {

@@ -86,12 +86,18 @@ namespace IxMilia.Dwg.Objects
                     }
                 }
 
+                _objectSize = 0;
                 tempWriter.Write_BS(typeCode);
                 var objectSizeOffset = WriteCommonDataStart(tempWriter);
                 WriteSpecific(tempWriter, version);
                 WriteCommonDataEnd(tempWriter);
                 WritePostData(tempWriter);
                 var tempBytes = tempWriter.AsBytes();
+
+                if (_objectSize == 0)
+                {
+                    throw new InvalidOperationException($"{nameof(_objectSize)} field not set for object type {Type}.  This should never happen; it means there's an error with this library.");
+                }
 
                 BitWriter.WriteRLAtPosition(tempBytes, _objectSize, objectSizeOffset);
 

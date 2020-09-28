@@ -22,6 +22,7 @@
     </Property>
     <Property Name="HorizontalAlignment" Type="DwgHorizontalTextJustification" BinaryType="BS" DefaultValue="DwgHorizontalTextJustification.Left" ReadConverter="(DwgHorizontalTextJustification){0}" WriteConverter="(short){0}" />
     <Property Name="VerticalAlignment" Type="DwgVerticalTextJustification" BinaryType="BS" DefaultValue="DwgVerticalTextJustification.Baseline" ReadConverter="(DwgVerticalTextJustification){0}" WriteConverter="(short){0}" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -45,6 +46,7 @@
     <Property Name="Tag" Type="string" BinaryType="T" DefaultValue="null" />
     <Property Name="FieldLength" Type="short" BinaryType="BS" DefaultValue="0" />
     <Property Name="Flags" Type="byte" BinaryType="EC" DefaultValue="0" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -69,6 +71,7 @@
     <Property Name="FieldLength" Type="short" BinaryType="BS" DefaultValue="0" />
     <Property Name="Flags" Type="byte" BinaryType="RC" DefaultValue="0" />
     <Property Name="Prompt" Type="string" BinaryType="T" DefaultValue="null" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -77,6 +80,7 @@
   -->
   <Object Name="Block" Value="0x04" IsEntity="true" ConstructorAccessibility="internal">
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -85,6 +89,7 @@
   -->
   <Object Name="EndBlock" Value="0x05" IsEntity="true">
     <!-- only common values -->
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -93,6 +98,7 @@
   -->
   <Object Name="SeqEnd" Value="0x06" IsEntity="true">
     <!-- only common values -->
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -107,6 +113,7 @@
     <Property Name="Rotation" Type="double" BinaryType="BD" DefaultValue="1.0" />
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
     <Property Name="_hasAttributes" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -125,6 +132,7 @@
     <Property Name="RowCount" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" />
     <Property Name="ColumnSpacing" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="RowSpacing" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -145,6 +153,7 @@
     <Property Name="EndWidth" Type="double" BinaryType="BD" DefaultValue="0.0" ReadCondition="StartWidth &gt;= 0.0" WriteCondition="StartWidth != EndWidth || StartWidth == 0.0" />
     <Property Name="Bulge" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="TangentDirection" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -154,6 +163,7 @@
   <Object Name="Vertex3D" Value="0x0B" IsEntity="true" ConstructorAccessibility="internal">
     <Property Name="Flags" Type="int" BinaryType="EC" DefaultValue="0x20" WriteConverter="(byte){0}" />
     <Property Name="Point" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -163,6 +173,7 @@
   <Object Name="VertexMesh" Value="0x0C" IsEntity="true" ConstructorAccessibility="internal">
     <Property Name="Flags" Type="int" BinaryType="EC" DefaultValue="0x40" WriteConverter="(byte){0}" />
     <Property Name="Point" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -172,6 +183,7 @@
   <Object Name="VertexPFace" Value="0x0D" IsEntity="true" ConstructorAccessibility="internal">
     <Property Name="Flags" Type="int" BinaryType="EC" DefaultValue="0xC0" WriteConverter="(byte){0}" />
     <Property Name="Point" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -183,6 +195,7 @@
     <Property Name="Index2" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" />
     <Property Name="Index3" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" />
     <Property Name="Index4" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -197,6 +210,7 @@
     <Property Name="Thickness" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -206,6 +220,7 @@
   <Object Name="Polyline3D" Value="0x10" IsEntity="true">
     <Property Name="_flags1" Type="int" BinaryType="RC" DefaultValue="0" WriteConverter="(byte){0}" Accessibility="internal" />
     <Property Name="_flags2" Type="int" BinaryType="RC" DefaultValue="0b00001000" WriteConverter="(byte){0}" Accessibility="internal" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -219,6 +234,7 @@
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
     <Property Name="StartAngle" Type="double" BinaryType="BD" DefaultValue="0.0" Comment="Arc start angle in degrees." />
     <Property Name="EndAngle" Type="double" BinaryType="BD" DefaultValue="360.0" Comment="Arc end angle in degrees." />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -230,6 +246,7 @@
     <Property Name="Radius" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="Thickness" Type="double" BinaryType="BD" DefaultValue="1.0" />
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -241,6 +258,7 @@
     <Property Name="P2" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="Thickness" Type="double" BinaryType="BD" DefaultValue="1.0" />
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -262,6 +280,7 @@
     <Property Name="SecondDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="ThirdDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="_flags2" Type="int" BinaryType="RC" DefaultValue="0x00" WriteConverter="(byte){0}" Accessibility="internal" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -284,6 +303,7 @@
     <Property Name="FirstDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="ExtensionLineRotation" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="DimensionRotation" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -305,6 +325,7 @@
     <Property Name="ThirdDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="FirstDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="ExtensionLineRotation" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -326,6 +347,7 @@
     <Property Name="SecondDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="ThirdDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="FourthDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -348,6 +370,7 @@
     <Property Name="SecondDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="ThirdDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="FourthDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -368,6 +391,7 @@
     <Property Name="FirstDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="SecondDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="LeaderLength" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -388,6 +412,7 @@
     <Property Name="FirstDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="SecondDefinitionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="LeaderLength" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -399,6 +424,7 @@
     <Property Name="Thickness" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
     <Property Name="XAxisAngle" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -411,6 +437,7 @@
     <Property Name="ThirdCorner" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="FourthCorner" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="InvisibilityFlags" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -466,6 +493,7 @@
     <Property Name="MinorAxisRatio" Type="double" BinaryType="BD" DefaultValue="1.0" />
     <Property Name="StartAngle" Type="double" BinaryType="BD" DefaultValue="0.0" Comment="Ellipse start angle in radians." />
     <Property Name="EndAngle" Type="double" BinaryType="BD" DefaultValue="Math.PI * 2.0" Comment="Ellipse end angle in radians." />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -503,6 +531,7 @@
   <Object Name="Ray" Value="0x28" IsEntity="true" ConstructorAccessibility="internal">
     <Property Name="Point" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="Vector" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.XAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -512,6 +541,7 @@
   <Object Name="XLine" Value="0x29" IsEntity="true" ConstructorAccessibility="internal">
     <Property Name="Point" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="Vector" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.XAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -522,6 +552,7 @@
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
     <Property Name="_unknown" Type="byte" BinaryType="RC" DefaultValue="0" Accessibility="private" ReadCondition="version == DwgVersionId.R14" WriteCondition="version == DwgVersionId.R14" />
     <Property Name="_names" Type="string" BinaryType="T" DefaultValue="new List&lt;string&gt;()" Accessibility="internal" ReadCount="_entityCount" />
+    <ObjectSizeEnd />
 
     <!-- handles -->
     <Property Name="_parentHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" Accessibility="private" />
@@ -571,6 +602,7 @@
   -->
   <Object Name="BlockControlObject" Value="0x30" IsEntity="false">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
+    <ObjectSizeEnd />
 
     <!-- handles -->
     <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
@@ -595,6 +627,7 @@
     <Property Name="IsOverlaidXref" Type="bool" BinaryType="B" DefaultValue="false" />
     <Property Name="BasePoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="PathName" Type="string" BinaryType="T" DefaultValue="null" />
+    <ObjectSizeEnd />
 
     <!-- handles -->
     <Property Name="BlockControlHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
@@ -613,6 +646,7 @@
   -->
   <Object Name="LayerControlObject" Value="0x32" IsEntity="false">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
+    <ObjectSizeEnd />
 
     <!-- handles -->
     <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
@@ -634,6 +668,7 @@
     <Property Name="IsFrozenInNew" Type="bool" BinaryType="B" DefaultValue="false" />
     <Property Name="IsLocked" Type="bool" BinaryType="B" DefaultValue="false" />
     <Property Name="Color" Type="DwgColor" BinaryType="BS" DefaultValue="DwgColor.FromIndex(7)" ReadConverter="DwgColor.FromRawValue({0})" WriteConverter="{0}.RawValue" />
+    <ObjectSizeEnd />
 
     <!-- handles -->
     <Property Name="LayerControlHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
@@ -649,6 +684,7 @@
   -->
   <Object Name="StyleControlObject" Value="0x34" IsEntity="false">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
+    <ObjectSizeEnd />
 
     <!-- handles -->
     <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
@@ -674,6 +710,7 @@
     <Property Name="LastHeight" Type="double" BinaryType="BD" DefaultValue="0.2" />
     <Property Name="FontName" Type="string" BinaryType="T" DefaultValue='"txt"' />
     <Property Name="BigFontName" Type="string" BinaryType="T" DefaultValue="null" />
+    <ObjectSizeEnd />
 
     <!-- handles -->
     <Property Name="StyleControlHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
@@ -702,6 +739,7 @@
   -->
   <Object Name="LineTypeControlObject" Value="0x38" IsEntity="false" ConstructorAccessibility="internal">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
+    <ObjectSizeEnd />
 
     <!-- handles -->
     <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
@@ -724,6 +762,7 @@
     <Property Name="PatternLength" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="_alignment" Type="char" BinaryType="RC" DefaultValue="'A'" />
     <Property Name="_numDashes" Type="int" BinaryType="RC" DefaultValue="0" />
+    <ObjectSizeEnd />
     <!-- custom dash info -->
     <Property Name="LineTypeControlHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
 
@@ -753,6 +792,7 @@
   -->
   <Object Name="ViewControlObject" Value="0x3C" IsEntity="false">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
+    <ObjectSizeEnd />
 
     <!-- handles -->
     <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
@@ -780,6 +820,7 @@
     <Property Name="BackClip" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="_viewModeBits" Type="int" BinaryType="4B" DefaultValue="0" Accessibility="internal" />
     <Property Name="IsInPaperSpace" Type="bool" BinaryType="B" DefaultValue="false" />
+    <ObjectSizeEnd />
 
     <!-- handles -->
     <Property Name="ViewControlHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
@@ -794,6 +835,7 @@
   -->
   <Object Name="UCSControlObject" Value="0x3E" IsEntity="false">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
+    <ObjectSizeEnd />
 
     <!-- handles -->
     <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
@@ -813,6 +855,7 @@
     <Property Name="Origin" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="XDirection" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.XAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
     <Property Name="YDirection" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.YAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <ObjectSizeEnd />
 
     <!-- handles -->
     <Property Name="UCSControlHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
@@ -827,6 +870,7 @@
   -->
   <Object Name="ViewPortControlObject" Value="0x40" IsEntity="false">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
+    <ObjectSizeEnd />
 
     <!-- handles -->
     <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
@@ -867,6 +911,7 @@
     <Property Name="SnapRotation" Type="short" BinaryType="BS" DefaultValue="0" />
     <Property Name="SnapBase" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
     <Property Name="SnapSpacing" Type="DwgVector" BinaryType="2RD" DefaultValue="new DwgVector(0.5, 0.5, 0.0)" ReadConverter="Converters.DoubleVector({0})" WriteConverter="Converters.DoubleVector({0})" />
+    <ObjectSizeEnd />
 
     <!-- handles -->
     <Property Name="ViewPortControlHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
@@ -881,6 +926,7 @@
   -->
   <Object Name="AppIdControlObject" Value="0x42" IsEntity="false">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
+    <ObjectSizeEnd />
 
     <!-- handles -->
     <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
@@ -898,6 +944,7 @@
     <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
     <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
     <Property Name="_unknown" Type="byte" BinaryType="RC" DefaultValue="0" Accessibility="internal" />
+    <ObjectSizeEnd />
 
     <!-- handles -->
     <Property Name="AppIdControlHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
@@ -912,6 +959,7 @@
   -->
   <Object Name="DimStyleControlObject" Value="0x44" IsEntity="false">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
+    <ObjectSizeEnd />
 
     <!-- handles -->
     <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
@@ -983,6 +1031,7 @@
     <Property Name="DimensionExtensionLineColor" Type="DwgColor" BinaryType="BS" DefaultValue="DwgColor.ByBlock" ReadConverter="DwgColor.FromRawValue({0})" WriteConverter="{0}.RawValue" Comment="DIMCLRE variable.  Dimension extension line color." />
     <Property Name="DimensionTextColor" Type="DwgColor" BinaryType="BS" DefaultValue="DwgColor.ByBlock" ReadConverter="DwgColor.FromRawValue({0})" WriteConverter="{0}.RawValue" Comment="DIMCLRT variable.  Dimension text color." />
     <Property Name="_unknown" Type="bool" BinaryType="B" DefaultValue="false" />
+    <ObjectSizeEnd />
 
     <!-- handles -->
     <Property Name="DimStyleControlHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
@@ -998,6 +1047,7 @@
   -->
   <Object Name="ViewPortEntityHeaderControlObject" Value="0x46" IsEntity="false">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
+    <ObjectSizeEnd />
 
     <!-- handles -->
     <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
@@ -1015,6 +1065,7 @@
     <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
     <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
     <Property Name="_1flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
+    <ObjectSizeEnd />
 
     <!-- handles -->
     <Property Name="ViewPortEntityHeaderControlHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
@@ -1046,6 +1097,7 @@
     <Property Name="_lineStyleOffsets" Type="double" BinaryType="BD" DefaultValue="new List&lt;double&gt;()" ReadCount="_lineStyleCount" Accessibility="internal" />
     <Property Name="_lineStyleColors" Type="short" BinaryType="BS" DefaultValue="new List&lt;short&gt;()" ReadCount="_lineStyleCount" Accessibility="internal" />
     <Property Name="_lineStyleLineTypeIndicies" Type="short" BinaryType="BS" DefaultValue="new List&lt;short&gt;()" ReadCount="_lineStyleCount" Accessibility="internal" />
+    <ObjectSizeEnd />
 
     <!-- handles -->
     <Property Name="_parentHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" Accessibility="internal" />
@@ -1064,7 +1116,10 @@
   -->
   <Object Name="DictionaryVar" Value="500" IsEntity="false" ClassName="DICTIONARYVAR">
     <Property Name="IntVal" Type="int" BinaryType="RC" DefaultValue="0x00" WriteConverter="(byte){0}" />
-    <Property Name="Str" Type="string" BinaryType="T" DefaultValue="null" LastPropertyForObjectSize="true" />
+    <Property Name="Str" Type="string" BinaryType="T" DefaultValue="null" />
+    <ObjectSizeEnd />
+
+    <!-- handles -->
     <Property Name="_parentHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" Accessibility="internal" />
     <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
     <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
