@@ -28,7 +28,7 @@
   <Variable Name="AngleDirection" BinaryType="B" Type="DwgAngleDirection" DefaultValue="DwgAngleDirection.CounterClockwise" ShortName="ANGDIR" ReadConverter="Converters.BoolToEnum&lt;DwgAngleDirection&gt;({0})" WriteConverter="(int){0} != 0" Comment="Angle directions." />
   <Variable Name="DisplaySplinePolygonControl" BinaryType="B" Type="bool" DefaultValue="false" ShortName="SPLFRAME" Comment="Controls the display of helixes and smoothed mesh objects." />
   <Variable Name="PromptForAttributeOnInsert" BinaryType="B" Type="bool" DefaultValue="true" ShortName="ATTREQ" Comment="Controls whether INSERT uses default attribute settings during insertion of blocks." />
-  <Variable Name="ShowAttributeEntryDialogs" BinaryType="B" Type="bool" DefaultValue="true" ShortName="ATTDIA" Comment="Controls whether the INSERT command uses a dialog box for attribute value entry." />
+  <Variable Name="ShowAttributeEntryDialogs" BinaryType="B" Type="bool" DefaultValue="false" ShortName="ATTDIA" Comment="Controls whether the INSERT command uses a dialog box for attribute value entry." />
   <Variable Name="MirrorText" BinaryType="B" Type="bool" DefaultValue="false" ShortName="MIRRTEXT" Comment="Mirror text." />
   <Variable Name="SetUCSToWCSInDViewOrVPoint" BinaryType="B" Type="bool" DefaultValue="true" ShortName="WORLDVIEW" Comment="Set UCS to WCS during DVIEW/VPOINT." />
   <Variable BinaryType="B" DefaultValue="true" ShortName="WIREFRAME" Comment="Undocumented." />
@@ -87,7 +87,7 @@
   <Variable Name="DefaultTextHeight" BinaryType="BD" Type="double" DefaultValue="0.2" ShortName="TEXTSIZE" Comment="Default text height." />
   <Variable Name="TraceWidth" BinaryType="BD" Type="double" DefaultValue="0.05" ShortName="TRACEWID" Comment="Default trace width." />
   <Variable Name="SketchRecordIncrement" BinaryType="BD" Type="double" DefaultValue="0.1" ShortName="SKETCHINC" Comment="Sketch record increment." />
-  <Variable Name="FilletRadius" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="FILLETRAD" Comment="Fillet radius." />
+  <Variable Name="FilletRadius" BinaryType="BD" Type="double" DefaultValue="0.5" ShortName="FILLETRAD" Comment="Fillet radius." />
   <Variable Name="Thickness" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="THICKNESS" Comment="Current thickness set by ELEV command." />
   <Variable Name="AngleZeroDirection" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="ANGBASE" Comment="Angle 0 direction." />
   <Variable Name="PointDisplaySize" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="PDSIZE" Comment="Point display size." />
@@ -97,9 +97,9 @@
   <Variable Name="UserReal3" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="USERR3" Comment="Real variable indented for use by third-party developers." />
   <Variable Name="UserReal4" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="USERR4" Comment="Real variable indented for use by third-party developers." />
   <Variable Name="UserReal5" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="USERR5" Comment="Real variable indented for use by third-party developers." />
-  <Variable Name="FirstChamferDistance" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="CHAMFERA" Comment="First chamfer distance." />
-  <Variable Name="SecondChamferDistance" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="CHAMFERB" Comment="Second chamfer distance." />
-  <Variable Name="ChamferLength" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="CHAMFERC" Comment="Chamfer length." />
+  <Variable Name="FirstChamferDistance" BinaryType="BD" Type="double" DefaultValue="0.5" ShortName="CHAMFERA" Comment="First chamfer distance." />
+  <Variable Name="SecondChamferDistance" BinaryType="BD" Type="double" DefaultValue="0.5" ShortName="CHAMFERB" Comment="Second chamfer distance." />
+  <Variable Name="ChamferLength" BinaryType="BD" Type="double" DefaultValue="1.0" ShortName="CHAMFERC" Comment="Chamfer length." />
   <Variable Name="ChamferAngle" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="CHAMFERD" Comment="Chamfer angle." />
   <Variable BinaryType="BD" DefaultValue="0.5" ShortName="FACETRES" Comment="Undocumented.  Valid values seem to be [0.01, 10.0]" />
   <Variable Name="CurrentMultilineScale" BinaryType="BD" Type="double" DefaultValue="1.0" ShortName="CMLSCALE" Comment="Current multiline scale." />
