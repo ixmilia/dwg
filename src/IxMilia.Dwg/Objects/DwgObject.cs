@@ -81,8 +81,7 @@ namespace IxMilia.Dwg.Objects
                     }
                     else
                     {
-                        // unknown
-                        return;
+                        throw new InvalidOperationException($"Missing class '{className}' in drawing's {nameof(DwgDrawing.Classes)} collection");
                     }
                 }
 
@@ -111,6 +110,7 @@ namespace IxMilia.Dwg.Objects
 
         internal static DwgObject ParseRaw(BitReader reader, DwgVersionId version, IList<DwgClassDefinition> classes)
         {
+            var objectStart = reader.Offset;
             reader.StartCrcCheck();
             var size = reader.Read_MS();
             var crcStart = reader.Offset + size;
@@ -132,8 +132,7 @@ namespace IxMilia.Dwg.Objects
                 }
                 else
                 {
-                    // unknown
-                    return null;
+                    throw new DwgReadException($"Unable to find class definition wtih index {typeCode - 500} for object at offset {objectStart}.");
                 }
             }
             else if (!Enum.IsDefined(typeof(DwgObjectType), typeCode))
