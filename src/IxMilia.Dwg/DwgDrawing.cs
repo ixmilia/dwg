@@ -396,7 +396,7 @@ namespace IxMilia.Dwg
             var classMap = new Dictionary<string, short>();
             for (int i = 0; i < Classes.Count; i++)
             {
-                classMap.Add(Classes[i].DxfClassName.ToUpperInvariant(), (short)i);
+                classMap.Add(Classes[i].DxfClassName.ToUpperInvariant(), Classes[i].Number);
             }
 
             var writtenHandles = new HashSet<int>();

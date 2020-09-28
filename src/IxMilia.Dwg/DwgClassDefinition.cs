@@ -5,7 +5,7 @@
         private const short ProducesEntitiesConstant = 0x1F2;
         private const short ProducedObjectsConstant = 0x1F3;
 
-        public short Number { get; private set; }
+        public short Number { get; internal set; }
         public short VersionFlag { get; private set; }
         public string ApplicationName { get; set; }
         public string CPlusPlusClassName { get; set; }

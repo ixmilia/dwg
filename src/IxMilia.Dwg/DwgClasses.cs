@@ -42,9 +42,10 @@ namespace IxMilia.Dwg
             {
                 // write the classes to memory
                 var classWriter = new BitWriter(ms);
-                foreach (var c in classes)
+                for (int i = 0; i < classes.Count; i++)
                 {
-                    c.Write(classWriter);
+                    classes[i].Number = (short)i;
+                    classes[i].Write(classWriter);
                 }
 
                 var classBytes = classWriter.AsBytes();
