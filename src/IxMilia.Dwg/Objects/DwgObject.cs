@@ -52,7 +52,7 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal void Write(BitWriter writer, DwgObjectMap objectMap, HashSet<int> writtenHandles, int pointerOffset, DwgVersionId version, IDictionary<string, short> classMap, IDictionary<string, int> appIdMap)
+        internal void Write(BitWriter writer, DwgObjectMap objectMap, HashSet<int> writtenHandles, DwgVersionId version, IDictionary<string, short> classMap, IDictionary<string, int> appIdMap)
         {
             if (!writtenHandles.Add(Handle.HandleOrOffset))
             {
@@ -69,7 +69,7 @@ namespace IxMilia.Dwg.Objects
 
             foreach (var child in ChildItems)
             {
-                child.Write(writer, objectMap, writtenHandles, pointerOffset, version, classMap, appIdMap);
+                child.Write(writer, objectMap, writtenHandles, version, classMap, appIdMap);
             }
         }
 

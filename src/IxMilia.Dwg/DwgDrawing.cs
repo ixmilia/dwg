@@ -236,8 +236,8 @@ namespace IxMilia.Dwg
             writer.WriteBytes(new byte[0x200]); // may contain the MEASUREMENT variable as the first 4 bytes, but not required
             FileHeader.UnknownSection_PaddingLocator = DwgFileHeader.DwgSectionLocator.UnknownSection_PaddingLocator(paddingStart - fileHeaderLocation, writer.Position - paddingStart);
 
-            var objectDataStart = writer.Position;
-            SaveObjects(writer, objectMap, objectDataStart);
+            var _objectDataStart = writer.Position;
+            SaveObjects(writer, objectMap);
 
             var objectMapStart = writer.Position;
             objectMap.Write(writer);
@@ -391,7 +391,7 @@ namespace IxMilia.Dwg
             }
         }
 
-        private void SaveObjects(BitWriter writer, DwgObjectMap objectMap, int pointerOffset)
+        private void SaveObjects(BitWriter writer, DwgObjectMap objectMap)
         {
             var classMap = new Dictionary<string, short>();
             for (int i = 0; i < Classes.Count; i++)
@@ -404,7 +404,7 @@ namespace IxMilia.Dwg
             var writtenHandles = new HashSet<int>();
             foreach (var groupObject in TopLevelObjects)
             {
-                groupObject.Write(writer, objectMap, writtenHandles, pointerOffset, FileHeader.Version, classMap, appIdMap);
+                groupObject.Write(writer, objectMap, writtenHandles, FileHeader.Version, classMap, appIdMap);
             }
         }
     }
