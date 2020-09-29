@@ -399,10 +399,12 @@ namespace IxMilia.Dwg
                 classMap.Add(Classes[i].DxfClassName.ToUpperInvariant(), Classes[i].Number);
             }
 
+            var appIdMap = AppIds.ToDictionary(appId => appId.Key, appId => appId.Value.Handle.HandleOrOffset);
+
             var writtenHandles = new HashSet<int>();
             foreach (var groupObject in TopLevelObjects)
             {
-                groupObject.Write(writer, objectMap, writtenHandles, pointerOffset, FileHeader.Version, classMap);
+                groupObject.Write(writer, objectMap, writtenHandles, pointerOffset, FileHeader.Version, classMap, appIdMap);
             }
         }
     }

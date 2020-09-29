@@ -8,7 +8,13 @@ namespace IxMilia.Dwg.Objects
     {
         public abstract DwgObjectType Type { get; }
         public DwgHandleReference Handle { get; internal set; }
-        internal DwgXData XData { get; set; } = new DwgXData();
+        public DwgXData XData
+        {
+            get => _xdata;
+            set => _xdata = value ?? throw new ArgumentNullException("value");
+        }
+
+        internal IDictionary<int, IList<DwgXDataItem>> _xdataMap;
         private bool _objectSizeVerified;
         protected int _objectSize;
         protected int _reactorCount;
@@ -17,6 +23,7 @@ namespace IxMilia.Dwg.Objects
         internal List<DwgHandleReference> _entityHandles = new List<DwgHandleReference>();
         protected DwgHandleReference _nullHandle;
         protected DwgHandleReference _xDictionaryObjectHandle;
+        private DwgXData _xdata = new DwgXData();
 
         internal virtual bool IsEntity => false;
         internal virtual IEnumerable<DwgObject> ChildItems => new DwgObject[0];
@@ -45,7 +52,7 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal void Write(BitWriter writer, DwgObjectMap objectMap, HashSet<int> writtenHandles, int pointerOffset, DwgVersionId version, IDictionary<string, short> classMap)
+        internal void Write(BitWriter writer, DwgObjectMap objectMap, HashSet<int> writtenHandles, int pointerOffset, DwgVersionId version, IDictionary<string, short> classMap, IDictionary<string, int> appIdMap)
         {
             if (!writtenHandles.Add(Handle.HandleOrOffset))
             {
@@ -58,15 +65,15 @@ namespace IxMilia.Dwg.Objects
             SetCommonValues();
             objectMap.SetOffset(Handle.HandleOrOffset, writer.Position);
 
-            WriteCoreRaw(writer, version, classMap);
+            WriteCoreRaw(writer, version, classMap, appIdMap);
 
             foreach (var child in ChildItems)
             {
-                child.Write(writer, objectMap, writtenHandles, pointerOffset, version, classMap);
+                child.Write(writer, objectMap, writtenHandles, pointerOffset, version, classMap, appIdMap);
             }
         }
 
-        internal void WriteCoreRaw(BitWriter writer, DwgVersionId version, IDictionary<string, short> classMap)
+        internal void WriteCoreRaw(BitWriter writer, DwgVersionId version, IDictionary<string, short> classMap, IDictionary<string, int> appIdMap)
         {
             // write object to memory so the size can be computed
             using (var ms = new MemoryStream())
@@ -88,7 +95,7 @@ namespace IxMilia.Dwg.Objects
 
                 _objectSize = 0;
                 tempWriter.Write_BS(typeCode);
-                var objectSizeOffset = WriteCommonDataStart(tempWriter);
+                var objectSizeOffset = WriteCommonDataStart(tempWriter, appIdMap);
                 WriteSpecific(tempWriter, version);
                 WriteCommonDataEnd(tempWriter);
                 WritePostData(tempWriter);
@@ -168,7 +175,13 @@ namespace IxMilia.Dwg.Objects
         internal static DwgObject Parse(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
             var obj = ParseRaw(reader, version, objectCache.Classes);
-            obj?.OnAfterObjectRead(reader, objectCache);
+            if (obj != null)
+            {
+                obj.OnAfterObjectRead(reader, objectCache);
+                obj.XData = DwgXData.FromMap(reader, objectCache, obj._xdataMap);
+                obj._xdataMap = null;
+            }
+
             return obj;
         }
 
@@ -190,7 +203,7 @@ namespace IxMilia.Dwg.Objects
         internal virtual void ReadCommonDataStart(BitReader reader)
         {
             Handle = reader.Read_H();
-            XData = DwgXData.Parse(reader);
+            _xdataMap = DwgXData.Parse(reader);
             _objectSize = reader.Read_RL();
             _reactorCount = reader.Read_BL();
         }
@@ -203,10 +216,10 @@ namespace IxMilia.Dwg.Objects
         {
         }
 
-        internal virtual int WriteCommonDataStart(BitWriter writer)
+        internal virtual int WriteCommonDataStart(BitWriter writer, IDictionary<string, int> appIdMap)
         {
             writer.Write_H(Handle);
-            XData.Write(writer);
+            XData.Write(writer, appIdMap);
             var objectSizeOffset = writer.BitCount;
             writer.Write_RL(_objectSize);
             writer.Write_BL(_reactorCount);

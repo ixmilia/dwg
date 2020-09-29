@@ -1,4 +1,6 @@
-﻿namespace IxMilia.Dwg.Objects
+﻿using System.Collections.Generic;
+
+namespace IxMilia.Dwg.Objects
 {
     public abstract class DwgEntity : DwgObject
     {
@@ -31,7 +33,7 @@
         internal override void ReadCommonDataStart(BitReader reader)
         {
             Handle = reader.Read_H();
-            XData = DwgXData.Parse(reader);
+            _xdataMap = DwgXData.Parse(reader);
             _isGraphicPresent = reader.Read_B();
             if (_isGraphicPresent)
             {
@@ -79,10 +81,10 @@
             }
         }
 
-        internal override int WriteCommonDataStart(BitWriter writer)
+        internal override int WriteCommonDataStart(BitWriter writer, IDictionary<string, int> appIdMap)
         {
             writer.Write_H(Handle);
-            XData.Write(writer);
+            XData.Write(writer, appIdMap);
             writer.Write_B(_isGraphicPresent);
             if (_isGraphicPresent)
             {

@@ -37,8 +37,9 @@ namespace IxMilia.Dwg.Test
             {
                 var writer = new BitWriter(ms);
                 var classMap = ClassMap();
+                var appIdMap = new Dictionary<string, int>();
                 obj.PrepareCommonValues();
-                obj.WriteCoreRaw(writer, DwgVersionId.R14, classMap);
+                obj.WriteCoreRaw(writer, DwgVersionId.R14, classMap, appIdMap);
                 var actual = writer.AsBytes();
                 Assert.Equal(expectedBytes, actual);
             }

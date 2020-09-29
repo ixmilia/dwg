@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text;
 
 namespace IxMilia.Dwg
@@ -12,26 +11,39 @@ namespace IxMilia.Dwg
         public byte[] Data { get; private set; }
         public int Offset { get; set; }
         public int BitOffset => (Offset * 8) + _bitOffset;
+        public int RemainingBytes => _endOffset == -1 ? Data.Length - Offset : _endOffset - Offset;
 
+        private int _endOffset;
         private Stack<int> _crcStartValues = new Stack<int>();
 
-        public BitReader(byte[] data, int offset = 0)
+        public BitReader(byte[] data, int offset = 0, int bitOffset = 0, int endOffset = -1)
         {
-            _bitOffset = 0;
+            _bitOffset = bitOffset;
             Data = data;
             Offset = offset;
+            _endOffset = endOffset;
         }
 
-        public BitReader FromOffset(int offset)
+        public BitReader FromOffset(int offset, int endOffset = -1)
         {
-            return new BitReader(Data, offset);
+            return new BitReader(Data, offset, 0, endOffset);
+        }
+
+        public BitReader FromOffsetWithBitOffset(int offset, int endOffset = -1)
+        {
+            return new BitReader(Data, offset, _bitOffset, endOffset);
         }
 
         private byte GetCurrentByte()
         {
             if (Offset >= Data.Length)
             {
-                throw new DwgReadException("Out of data");
+                throw new DwgReadException($"Out of data at offset {Offset}");
+            }
+
+            if (_endOffset != -1 && ((_bitOffset == 0 && Offset >= _endOffset) || (Offset > _endOffset)))
+            {
+                throw new DwgReadException($"Out of data because and end offset of {_endOffset} was specified.");
             }
 
             return Data[Offset];

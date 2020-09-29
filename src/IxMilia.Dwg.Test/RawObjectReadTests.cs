@@ -631,6 +631,16 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(0.0, dim.LeaderLength);
             Assert.Equal(0x1D, dim._dimStyleHandle.HandleOrOffset);
             Assert.Equal(0xCA, dim._anonymousBlockHandle.HandleOrOffset);
+
+            // verify xdata
+            Assert.Equal(1, dim._xdataMap.Keys.Count);
+            var items = dim._xdataMap[0x11];
+            Assert.Equal(2, items.Count);
+            Assert.Equal("DSTYLE", ((DwgXDataString)items[0]).Value);
+            var innerItems = (DwgXDataItemList)items[1];
+            Assert.Equal(2, innerItems.Count);
+            Assert.Equal(288, ((DwgXDataShort)innerItems[0]).Value);
+            Assert.Equal(1, ((DwgXDataShort)innerItems[1]).Value);
         }
 
         [Fact]
@@ -670,6 +680,16 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(0.0, dim.LeaderLength);
             Assert.Equal(0x1D, dim._dimStyleHandle.HandleOrOffset);
             Assert.Equal(0xD6, dim._anonymousBlockHandle.HandleOrOffset);
+
+            // verify xdata
+            Assert.Equal(1, dim._xdataMap.Keys.Count);
+            var items = dim._xdataMap[0x11];
+            Assert.Equal(2, items.Count);
+            Assert.Equal("DSTYLE", ((DwgXDataString)items[0]).Value);
+            var innerItems = (DwgXDataItemList)items[1];
+            Assert.Equal(2, innerItems.Count);
+            Assert.Equal(288, ((DwgXDataShort)innerItems[0]).Value);
+            Assert.Equal(1, ((DwgXDataShort)innerItems[1]).Value);
         }
 
         [Fact]
