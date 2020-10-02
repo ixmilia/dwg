@@ -977,60 +977,60 @@
     <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
     <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
     <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
-    <Property Name="GenerateDimensionTolerances" Type="bool" BinaryType="B" DefaultValue="false" Comment="DIMTOL variable.  Dimension tolerances generated." />
-    <Property Name="GenerateDimensionLimits" Type="bool" BinaryType="B" DefaultValue="false" Comment="DIMLIM variable.  Dimension limits generated." />
-    <Property Name="DimensionTextInsideHorizontal" Type="bool" BinaryType="B" DefaultValue="true" Comment="DIMTIH variable.  Text inside horizontal." />
-    <Property Name="DimensionTextOutsideHorizontal" Type="bool" BinaryType="B" DefaultValue="true" Comment="DIMTOH variable.  Text outside horizontal." />
-    <Property Name="SuppressFirstDimensionExtensionLine" Type="bool" BinaryType="B" DefaultValue="false" Comment="DIMSE1 variable.  Suppression of first extension line." />
-    <Property Name="SuppressSecondDimensionExtensionLine" Type="bool" BinaryType="B" DefaultValue="false" Comment="DIMSE2 variable.  Suppression of second extension line." />
-    <Property Name="UseAlternateDimensioning" Type="bool" BinaryType="B" DefaultValue="false" Comment="DIMALT variable.  Alternate unit dimensioning performed." />
-    <Property Name="ForceDimensionLineExtensionsOutsideIfTextIs" Type="bool" BinaryType="B" DefaultValue="false" Comment="DIMTOFL variable.  If text is outside extensions, force line extensions between extensions." />
-    <Property Name="UseSeparateArrowBlocksForDimensions" Type="bool" BinaryType="B" DefaultValue="false" Comment="DIMSAH variable.  Use separate arrow blocks." />
-    <Property Name="ForceDimensionTextInsideExtensions" Type="bool" BinaryType="B" DefaultValue="false" Comment="DIMTIX variable.  Force text inside extensions." />
-    <Property Name="SuppressOutsideExtensionDimensionLines" Type="bool" BinaryType="B" DefaultValue="false" Comment="DIMSOXD variable.  Suppress outside-extensions dimension lines." />
-    <Property Name="AlternateDimensioningDecimalPlaces" Type="short" BinaryType="RC" DefaultValue="2" WriteConverter="(byte){0}" Comment="DIMALTD variable.  Alternate unit decimal places." />
-    <Property Name="DimensionUnitZeroSuppression" Type="DwgUnitZeroSuppression" BinaryType="RC" DefaultValue="DwgUnitZeroSuppression.SuppressZeroFeetAndZeroInches" ReadConverter="(DwgUnitZeroSuppression){0}" WriteConverter="(byte){0}" Comment="DIMZIN variable.  Controls suppression of zeros for primary unit values." />
-    <Property Name="DIMSD1" Type="bool" BinaryType="B" DefaultValue="false" Comment="DIMSD1 variable.  This appears to be identical to DIMSE1." />
-    <Property Name="DIMSD2" Type="bool" BinaryType="B" DefaultValue="false" Comment="DIMSD2 variable.  This appears to be identical to DIMSE2." />
-    <Property Name="DimensionToleranceVerticalJustification" Type="DwgJustification" BinaryType="RC" DefaultValue="DwgJustification.Middle" ReadConverter="(DwgJustification){0}" WriteConverter="(byte){0}" Comment="DIMTOLJ variable.  Vertical justification for tolerance values." />
-    <Property Name="DimensionTextJustification" Type="DwgDimensionTextJustification" BinaryType="RC" DefaultValue="DwgDimensionTextJustification.AboveLineCenter" ReadConverter="(DwgDimensionTextJustification){0}" WriteConverter="(byte){0}" Comment="DIMJUST variable.  Horizontal dimension text position." />
-    <Property Name="DimensionTextAndArrowPlacement" Type="DwgDimensionFit" BinaryType="RC" DefaultValue="DwgDimensionFit.TextAndArrowsOutsideLines" ReadConverter="(DwgDimensionFit){0}" WriteConverter="(byte){0}" Comment="DIMFIT variable.  Placement of text and arrowheads." />
-    <Property Name="DimensionCursorControlsTextPosition" Type="bool" BinaryType="B" DefaultValue="false" Comment="DIMUPT variable.  Cursor functionality for user-positioned text." />
-    <Property Name="DimensionToleranceZeroSuppression" Type="DwgUnitZeroSuppression" BinaryType="RC" DefaultValue="DwgUnitZeroSuppression.SuppressZeroFeetAndZeroInches" ReadConverter="(DwgUnitZeroSuppression){0}" WriteConverter="(byte){0}" Comment="DIMTZIN variable.  Controls suppression of zeros for tolerance values." />
-    <Property Name="AlternateDimensioningZeroSupression" Type="DwgUnitZeroSuppression" BinaryType="RC" DefaultValue="DwgUnitZeroSuppression.SuppressZeroFeetAndZeroInches" ReadConverter="(DwgUnitZeroSuppression){0}" WriteConverter="(byte){0}" Comment="DIMALTZ variable.  Controls suppression of zeros for alternate unit dimension values." />
-    <Property Name="AlternateDimensioningToleranceZeroSupression" Type="DwgUnitZeroSuppression" BinaryType="RC" DefaultValue="DwgUnitZeroSuppression.SuppressZeroFeetAndZeroInches" ReadConverter="(DwgUnitZeroSuppression){0}" WriteConverter="(byte){0}" Comment="DIMALTTZ variable.  Controls suppression of zeros for alternate tolerance values." />
-    <Property Name="TextAboveDimensionLine" Type="bool" BinaryType="RC" DefaultValue="false" ReadConverter="Converters.BoolByte({0})" WriteConverter="Converters.BoolByte({0})" Comment="DIMTAD variable.  Text above dimension line." />
-    <Property Name="DimensionUnitFormat" Type="DwgUnitFormat" BinaryType="BS" DefaultValue="DwgUnitFormat.Decimal" ReadConverter="(DwgUnitFormat){0}" WriteConverter="(short){0}" Comment="DIMUNIT variable.  Units format for all dimension style family members except angular." />
-    <Property Name="DimensioningAngleFormat" Type="DwgAngleFormat" BinaryType="BS" DefaultValue="DwgAngleFormat.DecimalDegrees" ReadConverter="(DwgAngleFormat){0}" WriteConverter="(short){0}" Comment="DIMAUNIT variable.  Angle format for angular dimensions." />
-    <Property Name="DimensionUnitToleranceDecimalPlaces" Type="short" BinaryType="BS" DefaultValue="4" Comment="DIMDEC variable.  Number of decimal places for the tolerance values of a primary units dimension." />
-    <Property Name="DimensionToleranceDecimalPlaces" Type="short" BinaryType="BS" DefaultValue="4" Comment="DIMTDEC variable.  Number of decimal places to display the tolerance values." />
-    <Property Name="AlternateDimensioningUnits" Type="DwgUnitFormat" BinaryType="BS" DefaultValue="DwgUnitFormat.Decimal" ReadConverter="(DwgUnitFormat){0}" WriteConverter="(short){0}" Comment="DIMALTU variable.  Units format for alternate units of all dimension style family members except angular." />
-    <Property Name="AlternateDimensioningToleranceDecimalPlaces" Type="short" BinaryType="BS" DefaultValue="2" Comment="DIMALTTD variable.  Number of decimal places for tolerance values of an alternate units dimension." />
-    <Property Name="DimensioningScaleFactor" Type="double" BinaryType="BD" DefaultValue="1.0" Comment="DIMSCALE variable.  Overall dimensioning scale factor." />
-    <Property Name="DimensioningArrowSize" Type="double" BinaryType="BD" DefaultValue="0.18" Comment="DIMASZ variable.  Dimensioning arrow size." />
-    <Property Name="DimensionExtensionLineOffset" Type="double" BinaryType="BD" DefaultValue="0.0625" Comment="DIMEXO variable.  Extension line offset." />
-    <Property Name="DimensionLineIncrement" Type="double" BinaryType="BD" DefaultValue="0.38" Comment="DIMDLI variable.  Dimension line increment." />
-    <Property Name="DimensionExtensionLineExtension" Type="double" BinaryType="BD" DefaultValue="0.18" Comment="DIMEXE variable.  Extension line extension." />
-    <Property Name="DimensionDistanceRoundingValue" Type="double" BinaryType="BD" DefaultValue="0.0" Comment="DIMRND variable.  Rounding value for dimension distances." />
-    <Property Name="DimensionLineExtension" Type="double" BinaryType="BD" DefaultValue="0.0" Comment="DIMDLE variable.  Dimension line extension." />
-    <Property Name="DimensionPlusTolerance" Type="double" BinaryType="BD" DefaultValue="0.0" Comment="DIMTP variable.  Plus tolerance." />
-    <Property Name="DimensionMinusTolerance" Type="double" BinaryType="BD" DefaultValue="0.0" Comment="DIMTM variable.  Minus tolerance." />
-    <Property Name="DimensioningTextHeight" Type="double" BinaryType="BD" DefaultValue="0.18" Comment="DIMTXT variable.  Dimensioning text height." />
-    <Property Name="CenterMarkSize" Type="double" BinaryType="BD" DefaultValue="0.09" Comment="DIMCEN variable.  Center mark size." />
-    <Property Name="DimensioningTickSize" Type="double" BinaryType="BD" DefaultValue="0.0" Comment="DIMTSZ variable. Dimensioning tick size." />
-    <Property Name="AlternateDimensioningScaleFactor" Type="double" BinaryType="BD" DefaultValue="25.4" Comment="DIMALTF variable.  Alternate unit scale factor." />
-    <Property Name="DimensionLinearMeasurementsScaleFactor" Type="double" BinaryType="BD" DefaultValue="1.0" Comment="DIMLFAC variable.  Linear measurements scale factor." />
-    <Property Name="DimensionVerticalTextPosition" Type="double" BinaryType="BD" DefaultValue="0.0" Comment="DIMTVP variable.  Text vertical position." />
-    <Property Name="DimensionToleranceDisplayScaleFactor" Type="double" BinaryType="BD" DefaultValue="1.0" Comment="DIMTFAC variable.  Dimension tolerance display factor." />
-    <Property Name="DimensionLineGap" Type="double" BinaryType="BD" DefaultValue="0.09" Comment="DIMGAP variable.  Dimension line gap." />
-    <Property Name="DimensioningSuffix" Type="string" BinaryType="T" DefaultValue="null" Comment="DIMPOST variable.  General dimensioning suffix." />
-    <Property Name="AlternateDimensioningSuffix" Type="string" BinaryType="T" DefaultValue="null" Comment="DIMAPOST variable.  Alternate dimensioning suffix." />
-    <Property Name="ArrowBlockName" Type="string" BinaryType="T" DefaultValue="null" Comment="DIMBLK variable.  Arrow block name." />
-    <Property Name="FirstArrowBlockName" Type="string" BinaryType="T" DefaultValue="null" Comment="DIMBLK1 variable.  First arrow block name." />
-    <Property Name="SecondArrowBlockName" Type="string" BinaryType="T" DefaultValue="null" Comment="DIMBLK2 variable.  Second arrow block name." />
-    <Property Name="DimensionLineColor" Type="DwgColor" BinaryType="BS" DefaultValue="DwgColor.ByBlock" ReadConverter="DwgColor.FromRawValue({0})" WriteConverter="{0}.RawValue" Comment="DIMCLRD variable.  Dimension line color." />
-    <Property Name="DimensionExtensionLineColor" Type="DwgColor" BinaryType="BS" DefaultValue="DwgColor.ByBlock" ReadConverter="DwgColor.FromRawValue({0})" WriteConverter="{0}.RawValue" Comment="DIMCLRE variable.  Dimension extension line color." />
-    <Property Name="DimensionTextColor" Type="DwgColor" BinaryType="BS" DefaultValue="DwgColor.ByBlock" ReadConverter="DwgColor.FromRawValue({0})" WriteConverter="{0}.RawValue" Comment="DIMCLRT variable.  Dimension text color." />
+    <Property Name="GenerateDimensionTolerances" Type="bool" BinaryType="B" DefaultValue="false" Code="71" XDataConversion="{0} != 0" HeaderVariable="DIMTOL" Comment="Dimension tolerances generated." />
+    <Property Name="GenerateDimensionLimits" Type="bool" BinaryType="B" DefaultValue="false" Code="72" XDataConversion="{0} != 0" HeaderVariable="DIMLIM" Comment="Dimension limits generated." />
+    <Property Name="DimensionTextInsideHorizontal" Type="bool" BinaryType="B" DefaultValue="true" Code="73" XDataConversion="{0} != 0" HeaderVariable="DIMTIH" Comment="Text inside horizontal." />
+    <Property Name="DimensionTextOutsideHorizontal" Type="bool" BinaryType="B" DefaultValue="true" Code="74" XDataConversion="{0} != 0" HeaderVariable="DIMTOH" Comment="Text outside horizontal." />
+    <Property Name="SuppressFirstDimensionExtensionLine" Type="bool" BinaryType="B" DefaultValue="false" Code="75" XDataConversion="{0} != 0" HeaderVariable="DIMSE1" Comment="Suppression of first extension line." />
+    <Property Name="SuppressSecondDimensionExtensionLine" Type="bool" BinaryType="B" DefaultValue="false" Code="76" XDataConversion="{0} != 0" HeaderVariable="DIMSE2" Comment="Suppression of second extension line." />
+    <Property Name="UseAlternateDimensioning" Type="bool" BinaryType="B" DefaultValue="false" Code="170" XDataConversion="{0} != 0" HeaderVariable="DIMALT" Comment="Alternate unit dimensioning performed." />
+    <Property Name="ForceDimensionLineExtensionsOutsideIfTextIs" Type="bool" BinaryType="B" DefaultValue="false" Code="172" XDataConversion="{0} != 0" HeaderVariable="DIMTOFL" Comment="If text is outside extensions, force line extensions between extensions." />
+    <Property Name="UseSeparateArrowBlocksForDimensions" Type="bool" BinaryType="B" DefaultValue="false" Code="173" XDataConversion="{0} != 0" HeaderVariable="DIMSAH" Comment="Use separate arrow blocks." />
+    <Property Name="ForceDimensionTextInsideExtensions" Type="bool" BinaryType="B" DefaultValue="false" Code="174" XDataConversion="{0} != 0" HeaderVariable="DIMTIX" Comment="Force text inside extensions." />
+    <Property Name="SuppressOutsideExtensionDimensionLines" Type="bool" BinaryType="B" DefaultValue="false" Code="175" XDataConversion="{0} != 0" HeaderVariable="DIMSOXD" Comment="Suppress outside-extensions dimension lines." />
+    <Property Name="AlternateDimensioningDecimalPlaces" Type="short" BinaryType="RC" DefaultValue="2" WriteConverter="(byte){0}" Code="171" HeaderVariable="DIMALTD" Comment="Alternate unit decimal places." />
+    <Property Name="DimensionUnitZeroSuppression" Type="DwgUnitZeroSuppression" BinaryType="RC" DefaultValue="DwgUnitZeroSuppression.SuppressZeroFeetAndZeroInches" Code="78" ReadConverter="(DwgUnitZeroSuppression){0}" WriteConverter="(byte){0}" HeaderVariable="DIMZIN" Comment="Controls suppression of zeros for primary unit values." />
+    <Property Name="DIMSD1" Type="bool" BinaryType="B" DefaultValue="false" Code="281" XDataConversion="{0} != 0" HeaderVariable="DIMSD1" Comment="This appears to be identical to DIMSE1." />
+    <Property Name="DIMSD2" Type="bool" BinaryType="B" DefaultValue="false" Code="282" XDataConversion="{0} != 0" HeaderVariable="DIMSD2" Comment="This appears to be identical to DIMSE2." />
+    <Property Name="DimensionToleranceVerticalJustification" Type="DwgJustification" BinaryType="RC" DefaultValue="DwgJustification.Middle" Code="283" ReadConverter="(DwgJustification){0}" WriteConverter="(byte){0}" HeaderVariable="DIMTOLJ" Comment="Vertical justification for tolerance values." />
+    <Property Name="DimensionTextJustification" Type="DwgDimensionTextJustification" BinaryType="RC" DefaultValue="DwgDimensionTextJustification.AboveLineCenter" Code="280" ReadConverter="(DwgDimensionTextJustification){0}" WriteConverter="(byte){0}" HeaderVariable="DIMJUST" Comment="Horizontal dimension text position." />
+    <Property Name="DimensionTextAndArrowPlacement" Type="DwgDimensionFit" BinaryType="RC" DefaultValue="DwgDimensionFit.TextAndArrowsOutsideLines" Code="287" ReadConverter="(DwgDimensionFit){0}" WriteConverter="(byte){0}" HeaderVariable="DIMFIT" Comment="Placement of text and arrowheads." />
+    <Property Name="DimensionCursorControlsTextPosition" Type="bool" BinaryType="B" DefaultValue="false" Code="288" XDataConversion="{0} != 0" HeaderVariable="DIMUPT" Comment="Cursor functionality for user-positioned text." />
+    <Property Name="DimensionToleranceZeroSuppression" Type="DwgUnitZeroSuppression" BinaryType="RC" DefaultValue="DwgUnitZeroSuppression.SuppressZeroFeetAndZeroInches" Code="284" ReadConverter="(DwgUnitZeroSuppression){0}" WriteConverter="(byte){0}" HeaderVariable="DIMTZIN" Comment="Controls suppression of zeros for tolerance values." />
+    <Property Name="AlternateDimensioningZeroSupression" Type="DwgUnitZeroSuppression" BinaryType="RC" DefaultValue="DwgUnitZeroSuppression.SuppressZeroFeetAndZeroInches" Code="285" ReadConverter="(DwgUnitZeroSuppression){0}" WriteConverter="(byte){0}" HeaderVariable="DIMALTZ" Comment="Controls suppression of zeros for alternate unit dimension values." />
+    <Property Name="AlternateDimensioningToleranceZeroSupression" Type="DwgUnitZeroSuppression" BinaryType="RC" DefaultValue="DwgUnitZeroSuppression.SuppressZeroFeetAndZeroInches" Code="286" ReadConverter="(DwgUnitZeroSuppression){0}" WriteConverter="(byte){0}" HeaderVariable="DIMALTTZ" Comment="Controls suppression of zeros for alternate tolerance values." />
+    <Property Name="TextAboveDimensionLine" Type="bool" BinaryType="RC" DefaultValue="false" Code="77" ReadConverter="Converters.BoolByte({0})" WriteConverter="Converters.BoolByte({0})" XDataConversion="{0} != 0" HeaderVariable="DIMTAD" Comment="Text above dimension line." />
+    <Property Name="DimensionUnitFormat" Type="DwgUnitFormat" BinaryType="BS" DefaultValue="DwgUnitFormat.Decimal" Code="270" ReadConverter="(DwgUnitFormat){0}" WriteConverter="(short){0}" HeaderVariable="DIMUNIT" Comment="Units format for all dimension style family members except angular." />
+    <Property Name="DimensioningAngleFormat" Type="DwgAngleFormat" BinaryType="BS" DefaultValue="DwgAngleFormat.DecimalDegrees" Code="275" ReadConverter="(DwgAngleFormat){0}" WriteConverter="(short){0}" HeaderVariable="DIMAUNIT" Comment="Angle format for angular dimensions." />
+    <Property Name="DimensionUnitToleranceDecimalPlaces" Type="short" BinaryType="BS" DefaultValue="4" Code="271" HeaderVariable="DIMDEC" Comment="Number of decimal places for the tolerance values of a primary units dimension." />
+    <Property Name="DimensionToleranceDecimalPlaces" Type="short" BinaryType="BS" DefaultValue="4" Code="272" HeaderVariable="DIMTDEC" Comment="Number of decimal places to display the tolerance values." />
+    <Property Name="AlternateDimensioningUnits" Type="DwgUnitFormat" BinaryType="BS" DefaultValue="DwgUnitFormat.Decimal" Code="273" ReadConverter="(DwgUnitFormat){0}" WriteConverter="(short){0}" HeaderVariable="DIMALTU" Comment="Units format for alternate units of all dimension style family members except angular." />
+    <Property Name="AlternateDimensioningToleranceDecimalPlaces" Type="short" BinaryType="BS" DefaultValue="2" Code="274" HeaderVariable="DIMALTTD" Comment="Number of decimal places for tolerance values of an alternate units dimension." />
+    <Property Name="DimensioningScaleFactor" Type="double" BinaryType="BD" DefaultValue="1.0" Code="40" HeaderVariable="DIMSCALE" Comment="Overall dimensioning scale factor." />
+    <Property Name="DimensioningArrowSize" Type="double" BinaryType="BD" DefaultValue="0.18" Code="41" HeaderVariable="DIMASZ" Comment="Dimensioning arrow size." />
+    <Property Name="DimensionExtensionLineOffset" Type="double" BinaryType="BD" DefaultValue="0.0625" Code="42" HeaderVariable="DIMEXO" Comment="Extension line offset." />
+    <Property Name="DimensionLineIncrement" Type="double" BinaryType="BD" DefaultValue="0.38" Code="43" HeaderVariable="DIMDLI" Comment="Dimension line increment." />
+    <Property Name="DimensionExtensionLineExtension" Type="double" BinaryType="BD" DefaultValue="0.18" Code="44" HeaderVariable="DIMEXE" Comment="Extension line extension." />
+    <Property Name="DimensionDistanceRoundingValue" Type="double" BinaryType="BD" DefaultValue="0.0" Code="45" HeaderVariable="DIMRND" Comment="Rounding value for dimension distances." />
+    <Property Name="DimensionLineExtension" Type="double" BinaryType="BD" DefaultValue="0.0" Code="46" HeaderVariable="DIMDLE" Comment="Dimension line extension." />
+    <Property Name="DimensionPlusTolerance" Type="double" BinaryType="BD" DefaultValue="0.0" Code="47" HeaderVariable="DIMTP" Comment="Plus tolerance." />
+    <Property Name="DimensionMinusTolerance" Type="double" BinaryType="BD" DefaultValue="0.0" Code="48" HeaderVariable="DIMTM" Comment="Minus tolerance." />
+    <Property Name="DimensioningTextHeight" Type="double" BinaryType="BD" DefaultValue="0.18" Code="140" HeaderVariable="DIMTXT" Comment="Dimensioning text height." />
+    <Property Name="CenterMarkSize" Type="double" BinaryType="BD" DefaultValue="0.09" Code="141" HeaderVariable="DIMCEN" Comment="Center mark size." />
+    <Property Name="DimensioningTickSize" Type="double" BinaryType="BD" DefaultValue="0.0" Code="142" HeaderVariable="DIMTSZ" Comment="Dimensioning tick size." />
+    <Property Name="AlternateDimensioningScaleFactor" Type="double" BinaryType="BD" DefaultValue="25.4" Code="143" HeaderVariable="DIMALTF" Comment="Alternate unit scale factor." />
+    <Property Name="DimensionLinearMeasurementsScaleFactor" Type="double" BinaryType="BD" DefaultValue="1.0" Code="144" HeaderVariable="DIMLFAC" Comment="Linear measurements scale factor." />
+    <Property Name="DimensionVerticalTextPosition" Type="double" BinaryType="BD" DefaultValue="0.0" Code="145" HeaderVariable="DIMTVP" Comment="Text vertical position." />
+    <Property Name="DimensionToleranceDisplayScaleFactor" Type="double" BinaryType="BD" DefaultValue="1.0" Code="146" HeaderVariable="DIMTFAC" Comment="Dimension tolerance display factor." />
+    <Property Name="DimensionLineGap" Type="double" BinaryType="BD" DefaultValue="0.09" Code="147" HeaderVariable="DIMGAP" Comment="Dimension line gap." />
+    <Property Name="DimensioningSuffix" Type="string" BinaryType="T" DefaultValue="null" Code="3" HeaderVariable="DIMPOST" Comment="General dimensioning suffix." />
+    <Property Name="AlternateDimensioningSuffix" Type="string" BinaryType="T" DefaultValue="null" Code="4" HeaderVariable="DIMAPOST" Comment="Alternate dimensioning suffix." />
+    <Property Name="ArrowBlockName" Type="string" BinaryType="T" DefaultValue="null" Code="342" HeaderVariable="DIMBLK" Comment="Arrow block name." />
+    <Property Name="FirstArrowBlockName" Type="string" BinaryType="T" DefaultValue="null" Code="343" HeaderVariable="DIMBLK1" Comment="First arrow block name." />
+    <Property Name="SecondArrowBlockName" Type="string" BinaryType="T" DefaultValue="null" Code="344" HeaderVariable="DIMBLK2" Comment="Second arrow block name." />
+    <Property Name="DimensionLineColor" Type="DwgColor" BinaryType="BS" DefaultValue="DwgColor.ByBlock" Code="176" ReadConverter="DwgColor.FromRawValue({0})" WriteConverter="{0}.RawValue" HeaderVariable="DIMCLRD" Comment="Dimension line color." />
+    <Property Name="DimensionExtensionLineColor" Type="DwgColor" BinaryType="BS" DefaultValue="DwgColor.ByBlock" Code="177" ReadConverter="DwgColor.FromRawValue({0})" WriteConverter="{0}.RawValue" HeaderVariable="DIMCLRE" Comment="Dimension extension line color." />
+    <Property Name="DimensionTextColor" Type="DwgColor" BinaryType="BS" DefaultValue="DwgColor.ByBlock" Code="178" ReadConverter="DwgColor.FromRawValue({0})" WriteConverter="{0}.RawValue" HeaderVariable="DIMCLRT" Comment="Dimension text color." />
     <Property Name="_unknown" Type="bool" BinaryType="B" DefaultValue="false" />
     <ObjectSizeEnd />
 

@@ -70,6 +70,7 @@ namespace IxMilia.Dwg.Generator
 
         public string BaseClass(XElement xml) => AttributeValue(xml, "BaseClass");
         public string BinaryType(XElement xml) => AttributeValue(xml, "BinaryType");
+        public int Code(XElement xml) => int.Parse(AttributeValue(xml, "Code"));
         public string Comment(XElement xml) => AttributeValue(xml, "Comment");
         public string ConstructorAccessibility(XElement xml, string defaultValue = "public") => AttributeValue(xml, "ConstructorAccessibility") ?? defaultValue;
         public bool CustomReader(XElement xml) => bool.Parse(AttributeValue(xml, "CustomReader") ?? "false");
@@ -91,6 +92,7 @@ namespace IxMilia.Dwg.Generator
         public string Value(XElement xml) => AttributeValue(xml, "Value");
         public string WriteCondition(XElement xml) => AttributeValue(xml, "WriteCondition");
         public string WriteConverter(XElement xml) => AttributeValue(xml, "WriteConverter");
+        public string XDataConversion(XElement xml) => AttributeValue(xml, "XDataConversion") ?? ReadConverter(xml) ?? "{0}";
 
         public string ApplyReadConverter(XElement xml, string value)
         {

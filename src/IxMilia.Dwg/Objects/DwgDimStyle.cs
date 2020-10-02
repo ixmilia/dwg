@@ -5,6 +5,8 @@ namespace IxMilia.Dwg.Objects
 {
     public partial class DwgDimStyle
     {
+        public const string XDataStyleName = "DSTYLE";
+
         public DwgStyle Style { get; set; }
 
         internal override IEnumerable<DwgObject> ChildItems
@@ -47,6 +49,55 @@ namespace IxMilia.Dwg.Objects
             }
 
             Style = objectCache.GetObject<DwgStyle>(reader, _styleHandle.HandleOrOffset);
+        }
+
+        public bool TryGetStyleFromXDataDifference(DwgXDataItemList xdataItemList, out DwgDimStyle style)
+        {
+            // style data is encoded as
+            //   0 DSTYLE
+            //     {
+            //     ... style overrides
+            //     }
+
+            style = default(DwgDimStyle);
+            if (xdataItemList == null)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < xdataItemList.Count - 1; i++)
+            {
+                if (xdataItemList[i] is DwgXDataString xdataString && xdataString.Value == XDataStyleName &&
+                    xdataItemList[i + 1] is DwgXDataItemList itemList)
+                {
+                    if (itemList.Count % 2 != 0)
+                    {
+                        // must be an even number
+                        return false;
+                    }
+
+                    var newStyle = Clone();
+                    var styleIsModified = false;
+                    for (int j = 0; j < itemList.Count; j += 2)
+                    {
+                        if (!(itemList[j] is DwgXDataShort codeItem))
+                        {
+                            // must alternate between short/<data>
+                            return false;
+                        }
+
+                        styleIsModified |= newStyle.ApplyStyleOverride(codeItem.Value, itemList[j + 1]);
+                    }
+
+                    if (styleIsModified)
+                    {
+                        style = newStyle;
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         internal static DwgDimStyle GetStandardDimStyle(DwgStyle style)

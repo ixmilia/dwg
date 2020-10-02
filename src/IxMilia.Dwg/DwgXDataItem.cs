@@ -76,6 +76,11 @@ namespace IxMilia.Dwg
         public short CodePage { get; }
         public string Value { get; }
 
+        internal DwgXDataString(string value)
+            : this(30, value)
+        {
+        }
+
         public DwgXDataString(short codePage, string value)
         {
             CodePage = codePage;
@@ -483,6 +488,11 @@ namespace IxMilia.Dwg
         public override byte Code => 70;
 
         public short Value { get; }
+
+        internal DwgXDataShort(bool value)
+            : this((short)(value ? 1 : 0))
+        {
+        }
 
         public DwgXDataShort(short value)
         {

@@ -347,6 +347,118 @@ namespace IxMilia.Dwg.Generator
 
                     DecreaseIndent();
                     AppendLine("}");
+                    AppendLine();
+                }
+
+                if (Name(o) == "DimStyle")
+                {
+                    // generate style xdata
+                    AppendLine("/// <summary>Generates <see cref=\"DwgXDataItemList\"/> of the difference between the styles.  Result may be <see langword=\"null\"/>.</summary>");
+                    AppendLine("public static DwgXDataItemList GenerateStyleDifferenceAsXData(DwgDimStyle primaryStyle, DwgDimStyle modifiedStyle)");
+                    AppendLine("{");
+                    IncreaseIndent();
+
+                    AppendLine("var itemList = new DwgXDataItemList();");
+                    AppendLine();
+
+                    foreach (var p in o.Elements().Where(p => p.Attribute("Code") != null).OrderBy(p => Code(p)))
+                    {
+                        AppendLine($"if (primaryStyle.{Name(p)} != modifiedStyle.{Name(p)})");
+                        AppendLine("{");
+                        AppendLine($"    itemList.Add(new DwgXDataShort({Code(p)}));");
+                        AppendLine($"    itemList.Add({XDataValueFromProperty(p, "modifiedStyle")});");
+                        AppendLine("}");
+                        AppendLine();
+                    }
+
+                    AppendLine("return itemList.Count > 0");
+                    AppendLine("    ? new DwgXDataItemList() { new DwgXDataString(XDataStyleName), itemList }");
+                    AppendLine("    : null;");
+
+                    DecreaseIndent();
+                    AppendLine("}");
+                    AppendLine();
+
+                    // clone
+                    AppendLine("public DwgDimStyle Clone()");
+                    AppendLine("{");
+                    IncreaseIndent();
+
+                    AppendLine("var other = new DwgDimStyle();");
+                    foreach (var p in o.Elements("Property"))
+                    {
+                        AppendLine($"other.{Name(p)} = {Name(p)};");
+                    }
+
+                    AppendLine("return other;");
+
+                    DecreaseIndent();
+                    AppendLine("}");
+                    AppendLine();
+
+                    // apply style xdata
+                    AppendLine("private bool ApplyStyleOverride(short code, DwgXDataItem item)");
+                    AppendLine("{");
+                    IncreaseIndent();
+
+                    AppendLine("switch (code)");
+                    AppendLine("{");
+                    IncreaseIndent();
+
+                    foreach (var p in o.Elements().Where(p => p.Attribute("Code") != null))
+                    {
+                        AppendLine($"case {Code(p)} when item is {XDataTypeFromCode(Code(p))} x:");
+                        AppendLine($"    {Name(p)} = {string.Format(XDataConversion(p), "x.Value")};");
+                        AppendLine("    return true;");
+                    }
+
+                    DecreaseIndent();
+                    AppendLine("}");
+                    AppendLine();
+                    AppendLine("return false;");
+
+                    DecreaseIndent();
+                    AppendLine("}");
+                    AppendLine();
+
+                    // get variable
+                    AppendLine("public object GetVariable(string name)");
+                    AppendLine("{");
+                    IncreaseIndent();
+                    AppendLine("switch (name?.ToUpperInvariant())");
+                    AppendLine("{");
+                    IncreaseIndent();
+                    foreach (var p in o.Elements().Where(p => p.Attribute("HeaderVariable") != null))
+                    {
+                        AppendLine($"case \"{AttributeValue(p, "HeaderVariable")}\":");
+                        AppendLine($"    return {Name(p)};");
+                    }
+                    AppendLine("default:");
+                    AppendLine("    return null;");
+                    DecreaseIndent();
+                    AppendLine("}");
+                    DecreaseIndent();
+                    AppendLine("}");
+                    AppendLine();
+
+                    // set variable
+                    AppendLine("public void SetVariable(string name, object value)");
+                    AppendLine("{");
+                    IncreaseIndent();
+                    AppendLine("switch (name?.ToUpperInvariant())");
+                    AppendLine("{");
+                    IncreaseIndent();
+                    foreach (var p in o.Elements().Where(p => p.Attribute("HeaderVariable") != null))
+                    {
+                        AppendLine($"case \"{AttributeValue(p, "HeaderVariable")}\":");
+                        AppendLine($"    {Name(p)} = ({Type(p)})value;");
+                        AppendLine("    break;");
+                    }
+                    DecreaseIndent();
+                    AppendLine("}");
+                    DecreaseIndent();
+                    AppendLine("}");
+                    AppendLine();
                 }
 
                 DecreaseIndent();
@@ -355,6 +467,31 @@ namespace IxMilia.Dwg.Generator
 
                 FinishFile(Path.Combine(_outputDir, $"Dwg{Name(o)}.Generated.cs"));
             }
+        }
+
+        private string XDataValueFromProperty(XElement property, string itemName)
+        {
+            var ctor = XDataTypeFromCode(Code(property));
+            var writeConverter = WriteConverter(property) ?? "{0}";
+            var convertedValue = string.Format(writeConverter, $"{itemName}.{Name(property)}");
+            return $"new {ctor}({convertedValue})";
+        }
+
+        private static string XDataTypeFromCode(int code)
+        {
+            return code switch
+            {
+                _ when code >= 0 && code <= 9 => "DwgXDataString",
+                _ when code >= 40 && code <= 59 => "DwgXDataReal",
+                _ when code >= 70 && code <= 79 => "DwgXDataShort",
+                _ when code >= 140 && code <= 159 => "DwgXDataReal",
+                _ when code >= 170 && code <= 179 => "DwgXDataShort",
+                _ when code >= 270 && code <= 279 => "DwgXDataShort",
+                _ when code >= 280 && code <= 289 => "DwgXDataShort", // bool
+                _ when code >= 340 && code <= 349 => "DwgXDataString",
+                _ => $"/* code {code} */",
+                //_ => throw new NotSupportedException(""),
+            };
         }
     }
 }
