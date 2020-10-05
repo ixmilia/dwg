@@ -149,6 +149,18 @@ namespace IxMilia.Dwg.Test
         }
 
         [Fact]
+        public void Read_T()
+        {
+            // with trailing '\0'
+            Assert.Equal("abc", Bits(0b01000001, 0b00011000, 0b01011000, 0b10011000, 0b11000000, 0b0000000).Read_T());
+            //                         ||length      'a'         'b'         'c'         \0          ------
+
+            // without trailing '\0'
+            Assert.Equal("abc", Bits(0b01000000, 0b11011000, 0b01011000, 0b10011000, 0b11000000).Read_T());
+            //                         ||length      'a'         'b'         'c'         ------
+        }
+
+        [Fact]
         public void ComputeCRC()
         {
             var data = new byte[] { 0b01000000, 0b11100000 };

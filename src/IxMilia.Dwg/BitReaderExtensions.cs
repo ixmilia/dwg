@@ -201,7 +201,14 @@ namespace IxMilia.Dwg
             var sb = new StringBuilder();
             for (int i = 0; i < length; i++)
             {
-                sb.Append((char)reader.ReadByte());
+                var b = reader.ReadByte();
+                if (i == length - 1 && b == 0)
+                {
+                    // toss trailing null
+                    break;
+                }
+
+                sb.Append((char)b);
             }
 
             return sb.ToString();

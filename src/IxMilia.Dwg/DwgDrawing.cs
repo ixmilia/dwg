@@ -136,10 +136,13 @@ namespace IxMilia.Dwg
             var objectCache = DwgObjectCache.Parse(reader.FromOffset(drawing.FileHeader.ObjectMapLocator.Pointer), drawing.FileHeader.Version, drawing.Classes);
             drawing.LoadObjects(reader, objectCache);
 
-            var freeSpaceSection = DwgObjectFreeSpaceSection.Parse(reader.FromOffset(drawing.FileHeader.ObjectFreeSpaceLocator.Pointer));
-            var objectOffset = objectCache.GetOffsetFromHandle(drawing.Variables.BlockControlObjectHandle.HandleOrOffset);
-            // TODO: if (version > DwgVersionId.R14) TDUUPDATE else TDUPDATE
-            freeSpaceSection.Validate((uint)objectCache.ObjectCount, drawing.Variables.UpdateDate, (uint)objectOffset);
+            if (drawing.FileHeader.ObjectFreeSpaceLocator.Pointer != 0)
+            {
+                var freeSpaceSection = DwgObjectFreeSpaceSection.Parse(reader.FromOffset(drawing.FileHeader.ObjectFreeSpaceLocator.Pointer));
+                var objectOffset = objectCache.GetOffsetFromHandle(drawing.Variables.BlockControlObjectHandle.HandleOrOffset);
+                // TODO: if (version > DwgVersionId.R14) TDUUPDATE else TDUPDATE
+                freeSpaceSection.Validate((uint)objectCache.ObjectCount, drawing.Variables.UpdateDate, (uint)objectOffset);
+            }
 
             return drawing;
         }

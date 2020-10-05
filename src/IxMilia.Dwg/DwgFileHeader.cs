@@ -141,6 +141,11 @@ namespace IxMilia.Dwg
 
         internal void ValidateSecondHeader(BitReader parentReader, DwgHeaderVariables headerVariables)
         {
+            if (SecondHeaderPointer == 0)
+            {
+                return;
+            }
+
             var reader = parentReader.FromOffset(SecondHeaderPointer);
             reader.ValidateSentinel(SecondHeaderStartSentinel);
             var sectionStart = reader.Offset;
