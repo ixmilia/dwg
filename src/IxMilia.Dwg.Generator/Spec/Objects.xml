@@ -1125,4 +1125,95 @@
     <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
     <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
   </Object>
+  <!--
+
+  Hatch
+
+  -->
+  <Object Name="Hatch" Value="501" IsEntity="false" ClassName="HATCH" NotImplemented="true">
+  </Object>
+  <!--
+
+  ID buffer
+
+  -->
+  <Object Name="IdBuffer" Value="502" IsEntity="false" ClassName="IDBUFFER" NotImplemented="true">
+  </Object>
+  <!--
+
+  Image
+
+  -->
+  <Object Name="Image" Value="503" IsEntity="false" ClassName="IMAGE" NotImplemented="true">
+  </Object>
+  <!--
+
+  Image definition
+
+  -->
+  <Object Name="ImageDefinition" Value="504" IsEntity="false" ClassName="IMAGEDEF" NotImplemented="true">
+  </Object>
+  <!--
+
+  Image definition reactor
+
+  -->
+  <Object Name="ImageDefinitionReactor" Value="505" IsEntity="false" ClassName="IMAGEDEFREACTOR" NotImplemented="true">
+  </Object>
+  <!--
+
+  Layer index
+
+  -->
+  <Object Name="LayerIndex" Value="506" IsEntity="false" ClassName="LAYER_INDEX" NotImplemented="true">
+  </Object>
+  <!--
+
+  LW Polyline
+
+  -->
+  <Object Name="LwPolyline" Value="507" IsEntity="false" ClassName="LWPLINE" NotImplemented="true">
+  </Object>
+  <!--
+
+  OLE2 frame
+
+  -->
+  <Object Name="Ole2Frame" Value="508" IsEntity="false" ClassName="OLE2FRAME" NotImplemented="true">
+  </Object>
+  <!--
+
+  Raster variables
+
+  -->
+  <Object Name="RasterVariables" Value="509" IsEntity="false" ClassName="RASTERVARIABLES" NotImplemented="true">
+  </Object>
+  <!--
+
+  Sortents table
+
+  -->
+  <Object Name="SortEntsTable" Value="510" IsEntity="false" ClassName="SORTENTSTABLE" NotImplemented="true">
+  </Object>
+  <!--
+
+  Spatial filter
+
+  -->
+  <Object Name="SpatialFilter" Value="511" IsEntity="false" ClassName="SPATIAL_FILTER" NotImplemented="true">
+  </Object>
+  <!--
+
+  Spatial index
+
+  -->
+  <Object Name="SpatialIndex" Value="512" IsEntity="false" ClassName="SPATIAL_INDEX" NotImplemented="true">
+  </Object>
+  <!--
+
+  XRecord
+
+  -->
+  <Object Name="XRecord" Value="513" IsEntity="false" ClassName="XRECORD" NotImplemented="true">
+  </Object>
 </Objects>
