@@ -15,23 +15,23 @@ namespace IxMilia.Dwg.Objects
             base.OnBeforeObjectWrite();
             foreach (var view in _views.Values)
             {
-                _entityHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, view.Handle.HandleOrOffset));
-                view.ViewControlHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, Handle.HandleOrOffset);
+                _entityHandleReferences.Add(view.MakeHandleReference(DwgHandleReferenceCode.None));
+                view.ViewControlHandleReference = MakeHandleReference(DwgHandleReferenceCode.HardPointer);
             }
         }
 
         internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
         {
             _views.Clear();
-            foreach (var viewHandle in _entityHandles)
+            foreach (var viewHandleReference in _entityHandleReferences)
             {
-                if (viewHandle.Code != DwgHandleReferenceCode.None)
+                if (viewHandleReference.Code != DwgHandleReferenceCode.None)
                 {
                     throw new DwgReadException("Incorrect child view handle code.");
                 }
 
-                var view = objectCache.GetObject<DwgView>(reader, viewHandle.HandleOrOffset);
-                if (view.ViewControlHandle.HandleOrOffset != Handle.HandleOrOffset)
+                var view = objectCache.GetObject<DwgView>(reader, ResolveHandleReference(viewHandleReference));
+                if (view.ResolveHandleReference(view.ViewControlHandleReference) != Handle)
                 {
                     throw new DwgReadException("Incorrect view control object parent handle reference.");
                 }

@@ -173,9 +173,9 @@ namespace IxMilia.Dwg.Test
         [Theory]
         [InlineData(12, new int[] { 0b00001100 })]
         [InlineData(540, new int[] { 0b00000010, 0b00011100 })]
-        public void ReadSecondHeaderHandle(int expected, int[] bits)
+        public void ReadSecondHeaderHandle(uint handleValue, int[] bits)
         {
-            Assert.Equal(expected, DwgHandleReference.ReadSecondHeader(Bits(bits), bits.Length));
+            Assert.Equal(new DwgHandle(handleValue), DwgHandleReference.ReadSecondHeader(Bits(bits), bits.Length));
         }
     }
 }

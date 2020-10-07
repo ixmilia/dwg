@@ -31,22 +31,22 @@ namespace IxMilia.Dwg.Objects
         internal override void OnBeforeObjectWrite()
         {
             base.OnBeforeObjectWrite();
-            _lineTypeHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, LineType.Handle.HandleOrOffset);
+            _lineTypeHandleReference = LineType.MakeHandleReference(DwgHandleReferenceCode.SoftOwner);
         }
 
         internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
         {
-            if (LayerControlHandle.Code != DwgHandleReferenceCode.HardPointer)
+            if (LayerControlHandleReference.Code != DwgHandleReferenceCode.HardPointer)
             {
                 throw new DwgReadException("Incorrect layer control object parent handle code.");
             }
 
-            if (_lineTypeHandle.Code != DwgHandleReferenceCode.SoftOwner)
+            if (_lineTypeHandleReference.Code != DwgHandleReferenceCode.SoftOwner)
             {
                 throw new DwgReadException("Incorrect layer line type handle code.");
             }
 
-            LineType = objectCache.GetObject<DwgLineType>(reader, _lineTypeHandle.HandleOrOffset);
+            LineType = objectCache.GetObject<DwgLineType>(reader, ResolveHandleReference(_lineTypeHandleReference));
         }
     }
 }

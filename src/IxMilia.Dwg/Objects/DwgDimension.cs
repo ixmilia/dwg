@@ -2,8 +2,8 @@
 {
     public abstract class DwgDimension : DwgEntity
     {
-        internal DwgHandleReference _dimStyleHandle;
-        internal DwgHandleReference _anonymousBlockHandle;
+        internal DwgHandleReference _dimStyleHandleReference;
+        internal DwgHandleReference _anonymousBlockHandleReference;
 
         public DwgDimStyle DimensionStyle { get; set; }
 
@@ -11,14 +11,14 @@
 
         internal override void ReadPostData(BitReader reader)
         {
-            _dimStyleHandle = reader.Read_H();
-            if (_dimStyleHandle.Code != DwgHandleReferenceCode.SoftOwner)
+            _dimStyleHandleReference = reader.Read_H();
+            if (_dimStyleHandleReference.Code != DwgHandleReferenceCode.SoftOwner)
             {
                 throw new DwgReadException("Incorrect dimension style handle code");
             }
 
-            _anonymousBlockHandle = reader.Read_H();
-            if (_anonymousBlockHandle.Code != DwgHandleReferenceCode.SoftOwner)
+            _anonymousBlockHandleReference = reader.Read_H();
+            if (_anonymousBlockHandleReference.Code != DwgHandleReferenceCode.SoftOwner)
             {
                 throw new DwgReadException("Incorrect anonymous block handle code");
             }
@@ -26,20 +26,20 @@
 
         internal override void OnAfterEntityRead(BitReader reader, DwgObjectCache objectCache)
         {
-            DimensionStyle = objectCache.GetObject<DwgDimStyle>(reader, _dimStyleHandle.HandleOrOffset);
-            AnonymousBlock = objectCache.GetObject<DwgBlock>(reader, _anonymousBlockHandle.HandleOrOffset);
+            DimensionStyle = objectCache.GetObject<DwgDimStyle>(reader, ResolveHandleReference(_dimStyleHandleReference));
+            AnonymousBlock = objectCache.GetObject<DwgBlock>(reader, ResolveHandleReference(_anonymousBlockHandleReference));
         }
 
         internal override void OnBeforeEntityWrite()
         {
-            _dimStyleHandle = DimensionStyle.Handle;
-            _anonymousBlockHandle = AnonymousBlock.Handle;
+            _dimStyleHandleReference = DimensionStyle.MakeHandleReference(DwgHandleReferenceCode.SoftOwner);
+            _anonymousBlockHandleReference = AnonymousBlock.MakeHandleReference(DwgHandleReferenceCode.SoftOwner);
         }
 
         internal override void WritePostData(BitWriter writer)
         {
-            writer.Write_H(new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, _dimStyleHandle.HandleOrOffset));
-            writer.Write_H(new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, _anonymousBlockHandle.HandleOrOffset));
+            writer.Write_H(_dimStyleHandleReference);
+            writer.Write_H(_anonymousBlockHandleReference);
         }
     }
 }

@@ -555,10 +555,10 @@
     <ObjectSizeEnd />
 
     <!-- handles -->
-    <Property Name="_parentHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" Accessibility="private" />
-    <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
-    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
-    <Property Name="_entityHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_entityCount" />
+    <Property Name="_parentHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" Accessibility="private" />
+    <Property Name="_reactorHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
+    <Property Name="_xDictionaryObjectHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
+    <Property Name="_entityHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_entityCount" />
   </Object>
   <!--
 
@@ -605,11 +605,11 @@
     <ObjectSizeEnd />
 
     <!-- handles -->
-    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
-    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
-    <Property Name="_entityHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_entityCount" />
-    <Property Name="_modelSpaceBlockHeaderHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" Accessibility="internal" />
-    <Property Name="_paperSpaceBlockHeaderHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" Accessibility="internal" />
+    <Property Name="_nullHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
+    <Property Name="_xDictionaryObjectHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
+    <Property Name="_entityHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_entityCount" />
+    <Property Name="_modelSpaceBlockHeaderHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" Accessibility="internal" />
+    <Property Name="_paperSpaceBlockHeaderHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" Accessibility="internal" />
   </Object>
   <!--
 
@@ -630,14 +630,14 @@
     <ObjectSizeEnd />
 
     <!-- handles -->
-    <Property Name="BlockControlHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
-    <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
-    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
-    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
-    <Property Name="BlockEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" Accessibility="internal" />
-    <Property Name="_firstEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" Accessibility="internal" ReadCondition="!IsXRef &amp;&amp; !IsOverlaidXref" WriteCondition="!IsXRef &amp;&amp; !IsOverlaidXref" />
-    <Property Name="_lastEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" Accessibility="internal" ReadCondition="!IsXRef &amp;&amp; !IsOverlaidXref" WriteCondition="!IsXRef &amp;&amp; !IsOverlaidXref" />
-    <Property Name="EndBlockEntityHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" Accessibility="internal" />
+    <Property Name="BlockControlHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
+    <Property Name="_reactorHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
+    <Property Name="_xDictionaryObjectHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
+    <Property Name="_nullHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
+    <Property Name="BlockEntityHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" Accessibility="internal" />
+    <Property Name="_firstEntityHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" Accessibility="internal" ReadCondition="!IsXRef &amp;&amp; !IsOverlaidXref" WriteCondition="!IsXRef &amp;&amp; !IsOverlaidXref" />
+    <Property Name="_lastEntityHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" Accessibility="internal" ReadCondition="!IsXRef &amp;&amp; !IsOverlaidXref" WriteCondition="!IsXRef &amp;&amp; !IsOverlaidXref" />
+    <Property Name="EndBlockEntityHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" Accessibility="internal" />
   </Object>
   <!--
 
@@ -649,9 +649,9 @@
     <ObjectSizeEnd />
 
     <!-- handles -->
-    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
-    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
-    <Property Name="_entityHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_entityCount" />
+    <Property Name="_nullHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
+    <Property Name="_xDictionaryObjectHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
+    <Property Name="_entityHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_entityCount" />
   </Object>
   <!--
 
@@ -671,11 +671,11 @@
     <ObjectSizeEnd />
 
     <!-- handles -->
-    <Property Name="LayerControlHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
-    <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
-    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
-    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
-    <Property Name="_lineTypeHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, 0)" Accessibility="internal" />
+    <Property Name="LayerControlHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
+    <Property Name="_reactorHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
+    <Property Name="_xDictionaryObjectHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
+    <Property Name="_nullHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
+    <Property Name="_lineTypeHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, 0)" Accessibility="internal" />
   </Object>
   <!--
 
@@ -687,9 +687,9 @@
     <ObjectSizeEnd />
 
     <!-- handles -->
-    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
-    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
-    <Property Name="_entityHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_entityCount" />
+    <Property Name="_nullHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
+    <Property Name="_xDictionaryObjectHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
+    <Property Name="_entityHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_entityCount" />
   </Object>
   <!--
 
@@ -713,10 +713,10 @@
     <ObjectSizeEnd />
 
     <!-- handles -->
-    <Property Name="StyleControlHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
-    <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
-    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
-    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
+    <Property Name="StyleControlHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
+    <Property Name="_reactorHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
+    <Property Name="_xDictionaryObjectHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
+    <Property Name="_nullHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
   </Object>
   <!--
 
@@ -742,11 +742,11 @@
     <ObjectSizeEnd />
 
     <!-- handles -->
-    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
-    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
-    <Property Name="_entityHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_entityCount" />
-    <Property Name="_byLayerHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" Accessibility="internal" />
-    <Property Name="_byBlockHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" Accessibility="internal" />
+    <Property Name="_nullHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
+    <Property Name="_xDictionaryObjectHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
+    <Property Name="_entityHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_entityCount" />
+    <Property Name="_byLayerHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" Accessibility="internal" />
+    <Property Name="_byBlockHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" Accessibility="internal" />
   </Object>
   <!--
 
@@ -765,12 +765,12 @@
     <Property Name="_stringData" Type="byte[]" BinaryType="RC" DefaultValue="new byte[256]" Accessibility="private" />
     <ObjectSizeEnd />
     <!-- custom dash info -->
-    <Property Name="LineTypeControlHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
+    <Property Name="LineTypeControlHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
 
     <!-- handles -->
-    <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
-    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
-    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
+    <Property Name="_reactorHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
+    <Property Name="_xDictionaryObjectHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
+    <Property Name="_nullHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
   </Object>
   <!--
 
@@ -796,9 +796,9 @@
     <ObjectSizeEnd />
 
     <!-- handles -->
-    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
-    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
-    <Property Name="_entityHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_entityCount" />
+    <Property Name="_nullHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
+    <Property Name="_xDictionaryObjectHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
+    <Property Name="_entityHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_entityCount" />
   </Object>
   <!--
 
@@ -824,10 +824,10 @@
     <ObjectSizeEnd />
 
     <!-- handles -->
-    <Property Name="ViewControlHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
-    <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
-    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
-    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
+    <Property Name="ViewControlHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
+    <Property Name="_reactorHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
+    <Property Name="_xDictionaryObjectHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
+    <Property Name="_nullHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
   </Object>
   <!--
 
@@ -839,9 +839,9 @@
     <ObjectSizeEnd />
 
     <!-- handles -->
-    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
-    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
-    <Property Name="_entityHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_entityCount" />
+    <Property Name="_nullHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
+    <Property Name="_xDictionaryObjectHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
+    <Property Name="_entityHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_entityCount" />
   </Object>
   <!--
 
@@ -859,10 +859,10 @@
     <ObjectSizeEnd />
 
     <!-- handles -->
-    <Property Name="UCSControlHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
-    <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
-    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
-    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
+    <Property Name="UCSControlHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
+    <Property Name="_reactorHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
+    <Property Name="_xDictionaryObjectHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
+    <Property Name="_nullHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
   </Object>
   <!--
 
@@ -874,9 +874,9 @@
     <ObjectSizeEnd />
 
     <!-- handles -->
-    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
-    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
-    <Property Name="_entityHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_entityCount" />
+    <Property Name="_nullHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
+    <Property Name="_xDictionaryObjectHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
+    <Property Name="_entityHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_entityCount" />
   </Object>
   <!--
 
@@ -915,10 +915,10 @@
     <ObjectSizeEnd />
 
     <!-- handles -->
-    <Property Name="ViewPortControlHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
-    <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
-    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
-    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
+    <Property Name="ViewPortControlHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
+    <Property Name="_reactorHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
+    <Property Name="_xDictionaryObjectHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
+    <Property Name="_nullHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
   </Object>
   <!--
 
@@ -930,9 +930,9 @@
     <ObjectSizeEnd />
 
     <!-- handles -->
-    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
-    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
-    <Property Name="_entityHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_entityCount" />
+    <Property Name="_nullHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
+    <Property Name="_xDictionaryObjectHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
+    <Property Name="_entityHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_entityCount" />
   </Object>
   <!--
 
@@ -948,10 +948,10 @@
     <ObjectSizeEnd />
 
     <!-- handles -->
-    <Property Name="AppIdControlHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
-    <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
-    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
-    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
+    <Property Name="AppIdControlHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
+    <Property Name="_reactorHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
+    <Property Name="_xDictionaryObjectHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
+    <Property Name="_nullHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
   </Object>
   <!--
 
@@ -963,9 +963,9 @@
     <ObjectSizeEnd />
 
     <!-- handles -->
-    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
-    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
-    <Property Name="_entityHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_entityCount" />
+    <Property Name="_nullHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
+    <Property Name="_xDictionaryObjectHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
+    <Property Name="_entityHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_entityCount" />
   </Object>
   <!--
 
@@ -1035,11 +1035,11 @@
     <ObjectSizeEnd />
 
     <!-- handles -->
-    <Property Name="DimStyleControlHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
-    <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
-    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
-    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
-    <Property Name="_styleHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" Accessibility="internal" />
+    <Property Name="DimStyleControlHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
+    <Property Name="_reactorHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
+    <Property Name="_xDictionaryObjectHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
+    <Property Name="_nullHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
+    <Property Name="_styleHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" Accessibility="internal" />
   </Object>
   <!--
 
@@ -1051,9 +1051,9 @@
     <ObjectSizeEnd />
 
     <!-- handles -->
-    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
-    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
-    <Property Name="_entityHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_entityCount" />
+    <Property Name="_nullHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
+    <Property Name="_xDictionaryObjectHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
+    <Property Name="_entityHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_entityCount" />
   </Object>
   <!--
 
@@ -1069,10 +1069,10 @@
     <ObjectSizeEnd />
 
     <!-- handles -->
-    <Property Name="ViewPortEntityHeaderControlHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
-    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
-    <Property Name="_nullHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
-    <Property Name="_nextViewPortEntityHeaderHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
+    <Property Name="ViewPortEntityHeaderControlHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
+    <Property Name="_xDictionaryObjectHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
+    <Property Name="_nullHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
+    <Property Name="_nextViewPortEntityHeaderHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="default(DwgHandleReference)" Accessibility="internal" />
   </Object>
   <!--
 
@@ -1101,9 +1101,9 @@
     <ObjectSizeEnd />
 
     <!-- handles -->
-    <Property Name="_parentHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" Accessibility="internal" />
-    <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
-    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
+    <Property Name="_parentHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" Accessibility="internal" />
+    <Property Name="_reactorHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
+    <Property Name="_xDictionaryObjectHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
   </Object>
   <!--
 
@@ -1121,9 +1121,9 @@
     <ObjectSizeEnd />
 
     <!-- handles -->
-    <Property Name="_parentHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" Accessibility="internal" />
-    <Property Name="_reactorHandles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
-    <Property Name="_xDictionaryObjectHandle" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
+    <Property Name="_parentHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" Accessibility="internal" />
+    <Property Name="_reactorHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
+    <Property Name="_xDictionaryObjectHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
   </Object>
   <!--
 

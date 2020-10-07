@@ -8,10 +8,10 @@ namespace IxMilia.Dwg.Objects
         public DwgSeqEnd SeqEnd { get; private set; } = new DwgSeqEnd();
         public List<DwgAttribute> Attributes { get; } = new List<DwgAttribute>();
 
-        internal DwgHandleReference _firstAttribHandle;
-        internal DwgHandleReference _lastAttribHandle;
-        internal DwgHandleReference _blockHeaderHandle;
-        internal DwgHandleReference _seqEndHandle;
+        internal DwgHandleReference _firstAttribHandleReference;
+        internal DwgHandleReference _lastAttribHandleReference;
+        internal DwgHandleReference _blockHeaderHandleReference;
+        internal DwgHandleReference _seqEndHandleReference;
 
         internal override IEnumerable<DwgObject> ChildItems
         {
@@ -41,28 +41,28 @@ namespace IxMilia.Dwg.Objects
 
         internal override void ReadPostData(BitReader reader)
         {
-            _blockHeaderHandle = reader.Read_H();
-            if (_blockHeaderHandle.Code != DwgHandleReferenceCode.SoftOwner)
+            _blockHeaderHandleReference = reader.Read_H();
+            if (_blockHeaderHandleReference.Code != DwgHandleReferenceCode.SoftOwner)
             {
                 throw new DwgReadException("Incorrect block header handle code.");
             }
 
             if (_hasAttributes)
             {
-                _firstAttribHandle = reader.Read_H();
-                if (_firstAttribHandle.Code != DwgHandleReferenceCode.HardPointer)
+                _firstAttribHandleReference = reader.Read_H();
+                if (_firstAttribHandleReference.Code != DwgHandleReferenceCode.HardPointer)
                 {
                     throw new DwgReadException("Incorrect attribute handle code.");
                 }
 
-                _lastAttribHandle = reader.Read_H();
-                if (_lastAttribHandle.Code != DwgHandleReferenceCode.HardPointer)
+                _lastAttribHandleReference = reader.Read_H();
+                if (_lastAttribHandleReference.Code != DwgHandleReferenceCode.HardPointer)
                 {
                     throw new DwgReadException("Incorrect attribute handle code.");
                 }
 
-                _seqEndHandle = reader.Read_H();
-                if (_seqEndHandle.Code != DwgHandleReferenceCode.SoftPointer)
+                _seqEndHandleReference = reader.Read_H();
+                if (_seqEndHandleReference.Code != DwgHandleReferenceCode.SoftPointer)
                 {
                     throw new DwgReadException("Incorrect seqend handle code.");
                 }
@@ -71,33 +71,33 @@ namespace IxMilia.Dwg.Objects
 
         internal override void OnAfterEntityRead(BitReader reader, DwgObjectCache objectCache)
         {
-            BlockHeader = objectCache.GetObject<DwgBlockHeader>(reader, _blockHeaderHandle.HandleOrOffset);
+            BlockHeader = objectCache.GetObject<DwgBlockHeader>(reader, ResolveHandleReference(_blockHeaderHandleReference));
             Attributes.Clear();
             if (_hasAttributes)
             {
-                var attributes = DwgEntityHelpers.EntitiesFromHandlePointer<DwgAttribute>(objectCache, reader, _firstAttribHandle);
+                var attributes = DwgEntityHelpers.EntitiesFromHandlePointer<DwgAttribute>(objectCache, reader, Handle, _firstAttribHandleReference);
                 Attributes.AddRange(attributes);
-                SeqEnd = objectCache.GetObject<DwgSeqEnd>(reader, _seqEndHandle.HandleOrOffset);
+                SeqEnd = objectCache.GetObject<DwgSeqEnd>(reader, ResolveHandleReference(_seqEndHandleReference));
             }
         }
 
         internal override void OnBeforeEntityWrite()
         {
-            _blockHeaderHandle = BlockHeader.Handle;
-            DwgEntityHelpers.PopulateEntityPointers(Attributes, ref _firstAttribHandle, ref _lastAttribHandle, Layer);
+            _blockHeaderHandleReference = BlockHeader.MakeHandleReference(DwgHandleReferenceCode.SoftOwner);
+            DwgEntityHelpers.PopulateEntityPointers(Attributes, ref _firstAttribHandleReference, ref _lastAttribHandleReference, Layer);
             _hasAttributes = Attributes.Count > 0;
             SeqEnd.Layer = Layer;
-            _seqEndHandle = SeqEnd.Handle;
+            _seqEndHandleReference = SeqEnd.MakeHandleReference(DwgHandleReferenceCode.SoftPointer);
         }
 
         internal override void WritePostData(BitWriter writer)
         {
-            writer.Write_H(new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, _blockHeaderHandle.HandleOrOffset));
+            writer.Write_H(_blockHeaderHandleReference);
             if (_hasAttributes)
             {
-                writer.Write_H(new DwgHandleReference(DwgHandleReferenceCode.HardPointer, _firstAttribHandle.HandleOrOffset));
-                writer.Write_H(new DwgHandleReference(DwgHandleReferenceCode.HardPointer, _lastAttribHandle.HandleOrOffset));
-                writer.Write_H(new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, _seqEndHandle.HandleOrOffset));
+                writer.Write_H(_firstAttribHandleReference);
+                writer.Write_H(_lastAttribHandleReference);
+                writer.Write_H(_seqEndHandleReference);
             }
         }
     }

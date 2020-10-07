@@ -7,9 +7,9 @@ namespace IxMilia.Dwg.Objects
         public DwgSeqEnd SeqEnd { get; private set; } = new DwgSeqEnd();
         public List<DwgVertex2D> Vertices { get; } = new List<DwgVertex2D>();
 
-        internal DwgHandleReference _firstVertexHandle;
-        internal DwgHandleReference _lastVertexHandle;
-        internal DwgHandleReference _seqEndHandle;
+        internal DwgHandleReference _firstVertexHandleReference;
+        internal DwgHandleReference _lastVertexHandleReference;
+        internal DwgHandleReference _seqEndHandleReference;
 
         internal override IEnumerable<DwgObject> ChildItems
         {
@@ -37,20 +37,20 @@ namespace IxMilia.Dwg.Objects
 
         internal override void ReadPostData(BitReader reader)
         {
-            _firstVertexHandle = reader.Read_H();
-            if (_firstVertexHandle.Code != DwgHandleReferenceCode.HardPointer)
+            _firstVertexHandleReference = reader.Read_H();
+            if (_firstVertexHandleReference.Code != DwgHandleReferenceCode.HardPointer)
             {
                 throw new DwgReadException("Incorrect vertex handle code.");
             }
 
-            _lastVertexHandle = reader.Read_H();
-            if (_lastVertexHandle.Code != DwgHandleReferenceCode.HardPointer)
+            _lastVertexHandleReference = reader.Read_H();
+            if (_lastVertexHandleReference.Code != DwgHandleReferenceCode.HardPointer)
             {
                 throw new DwgReadException("Incorrect vertex handle code.");
             }
 
-            _seqEndHandle = reader.Read_H();
-            if (_seqEndHandle.Code != DwgHandleReferenceCode.SoftPointer)
+            _seqEndHandleReference = reader.Read_H();
+            if (_seqEndHandleReference.Code != DwgHandleReferenceCode.SoftPointer)
             {
                 throw new DwgReadException("Incorrect seqend handle code.");
             }
@@ -59,23 +59,23 @@ namespace IxMilia.Dwg.Objects
         internal override void OnAfterEntityRead(BitReader reader, DwgObjectCache objectCache)
         {
             Vertices.Clear();
-            var vertices = DwgEntityHelpers.EntitiesFromHandlePointer<DwgVertex2D>(objectCache, reader, _firstVertexHandle);
+            var vertices = DwgEntityHelpers.EntitiesFromHandlePointer<DwgVertex2D>(objectCache, reader, Handle, _firstVertexHandleReference);
             Vertices.AddRange(vertices);
-            SeqEnd = objectCache.GetObject<DwgSeqEnd>(reader, _seqEndHandle.HandleOrOffset);
+            SeqEnd = objectCache.GetObject<DwgSeqEnd>(reader, ResolveHandleReference(_seqEndHandleReference));
         }
 
         internal override void OnBeforeEntityWrite()
         {
-            DwgEntityHelpers.PopulateEntityPointers(Vertices, ref _firstVertexHandle, ref _lastVertexHandle, Layer);
+            DwgEntityHelpers.PopulateEntityPointers(Vertices, ref _firstVertexHandleReference, ref _lastVertexHandleReference, Layer);
             SeqEnd.Layer = Layer;
-            _seqEndHandle = SeqEnd.Handle;
+            _seqEndHandleReference = SeqEnd.MakeHandleReference(DwgHandleReferenceCode.SoftPointer);
         }
 
         internal override void WritePostData(BitWriter writer)
         {
-            writer.Write_H(new DwgHandleReference(DwgHandleReferenceCode.HardPointer, _firstVertexHandle.HandleOrOffset));
-            writer.Write_H(new DwgHandleReference(DwgHandleReferenceCode.HardPointer, _lastVertexHandle.HandleOrOffset));
-            writer.Write_H(new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, _seqEndHandle.HandleOrOffset));
+            writer.Write_H(_firstVertexHandleReference);
+            writer.Write_H(_lastVertexHandleReference);
+            writer.Write_H(_seqEndHandleReference);
         }
     }
 }

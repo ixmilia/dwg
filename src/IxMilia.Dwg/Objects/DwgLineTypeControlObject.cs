@@ -50,29 +50,29 @@ namespace IxMilia.Dwg.Objects
         internal override void OnBeforeObjectWrite()
         {
             base.OnBeforeObjectWrite();
-            _entityHandles.Clear();
+            _entityHandleReferences.Clear();
             foreach (var lineType in _lineTypes.Values.Where(lt => !IsHardCodedname(lt.Name)))
             {
-                _entityHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, lineType.Handle.HandleOrOffset));
-                lineType.LineTypeControlHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, Handle.HandleOrOffset);
+                _entityHandleReferences.Add(lineType.MakeHandleReference(DwgHandleReferenceCode.None));
+                lineType.LineTypeControlHandleReference = MakeHandleReference(DwgHandleReferenceCode.HardPointer);
             }
 
-            _byLayerHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, ByLayer.Handle.HandleOrOffset);
-            _byBlockHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, ByBlock.Handle.HandleOrOffset);
+            _byLayerHandleReference = ByLayer.MakeHandleReference(DwgHandleReferenceCode.SoftPointer);
+            _byBlockHandleReference = ByBlock.MakeHandleReference(DwgHandleReferenceCode.SoftPointer);
         }
 
         internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
         {
             _lineTypes.Clear();
-            foreach (var lineTypeHandle in _entityHandles)
+            foreach (var lineTypeHandleReference in _entityHandleReferences)
             {
-                if (lineTypeHandle.Code != DwgHandleReferenceCode.None)
+                if (lineTypeHandleReference.Code != DwgHandleReferenceCode.None)
                 {
                     throw new DwgReadException("Incorrect child line type handle code.");
                 }
 
-                var lineType = objectCache.GetObject<DwgLineType>(reader, lineTypeHandle.HandleOrOffset);
-                if (!lineType.LineTypeControlHandle.IsEmpty && lineType.LineTypeControlHandle.HandleOrOffset != Handle.HandleOrOffset)
+                var lineType = objectCache.GetObject<DwgLineType>(reader, ResolveHandleReference(lineTypeHandleReference));
+                if (!lineType.LineTypeControlHandleReference.IsEmpty && lineType.ResolveHandleReference(lineType.LineTypeControlHandleReference) != Handle)
                 {
                     throw new DwgReadException("Incorrect line type control object parent handle reference.");
                 }
@@ -80,18 +80,18 @@ namespace IxMilia.Dwg.Objects
                 _lineTypes.Add(lineType.Name, lineType);
             }
 
-            if (_byLayerHandle.Code != DwgHandleReferenceCode.SoftPointer)
+            if (_byLayerHandleReference.Code != DwgHandleReferenceCode.SoftPointer)
             {
                 throw new DwgReadException("Incorrect ByLayer line type handle code.");
             }
 
-            if (_byBlockHandle.Code != DwgHandleReferenceCode.SoftPointer)
+            if (_byBlockHandleReference.Code != DwgHandleReferenceCode.SoftPointer)
             {
                 throw new DwgReadException("Incorrect ByBlock line type handle code.");
             }
 
-            ByLayer = objectCache.GetObject<DwgLineType>(reader, _byLayerHandle.HandleOrOffset);
-            ByBlock = objectCache.GetObject<DwgLineType>(reader, _byBlockHandle.HandleOrOffset);
+            ByLayer = objectCache.GetObject<DwgLineType>(reader, ResolveHandleReference(_byLayerHandleReference));
+            ByBlock = objectCache.GetObject<DwgLineType>(reader, ResolveHandleReference(_byBlockHandleReference));
         }
 
         public void Add(DwgLineType lineType) => Add(lineType.Name, lineType);

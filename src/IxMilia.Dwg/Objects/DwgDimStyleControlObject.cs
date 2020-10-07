@@ -15,23 +15,23 @@ namespace IxMilia.Dwg.Objects
             base.OnBeforeObjectWrite();
             foreach (var style in _styles.Values)
             {
-                _entityHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, style.Handle.HandleOrOffset));
-                style.DimStyleControlHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, Handle.HandleOrOffset);
+                _entityHandleReferences.Add(style.MakeHandleReference(DwgHandleReferenceCode.None));
+                style.DimStyleControlHandleReference = MakeHandleReference(DwgHandleReferenceCode.HardPointer);
             }
         }
 
         internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
         {
             _styles.Clear();
-            foreach (var styleHandle in _entityHandles)
+            foreach (var styleHandleReference in _entityHandleReferences)
             {
-                if (styleHandle.Code != DwgHandleReferenceCode.None)
+                if (styleHandleReference.Code != DwgHandleReferenceCode.None)
                 {
                     throw new DwgReadException("Incorrect child style handle code.");
                 }
 
-                var style = objectCache.GetObject<DwgDimStyle>(reader, styleHandle.HandleOrOffset);
-                if (style.DimStyleControlHandle.HandleOrOffset != Handle.HandleOrOffset)
+                var style = objectCache.GetObject<DwgDimStyle>(reader, ResolveHandleReference(styleHandleReference));
+                if (style.ResolveHandleReference(style.DimStyleControlHandleReference) != Handle)
                 {
                     throw new DwgReadException("Incorrect style control object parent handle reference.");
                 }

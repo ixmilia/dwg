@@ -15,23 +15,23 @@ namespace IxMilia.Dwg.Objects
             base.OnBeforeObjectWrite();
             foreach (var ucs in _ucs.Values)
             {
-                _entityHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, ucs.Handle.HandleOrOffset));
-                ucs.UCSControlHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, Handle.HandleOrOffset);
+                _entityHandleReferences.Add(ucs.MakeHandleReference(DwgHandleReferenceCode.None));
+                ucs.UCSControlHandleReference = MakeHandleReference(DwgHandleReferenceCode.HardPointer);
             }
         }
 
         internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
         {
             _ucs.Clear();
-            foreach (var ucsHandle in _entityHandles)
+            foreach (var ucsHandleReference in _entityHandleReferences)
             {
-                if (ucsHandle.Code != DwgHandleReferenceCode.None)
+                if (ucsHandleReference.Code != DwgHandleReferenceCode.None)
                 {
                     throw new DwgReadException("Incorrect child UCS handle code.");
                 }
 
-                var ucs = objectCache.GetObject<DwgUCS>(reader, ucsHandle.HandleOrOffset);
-                if (ucs.UCSControlHandle.HandleOrOffset != Handle.HandleOrOffset)
+                var ucs = objectCache.GetObject<DwgUCS>(reader, ResolveHandleReference(ucsHandleReference));
+                if (ucs.ResolveHandleReference(ucs.UCSControlHandleReference) != Handle)
                 {
                     throw new DwgReadException("Incorrect UCS control object parent handle reference.");
                 }

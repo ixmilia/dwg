@@ -7,11 +7,11 @@ namespace IxMilia.Dwg.Objects
     public partial class DwgLayerControlObject : IDictionary<string, DwgLayer>
     {
         private Dictionary<string, DwgLayer> _layers = new Dictionary<string, DwgLayer>(StringComparer.OrdinalIgnoreCase);
-        private Dictionary<int, DwgLayer> _layersFromHandle = new Dictionary<int, DwgLayer>();
+        private Dictionary<DwgHandle, DwgLayer> _layersFromHandle = new Dictionary<DwgHandle, DwgLayer>();
 
         internal override IEnumerable<DwgObject> ChildItems => _layers.Values;
 
-        internal DwgLayer LayerFromHandle(int handle)
+        internal DwgLayer LayerFromHandle(DwgHandle handle)
         {
             if (_layersFromHandle.TryGetValue(handle, out var layer))
             {
@@ -26,8 +26,8 @@ namespace IxMilia.Dwg.Objects
             base.OnBeforeObjectWrite();
             foreach (var layer in _layers.Values)
             {
-                _entityHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, layer.Handle.HandleOrOffset));
-                layer.LayerControlHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, Handle.HandleOrOffset);
+                _entityHandleReferences.Add(layer.MakeHandleReference(DwgHandleReferenceCode.None));
+                layer.LayerControlHandleReference = MakeHandleReference(DwgHandleReferenceCode.HardPointer);
             }
         }
 
@@ -35,21 +35,21 @@ namespace IxMilia.Dwg.Objects
         {
             _layers.Clear();
             _layersFromHandle.Clear();
-            foreach (var layerHandle in _entityHandles)
+            foreach (var layerHandleReference in _entityHandleReferences)
             {
-                if (layerHandle.Code != DwgHandleReferenceCode.None)
+                if (layerHandleReference.Code != DwgHandleReferenceCode.None)
                 {
                     throw new DwgReadException("Incorrect child layer handle code.");
                 }
 
-                var layer = objectCache.GetObject<DwgLayer>(reader, layerHandle.HandleOrOffset);
-                if (layer.LayerControlHandle.HandleOrOffset != Handle.HandleOrOffset)
+                var layer = objectCache.GetObject<DwgLayer>(reader, ResolveHandleReference(layerHandleReference));
+                if (layer.ResolveHandleReference(layer.LayerControlHandleReference) != Handle)
                 {
                     throw new DwgReadException("Incorrect layer control object parent handle reference.");
                 }
 
                 _layers.Add(layer.Name, layer);
-                _layersFromHandle.Add(layer.Handle.HandleOrOffset, layer);
+                _layersFromHandle.Add(layer.Handle, layer);
             }
         }
 
@@ -71,14 +71,14 @@ namespace IxMilia.Dwg.Objects
             set
             {
                 ((IDictionary<string, DwgLayer>)_layers)[key] = value;
-                _layersFromHandle[value.Handle.HandleOrOffset] = value;
+                _layersFromHandle[value.Handle] = value;
             }
         }
 
         public void Add(string key, DwgLayer value)
         {
             ((IDictionary<string, DwgLayer>)_layers).Add(key, value);
-            _layersFromHandle.Add(value.Handle.HandleOrOffset, value);
+            _layersFromHandle.Add(value.Handle, value);
         }
 
         public bool ContainsKey(string key) => ((IDictionary<string, DwgLayer>)_layers).ContainsKey(key);
@@ -87,7 +87,7 @@ namespace IxMilia.Dwg.Objects
         {
             if (_layers.TryGetValue(key, out var layer))
             {
-                _layersFromHandle.Remove(layer.Handle.HandleOrOffset);
+                _layersFromHandle.Remove(layer.Handle);
             }
 
             return ((IDictionary<string, DwgLayer>)_layers).Remove(key);
@@ -98,7 +98,7 @@ namespace IxMilia.Dwg.Objects
         public void Add(KeyValuePair<string, DwgLayer> item)
         {
             ((IDictionary<string, DwgLayer>)_layers).Add(item);
-            _layersFromHandle.Add(item.Value.Handle.HandleOrOffset, item.Value);
+            _layersFromHandle.Add(item.Value.Handle, item.Value);
         }
 
         public void Clear()
@@ -113,7 +113,7 @@ namespace IxMilia.Dwg.Objects
 
         public bool Remove(KeyValuePair<string, DwgLayer> item)
         {
-            _layersFromHandle.Remove(item.Value.Handle.HandleOrOffset);
+            _layersFromHandle.Remove(item.Value.Handle);
             return ((IDictionary<string, DwgLayer>)_layers).Remove(item);
         }
 

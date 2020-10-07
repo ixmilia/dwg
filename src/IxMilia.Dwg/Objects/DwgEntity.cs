@@ -16,9 +16,9 @@ namespace IxMilia.Dwg.Objects
         public double LineTypeScale { get; set; }
         protected short _invisibility;
         public DwgLayer Layer { get; set; }
-        internal DwgHandleReference LayerHandle { get; set; }
+        internal DwgHandleReference LayerHandleReference { get; set; }
         public DwgLineType LineType { get; set; }
-        internal DwgHandleReference LineTypeHandle { get; set; }
+        internal DwgHandleReference LineTypeHandleReference { get; set; }
         internal DwgHandleReference PreviousEntityHandle { get; set; } = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0);
         internal DwgHandleReference NextEntityHandle { get; set; } = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0);
 
@@ -32,7 +32,7 @@ namespace IxMilia.Dwg.Objects
 
         internal override void ReadCommonDataStart(BitReader reader)
         {
-            Handle = reader.Read_H();
+            Handle = reader.Read_H().AsDeclarationHandle();
             _xdataMap = DwgXData.Parse(reader);
             _isGraphicPresent = reader.Read_B();
             if (_isGraphicPresent)
@@ -60,14 +60,14 @@ namespace IxMilia.Dwg.Objects
 
             for (int i = 0; i < _reactorCount; i++)
             {
-                _reactorHandles.Add(reader.Read_H());
+                _reactorHandleReferences.Add(reader.Read_H());
             }
 
-            _xDictionaryObjectHandle = reader.Read_H();
-            LayerHandle = reader.Read_H();
+            _xDictionaryObjectHandleReference = reader.Read_H();
+            LayerHandleReference = reader.Read_H();
             if (!_isLineTypeByLayer)
             {
-                LineTypeHandle = reader.Read_H();
+                LineTypeHandleReference = reader.Read_H();
             }
 
             if (!_noLinks)
@@ -81,9 +81,9 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal override int WriteCommonDataStart(BitWriter writer, IDictionary<string, int> appIdMap)
+        internal override int WriteCommonDataStart(BitWriter writer, IDictionary<string, DwgHandle> appIdMap)
         {
-            writer.Write_H(Handle);
+            writer.Write_H(Handle.MakeDeclarationHandleReference());
             XData.Write(writer, appIdMap);
             writer.Write_B(_isGraphicPresent);
             if (_isGraphicPresent)
@@ -113,14 +113,14 @@ namespace IxMilia.Dwg.Objects
 
             for (int i = 0; i < _reactorCount; i++)
             {
-                writer.Write_H(_reactorHandles[i]);
+                writer.Write_H(_reactorHandleReferences[i]);
             }
 
-            writer.Write_H(_xDictionaryObjectHandle);
-            writer.Write_H(LayerHandle);
+            writer.Write_H(_xDictionaryObjectHandleReference);
+            writer.Write_H(LayerHandleReference);
             if (!_isLineTypeByLayer)
             {
-                writer.Write_H(LineTypeHandle);
+                writer.Write_H(LineTypeHandleReference);
             }
 
             if (!_noLinks)
@@ -137,8 +137,8 @@ namespace IxMilia.Dwg.Objects
         internal override void OnBeforeObjectWrite()
         {
             base.OnBeforeObjectWrite();
-            LayerHandle = GetHandleToObject(Layer, DwgHandleReferenceCode.SoftOwner, throwOnNull: true);
-            LineTypeHandle = GetHandleToObject(LineType, DwgHandleReferenceCode.SoftOwner);
+            LayerHandleReference = GetHandleToObject(Layer, DwgHandleReferenceCode.SoftOwner, throwOnNull: true);
+            LineTypeHandleReference = GetHandleToObject(LineType, DwgHandleReferenceCode.SoftOwner);
             _isLineTypeByLayer = LineType == null;
             _noLinks = PreviousEntityHandle.IsValidNavigationHandle && NextEntityHandle.IsValidNavigationHandle;
             OnBeforeEntityWrite();
@@ -146,35 +146,35 @@ namespace IxMilia.Dwg.Objects
 
         internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
         {
-            if (LayerHandle.Code != DwgHandleReferenceCode.SoftOwner && LayerHandle.Code != DwgHandleReferenceCode.HardOwner)
+            if (LayerHandleReference.Code != DwgHandleReferenceCode.SoftOwner && LayerHandleReference.Code != DwgHandleReferenceCode.HardOwner)
             {
-                throw new DwgReadException("Incorrect layer handle code.");
+                throw new DwgReadException($"Incorrect layer handle code {LayerHandleReference.Code}.");
             }
 
-            if (!_isLineTypeByLayer && (LineTypeHandle.IsEmpty || !LineTypeHandle.IsValidNavigationHandle))
+            if (!_isLineTypeByLayer && (LineTypeHandleReference.IsEmpty || !LineTypeHandleReference.IsValidNavigationHandle))
             {
-                throw new DwgReadException("Incorrect line type handle code.");
+                throw new DwgReadException($"Incorrect line type handle code {LineTypeHandleReference.Code}.");
             }
 
             if (!_noLinks && !PreviousEntityHandle.IsNullNavigationHandle && !PreviousEntityHandle.IsValidNavigationHandle)
             {
-                throw new DwgReadException("Invalid previous entity handle code.");
+                throw new DwgReadException($"Invalid previous entity handle code {PreviousEntityHandle.Code}.");
             }
 
             if (!_noLinks && !NextEntityHandle.IsNullNavigationHandle && !NextEntityHandle.IsValidNavigationHandle)
             {
-                throw new DwgReadException("Invalid next entity handle code.");
+                throw new DwgReadException($"Invalid next entity handle code {NextEntityHandle.Code}.");
             }
 
             if (_entityMode == 0 && !_subentityRef.IsValidNavigationHandle)
             {
-                throw new DwgReadException("Incorrect sub entity handle code.");
+                throw new DwgReadException($"Incorrect sub entity handle code {_subentityRef.Code}.");
             }
 
-            Layer = objectCache.GetObject<DwgLayer>(reader, GetNavigationHandle(LayerHandle).HandleOrOffset);
+            Layer = objectCache.GetObject<DwgLayer>(reader, ResolveHandleReference(LayerHandleReference));
             if (!_isLineTypeByLayer)
             {
-                LineType = objectCache.GetObject<DwgLineType>(reader, GetNavigationHandle(LineTypeHandle).HandleOrOffset);
+                LineType = objectCache.GetObject<DwgLineType>(reader, ResolveHandleReference(LineTypeHandleReference));
             }
 
             OnAfterEntityRead(reader, objectCache);

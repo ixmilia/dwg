@@ -37,7 +37,7 @@ namespace IxMilia.Dwg.Test
             {
                 var writer = new BitWriter(ms);
                 var classMap = ClassMap();
-                var appIdMap = new Dictionary<string, int>();
+                var appIdMap = new Dictionary<string, DwgHandle>();
                 obj.PrepareCommonValues();
                 obj.WriteCoreRaw(writer, DwgVersionId.R14, classMap, appIdMap);
                 var actual = writer.AsBytes();
@@ -49,11 +49,11 @@ namespace IxMilia.Dwg.Test
         public void WriteRawDictionaryVar()
         {
             var d = new DwgDictionaryVar();
-            d.Handle = new DwgHandleReference(DwgHandleReferenceCode.Declaration, 0x01EA);
+            d.Handle = new DwgHandle(0x01EA);
             d.IntVal = 0;
             d.Str = "3";
-            d._parentHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0x00);
-            d._reactorHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0xA2));
+            d._parentHandleReference = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0x00);
+            d._reactorHandleReferences.Add(new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0xA2));
             WriteRaw(d,
                 0x12, 0x00,                                     // length
                 0x3E, 0x40, 0x40, 0x80, 0x7A, 0xA7, 0x00, 0x00, // data

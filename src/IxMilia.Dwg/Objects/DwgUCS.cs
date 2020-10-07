@@ -19,7 +19,7 @@ namespace IxMilia.Dwg.Objects
 
         internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
         {
-            if (UCSControlHandle.Code != DwgHandleReferenceCode.HardPointer)
+            if (UCSControlHandleReference.Code != DwgHandleReferenceCode.HardPointer)
             {
                 throw new DwgReadException("Incorrect UCS control object parent handle code.");
             }

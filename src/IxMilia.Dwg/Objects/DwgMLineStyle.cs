@@ -35,12 +35,12 @@ namespace IxMilia.Dwg.Objects
                 writer.Write_BS(_lineStyleLineTypeIndicies[i]);
             }
             _objectSize = writer.BitCount;
-            writer.Write_H(_parentHandle);
+            writer.Write_H(_parentHandleReference);
             for (int i = 0; i < _reactorCount; i++)
             {
-                writer.Write_H(_reactorHandles[i]);
+                writer.Write_H(_reactorHandleReferences[i]);
             }
-            writer.Write_H(_xDictionaryObjectHandle);
+            writer.Write_H(_xDictionaryObjectHandleReference);
         }
 
         internal override void ParseSpecific(BitReader reader, int objectBitOffsetStart, DwgVersionId version)
@@ -59,12 +59,12 @@ namespace IxMilia.Dwg.Objects
                 _lineStyleLineTypeIndicies.Add(reader.Read_BS());
             }
             AssertObjectSize(reader, objectBitOffsetStart);
-            _parentHandle = reader.Read_H();
+            _parentHandleReference = reader.Read_H();
             for (int i = 0; i < _reactorCount; i++)
             {
-                _reactorHandles.Add(reader.Read_H());
+                _reactorHandleReferences.Add(reader.Read_H());
             }
-            _xDictionaryObjectHandle = reader.Read_H();
+            _xDictionaryObjectHandleReference = reader.Read_H();
         }
 
         internal static DwgMLineStyle GetDefaultMLineStyle()

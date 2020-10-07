@@ -13,26 +13,26 @@ namespace IxMilia.Dwg.Objects
         internal override void OnBeforeObjectWrite()
         {
             base.OnBeforeObjectWrite();
-            _entityHandles.Clear();
+            _entityHandleReferences.Clear();
             foreach (var appId in _appIds.Values)
             {
-                _entityHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, appId.Handle.HandleOrOffset));
-                appId.AppIdControlHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, Handle.HandleOrOffset);
+                _entityHandleReferences.Add(appId.MakeHandleReference(DwgHandleReferenceCode.None));
+                appId.AppIdControlHandleReference = MakeHandleReference(DwgHandleReferenceCode.HardPointer);
             }
         }
 
         internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
         {
             _appIds.Clear();
-            foreach (var appIdHandle in _entityHandles)
+            foreach (var appIdHandleReference in _entityHandleReferences)
             {
-                if (appIdHandle.Code != DwgHandleReferenceCode.None)
+                if (appIdHandleReference.Code != DwgHandleReferenceCode.None)
                 {
                     throw new DwgReadException("Incorrect child app id handle code.");
                 }
 
-                var appId = objectCache.GetObject<DwgAppId>(reader, appIdHandle.HandleOrOffset);
-                if (appId.AppIdControlHandle.HandleOrOffset != Handle.HandleOrOffset)
+                var appId = objectCache.GetObject<DwgAppId>(reader, ResolveHandleReference(appIdHandleReference));
+                if (appId.ResolveHandleReference(appId.AppIdControlHandleReference) != Handle)
                 {
                     throw new DwgReadException("Incorrect app id control object parent handle reference.");
                 }

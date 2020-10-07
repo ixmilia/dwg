@@ -9,9 +9,9 @@ namespace IxMilia.Dwg
     {
         private IDictionary<string, IList<DwgXDataItem>> _items = new Dictionary<string, IList<DwgXDataItem>>();
 
-        internal static IDictionary<int, IList<DwgXDataItem>> Parse(BitReader reader)
+        internal static IDictionary<DwgHandle, IList<DwgXDataItem>> Parse(BitReader reader)
         {
-            var xdata = new Dictionary<int, IList<DwgXDataItem>>();
+            var xdata = new Dictionary<DwgHandle, IList<DwgXDataItem>>();
             var xdataLength = reader.Read_BS();
             while (xdataLength > 0)
             {
@@ -23,7 +23,7 @@ namespace IxMilia.Dwg
 
                 var xdataReader = reader.FromOffsetWithBitOffset(reader.Offset, reader.Offset + xdataLength);
                 var xdataItems = DwgXDataItem.ParseItems(xdataReader);
-                xdata.Add(applicationHandle.HandleOrOffset, xdataItems);
+                xdata.Add(applicationHandle.AsAbsoluteHandle(), xdataItems);
 
                 var _ = reader.ReadBytes(xdataLength); // fast-forward the main reader
                 xdataLength = reader.Read_BS();
@@ -32,7 +32,7 @@ namespace IxMilia.Dwg
             return xdata;
         }
 
-        internal static DwgXData FromMap(BitReader reader, DwgObjectCache objectCache, IDictionary<int, IList<DwgXDataItem>> xdataMap)
+        internal static DwgXData FromMap(BitReader reader, DwgObjectCache objectCache, IDictionary<DwgHandle, IList<DwgXDataItem>> xdataMap)
         {
             var xdata = new DwgXData();
             foreach (var pair in xdataMap)
@@ -54,7 +54,7 @@ namespace IxMilia.Dwg
             return xdata;
         }
 
-        internal void Write(BitWriter writer, IDictionary<string, int> appIdMap)
+        internal void Write(BitWriter writer, IDictionary<string, DwgHandle> appIdMap)
         {
             foreach (var pair in _items)
             {
@@ -73,7 +73,7 @@ namespace IxMilia.Dwg
 
                     var bytes = tempWriter.AsBytes();
                     writer.Write_BS((short)bytes.Length);
-                    writer.Write_H(new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, handle));
+                    writer.Write_H(handle.MakeHandleReference(DwgHandleReferenceCode.SoftOwner));
                     writer.WriteBytes(bytes);
                 }
             }

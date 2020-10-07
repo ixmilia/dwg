@@ -139,7 +139,7 @@ namespace IxMilia.Dwg
             if (drawing.FileHeader.ObjectFreeSpaceLocator.Pointer != 0)
             {
                 var freeSpaceSection = DwgObjectFreeSpaceSection.Parse(reader.FromOffset(drawing.FileHeader.ObjectFreeSpaceLocator.Pointer));
-                var objectOffset = objectCache.GetOffsetFromHandle(drawing.Variables.BlockControlObjectHandle.HandleOrOffset);
+                var objectOffset = objectCache.GetOffsetFromHandle(drawing.Variables.BlockControlObjectHandle.AsAbsoluteHandle());
                 // TODO: if (version > DwgVersionId.R14) TDUUPDATE else TDUPDATE
                 freeSpaceSection.Validate((uint)objectCache.ObjectCount, drawing.Variables.UpdateDate, (uint)objectOffset);
             }
@@ -168,33 +168,33 @@ namespace IxMilia.Dwg
             AssertHandleType(Variables.ByBlockLineTypeHandle, DwgHandleReferenceCode.SoftOwner, nameof(Variables.ByBlockLineTypeHandle));
             AssertHandleType(Variables.ContinuousLineTypeHandle, DwgHandleReferenceCode.SoftOwner, nameof(Variables.ContinuousLineTypeHandle));
 
-            BlockHeaders = objectCache.GetObject<DwgBlockControlObject>(reader, Variables.BlockControlObjectHandle.HandleOrOffset);
-            Layers = objectCache.GetObject<DwgLayerControlObject>(reader, Variables.LayerControlObjectHandle.HandleOrOffset);
-            Styles = objectCache.GetObject<DwgStyleControlObject>(reader, Variables.StyleObjectControlHandle.HandleOrOffset);
-            LineTypes = objectCache.GetObject<DwgLineTypeControlObject>(reader, Variables.LineTypeObjectControlHandle.HandleOrOffset);
-            Views = objectCache.GetObject<DwgViewControlObject>(reader, Variables.ViewControlObjectHandle.HandleOrOffset);
-            UCSs = objectCache.GetObject<DwgUCSControlObject>(reader, Variables.UcsControlObjectHandle.HandleOrOffset);
-            ViewPorts = objectCache.GetObject<DwgViewPortControlObject>(reader, Variables.ViewPortControlObjectHandle.HandleOrOffset);
-            AppIds = objectCache.GetObject<DwgAppIdControlObject>(reader, Variables.AppIdControlObjectHandle.HandleOrOffset);
-            DimStyles = objectCache.GetObject<DwgDimStyleControlObject>(reader, Variables.DimStyleControlObjectHandle.HandleOrOffset);
-            ViewPortEntityHeaders = objectCache.GetObject<DwgViewPortEntityHeaderControlObject>(reader, Variables.ViewPortEntityHeaderControlObjectHandle.HandleOrOffset);
-            GroupDictionary = objectCache.GetObject<DwgDictionary>(reader, Variables.GroupDictionaryHandle.HandleOrOffset);
-            MLineStyleDictionary = objectCache.GetObject<DwgDictionary>(reader, Variables.MLineStyleDictionaryHandle.HandleOrOffset);
-            NamedObjectDictionary = objectCache.GetObject<DwgDictionary>(reader, Variables.NamedObjectsDictionaryHandle.HandleOrOffset);
-            PaperSpaceBlockRecord = objectCache.GetObject<DwgBlockHeader>(reader, Variables.PaperSpaceBlockRecordHandle.HandleOrOffset);
-            ModelSpaceBlockRecord = objectCache.GetObject<DwgBlockHeader>(reader, Variables.ModelSpaceBlockRecordHandle.HandleOrOffset);
-            ByLayerLineType = objectCache.GetObject<DwgLineType>(reader, Variables.ByLayerLineTypeHandle.HandleOrOffset);
-            ByBlockLineType = objectCache.GetObject<DwgLineType>(reader, Variables.ByBlockLineTypeHandle.HandleOrOffset);
-            ContinuousLineType = objectCache.GetObject<DwgLineType>(reader, Variables.ContinuousLineTypeHandle.HandleOrOffset);
-            CurrentViewPort = objectCache.GetObjectOrDefault<DwgViewPort>(reader, Variables.CurrentViewPortEntityHandle.HandleOrOffset);
-            CurrentLayer = objectCache.GetObject<DwgLayer>(reader, Variables.CurrentLayerHandle.HandleOrOffset);
-            TextStyle = objectCache.GetObject<DwgStyle>(reader, Variables.TextStyleHandle.HandleOrOffset);
-            CurrentEntityLineType = objectCache.GetObject<DwgLineType>(reader, Variables.CurrentEntityLineTypeHandle.HandleOrOffset);
-            DimensionStyle = objectCache.GetObject<DwgDimStyle>(reader, Variables.DimensionStyleHandle.HandleOrOffset);
-            CurrentMultiLineStyle = objectCache.GetObject<DwgMLineStyle>(reader, Variables.CurrentMultiLineStyleHandle.HandleOrOffset);
-            PaperSpaceCurrentUCS = objectCache.GetObjectOrDefault<DwgUCS>(reader, Variables.PaperSpaceCurrentUCSHandle.HandleOrOffset);
-            CurrentUCS = objectCache.GetObjectOrDefault<DwgUCS>(reader, Variables.CurrentUCSHandle.HandleOrOffset);
-            DimensionTextStyle = objectCache.GetObject<DwgStyle>(reader, Variables.DimensionTextStyleHandle.HandleOrOffset);
+            BlockHeaders = objectCache.GetObject<DwgBlockControlObject>(reader, Variables.BlockControlObjectHandle.AsAbsoluteHandle());
+            Layers = objectCache.GetObject<DwgLayerControlObject>(reader, Variables.LayerControlObjectHandle.AsAbsoluteHandle());
+            Styles = objectCache.GetObject<DwgStyleControlObject>(reader, Variables.StyleObjectControlHandle.AsAbsoluteHandle());
+            LineTypes = objectCache.GetObject<DwgLineTypeControlObject>(reader, Variables.LineTypeObjectControlHandle.AsAbsoluteHandle());
+            Views = objectCache.GetObject<DwgViewControlObject>(reader, Variables.ViewControlObjectHandle.AsAbsoluteHandle());
+            UCSs = objectCache.GetObject<DwgUCSControlObject>(reader, Variables.UcsControlObjectHandle.AsAbsoluteHandle());
+            ViewPorts = objectCache.GetObject<DwgViewPortControlObject>(reader, Variables.ViewPortControlObjectHandle.AsAbsoluteHandle());
+            AppIds = objectCache.GetObject<DwgAppIdControlObject>(reader, Variables.AppIdControlObjectHandle.AsAbsoluteHandle());
+            DimStyles = objectCache.GetObject<DwgDimStyleControlObject>(reader, Variables.DimStyleControlObjectHandle.AsAbsoluteHandle());
+            ViewPortEntityHeaders = objectCache.GetObject<DwgViewPortEntityHeaderControlObject>(reader, Variables.ViewPortEntityHeaderControlObjectHandle.AsAbsoluteHandle());
+            GroupDictionary = objectCache.GetObject<DwgDictionary>(reader, Variables.GroupDictionaryHandle.AsAbsoluteHandle());
+            MLineStyleDictionary = objectCache.GetObject<DwgDictionary>(reader, Variables.MLineStyleDictionaryHandle.AsAbsoluteHandle());
+            NamedObjectDictionary = objectCache.GetObject<DwgDictionary>(reader, Variables.NamedObjectsDictionaryHandle.AsAbsoluteHandle());
+            PaperSpaceBlockRecord = objectCache.GetObject<DwgBlockHeader>(reader, Variables.PaperSpaceBlockRecordHandle.AsAbsoluteHandle());
+            ModelSpaceBlockRecord = objectCache.GetObject<DwgBlockHeader>(reader, Variables.ModelSpaceBlockRecordHandle.AsAbsoluteHandle());
+            ByLayerLineType = objectCache.GetObject<DwgLineType>(reader, Variables.ByLayerLineTypeHandle.AsAbsoluteHandle());
+            ByBlockLineType = objectCache.GetObject<DwgLineType>(reader, Variables.ByBlockLineTypeHandle.AsAbsoluteHandle());
+            ContinuousLineType = objectCache.GetObject<DwgLineType>(reader, Variables.ContinuousLineTypeHandle.AsAbsoluteHandle());
+            CurrentViewPort = objectCache.GetObjectOrDefault<DwgViewPort>(reader, Variables.CurrentViewPortEntityHandle.AsAbsoluteHandle());
+            CurrentLayer = objectCache.GetObject<DwgLayer>(reader, Variables.CurrentLayerHandle.AsAbsoluteHandle());
+            TextStyle = objectCache.GetObject<DwgStyle>(reader, Variables.TextStyleHandle.AsAbsoluteHandle());
+            CurrentEntityLineType = objectCache.GetObject<DwgLineType>(reader, Variables.CurrentEntityLineTypeHandle.AsAbsoluteHandle());
+            DimensionStyle = objectCache.GetObject<DwgDimStyle>(reader, Variables.DimensionStyleHandle.AsAbsoluteHandle());
+            CurrentMultiLineStyle = objectCache.GetObject<DwgMLineStyle>(reader, Variables.CurrentMultiLineStyleHandle.AsAbsoluteHandle());
+            PaperSpaceCurrentUCS = objectCache.GetObjectOrDefault<DwgUCS>(reader, Variables.PaperSpaceCurrentUCSHandle.AsAbsoluteHandle());
+            CurrentUCS = objectCache.GetObjectOrDefault<DwgUCS>(reader, Variables.CurrentUCSHandle.AsAbsoluteHandle());
+            DimensionTextStyle = objectCache.GetObject<DwgStyle>(reader, Variables.DimensionTextStyleHandle.AsAbsoluteHandle());
         }
 
         private static void AssertHandleType(DwgHandleReference handle, DwgHandleReferenceCode expectedHandleCode, string itemName)
@@ -248,7 +248,7 @@ namespace IxMilia.Dwg
 
             var objectFreeSpaceStart = writer.Position;
             // TODO: if (version > DwgVersionId.R14) TDUUPDATE else TDUPDATE
-            var objectStart = objectMap.GetOffsetFromHandle(Variables.BlockControlObjectHandle.HandleOrOffset);
+            var objectStart = objectMap.GetOffsetFromHandle(Variables.BlockControlObjectHandle.AsAbsoluteHandle());
             var freeSpaceSection = new DwgObjectFreeSpaceSection((uint)objectMap.HandleCount, Variables.UpdateDate, (uint)objectStart);
             freeSpaceSection.Write(writer);
             FileHeader.ObjectFreeSpaceLocator = DwgFileHeader.DwgSectionLocator.ObjectFreeSpaceLocator(objectFreeSpaceStart - fileHeaderLocation, writer.Position - objectFreeSpaceStart);
@@ -297,34 +297,34 @@ namespace IxMilia.Dwg
             MLineStyleDictionary.AssignHandles(objectMap);
             NamedObjectDictionary.AssignHandles(objectMap);
 
-            Variables.BlockControlObjectHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, BlockHeaders.Handle.HandleOrOffset);
-            Variables.LayerControlObjectHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, Layers.Handle.HandleOrOffset);
-            Variables.StyleObjectControlHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, Styles.Handle.HandleOrOffset);
-            Variables.LineTypeObjectControlHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, LineTypes.Handle.HandleOrOffset);
-            Variables.ViewControlObjectHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, Views.Handle.HandleOrOffset);
-            Variables.UcsControlObjectHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, UCSs.Handle.HandleOrOffset);
-            Variables.ViewPortControlObjectHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, ViewPorts.Handle.HandleOrOffset);
-            Variables.AppIdControlObjectHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, AppIds.Handle.HandleOrOffset);
-            Variables.DimStyleControlObjectHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, DimStyles.Handle.HandleOrOffset);
-            Variables.ViewPortEntityHeaderControlObjectHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, ViewPortEntityHeaders.Handle.HandleOrOffset);
-            Variables.GroupDictionaryHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, GroupDictionary.Handle.HandleOrOffset);
-            Variables.MLineStyleDictionaryHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, MLineStyleDictionary.Handle.HandleOrOffset);
-            Variables.NamedObjectsDictionaryHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, NamedObjectDictionary.Handle.HandleOrOffset);
+            Variables.BlockControlObjectHandle = BlockHeaders.MakeHandleReference(DwgHandleReferenceCode.SoftPointer);
+            Variables.LayerControlObjectHandle = Layers.MakeHandleReference(DwgHandleReferenceCode.SoftPointer);
+            Variables.StyleObjectControlHandle = Styles.MakeHandleReference(DwgHandleReferenceCode.SoftPointer);
+            Variables.LineTypeObjectControlHandle = LineTypes.MakeHandleReference(DwgHandleReferenceCode.SoftPointer);
+            Variables.ViewControlObjectHandle = Views.MakeHandleReference(DwgHandleReferenceCode.SoftPointer);
+            Variables.UcsControlObjectHandle = UCSs.MakeHandleReference(DwgHandleReferenceCode.SoftPointer);
+            Variables.ViewPortControlObjectHandle = ViewPorts.MakeHandleReference(DwgHandleReferenceCode.SoftPointer);
+            Variables.AppIdControlObjectHandle = AppIds.MakeHandleReference(DwgHandleReferenceCode.SoftPointer);
+            Variables.DimStyleControlObjectHandle = DimStyles.MakeHandleReference(DwgHandleReferenceCode.SoftPointer);
+            Variables.ViewPortEntityHeaderControlObjectHandle = ViewPortEntityHeaders.MakeHandleReference(DwgHandleReferenceCode.SoftPointer);
+            Variables.GroupDictionaryHandle = GroupDictionary.MakeHandleReference(DwgHandleReferenceCode.SoftOwner);
+            Variables.MLineStyleDictionaryHandle = MLineStyleDictionary.MakeHandleReference(DwgHandleReferenceCode.SoftOwner);
+            Variables.NamedObjectsDictionaryHandle = NamedObjectDictionary.MakeHandleReference(DwgHandleReferenceCode.SoftPointer);
 
-            Variables.PaperSpaceBlockRecordHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, PaperSpaceBlockRecord.Handle.HandleOrOffset);
-            Variables.ModelSpaceBlockRecordHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, ModelSpaceBlockRecord.Handle.HandleOrOffset);
-            Variables.ByLayerLineTypeHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, ByLayerLineType.Handle.HandleOrOffset);
-            Variables.ByBlockLineTypeHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, ByBlockLineType.Handle.HandleOrOffset);
-            Variables.ContinuousLineTypeHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, ContinuousLineType.Handle.HandleOrOffset);
-            Variables.CurrentViewPortEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, CurrentViewPort?.Handle.HandleOrOffset ?? 0);
-            Variables.CurrentLayerHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, CurrentLayer.Handle.HandleOrOffset);
-            Variables.TextStyleHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, TextStyle.Handle.HandleOrOffset);
-            Variables.CurrentEntityLineTypeHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, CurrentEntityLineType.Handle.HandleOrOffset);
-            Variables.DimensionStyleHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, DimensionStyle.Handle.HandleOrOffset);
-            Variables.CurrentMultiLineStyleHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, CurrentMultiLineStyle.Handle.HandleOrOffset);
-            Variables.PaperSpaceCurrentUCSHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, PaperSpaceCurrentUCS?.Handle.HandleOrOffset ?? 0);
-            Variables.CurrentUCSHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, CurrentUCS?.Handle.HandleOrOffset ?? 0);
-            Variables.DimensionTextStyleHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, DimensionTextStyle.Handle.HandleOrOffset);
+            Variables.PaperSpaceBlockRecordHandle = PaperSpaceBlockRecord.MakeHandleReference(DwgHandleReferenceCode.SoftOwner);
+            Variables.ModelSpaceBlockRecordHandle = ModelSpaceBlockRecord.MakeHandleReference(DwgHandleReferenceCode.SoftOwner);
+            Variables.ByLayerLineTypeHandle = ByLayerLineType.MakeHandleReference(DwgHandleReferenceCode.SoftOwner);
+            Variables.ByBlockLineTypeHandle = ByBlockLineType.MakeHandleReference(DwgHandleReferenceCode.SoftOwner);
+            Variables.ContinuousLineTypeHandle = ContinuousLineType.MakeHandleReference(DwgHandleReferenceCode.SoftOwner);
+            Variables.CurrentViewPortEntityHandle = (CurrentViewPort?.Handle ?? new DwgHandle()).MakeHandleReference(DwgHandleReferenceCode.SoftOwner);
+            Variables.CurrentLayerHandle = CurrentLayer.MakeHandleReference(DwgHandleReferenceCode.SoftOwner);
+            Variables.TextStyleHandle = TextStyle.MakeHandleReference(DwgHandleReferenceCode.SoftOwner);
+            Variables.CurrentEntityLineTypeHandle = CurrentEntityLineType.MakeHandleReference(DwgHandleReferenceCode.SoftOwner);
+            Variables.DimensionStyleHandle = DimensionStyle.MakeHandleReference(DwgHandleReferenceCode.SoftOwner);
+            Variables.CurrentMultiLineStyleHandle = CurrentMultiLineStyle.MakeHandleReference(DwgHandleReferenceCode.SoftOwner);
+            Variables.PaperSpaceCurrentUCSHandle = (PaperSpaceCurrentUCS?.Handle ?? new DwgHandle()).MakeHandleReference(DwgHandleReferenceCode.SoftOwner);
+            Variables.CurrentUCSHandle = (CurrentUCS?.Handle ?? new DwgHandle()).MakeHandleReference(DwgHandleReferenceCode.SoftOwner);
+            Variables.DimensionTextStyleHandle = (DimensionTextStyle?.Handle ?? new DwgHandle()).MakeHandleReference(DwgHandleReferenceCode.SoftOwner);
 
             objectMap.SetNextAvailableHandle(Variables);
         }
@@ -402,9 +402,9 @@ namespace IxMilia.Dwg
                 classMap.Add(Classes[i].DxfClassName.ToUpperInvariant(), Classes[i].Number);
             }
 
-            var appIdMap = AppIds.ToDictionary(appId => appId.Key, appId => appId.Value.Handle.HandleOrOffset);
+            var appIdMap = AppIds.ToDictionary(appId => appId.Key, appId => appId.Value.Handle);
 
-            var writtenHandles = new HashSet<int>();
+            var writtenHandles = new HashSet<DwgHandle>();
             foreach (var groupObject in TopLevelObjects)
             {
                 groupObject.Write(writer, objectMap, writtenHandles, FileHeader.Version, classMap, appIdMap);

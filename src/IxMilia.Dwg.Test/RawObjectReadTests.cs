@@ -48,7 +48,7 @@ namespace IxMilia.Dwg.Test
                 0x00,
                 0xC9, 0x72                                      // crc
             );
-            Assert.Equal(0x4C, text.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x4C), text.Handle);
             Assert.Equal(0.0, text.Elevation);
             Assert.Equal(new DwgPoint(3.0, 4.0, 0.0), text.InsertionPoint);
             Assert.Equal(DwgPoint.Origin, text.AlignmentPoint);
@@ -83,7 +83,7 @@ namespace IxMilia.Dwg.Test
                 0x00, 0x60, 0xA2, 0x1E, 0x80, 0x80, 0xA2, 0x21,
                 0x6F, 0xA6                                      // crc
             );
-            Assert.Equal(0x52, attr.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x52), attr.Handle);
             Assert.Equal(0.0, attr.Elevation);
             Assert.Equal(new DwgPoint(5.0, 7.0, 0.0), attr.InsertionPoint);
             Assert.Equal(DwgPoint.Origin, attr.AlignmentPoint);
@@ -119,7 +119,7 @@ namespace IxMilia.Dwg.Test
                 0x18, 0x28, 0x87, 0xA0, 0x20, 0x28, 0x88, 0x00,
                 0x78, 0x53                                      // crc
             );
-            Assert.Equal(0x4C, attdef.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x4C), attdef.Handle);
             Assert.Equal(0.0, attdef.Elevation);
             Assert.Equal(new DwgPoint(3.0, 4.0, 0.0), attdef.InsertionPoint);
             Assert.Equal(DwgPoint.Origin, attdef.AlignmentPoint);
@@ -149,7 +149,7 @@ namespace IxMilia.Dwg.Test
                 0x06, 0x0A, 0x21, 0xE8, 0x08, 0x00,
                 0x39, 0xF3                                      // crc
             );
-            Assert.Equal(0x4E, block.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x4E), block.Handle);
             Assert.Equal("MYBLK", block.Name);
         }
 
@@ -162,7 +162,7 @@ namespace IxMilia.Dwg.Test
                 0x5B, 0x18, 0x28, 0x87, 0xA0, 0x20, 0x20,
                 0x2E, 0x8B                                      // crc
             );
-            Assert.Equal(0x1B, endblock.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x1B), endblock.Handle);
         }
 
         [Fact]
@@ -175,7 +175,7 @@ namespace IxMilia.Dwg.Test
                 0x08,
                 0x88, 0xC7                                      // crc
             );
-            Assert.Equal(0x53, seqend.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x53), seqend.Handle);
         }
 
         [Fact]
@@ -191,7 +191,7 @@ namespace IxMilia.Dwg.Test
                 0x4C,
                 0xCB, 0x54                                      // crc
             );
-            Assert.Equal(0x51, insert.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x51), insert.Handle);
             Assert.Equal(new DwgPoint(3.0, 4.0, 0.0), insert.Location);
             Assert.Equal(1.0, insert.XScale);
             Assert.Equal(1.0, insert.YScale);
@@ -199,10 +199,10 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(0.0, insert.Rotation);
             Assert.Equal(DwgVector.ZAxis, insert.Extrusion);
             Assert.True(insert._hasAttributes);
-            Assert.Equal(0x4D, insert._blockHeaderHandle.HandleOrOffset);
-            Assert.Equal(0x52, insert._firstAttribHandle.HandleOrOffset);
-            Assert.Equal(0x52, insert._lastAttribHandle.HandleOrOffset);
-            Assert.Equal(0x53, insert._seqEndHandle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x4D), insert.ResolveHandleReference(insert._blockHeaderHandleReference));
+            Assert.Equal(new DwgHandle(0x52), insert.ResolveHandleReference(insert._firstAttribHandleReference));
+            Assert.Equal(new DwgHandle(0x52), insert.ResolveHandleReference(insert._lastAttribHandleReference));
+            Assert.Equal(new DwgHandle(0x53), insert.ResolveHandleReference(insert._seqEndHandleReference));
         }
 
         [Fact]
@@ -219,7 +219,7 @@ namespace IxMilia.Dwg.Test
                 0x44, 0x3D, 0x01, 0x01, 0x45, 0x44,
                 0x84, 0x2E                                      // crc
             );
-            Assert.Equal(0x59, insert.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x59), insert.Handle);
             Assert.Equal(new DwgPoint(2.0, 3.0, 0.0), insert.Location);
             Assert.Equal(1.0, insert.XScale);
             Assert.Equal(1.0, insert.YScale);
@@ -231,10 +231,10 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(3, insert.RowCount);
             Assert.Equal(3.0, insert.ColumnSpacing);
             Assert.Equal(2.0, insert.RowSpacing);
-            Assert.Equal(0x51, insert._blockHeaderHandle.HandleOrOffset);
-            Assert.Equal(0x00, insert._firstAttribHandle.HandleOrOffset);
-            Assert.Equal(0x00, insert._lastAttribHandle.HandleOrOffset);
-            Assert.Equal(0x00, insert._seqEndHandle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x51), insert.ResolveHandleReference(insert._blockHeaderHandleReference));
+            Assert.Equal(new DwgHandle(0x00), insert.ResolveHandleReference(insert._firstAttribHandleReference));
+            Assert.Equal(new DwgHandle(0x00), insert.ResolveHandleReference(insert._lastAttribHandleReference));
+            Assert.Equal(new DwgHandle(0x00), insert.ResolveHandleReference(insert._seqEndHandleReference));
         }
 
         [Fact]
@@ -249,7 +249,7 @@ namespace IxMilia.Dwg.Test
                 0x80, 0xC1,
                 0xB2, 0xFC                                      // crc
             );
-            Assert.Equal(0x4D, vert.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x4D), vert.Handle);
             Assert.Equal(0, vert.Flags);
             Assert.Equal(new DwgPoint(2.0, 2.0, 0.0), vert.Point);
             Assert.Equal(0.0, vert.StartWidth);
@@ -269,7 +269,7 @@ namespace IxMilia.Dwg.Test
                 0x00, 0x80,
                 0x8C, 0x03                                      // crc
             );
-            Assert.Equal(0x62, vert.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x62), vert.Handle);
             Assert.Equal(0x20, vert.Flags);
             Assert.Equal(new DwgPoint(2.0, 1.0, 0.0), vert.Point);
         }
@@ -286,7 +286,7 @@ namespace IxMilia.Dwg.Test
                 0xC0,
                 0xB3, 0x50                                      // crc
             );
-            Assert.Equal(0x67, vert.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x67), vert.Handle);
             Assert.Equal(0x40, vert.Flags);
             Assert.Equal(new DwgPoint(1.6328120661043943, 6.385836442953218, 0.0), vert.Point);
         }
@@ -303,7 +303,7 @@ namespace IxMilia.Dwg.Test
                 0xC1,
                 0x3D, 0x1E                                      // crc
             );
-            Assert.Equal(0x56, vert.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x56), vert.Handle);
             Assert.Equal(0xC0, vert.Flags);
             Assert.Equal(new DwgPoint(1.0, 2.0, 3.0), vert.Point);
         }
@@ -318,7 +318,7 @@ namespace IxMilia.Dwg.Test
                 0x28, 0x87, 0x80,
                 0xC3, 0xBA                                      // crc
             );
-            Assert.Equal(0x5A, vert.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x5A), vert.Handle);
             Assert.Equal(1, vert.Index1);
             Assert.Equal(3, vert.Index2);
             Assert.Equal(2, vert.Index3);
@@ -335,7 +335,7 @@ namespace IxMilia.Dwg.Test
                 0x21, 0x28, 0x29, 0xA8, 0x29, 0xE6, 0x2A, 0x01,
                 0x13, 0xEA                                      // crc
             );
-            Assert.Equal(0x4C, poly.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x4C), poly.Handle);
             Assert.Equal(0, poly.Flags);
             Assert.Equal(DwgCurveType.None, poly.CurveType);
             Assert.Equal(0.0, poly.StartWidth);
@@ -343,9 +343,9 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(0.0, poly.Thickness);
             Assert.Equal(0.0, poly.Elevation);
             Assert.Equal(DwgVector.ZAxis, poly.Extrusion);
-            Assert.Equal(0x4D, poly._firstVertexHandle.HandleOrOffset);
-            Assert.Equal(0x4F, poly._lastVertexHandle.HandleOrOffset);
-            Assert.Equal(0x50, poly._seqEndHandle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x4D), poly.ResolveHandleReference(poly._firstVertexHandleReference));
+            Assert.Equal(new DwgHandle(0x4F), poly.ResolveHandleReference(poly._lastVertexHandleReference));
+            Assert.Equal(new DwgHandle(0x50), poly.ResolveHandleReference(poly._seqEndHandleReference));
         }
 
         [Fact]
@@ -359,12 +359,12 @@ namespace IxMilia.Dwg.Test
                 0x80,
                 0x4A, 0xA6                                      // crc
             );
-            Assert.Equal(0x5E, poly.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x5E), poly.Handle);
             Assert.Equal(0, poly._flags1);
             Assert.Equal(0, poly._flags2);
-            Assert.Equal(0x5F, poly._firstVertexHandle.HandleOrOffset);
-            Assert.Equal(0x62, poly._lastVertexHandle.HandleOrOffset);
-            Assert.Equal(0x63, poly._seqEndHandle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x5F), poly.ResolveHandleReference(poly._firstVertexHandleReference));
+            Assert.Equal(new DwgHandle(0x62), poly.ResolveHandleReference(poly._lastVertexHandleReference));
+            Assert.Equal(new DwgHandle(0x63), poly.ResolveHandleReference(poly._seqEndHandleReference));
         }
 
         [Fact]
@@ -382,7 +382,7 @@ namespace IxMilia.Dwg.Test
                 0x33, 0x05,
                 0x91, 0x5F                                      // crc
             );
-            Assert.Equal(0x64, arc.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x64), arc.Handle);
             Assert.Equal(new DwgPoint(2.600278968516873, 7.326421365762765, 0.0), arc.Center);
             Assert.Equal(1.3493302799093472, arc.Radius);
             Assert.Equal(0.0, arc.Thickness);
@@ -404,7 +404,7 @@ namespace IxMilia.Dwg.Test
                 0x50, 0x86, 0x6D,
                 0x36, 0x1C                                      // crc
             );
-            Assert.Equal(0x92, circle.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x92), circle.Handle);
             Assert.Equal(new DwgPoint(6.7485427268123495, 7.9745382178018716, 0.0), circle.Center);
             Assert.Equal(0.6626305200205659, circle.Radius);
             Assert.Equal(0.0, circle.Thickness);
@@ -425,7 +425,7 @@ namespace IxMilia.Dwg.Test
                 0x7A, 0x88, 0x9A, 0x03, 0x06,
                 0xFA, 0xFE                                      // crc
             );
-            Assert.Equal(0xCC, line.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0xCC), line.Handle);
             Assert.Equal(new DwgPoint(8.393727710047193, 7.813185684328929, 0.0), line.P1);
             Assert.Equal(new DwgPoint(8.213727710047193, 7.8131856843289285, 0.0), line.P2);
             Assert.Equal(0.0, line.Thickness);
@@ -451,7 +451,7 @@ namespace IxMilia.Dwg.Test
                 0x8E, 0xA8, 0xC9, 0x80,
                 0x8E, 0x48                                      // crc
             );
-            Assert.Equal(0x9E, dim.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x9E), dim.Handle);
             Assert.Equal(DwgVector.ZAxis, dim.Extrusion);
             Assert.Equal(new DwgPoint(6.444198837595242, 1.5452607130677656, 0.0), dim.TextMidpoint);
             Assert.Equal(0.0, dim.Elevation);
@@ -466,8 +466,8 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(new DwgPoint(4.948103550778438, 2.339611589062809, 0.0), dim.SecondDefinitionPoint);
             Assert.Equal(new DwgPoint(5.904198837595242, 1.5452607130677656, 0.0), dim.ThirdDefinitionPoint);
             Assert.Equal(0x00, dim._flags2);
-            Assert.Equal(0x1D, dim._dimStyleHandle.HandleOrOffset);
-            Assert.Equal(0x93, dim._anonymousBlockHandle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x1D), dim.ResolveHandleReference(dim._dimStyleHandleReference));
+            Assert.Equal(new DwgHandle(0x93), dim.ResolveHandleReference(dim._anonymousBlockHandleReference));
         }
 
         [Fact]
@@ -491,7 +491,7 @@ namespace IxMilia.Dwg.Test
                 0xEA, 0x8C, 0xFB,
                 0x48, 0xDA                                      // crc
             );
-            Assert.Equal(0xAC, dim.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0xAC), dim.Handle);
             Assert.Equal(DwgVector.ZAxis, dim.Extrusion);
             Assert.Equal(new DwgPoint(7.679804367838944, 4.673017325872081, 0.0), dim.TextMidpoint);
             Assert.Equal(0.0, dim.Elevation);
@@ -507,8 +507,8 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(new DwgPoint(8.69798377758747, 4.673017325872081, 0.0), dim.FirstDefinitionPoint);
             Assert.Equal(0.0, dim.ExtensionLineRotation);
             Assert.Equal(0.0, dim.DimensionRotation);
-            Assert.Equal(0x1D, dim._dimStyleHandle.HandleOrOffset);
-            Assert.Equal(0x9F, dim._anonymousBlockHandle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x1D), dim.ResolveHandleReference(dim._dimStyleHandleReference));
+            Assert.Equal(new DwgHandle(0x9F), dim.ResolveHandleReference(dim._anonymousBlockHandleReference));
         }
 
         [Fact]
@@ -532,7 +532,7 @@ namespace IxMilia.Dwg.Test
                 0xAA, 0x35, 0xBB,
                 0xEA, 0x25                                      // crc
             );
-            Assert.Equal(0xBA, dim.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0xBA), dim.Handle);
             Assert.Equal(DwgVector.ZAxis, dim.Extrusion);
             Assert.Equal(new DwgPoint(3.799510578531437, 5.070921712363694, 0.0), dim.TextMidpoint);
             Assert.Equal(0.0, dim.Elevation);
@@ -547,8 +547,8 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(new DwgPoint(4.463847483238158, 4.00278376925095, 0.0), dim.ThirdDefinitionPoint);
             Assert.Equal(new DwgPoint(4.591732871013816, 5.026287266543974, 0.0), dim.FirstDefinitionPoint);
             Assert.Equal(0.0, dim.ExtensionLineRotation);
-            Assert.Equal(0x1D, dim._dimStyleHandle.HandleOrOffset);
-            Assert.Equal(0xAD, dim._anonymousBlockHandle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x1D), dim.ResolveHandleReference(dim._dimStyleHandleReference));
+            Assert.Equal(new DwgHandle(0xAD), dim.ResolveHandleReference(dim._anonymousBlockHandleReference));
         }
 
         [Fact]
@@ -574,7 +574,7 @@ namespace IxMilia.Dwg.Test
                 0x3A, 0xA3, 0x76,
                 0x42, 0x38                                      // crc
             );
-            Assert.Equal(0xC9, dim.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0xC9), dim.Handle);
             Assert.Equal(DwgVector.ZAxis, dim.Extrusion);
             Assert.Equal(new DwgPoint(5.9067493404213405, 8.283625940930222, 0.0), dim.TextMidpoint);
             Assert.Equal(0.0, dim.Elevation);
@@ -589,8 +589,8 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(new DwgPoint(7.396838476320547, 8.111621503553016, 0.0), dim.SecondDefinitionPoint);
             Assert.Equal(new DwgPoint(7.257632423230387, 7.316716383974704, 0.0), dim.ThirdDefinitionPoint);
             Assert.Equal(new DwgPoint(6.7485427268123495, 7.974538217801873, 0.0), dim.FourthDefinitionPoint);
-            Assert.Equal(0x1D, dim._dimStyleHandle.HandleOrOffset);
-            Assert.Equal(0xBB, dim._anonymousBlockHandle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x1D), dim.ResolveHandleReference(dim._dimStyleHandleReference));
+            Assert.Equal(new DwgHandle(0xBB), dim.ResolveHandleReference(dim._anonymousBlockHandleReference));
         }
 
         [Fact]
@@ -615,7 +615,7 @@ namespace IxMilia.Dwg.Test
                 0x94,
                 0xEA, 0x1E                                      // crc
             );
-            Assert.Equal(0xD5, dim.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0xD5), dim.Handle);
             Assert.Equal(DwgVector.ZAxis, dim.Extrusion);
             Assert.Equal(new DwgPoint(9.008727710047191, 7.813185684328929, 0.0), dim.TextMidpoint);
             Assert.Equal(0.0, dim.Elevation);
@@ -629,12 +629,12 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(new DwgPoint(6.74854272681235, 7.974538217801873, 0.0), dim.FirstDefinitionPoint);
             Assert.Equal(new DwgPoint(7.407191444010848, 7.902004960633177, 0.0), dim.SecondDefinitionPoint);
             Assert.Equal(0.0, dim.LeaderLength);
-            Assert.Equal(0x1D, dim._dimStyleHandle.HandleOrOffset);
-            Assert.Equal(0xCA, dim._anonymousBlockHandle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x1D), dim.ResolveHandleReference(dim._dimStyleHandleReference));
+            Assert.Equal(new DwgHandle(0xCA), dim.ResolveHandleReference(dim._anonymousBlockHandleReference));
 
             // verify xdata
             Assert.Equal(1, dim._xdataMap.Keys.Count);
-            var items = dim._xdataMap[0x11];
+            var items = dim._xdataMap[new DwgHandle(0x11)];
             Assert.Equal(2, items.Count);
             Assert.Equal("DSTYLE", ((DwgXDataString)items[0]).Value);
             var innerItems = (DwgXDataItemList)items[1];
@@ -664,7 +664,7 @@ namespace IxMilia.Dwg.Test
                 0x1F, 0x82, 0x18, 0xC0, 0xA2, 0x3A, 0xA3, 0xAD,
                 0x37, 0xB4                                      // crc
             );
-            Assert.Equal(0xE1, dim.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0xE1), dim.Handle);
             Assert.Equal(DwgVector.ZAxis, dim.Extrusion);
             Assert.Equal(new DwgPoint(8.695723994389645, 7.180187318948261, 0.0), dim.TextMidpoint);
             Assert.Equal(0.0, dim.Elevation);
@@ -678,12 +678,12 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(new DwgPoint(7.296343720312474, 7.601720195728098, 0.0), dim.FirstDefinitionPoint);
             Assert.Equal(new DwgPoint(6.200741733312223, 8.347356239875644, 0.0), dim.SecondDefinitionPoint);
             Assert.Equal(0.0, dim.LeaderLength);
-            Assert.Equal(0x1D, dim._dimStyleHandle.HandleOrOffset);
-            Assert.Equal(0xD6, dim._anonymousBlockHandle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x1D), dim.ResolveHandleReference(dim._dimStyleHandleReference));
+            Assert.Equal(new DwgHandle(0xD6), dim.ResolveHandleReference(dim._anonymousBlockHandleReference));
 
             // verify xdata
             Assert.Equal(1, dim._xdataMap.Keys.Count);
-            var items = dim._xdataMap[0x11];
+            var items = dim._xdataMap[new DwgHandle(0x11)];
             Assert.Equal(2, items.Count);
             Assert.Equal("DSTYLE", ((DwgXDataString)items[0]).Value);
             var innerItems = (DwgXDataItemList)items[1];
@@ -704,7 +704,7 @@ namespace IxMilia.Dwg.Test
                 0xA8, 0x89, 0x86,
                 0x09, 0xDF                                      // crc
             );
-            Assert.Equal(0xD2, loc.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0xD2), loc.Handle);
             Assert.Equal(new DwgPoint(7.407191444010848, 7.902004960633177, 0.0), loc.Point);
             Assert.Equal(0.0, loc.Thickness);
             Assert.Equal(DwgVector.ZAxis, loc.Extrusion);
@@ -728,7 +728,7 @@ namespace IxMilia.Dwg.Test
                 0xAF, 0xDF, 0xEC, 0x7F, 0x46, 0x0A, 0x21, 0xFA,
                 0x1A, 0xA6                                      // crc
             );
-            Assert.Equal(0xE3, face.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0xE3), face.Handle);
             Assert.Equal(new DwgPoint(8.92148657278685, 2.3520233347153408, 0.0), face.FirstCorner);
             Assert.Equal(new DwgPoint(10.324587450002408, 4.07725417459044, 0.0), face.SecondCorner);
             Assert.Equal(new DwgPoint(11.082013570497583, 1.9300244168420377, 0.0), face.ThirdCorner);
@@ -753,7 +753,7 @@ namespace IxMilia.Dwg.Test
                 0xE0, 0x83, 0xA0, 0x69,
                 0xED, 0x08                                      // crc
             );
-            Assert.Equal(0x0122, el.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x0122), el.Handle);
             Assert.Equal(new DwgPoint(4.556973637623827, 6.758188411073943, 0.0), el.Center);
             Assert.Equal(new DwgVector(1.4606150523945662, -0.7683970065502543, 0.0), el.MajorAxis);
             Assert.Equal(new DwgVector(0.0, 0.0, 1.0000000000000002), el.Extrusion);
@@ -775,7 +775,7 @@ namespace IxMilia.Dwg.Test
                 0xC1, 0x3D, 0x47, 0xF1, 0x82, 0x88, 0x78,
                 0xAD, 0xCF                                      // crc
             );
-            Assert.Equal(0x0106, ray.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x0106), ray.Handle);
             Assert.Equal(new DwgPoint(10.746759377698513, 1.9548478852885331, 0.0), ray.Point);
             Assert.Equal(new DwgVector(-0.5813959531452361, 0.8136207628043562, 0.0), ray.Vector);
         }
@@ -793,7 +793,7 @@ namespace IxMilia.Dwg.Test
                 0x7A, 0xFB, 0x87, 0xF1, 0x82, 0x88, 0x78,
                 0xFE, 0x9C                                      // crc
             );
-            Assert.Equal(0x0105, xl.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x0105), xl.Handle);
             Assert.Equal(new DwgPoint(7.890890331687, 3.158785956362916, 0.0), xl.Point);
             Assert.Equal(new DwgVector(0.8926910070322923, 0.4506692423093374, 0.0), xl.Vector);
         }
@@ -811,12 +811,12 @@ namespace IxMilia.Dwg.Test
                 0x10, 0xD2, 0x10, 0xEC,
                 0xD2, 0x36                                      // crc
             );
-            Assert.Equal(0x0C, dict.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x0C), dict.Handle);
             Assert.Equal(2, dict._entityCount);
             Assert.Equal("ACAD_GROUP", dict._names[0]);
             Assert.Equal("ACAD_MLINESTYLE", dict._names[1]);
-            Assert.Equal(0x0D, dict._entityHandles[0].HandleOrOffset);
-            Assert.Equal(0x0E, dict._entityHandles[1].HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x0D), dict.ResolveHandleReference(dict._entityHandleReferences[0]));
+            Assert.Equal(new DwgHandle(0x0E), dict.ResolveHandleReference(dict._entityHandleReferences[1]));
         }
 
         [Fact]
@@ -830,18 +830,18 @@ namespace IxMilia.Dwg.Test
                 0xF4, 0x22, 0x01, 0x13, 0x31, 0x19, 0x31, 0x16,
                 0xC1, 0x3A                                      // crc
             );
-            Assert.Equal(0x01, bc.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x01), bc.Handle);
             Assert.Equal(8, bc._entityCount);
-            Assert.Equal(0x93, bc._entityHandles[0].HandleOrOffset);
-            Assert.Equal(0x9F, bc._entityHandles[1].HandleOrOffset);
-            Assert.Equal(0xAD, bc._entityHandles[2].HandleOrOffset);
-            Assert.Equal(0xBB, bc._entityHandles[3].HandleOrOffset);
-            Assert.Equal(0xCA, bc._entityHandles[4].HandleOrOffset);
-            Assert.Equal(0xD6, bc._entityHandles[5].HandleOrOffset);
-            Assert.Equal(0xF4, bc._entityHandles[6].HandleOrOffset);
-            Assert.Equal(0x0113, bc._entityHandles[7].HandleOrOffset);
-            Assert.Equal(0x19, bc._modelSpaceBlockHeaderHandle.HandleOrOffset);
-            Assert.Equal(0x16, bc._paperSpaceBlockHeaderHandle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x93), bc.ResolveHandleReference(bc._entityHandleReferences[0]));
+            Assert.Equal(new DwgHandle(0x9F), bc.ResolveHandleReference(bc._entityHandleReferences[1]));
+            Assert.Equal(new DwgHandle(0xAD), bc.ResolveHandleReference(bc._entityHandleReferences[2]));
+            Assert.Equal(new DwgHandle(0xBB), bc.ResolveHandleReference(bc._entityHandleReferences[3]));
+            Assert.Equal(new DwgHandle(0xCA), bc.ResolveHandleReference(bc._entityHandleReferences[4]));
+            Assert.Equal(new DwgHandle(0xD6), bc.ResolveHandleReference(bc._entityHandleReferences[5]));
+            Assert.Equal(new DwgHandle(0xF4), bc.ResolveHandleReference(bc._entityHandleReferences[6]));
+            Assert.Equal(new DwgHandle(0x0113), bc.ResolveHandleReference(bc._entityHandleReferences[7]));
+            Assert.Equal(new DwgHandle(0x19), bc.ResolveHandleReference(bc._modelSpaceBlockHeaderHandleReference));
+            Assert.Equal(new DwgHandle(0x16), bc.ResolveHandleReference(bc._paperSpaceBlockHeaderHandleReference));
         }
 
         [Fact]
@@ -855,7 +855,7 @@ namespace IxMilia.Dwg.Test
                 0xD4,
                 0xE5, 0xAA                                      // crc
             );
-            Assert.Equal(0xCA, b.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0xCA), b.Handle);
             Assert.Equal("*D", b.Name);
             Assert.True(b._64flag);
             Assert.Equal(0, b._xrefIndex);
@@ -866,9 +866,9 @@ namespace IxMilia.Dwg.Test
             Assert.False(b.IsOverlaidXref);
             Assert.Equal(DwgPoint.Origin, b.BasePoint);
             Assert.Equal("", b.PathName);
-            Assert.Equal(0x01, b.BlockControlHandle.HandleOrOffset);
-            Assert.Equal(0xCB, b.BlockEntityHandle.HandleOrOffset);
-            Assert.Equal(0xD4, b.EndBlockEntityHandle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x01), b.ResolveHandleReference(b.BlockControlHandleReference));
+            Assert.Equal(new DwgHandle(0xCB), b.ResolveHandleReference(b.BlockEntityHandleReference));
+            Assert.Equal(new DwgHandle(0xD4), b.ResolveHandleReference(b.EndBlockEntityHandleReference));
         }
 
         [Fact]
@@ -880,10 +880,10 @@ namespace IxMilia.Dwg.Test
                 0x02, 0x40, 0x30, 0x21, 0x0F, 0x21, 0x99,
                 0xC3, 0x1D                                      // crc
             );
-            Assert.Equal(0x02, lc.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x02), lc.Handle);
             Assert.Equal(2, lc._entityCount);
-            Assert.Equal(0x0F, lc._entityHandles[0].HandleOrOffset);
-            Assert.Equal(0x99, lc._entityHandles[1].HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x0F), lc.ResolveHandleReference(lc._entityHandleReferences[0]));
+            Assert.Equal(new DwgHandle(0x99), lc.ResolveHandleReference(lc._entityHandleReferences[1]));
         }
 
         [Fact]
@@ -897,7 +897,7 @@ namespace IxMilia.Dwg.Test
                 0x14, 0x45, 0x48,
                 0x34, 0x8F                                      // crc
             );
-            Assert.Equal(0x99, l.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x99), l.Handle);
             Assert.Equal("DEFPOINTS", l.Name);
             Assert.True(l._64flag);
             Assert.Equal(0, l._xrefIndex);
@@ -907,7 +907,7 @@ namespace IxMilia.Dwg.Test
             Assert.False(l.IsFrozenInNew);
             Assert.False(l.IsLocked);
             Assert.Equal(0x07, l.Color.RawValue);
-            Assert.Equal(0x15, l._lineTypeHandle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x15), l.ResolveHandleReference(l._lineTypeHandleReference));
         }
 
         [Fact]
@@ -919,10 +919,10 @@ namespace IxMilia.Dwg.Test
                 0x02, 0x40, 0x30, 0x21, 0x10, 0x21, 0xF3,
                 0x33, 0x8B                                      // crc
             );
-            Assert.Equal(0x03, sc.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x03), sc.Handle);
             Assert.Equal(2, sc._entityCount);
-            Assert.Equal(0x10, sc._entityHandles[0].HandleOrOffset);
-            Assert.Equal(0xF3, sc._entityHandles[1].HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x10), sc.ResolveHandleReference(sc._entityHandleReferences[0]));
+            Assert.Equal(new DwgHandle(0xF3), sc.ResolveHandleReference(sc._entityHandleReferences[1]));
         }
 
         [Fact]
@@ -937,7 +937,7 @@ namespace IxMilia.Dwg.Test
                 0x90, 0x40, 0xCC, 0x14, 0x28,
                 0xEC, 0x6E                                      // crc
             );
-            Assert.Equal(0x10, s.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x10), s.Handle);
             Assert.Equal("STANDARD", s.Name);
             Assert.True(s._64flag);
             Assert.Equal(0, s._xrefIndex);
@@ -951,7 +951,7 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(0.2, s.LastHeight);
             Assert.Equal("txt", s.FontName);
             Assert.Equal("", s.BigFontName);
-            Assert.Equal(0x03, s.StyleControlHandle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x03), s.ResolveHandleReference(s.StyleControlHandleReference));
         }
 
         [Fact]
@@ -964,11 +964,11 @@ namespace IxMilia.Dwg.Test
                 0x14,
                 0x82, 0x54                                      // crc
             );
-            Assert.Equal(0x05, lc.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x05), lc.Handle);
             Assert.Equal(1, lc._entityCount);
-            Assert.Equal(0x15, lc._entityHandles[0].HandleOrOffset);
-            Assert.Equal(0x13, lc._byLayerHandle.HandleOrOffset);
-            Assert.Equal(0x14, lc._byBlockHandle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x15), lc.ResolveHandleReference(lc._entityHandleReferences[0]));
+            Assert.Equal(new DwgHandle(0x13), lc.ResolveHandleReference(lc._byLayerHandleReference));
+            Assert.Equal(new DwgHandle(0x14), lc.ResolveHandleReference(lc._byBlockHandleReference));
         }
 
         [Fact]
@@ -980,9 +980,9 @@ namespace IxMilia.Dwg.Test
                 0x01, 0x40, 0x30, 0x21, 0x3F,
                 0xE1, 0x20                                      // crc
             );
-            Assert.Equal(0x06, vc.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x06), vc.Handle);
             Assert.Equal(1, vc._entityCount);
-            Assert.Equal(0x3F, vc._entityHandles[0].HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x3F), vc.ResolveHandleReference(vc._entityHandleReferences[0]));
         }
 
         [Fact]
@@ -1000,7 +1000,7 @@ namespace IxMilia.Dwg.Test
                 0x49, 0x40, 0xA1, 0x20, 0x83, 0x18, 0x28, 0x00,
                 0x0C, 0x90                                      // crc
             );
-            Assert.Equal(0x3F, v.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x3F), v.Handle);
             Assert.Equal("MYVIEW", v.Name);
             Assert.True(v._64flag);
             Assert.Equal(0, v._xrefIndex);
@@ -1016,7 +1016,7 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(0.0, v.BackClip);
             Assert.Equal(0x01, v._viewModeBits);
             Assert.False(v.IsInPaperSpace);
-            Assert.Equal(0x06, v.ViewControlHandle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x06), v.ResolveHandleReference(v.ViewControlHandleReference));
         }
 
         [Fact]
@@ -1028,9 +1028,9 @@ namespace IxMilia.Dwg.Test
                 0x01, 0x40, 0x30, 0x21, 0x4C,
                 0xA0, 0x6F                                      // crc
             );
-            Assert.Equal(0x07, uc.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x07), uc.Handle);
             Assert.Equal(1, uc._entityCount);
-            Assert.Equal(0x4C, uc._entityHandles[0].HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x4C), uc.ResolveHandleReference(uc._entityHandleReferences[0]));
         }
 
         [Fact]
@@ -1049,7 +1049,7 @@ namespace IxMilia.Dwg.Test
                 0xFD, 0x04, 0x1C, 0xC1, 0x40,
                 0xBE, 0x62                                      // crc
             );
-            Assert.Equal(0x4C, u.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x4C), u.Handle);
             Assert.Equal("MYUCS", u.Name);
             Assert.True(u._64flag);
             Assert.Equal(0, u._xrefIndex);
@@ -1057,7 +1057,7 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(DwgPoint.Origin, u.Origin);
             Assert.Equal(new DwgVector(0.7499999999999997, 0.6495190528383296, -0.12499999999999972), u.XDirection);
             Assert.Equal(new DwgVector(-0.4330127018922196, 0.6249999999999991, 0.6495190528383297), u.YDirection);
-            Assert.Equal(0x07, u.UCSControlHandle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x07), u.ResolveHandleReference(u.UCSControlHandleReference));
         }
 
         [Fact]
@@ -1070,12 +1070,12 @@ namespace IxMilia.Dwg.Test
                 0x21, 0x50,
                 0x9E, 0x1F                                      // crc
             );
-            Assert.Equal(0x08, vc.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x08), vc.Handle);
             Assert.Equal(4, vc._entityCount);
-            Assert.Equal(0x00, vc._entityHandles[0].HandleOrOffset);
-            Assert.Equal(0x4E, vc._entityHandles[1].HandleOrOffset);
-            Assert.Equal(0x4F, vc._entityHandles[2].HandleOrOffset);
-            Assert.Equal(0x50, vc._entityHandles[3].HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x00), vc.ResolveHandleReference(vc._entityHandleReferences[0]));
+            Assert.Equal(new DwgHandle(0x4E), vc.ResolveHandleReference(vc._entityHandleReferences[1]));
+            Assert.Equal(new DwgHandle(0x4F), vc.ResolveHandleReference(vc._entityHandleReferences[2]));
+            Assert.Equal(new DwgHandle(0x50), vc.ResolveHandleReference(vc._entityHandleReferences[3]));
         }
 
         [Fact]
@@ -1104,7 +1104,7 @@ namespace IxMilia.Dwg.Test
                 0x41, 0x82, 0x80,
                 0x7D, 0x31                                      // crc
             );
-            Assert.Equal(0x4E, v.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x4E), v.Handle);
             Assert.Equal("*ACTIVE", v.Name);
             Assert.True(v._64flag);
             Assert.Equal(0, v._xrefIndex);
@@ -1133,7 +1133,7 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(0, v.SnapRotation);
             Assert.Equal(DwgPoint.Origin, v.SnapBase);
             Assert.Equal(new DwgVector(0.5, 0.5, 0.0), v.SnapSpacing);
-            Assert.Equal(0x08, v.ViewPortControlHandle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x08), v.ResolveHandleReference(v.ViewPortControlHandleReference));
         }
 
         [Fact]
@@ -1145,10 +1145,10 @@ namespace IxMilia.Dwg.Test
                 0x02, 0x40, 0x30, 0x21, 0x11, 0x21, 0x86,
                 0xFA, 0xD9                                      // crc
             );
-            Assert.Equal(0x09, ac.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x09), ac.Handle);
             Assert.Equal(2, ac._entityCount);
-            Assert.Equal(0x11, ac._entityHandles[0].HandleOrOffset);
-            Assert.Equal(0x86, ac._entityHandles[1].HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x11), ac.ResolveHandleReference(ac._entityHandleReferences[0]));
+            Assert.Equal(new DwgHandle(0x86), ac.ResolveHandleReference(ac._entityHandleReferences[1]));
         }
 
         [Fact]
@@ -1161,13 +1161,13 @@ namespace IxMilia.Dwg.Test
                 0x83, 0x05, 0x0A,
                 0x8C, 0xE9                                      // crc
             );
-            Assert.Equal(0x11, a.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x11), a.Handle);
             Assert.Equal("ACAD", a.Name);
             Assert.True(a._64flag);
             Assert.Equal(0, a._xrefIndex);
             Assert.False(a._isDependentOnXRef);
             Assert.Equal(0x00, a._unknown);
-            Assert.Equal(0x09, a.Handle.ResolveHandleReference(a.AppIdControlHandle).HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x09), a.ResolveHandleReference(a.AppIdControlHandleReference));
         }
 
         [Fact]
@@ -1179,11 +1179,11 @@ namespace IxMilia.Dwg.Test
                 0x03, 0x40, 0x30, 0x21, 0x1D, 0x21, 0x4D, 0x20,
                 0xBA, 0x14                                      // crc
             );
-            Assert.Equal(0x0A, dc.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x0A), dc.Handle);
             Assert.Equal(3, dc._entityCount);
-            Assert.Equal(0x1D, dc._entityHandles[0].HandleOrOffset);
-            Assert.Equal(0x4D, dc._entityHandles[1].HandleOrOffset);
-            Assert.Equal(0x00, dc._entityHandles[2].HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x1D), dc.ResolveHandleReference(dc._entityHandleReferences[0]));
+            Assert.Equal(new DwgHandle(0x4D), dc.ResolveHandleReference(dc._entityHandleReferences[1]));
+            Assert.Equal(new DwgHandle(0x00), dc.ResolveHandleReference(dc._entityHandleReferences[2]));
         }
 
         [Fact]
@@ -1207,7 +1207,7 @@ namespace IxMilia.Dwg.Test
                 0xAA, 0x20, 0x85, 0x18, 0x28, 0x28, 0x88, 0x00,
                 0xCC, 0x33                                      // crc
             );
-            Assert.Equal(0x1D, d.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x1D), d.Handle);
             Assert.Equal("STANDARD", d.Name);
             Assert.True(d._64flag);
             Assert.Equal(0, d._xrefIndex);
@@ -1267,8 +1267,8 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(DwgColor.ByBlock, d.DimensionExtensionLineColor);
             Assert.Equal(DwgColor.ByBlock, d.DimensionTextColor);
             Assert.False(d._unknown);
-            Assert.Equal(0x0A, d.Handle.ResolveHandleReference(d.DimStyleControlHandle).HandleOrOffset);
-            Assert.Equal(0x10, d.Handle.ResolveHandleReference(d._styleHandle).HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x0A), d.ResolveHandleReference(d.DimStyleControlHandleReference));
+            Assert.Equal(new DwgHandle(0x10), d.ResolveHandleReference(d._styleHandleReference));
         }
 
         [Fact]
@@ -1281,14 +1281,14 @@ namespace IxMilia.Dwg.Test
                 0x54, 0x21, 0x56, 0x21, 0x58, 0x21, 0x5A,
                 0x9E, 0x84                                      // crc
             );
-            Assert.Equal(0x0B, vc.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x0B), vc.Handle);
             Assert.Equal(6, vc._entityCount);
-            Assert.Equal(0x51, vc._entityHandles[0].HandleOrOffset);
-            Assert.Equal(0x52, vc._entityHandles[1].HandleOrOffset);
-            Assert.Equal(0x54, vc._entityHandles[2].HandleOrOffset);
-            Assert.Equal(0x56, vc._entityHandles[3].HandleOrOffset);
-            Assert.Equal(0x58, vc._entityHandles[4].HandleOrOffset);
-            Assert.Equal(0x5A, vc._entityHandles[5].HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x51), vc.ResolveHandleReference(vc._entityHandleReferences[0]));
+            Assert.Equal(new DwgHandle(0x52), vc.ResolveHandleReference(vc._entityHandleReferences[1]));
+            Assert.Equal(new DwgHandle(0x54), vc.ResolveHandleReference(vc._entityHandleReferences[2]));
+            Assert.Equal(new DwgHandle(0x56), vc.ResolveHandleReference(vc._entityHandleReferences[3]));
+            Assert.Equal(new DwgHandle(0x58), vc.ResolveHandleReference(vc._entityHandleReferences[4]));
+            Assert.Equal(new DwgHandle(0x5A), vc.ResolveHandleReference(vc._entityHandleReferences[5]));
         }
 
         [Fact]
@@ -1301,14 +1301,14 @@ namespace IxMilia.Dwg.Test
                 0xB4,
                 0x2F, 0x9E                                      // crc
             );
-            Assert.Equal(0x58, v.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x58), v.Handle);
             Assert.Equal("", v.Name);
             Assert.True(v._64flag);
             Assert.Equal(0, v._xrefIndex);
             Assert.False(v._isDependentOnXRef);
             Assert.True(v._1flag);
-            Assert.Equal(0x0B, v.Handle.ResolveHandleReference(v.ViewPortEntityHeaderControlHandle).HandleOrOffset);
-            Assert.Equal(0x59, v.Handle.ResolveHandleReference(v._nextViewPortEntityHeaderHandle).HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x0B), v.ResolveHandleReference(v.ViewPortEntityHeaderControlHandleReference));
+            Assert.Equal(new DwgHandle(0x59), v.ResolveHandleReference(v._nextViewPortEntityHeaderHandleReference));
         }
 
         [Fact]
@@ -1329,7 +1329,7 @@ namespace IxMilia.Dwg.Test
                 0x10, 0xE4, 0x10, 0xE3, 0x00,
                 0x8F, 0xAA                                      // crc
             );
-            Assert.Equal(0x74, m.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x74), m.Handle);
             Assert.Equal("MYMLSTYLE", m.Name);
             Assert.Equal("my multiline style", m.Description);
             Assert.Equal(0x00, m.Flags);
@@ -1340,7 +1340,7 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(new double[] { 0.5, 0.0, -0.5 }, m._lineStyleOffsets);
             Assert.Equal(new short[] { 256, 4, 2 }, m._lineStyleColors);
             Assert.Equal(new short[] { 1, 2, 3 }, m._lineStyleLineTypeIndicies);
-            Assert.Equal(0x0E, m.Handle.ResolveHandleReference(m._parentHandle).HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x0E), m.ResolveHandleReference(m._parentHandleReference));
         }
 
         [Fact]
@@ -1353,10 +1353,10 @@ namespace IxMilia.Dwg.Test
                 0xA2, 0x30,
                 0xAC, 0xDA                                      // crc
             );
-            Assert.Equal(0x01EA, d.Handle.HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x01EA), d.Handle);
             Assert.Equal(0x00, d.IntVal);
             Assert.Equal("3", d.Str);
-            Assert.Equal(0x00, d.Handle.ResolveHandleReference(d._parentHandle).HandleOrOffset);
+            Assert.Equal(new DwgHandle(0x00), d.ResolveHandleReference(d._parentHandleReference));
         }
     }
 }

@@ -205,7 +205,7 @@ namespace IxMilia.Dwg.Test
         [Theory]
         [InlineData(12, new int[] { 0b00001100 })]
         [InlineData(540, new int[] { 0b00000010, 0b00011100 })]
-        public void WriteSecondHeaderHandle(int handleValue, int[] expectedBits)
+        public void WriteSecondHeaderHandle(uint handleValue, int[] expectedBits)
         {
             var id = 0;
             var writer = Writer();

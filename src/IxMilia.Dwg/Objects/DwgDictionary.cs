@@ -18,7 +18,7 @@ namespace IxMilia.Dwg.Objects
             {
                 var name = kvp.Key;
                 var entry = kvp.Value;
-                _entityHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, entry.Handle.HandleOrOffset));
+                _entityHandleReferences.Add(entry.MakeHandleReference(DwgHandleReferenceCode.None));
                 _names.Add(name);
                 // TODO: set parent handle
             }
@@ -27,23 +27,24 @@ namespace IxMilia.Dwg.Objects
         internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
         {
             _entries.Clear();
-            if (_entityHandles.Count != _names.Count)
+            if (_entityHandleReferences.Count != _names.Count)
             {
                 throw new DwgReadException("Mismatch between reported entry count and entry handles/names read.");
             }
 
-            for (int i = 0; i < _entityHandles.Count; i++)
+            for (int i = 0; i < _entityHandleReferences.Count; i++)
             {
-                var entryHandle = _entityHandles[i];
+                var entryHandleReference = _entityHandleReferences[i];
                 var name = _names[i];
-                if (entryHandle.Code != DwgHandleReferenceCode.None)
+                if (entryHandleReference.Code != DwgHandleReferenceCode.None)
                 {
                     throw new DwgReadException("Incorrect child entry handle code.");
                 }
 
-                if (entryHandle.HandleOrOffset != 0)
+                var entryHandle = ResolveHandleReference(entryHandleReference);
+                if (!entryHandle.IsNull)
                 {
-                    var entry = objectCache.GetObject(reader, entryHandle.HandleOrOffset, allowNull: true);
+                    var entry = objectCache.GetObject(reader, entryHandle, allowNull: true);
                     // TODO: check parent handle
                     if (entry != null)
                     {

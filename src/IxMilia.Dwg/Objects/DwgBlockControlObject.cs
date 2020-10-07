@@ -40,36 +40,36 @@ namespace IxMilia.Dwg.Objects
             base.AssignHandles(objectMap);
             foreach (var blockHeader in _blockHeaders.Values)
             {
-                blockHeader.BlockControlHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, Handle.HandleOrOffset);
+                blockHeader.BlockControlHandleReference = MakeHandleReference(DwgHandleReferenceCode.HardPointer);
             }
         }
 
         internal override void OnBeforeObjectWrite()
         {
             base.OnBeforeObjectWrite();
-            _entityHandles.Clear();
+            _entityHandleReferences.Clear();
             foreach (var blockHeader in _blockHeaders.Values.Where(b => !IsHardCodedName(b.Name)))
             {
-                _entityHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, blockHeader.Handle.HandleOrOffset));
-                blockHeader.BlockControlHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, Handle.HandleOrOffset);
+                _entityHandleReferences.Add(blockHeader.MakeHandleReference(DwgHandleReferenceCode.None));
+                blockHeader.BlockControlHandleReference = MakeHandleReference(DwgHandleReferenceCode.HardPointer);
             }
 
-            _modelSpaceBlockHeaderHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, ModelSpace.Handle.HandleOrOffset);
-            _paperSpaceBlockHeaderHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, PaperSpace.Handle.HandleOrOffset);
+            _modelSpaceBlockHeaderHandleReference = ModelSpace.MakeHandleReference(DwgHandleReferenceCode.SoftPointer);
+            _paperSpaceBlockHeaderHandleReference = PaperSpace.MakeHandleReference(DwgHandleReferenceCode.SoftPointer);
         }
 
         internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
         {
             _blockHeaders.Clear();
-            foreach (var blockHeaderHandle in _entityHandles)
+            foreach (var blockHeaderHandle in _entityHandleReferences)
             {
                 if (blockHeaderHandle.Code != DwgHandleReferenceCode.None)
                 {
                     throw new DwgReadException("Incorrect child block header handle code.");
                 }
 
-                var blockHeader = objectCache.GetObject<DwgBlockHeader>(reader, blockHeaderHandle.HandleOrOffset);
-                if (!blockHeader.BlockControlHandle.IsEmpty && blockHeader.BlockControlHandle.HandleOrOffset != Handle.HandleOrOffset)
+                var blockHeader = objectCache.GetObject<DwgBlockHeader>(reader, ResolveHandleReference(blockHeaderHandle));
+                if (!blockHeader.BlockControlHandleReference.IsEmpty && ResolveHandleReference(blockHeader.BlockControlHandleReference) != Handle)
                 {
                     throw new DwgReadException("Incorrect block header control object parent handle reference.");
                 }
@@ -77,18 +77,18 @@ namespace IxMilia.Dwg.Objects
                 _blockHeaders.Add(blockHeader.Name, blockHeader);
             }
 
-            if (_modelSpaceBlockHeaderHandle.Code != DwgHandleReferenceCode.SoftPointer)
+            if (_modelSpaceBlockHeaderHandleReference.Code != DwgHandleReferenceCode.SoftPointer)
             {
                 throw new DwgReadException("Incorrect model space block header handle code.");
             }
 
-            if (_paperSpaceBlockHeaderHandle.Code != DwgHandleReferenceCode.SoftPointer)
+            if (_paperSpaceBlockHeaderHandleReference.Code != DwgHandleReferenceCode.SoftPointer)
             {
                 throw new DwgReadException("Incorrect paper space block header handle code.");
             }
 
-            ModelSpace = objectCache.GetObject<DwgBlockHeader>(reader, _modelSpaceBlockHeaderHandle.HandleOrOffset);
-            PaperSpace = objectCache.GetObject<DwgBlockHeader>(reader, _paperSpaceBlockHeaderHandle.HandleOrOffset);
+            ModelSpace = objectCache.GetObject<DwgBlockHeader>(reader, ResolveHandleReference(_modelSpaceBlockHeaderHandleReference));
+            PaperSpace = objectCache.GetObject<DwgBlockHeader>(reader, ResolveHandleReference(_paperSpaceBlockHeaderHandleReference));
         }
 
         public void Add(DwgBlockHeader blockHeader) => Add(blockHeader.Name, blockHeader);

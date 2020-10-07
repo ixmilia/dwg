@@ -33,22 +33,22 @@ namespace IxMilia.Dwg.Objects
         internal override void OnBeforeObjectWrite()
         {
             base.OnBeforeObjectWrite();
-            _styleHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftOwner, Style.Handle.HandleOrOffset);
+            _styleHandleReference = Style.MakeHandleReference(DwgHandleReferenceCode.SoftOwner);
         }
 
         internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
         {
-            if (DimStyleControlHandle.Code != DwgHandleReferenceCode.HardPointer)
+            if (DimStyleControlHandleReference.Code != DwgHandleReferenceCode.HardPointer)
             {
                 throw new DwgReadException("Incorrect style control object parent handle code.");
             }
 
-            if (_styleHandle.Code != DwgHandleReferenceCode.SoftOwner)
+            if (_styleHandleReference.Code != DwgHandleReferenceCode.SoftOwner)
             {
                 throw new DwgReadException("Incorrect style handle code.");
             }
 
-            Style = objectCache.GetObject<DwgStyle>(reader, _styleHandle.HandleOrOffset);
+            Style = objectCache.GetObject<DwgStyle>(reader, ResolveHandleReference(_styleHandleReference));
         }
 
         public bool TryGetStyleFromXDataDifference(DwgXDataItemList xdataItemList, out DwgDimStyle style)

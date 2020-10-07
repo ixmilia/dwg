@@ -75,7 +75,7 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(2, entities.Count);
             var l1 = (DwgLine)entities.First();
             var l2 = (DwgLine)entities.Last();
-            Assert.Equal(l1.Handle.HandleOrOffset + 1, l2.Handle.HandleOrOffset);
+            Assert.Equal((uint)l1.Handle + 1, (uint)l2.Handle);
             Assert.Equal(l1.PreviousEntityHandle, new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0));
             Assert.Equal(l1.NextEntityHandle, new DwgHandleReference(DwgHandleReferenceCode.HandlePlus1, 0));
             Assert.Equal(l2.PreviousEntityHandle, new DwgHandleReference(DwgHandleReferenceCode.HandleMinus1, 0));

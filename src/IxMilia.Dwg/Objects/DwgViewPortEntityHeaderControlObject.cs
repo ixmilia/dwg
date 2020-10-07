@@ -15,23 +15,23 @@ namespace IxMilia.Dwg.Objects
             base.OnBeforeObjectWrite();
             foreach (var viewPortEntityHeader in _viewPortEntityHeaders.Values)
             {
-                _entityHandles.Add(new DwgHandleReference(DwgHandleReferenceCode.None, viewPortEntityHeader.Handle.HandleOrOffset));
-                viewPortEntityHeader.ViewPortEntityHeaderControlHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, Handle.HandleOrOffset);
+                _entityHandleReferences.Add(viewPortEntityHeader.MakeHandleReference(DwgHandleReferenceCode.None));
+                viewPortEntityHeader.ViewPortEntityHeaderControlHandleReference = MakeHandleReference(DwgHandleReferenceCode.HardPointer);
             }
         }
 
         internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
         {
             _viewPortEntityHeaders.Clear();
-            foreach (var viewPortEntityHeaderHandle in _entityHandles)
+            foreach (var viewPortEntityHeaderHandle in _entityHandleReferences)
             {
                 if (viewPortEntityHeaderHandle.Code != DwgHandleReferenceCode.None)
                 {
                     throw new DwgReadException("Incorrect child view port entity header handle code.");
                 }
 
-                var viewPortEntityHeader = objectCache.GetObject<DwgViewPortEntityHeader>(reader, viewPortEntityHeaderHandle.HandleOrOffset);
-                if (viewPortEntityHeader.ViewPortEntityHeaderControlHandle.HandleOrOffset != Handle.HandleOrOffset)
+                var viewPortEntityHeader = objectCache.GetObject<DwgViewPortEntityHeader>(reader, ResolveHandleReference(viewPortEntityHeaderHandle));
+                if (ResolveHandleReference(viewPortEntityHeader.ViewPortEntityHeaderControlHandleReference) != Handle)
                 {
                     throw new DwgReadException("Incorrect view port entity header control object parent handle reference.");
                 }

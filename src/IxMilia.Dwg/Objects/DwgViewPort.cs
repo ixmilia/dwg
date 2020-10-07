@@ -19,7 +19,7 @@ namespace IxMilia.Dwg.Objects
 
         internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
         {
-            if (ViewPortControlHandle.Code != DwgHandleReferenceCode.HardPointer)
+            if (ViewPortControlHandleReference.Code != DwgHandleReferenceCode.HardPointer)
             {
                 throw new DwgReadException("Incorrect view port control object parent handle code.");
             }

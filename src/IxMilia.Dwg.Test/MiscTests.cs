@@ -14,15 +14,15 @@ namespace IxMilia.Dwg.Test
                 new DwgVertex2D(new DwgPoint(1.0, 1.0, 0.0)),
                 new DwgVertex2D(new DwgPoint(2.0, 2.0, 0.0))
             );
-            poly.Handle = new DwgHandleReference(DwgHandleReferenceCode.Declaration, 1);
-            poly.Vertices[0].Handle = new DwgHandleReference(DwgHandleReferenceCode.Declaration, 2);
-            poly.Vertices[1].Handle = new DwgHandleReference(DwgHandleReferenceCode.Declaration, 3);
-            poly.SeqEnd.Handle = new DwgHandleReference(DwgHandleReferenceCode.Declaration, 4);
+            poly.Handle = new DwgHandle(1);
+            poly.Vertices[0].Handle = new DwgHandle(2);
+            poly.Vertices[1].Handle = new DwgHandle(3);
+            poly.SeqEnd.Handle = new DwgHandle(4);
             var line = new DwgLine(
                 new DwgPoint(3.0, 3.0, 0.0),
                 new DwgPoint(4.0, 4.0, 0.0)
             );
-            line.Handle = new DwgHandleReference(DwgHandleReferenceCode.Declaration, 5);
+            line.Handle = new DwgHandle(5);
             var entities = new List<DwgEntity>()
             {
                 poly,
@@ -40,8 +40,8 @@ namespace IxMilia.Dwg.Test
 
             // verify entity pointers
             Assert.Equal(new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0), poly.PreviousEntityHandle);
-            Assert.Equal(line.Handle.HandleOrOffset, poly.NextEntityHandle.HandleOrOffset);
-            Assert.Equal(poly.Handle.HandleOrOffset, line.PreviousEntityHandle.HandleOrOffset);
+            Assert.Equal(line.Handle, poly.ResolveHandleReference(poly.NextEntityHandle));
+            Assert.Equal(poly.Handle, line.ResolveHandleReference(line.PreviousEntityHandle));
             Assert.Equal(new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0), line.NextEntityHandle);
         }
     }

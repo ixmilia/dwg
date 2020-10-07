@@ -22,7 +22,7 @@ namespace IxMilia.Dwg.Objects
 
         internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
         {
-            if (!LineTypeControlHandle.IsEmpty && LineTypeControlHandle.Code != DwgHandleReferenceCode.HardPointer)
+            if (!LineTypeControlHandleReference.IsEmpty && LineTypeControlHandleReference.Code != DwgHandleReferenceCode.HardPointer)
             {
                 throw new DwgReadException("Incorrect line type control object parent handle code.");
             }
@@ -45,13 +45,13 @@ namespace IxMilia.Dwg.Objects
             }
             _stringData = reader.ReadBytes(256); // TODO: handle the string data
             AssertObjectSize(reader, objectBitOffsetStart);
-            LineTypeControlHandle = reader.Read_H();
+            LineTypeControlHandleReference = reader.Read_H();
             for (int i = 0; i < _reactorCount; i++)
             {
-                _reactorHandles.Add(reader.Read_H());
+                _reactorHandleReferences.Add(reader.Read_H());
             }
-            _xDictionaryObjectHandle = reader.Read_H();
-            _nullHandle = reader.Read_H();
+            _xDictionaryObjectHandleReference = reader.Read_H();
+            _nullHandleReference = reader.Read_H();
         }
 
         internal override void WriteSpecific(BitWriter writer, DwgVersionId version)
@@ -70,13 +70,13 @@ namespace IxMilia.Dwg.Objects
             }
             writer.WriteBytes(_stringData); // TODO: handle the string data
             _objectSize = writer.BitCount;
-            writer.Write_H(LineTypeControlHandle);
-            foreach (var reactorHandle in _reactorHandles)
+            writer.Write_H(LineTypeControlHandleReference);
+            foreach (var reactorHandle in _reactorHandleReferences)
             {
                 writer.Write_H(reactorHandle);
             }
-            writer.Write_H(_xDictionaryObjectHandle);
-            writer.Write_H(_nullHandle);
+            writer.Write_H(_xDictionaryObjectHandleReference);
+            writer.Write_H(_nullHandleReference);
         }
 
         public struct DwgLineTypeDashInfo

@@ -47,12 +47,12 @@ namespace IxMilia.Dwg.Objects
         internal override void OnBeforeObjectWrite()
         {
             base.OnBeforeObjectWrite();
-            BlockEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, Block.Handle.HandleOrOffset);
-            EndBlockEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, EndBlock.Handle.HandleOrOffset);
+            BlockEntityHandleReference = Block.MakeHandleReference(DwgHandleReferenceCode.SoftPointer);
+            EndBlockEntityHandleReference = EndBlock.MakeHandleReference(DwgHandleReferenceCode.SoftPointer);
             if (Entities.Count == 0)
             {
-                _firstEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0);
-                _lastEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0);
+                _firstEntityHandleReference = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0);
+                _lastEntityHandleReference = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0);
             }
             else
             {
@@ -62,8 +62,8 @@ namespace IxMilia.Dwg.Objects
                     AssignEntityMode(entity);
                 }
 
-                _firstEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, flatList.First().Handle.HandleOrOffset);
-                _lastEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, flatList.Last().Handle.HandleOrOffset);
+                _firstEntityHandleReference = flatList.First().MakeHandleReference(DwgHandleReferenceCode.HardPointer);
+                _lastEntityHandleReference = flatList.Last().MakeHandleReference(DwgHandleReferenceCode.HardPointer);
             }
         }
 
@@ -85,36 +85,36 @@ namespace IxMilia.Dwg.Objects
 
         internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
         {
-            if (BlockControlHandle.Code != DwgHandleReferenceCode.HardPointer)
+            if (BlockControlHandleReference.Code != DwgHandleReferenceCode.HardPointer)
             {
                 throw new DwgReadException("Incorrect block header control object parent handle code.");
             }
 
-            if (BlockEntityHandle.Code != DwgHandleReferenceCode.SoftPointer)
+            if (BlockEntityHandleReference.Code != DwgHandleReferenceCode.SoftPointer)
             {
                 throw new DwgReadException("Incorrect block entity handle code.");
             }
 
             if (!IsXRef && !IsOverlaidXref)
             {
-                if (_firstEntityHandle.Code != DwgHandleReferenceCode.HardPointer)
+                if (_firstEntityHandleReference.Code != DwgHandleReferenceCode.HardPointer)
                 {
                     throw new DwgReadException("Incorrect first entity handle code.");
                 }
 
-                if (_lastEntityHandle.Code != DwgHandleReferenceCode.HardPointer)
+                if (_lastEntityHandleReference.Code != DwgHandleReferenceCode.HardPointer)
                 {
                     throw new DwgReadException("Incorrect last entity handle code.");
                 }
             }
 
-            if (EndBlockEntityHandle.Code != DwgHandleReferenceCode.SoftPointer)
+            if (EndBlockEntityHandleReference.Code != DwgHandleReferenceCode.SoftPointer)
             {
                 throw new DwgReadException("Incorrect end block entity handle code.");
             }
 
-            Block = objectCache.GetObject<DwgBlock>(reader, BlockEntityHandle.HandleOrOffset);
-            EndBlock = objectCache.GetObject<DwgEndBlock>(reader, EndBlockEntityHandle.HandleOrOffset);
+            Block = objectCache.GetObject<DwgBlock>(reader, ResolveHandleReference(BlockEntityHandleReference));
+            EndBlock = objectCache.GetObject<DwgEndBlock>(reader, ResolveHandleReference(EndBlockEntityHandleReference));
             LoadEntities(reader, objectCache);
         }
 
@@ -124,10 +124,10 @@ namespace IxMilia.Dwg.Objects
             var isPaperSpaceBlock = IsPaperSpaceBlock;
 
             Entities.Clear();
-            var currentEntityHandle = _firstEntityHandle;
-            while (currentEntityHandle.HandleOrOffset != 0)
+            var currentEntityHandle = ResolveHandleReference(_firstEntityHandleReference);
+            while (!currentEntityHandle.IsNull)
             {
-                var obj = objectCache.GetObject(reader, currentEntityHandle.HandleOrOffset, allowNull: true);
+                var obj = objectCache.GetObject(reader, currentEntityHandle, allowNull: true);
                 if (obj is DwgEntity entity)
                 {
                     Entities.Add(entity);
@@ -147,7 +147,7 @@ namespace IxMilia.Dwg.Objects
                 }
                 else
                 {
-                    currentEntityHandle = default(DwgHandleReference);
+                    currentEntityHandle = default(DwgHandle);
                 }
             }
         }

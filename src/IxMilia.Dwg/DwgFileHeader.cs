@@ -215,56 +215,56 @@ namespace IxMilia.Dwg
                         throw new DwgReadException("Invalid record handle ID.");
                     }
 
-                    var actualHandle = -1;
+                    var actualHandle = new DwgHandle?();
                     switch (i)
                     {
                         case 0:
-                            actualHandle = headerVariables.NextAvailableHandle.HandleOrOffset;
+                            actualHandle = headerVariables.NextAvailableHandle.AsAbsoluteHandle();
                             break;
                         case 1:
-                            actualHandle = headerVariables.BlockControlObjectHandle.HandleOrOffset;
+                            actualHandle = headerVariables.BlockControlObjectHandle.AsAbsoluteHandle();
                             break;
                         case 2:
-                            actualHandle = headerVariables.LayerControlObjectHandle.HandleOrOffset;
+                            actualHandle = headerVariables.LayerControlObjectHandle.AsAbsoluteHandle();
                             break;
                         case 3:
-                            actualHandle = headerVariables.StyleObjectControlHandle.HandleOrOffset;
+                            actualHandle = headerVariables.StyleObjectControlHandle.AsAbsoluteHandle();
                             break;
                         case 4:
-                            actualHandle = headerVariables.LineTypeObjectControlHandle.HandleOrOffset;
+                            actualHandle = headerVariables.LineTypeObjectControlHandle.AsAbsoluteHandle();
                             break;
                         case 5:
-                            actualHandle = headerVariables.ViewControlObjectHandle.HandleOrOffset;
+                            actualHandle = headerVariables.ViewControlObjectHandle.AsAbsoluteHandle();
                             break;
                         case 6:
-                            actualHandle = headerVariables.UcsControlObjectHandle.HandleOrOffset;
+                            actualHandle = headerVariables.UcsControlObjectHandle.AsAbsoluteHandle();
                             break;
                         case 7:
-                            actualHandle = headerVariables.ViewPortControlObjectHandle.HandleOrOffset;
+                            actualHandle = headerVariables.ViewPortControlObjectHandle.AsAbsoluteHandle();
                             break;
                         case 8:
-                            actualHandle = headerVariables.AppIdControlObjectHandle.HandleOrOffset;
+                            actualHandle = headerVariables.AppIdControlObjectHandle.AsAbsoluteHandle();
                             break;
                         case 9:
-                            actualHandle = headerVariables.DimStyleControlObjectHandle.HandleOrOffset;
+                            actualHandle = headerVariables.DimStyleControlObjectHandle.AsAbsoluteHandle();
                             break;
                         case 10:
-                            actualHandle = headerVariables.ViewPortEntityHeaderControlObjectHandle.HandleOrOffset;
+                            actualHandle = headerVariables.ViewPortEntityHeaderControlObjectHandle.AsAbsoluteHandle();
                             break;
                         case 11:
-                            actualHandle = headerVariables.NamedObjectsDictionaryHandle.HandleOrOffset;
+                            actualHandle = headerVariables.NamedObjectsDictionaryHandle.AsAbsoluteHandle();
                             break;
                         case 12:
-                            actualHandle = headerVariables.MLineStyleDictionaryHandle.HandleOrOffset;
+                            actualHandle = headerVariables.MLineStyleDictionaryHandle.AsAbsoluteHandle();
                             break;
                         case 13:
-                            actualHandle = headerVariables.GroupDictionaryHandle.HandleOrOffset;
+                            actualHandle = headerVariables.GroupDictionaryHandle.AsAbsoluteHandle();
                             break;
                     }
 
-                    if (actualHandle > 0)
+                    if (actualHandle.HasValue)
                     {
-                        if (handle != actualHandle)
+                        if (handle != actualHandle.GetValueOrDefault())
                         {
                             throw new DwgReadException($"Invalid record handle ID at location {i}.  Expected: {handle}, Actual: {actualHandle}");
                         }

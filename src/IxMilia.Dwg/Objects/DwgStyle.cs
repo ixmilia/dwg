@@ -19,7 +19,7 @@ namespace IxMilia.Dwg.Objects
 
         internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
         {
-            if (StyleControlHandle.Code != DwgHandleReferenceCode.HardPointer)
+            if (StyleControlHandleReference.Code != DwgHandleReferenceCode.HardPointer)
             {
                 throw new DwgReadException("Incorrect style control object parent handle code.");
             }

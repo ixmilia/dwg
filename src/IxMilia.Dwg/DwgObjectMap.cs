@@ -8,17 +8,17 @@ namespace IxMilia.Dwg
 {
     internal class DwgObjectMap
     {
-        private int _nextHandle = 1;
-        private IDictionary<int, int> _handleOffsets = new Dictionary<int, int>();
+        private uint _nextHandle = 1;
+        private IDictionary<DwgHandle, int> _handleOffsets = new Dictionary<DwgHandle, int>();
 
         public int HandleCount => _handleOffsets.Count;
 
-        internal void SetOffset(int handle, int offset)
+        internal void SetOffset(DwgHandle handle, int offset)
         {
             _handleOffsets.Add(handle, offset);
         }
 
-        public int GetOffsetFromHandle(int handle)
+        public int GetOffsetFromHandle(DwgHandle handle)
         {
             if (_handleOffsets.TryGetValue(handle, out var offset))
             {
@@ -30,13 +30,13 @@ namespace IxMilia.Dwg
 
         internal void AssignHandle(DwgObject obj)
         {
-            if (!obj.Handle.IsEmpty)
+            if (!obj.Handle.IsNull)
             {
                 return;
             }
 
             var next = _nextHandle++;
-            obj.Handle = new DwgHandleReference(DwgHandleReferenceCode.Declaration, next);
+            obj.Handle = new DwgHandle(next);
         }
 
         public void SetNextAvailableHandle(DwgHeaderVariables variables)
@@ -60,7 +60,7 @@ namespace IxMilia.Dwg
 
             // write in sections, each section is at most 2032 bytes, stop writing if remaining space is less than 10
             var sectionStart = writer.Position;
-            var lastHandle = 0;
+            uint lastHandle = 0;
             var lastLocation = 0;
             var ms = new MemoryStream();
             var sectionWriter = new BitWriter(ms);
@@ -79,11 +79,11 @@ namespace IxMilia.Dwg
                 }
 
                 // now write the values
-                var handleDiff = kvp.Key - lastHandle;
+                var handleDiff = (uint)kvp.Key - lastHandle;
                 var locationDiff = kvp.Value - lastLocation;
-                sectionWriter.Write_MC(handleDiff);
+                sectionWriter.Write_MC((int)handleDiff);
                 sectionWriter.Write_MC(locationDiff);
-                lastHandle = kvp.Key;
+                lastHandle = (uint)kvp.Key;
                 lastLocation = kvp.Value;
             }
 

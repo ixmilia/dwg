@@ -7,22 +7,22 @@ namespace IxMilia.Dwg.Objects
     public abstract partial class DwgObject
     {
         public abstract DwgObjectType Type { get; }
-        public DwgHandleReference Handle { get; internal set; }
+        public DwgHandle Handle { get; internal set; }
         public DwgXData XData
         {
             get => _xdata;
             set => _xdata = value ?? throw new ArgumentNullException("value");
         }
 
-        internal IDictionary<int, IList<DwgXDataItem>> _xdataMap;
+        internal IDictionary<DwgHandle, IList<DwgXDataItem>> _xdataMap;
         private bool _objectSizeVerified;
         protected int _objectSize;
         protected int _reactorCount;
-        internal List<DwgHandleReference> _reactorHandles = new List<DwgHandleReference>();
+        internal List<DwgHandleReference> _reactorHandleReferences = new List<DwgHandleReference>();
         internal short _entityCount;
-        internal List<DwgHandleReference> _entityHandles = new List<DwgHandleReference>();
-        protected DwgHandleReference _nullHandle;
-        protected DwgHandleReference _xDictionaryObjectHandle;
+        internal List<DwgHandleReference> _entityHandleReferences = new List<DwgHandleReference>();
+        protected DwgHandleReference _nullHandleReference;
+        protected DwgHandleReference _xDictionaryObjectHandleReference;
         private DwgXData _xdata = new DwgXData();
 
         internal virtual bool IsEntity => false;
@@ -31,12 +31,12 @@ namespace IxMilia.Dwg.Objects
 
         internal void ClearHandles()
         {
-            if (Handle.IsEmpty)
+            if (Handle.IsNull)
             {
                 return;
             }
 
-            Handle = default(DwgHandleReference);
+            Handle = default(DwgHandle);
             foreach (var child in ChildItems)
             {
                 child.ClearHandles();
@@ -52,9 +52,13 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal void Write(BitWriter writer, DwgObjectMap objectMap, HashSet<int> writtenHandles, DwgVersionId version, IDictionary<string, short> classMap, IDictionary<string, int> appIdMap)
+        internal DwgHandle ResolveHandleReference(DwgHandleReference handleReference) => Handle.ResolveHandleReference(handleReference);
+
+        internal DwgHandleReference MakeHandleReference(DwgHandleReferenceCode code) => Handle.MakeHandleReference(code);
+
+        internal void Write(BitWriter writer, DwgObjectMap objectMap, HashSet<DwgHandle> writtenHandles, DwgVersionId version, IDictionary<string, short> classMap, IDictionary<string, DwgHandle> appIdMap)
         {
-            if (!writtenHandles.Add(Handle.HandleOrOffset))
+            if (!writtenHandles.Add(Handle))
             {
                 // already been written
                 return;
@@ -63,7 +67,7 @@ namespace IxMilia.Dwg.Objects
             PrepareCommonValues();
             OnBeforeObjectWrite();
             SetCommonValues();
-            objectMap.SetOffset(Handle.HandleOrOffset, writer.Position);
+            objectMap.SetOffset(Handle, writer.Position);
 
             WriteCoreRaw(writer, version, classMap, appIdMap);
 
@@ -73,7 +77,7 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal void WriteCoreRaw(BitWriter writer, DwgVersionId version, IDictionary<string, short> classMap, IDictionary<string, int> appIdMap)
+        internal void WriteCoreRaw(BitWriter writer, DwgVersionId version, IDictionary<string, short> classMap, IDictionary<string, DwgHandle> appIdMap)
         {
             // write object to memory so the size can be computed
             using (var ms = new MemoryStream())
@@ -202,7 +206,7 @@ namespace IxMilia.Dwg.Objects
 
         internal virtual void ReadCommonDataStart(BitReader reader)
         {
-            Handle = reader.Read_H();
+            Handle = reader.Read_H().AsDeclarationHandle();
             _xdataMap = DwgXData.Parse(reader);
             _objectSize = reader.Read_RL();
             _reactorCount = reader.Read_BL();
@@ -216,9 +220,9 @@ namespace IxMilia.Dwg.Objects
         {
         }
 
-        internal virtual int WriteCommonDataStart(BitWriter writer, IDictionary<string, int> appIdMap)
+        internal virtual int WriteCommonDataStart(BitWriter writer, IDictionary<string, DwgHandle> appIdMap)
         {
-            writer.Write_H(Handle);
+            writer.Write_H(MakeHandleReference(DwgHandleReferenceCode.Declaration));
             XData.Write(writer, appIdMap);
             var objectSizeOffset = writer.BitCount;
             writer.Write_RL(_objectSize);
@@ -244,54 +248,30 @@ namespace IxMilia.Dwg.Objects
 
         internal void PrepareCommonValues()
         {
-            _entityHandles.Clear();
-            _reactorCount = _reactorHandles.Count;
+            _entityHandleReferences.Clear();
+            _reactorCount = _reactorHandleReferences.Count;
         }
 
         private void SetCommonValues()
         {
-            _entityCount = (short)_entityHandles.Count;
+            _entityCount = (short)_entityHandleReferences.Count;
         }
 
         private void ValidateCommonValues()
         {
-            if (Handle.Code != DwgHandleReferenceCode.Declaration)
-            {
-                throw new DwgReadException("Invalid object handle code.");
-            }
-
-            if (!_nullHandle.IsEmpty && _nullHandle.Code != ExpectedNullHandleCode)
+            if (!_nullHandleReference.IsEmpty && _nullHandleReference.Code != ExpectedNullHandleCode)
             {
                 throw new DwgReadException("Invalid null handle code.");
             }
 
-            if (_nullHandle.HandleOrOffset != 0)
+            if (_nullHandleReference.HandleOrOffset != 0)
             {
                 throw new DwgReadException("Invalid null handle value.");
             }
 
-            if (_entityCount != _entityHandles.Count)
+            if (_entityCount != _entityHandleReferences.Count)
             {
                 throw new DwgReadException("Mismatch between reported entity count and number of read handles.");
-            }
-        }
-
-        internal DwgHandleReference GetNavigationHandle(DwgHandleReference destinationHandle)
-        {
-            if (destinationHandle.PointsToNull)
-            {
-                return destinationHandle;
-            }
-
-            var handleDistance = destinationHandle.HandleOrOffset - Handle.HandleOrOffset;
-            switch (handleDistance)
-            {
-                case 1:
-                    return new DwgHandleReference(DwgHandleReferenceCode.HandlePlus1, 0);
-                case -1:
-                    return new DwgHandleReference(DwgHandleReferenceCode.HandleMinus1, 0);
-                default:
-                    return destinationHandle;
             }
         }
 
@@ -302,7 +282,7 @@ namespace IxMilia.Dwg.Objects
                 throw new ArgumentNullException(nameof(other), "The object handle was not allowed to be null.");
             }
 
-            return GetNavigationHandle(new DwgHandleReference(absoluteCodeType, other?.Handle.HandleOrOffset ?? 0));
+            return Handle.MakeNavigationReference(other?.Handle ?? default(DwgHandle), absoluteCodeType);
         }
     }
 }

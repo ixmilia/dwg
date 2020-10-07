@@ -7,7 +7,7 @@ namespace IxMilia.Dwg
     {
         public static List<DwgObject> FlattenAndAssignPointersForWrite(IList<DwgEntity> entities)
         {
-            var seenHandles = new HashSet<int>();
+            var seenHandles = new HashSet<DwgHandle>();
             var flatList = new List<DwgObject>();
             for (int i = 0; i < entities.Count; i++)
             {
@@ -27,14 +27,14 @@ namespace IxMilia.Dwg
             return flatList;
         }
 
-        private static void AddChildItemsToList(DwgObject obj, HashSet<int> seenHandles, IList<DwgObject> objects)
+        private static void AddChildItemsToList(DwgObject obj, HashSet<DwgHandle> seenHandles, IList<DwgObject> objects)
         {
-            if (seenHandles.Add(obj.Handle.HandleOrOffset))
+            if (seenHandles.Add(obj.Handle))
             {
                 objects.Add(obj);
                 foreach (var child in obj.ChildItems)
                 {
-                    if (seenHandles.Add(child.Handle.HandleOrOffset))
+                    if (seenHandles.Add(child.Handle))
                     {
                         objects.Add(child);
                         AddChildItemsToList(child, seenHandles, objects);
@@ -60,16 +60,16 @@ namespace IxMilia.Dwg
             }
         }
 
-        public static IEnumerable<TEntity> EntitiesFromHandlePointer<TEntity>(DwgObjectCache objectCache, BitReader reader, DwgHandleReference startHandle)
+        public static IEnumerable<TEntity> EntitiesFromHandlePointer<TEntity>(DwgObjectCache objectCache, BitReader reader, DwgHandle initialHandle, DwgHandleReference startHandleReference)
             where TEntity : DwgEntity
         {
             var result = new List<TEntity>();
-            var currentEntityHandle = startHandle;
-            while (!currentEntityHandle.PointsToNull)
+            var currentEntityHandle = initialHandle.ResolveHandleReference(startHandleReference);
+            while (!currentEntityHandle.IsNull)
             {
-                var entity = objectCache.GetObject<TEntity>(reader, currentEntityHandle.HandleOrOffset);
+                var entity = objectCache.GetObject<TEntity>(reader, currentEntityHandle);
                 result.Add(entity);
-                currentEntityHandle = entity.Handle.ResolveHandleReference(entity.NextEntityHandle);
+                currentEntityHandle = entity.ResolveHandleReference(entity.NextEntityHandle);
             }
 
             return result;
@@ -103,8 +103,8 @@ namespace IxMilia.Dwg
             }
             else
             {
-                firstEntityHandle = entities[0].Handle;
-                lastEntityHandle = entities[entities.Count - 1].Handle;
+                firstEntityHandle = entities[0].MakeHandleReference(DwgHandleReferenceCode.HardPointer);
+                lastEntityHandle = entities[entities.Count - 1].MakeHandleReference(DwgHandleReferenceCode.HardPointer);
             }
         }
     }

@@ -20,22 +20,22 @@ namespace IxMilia.Dwg
     public struct DwgHandleReference : IEquatable<DwgHandleReference>
     {
         public DwgHandleReferenceCode Code { get; }
-        public int HandleOrOffset { get; }
+        internal uint HandleOrOffset { get; }
 
         public bool IsEmpty => (int)Code == 0 && HandleOrOffset == 0;
 
-        public DwgHandleReference(DwgHandleReferenceCode code, int offset)
+        public DwgHandleReference(DwgHandleReferenceCode code, uint offset)
         {
             Code = code;
             HandleOrOffset = offset;
         }
 
-        public DwgHandleReference(int code, int offset)
+        public DwgHandleReference(int code, uint offset)
             : this((DwgHandleReferenceCode)code, offset)
         {
         }
 
-        internal static int ReadSecondHeader(BitReader reader, int byteCount)
+        internal static DwgHandle ReadSecondHeader(BitReader reader, int byteCount)
         {
             var handleBytes = reader.ReadBytes(byteCount);
             if (!BitConverter.IsLittleEndian)
@@ -49,7 +49,7 @@ namespace IxMilia.Dwg
                 handle = (handle << 8) + b;
             }
 
-            return handle;
+            return new DwgHandle((uint)handle);
         }
 
         internal void WriteSecondHeader(BitWriter writer, int id)
@@ -151,25 +151,29 @@ namespace IxMilia.Dwg
             return hashCode;
         }
 
-        internal DwgHandleReference ResolveHandleReference(DwgHandleReference relativeOrAbsoluteHandle)
+        public DwgHandle AsDeclarationHandle()
         {
-            switch (relativeOrAbsoluteHandle.Code)
+            switch (Code)
             {
+                case DwgHandleReferenceCode.Declaration:
+                    return new DwgHandle(HandleOrOffset);
+                default:
+                    throw new InvalidOperationException($"Handle reference of type {Code} cannot be used as a declaration handle.");
+            }
+        }
+
+        public DwgHandle AsAbsoluteHandle()
+        {
+            switch (Code)
+            {
+                case DwgHandleReferenceCode.Declaration:
                 case DwgHandleReferenceCode.SoftPointer:
                 case DwgHandleReferenceCode.SoftOwner:
                 case DwgHandleReferenceCode.HardPointer:
-                //case DwgHandleReferenceCode.HardOwner:
-                    return relativeOrAbsoluteHandle;
-                case DwgHandleReferenceCode.HandlePlus1:
-                    return new DwgHandleReference(DwgHandleReferenceCode.HardPointer, HandleOrOffset + 1);
-                case DwgHandleReferenceCode.HandleMinus1:
-                    return new DwgHandleReference(DwgHandleReferenceCode.HardPointer, HandleOrOffset - 1);
-                case DwgHandleReferenceCode.HandlePlusOffset:
-                    return new DwgHandleReference(DwgHandleReferenceCode.HardPointer, HandleOrOffset + relativeOrAbsoluteHandle.HandleOrOffset);
-                case DwgHandleReferenceCode.HandleMinusOffset:
-                    return new DwgHandleReference(DwgHandleReferenceCode.HardPointer, HandleOrOffset - relativeOrAbsoluteHandle.HandleOrOffset);
+                case DwgHandleReferenceCode.HardOwner:
+                    return new DwgHandle(HandleOrOffset);
                 default:
-                    return default(DwgHandleReference);
+                    throw new InvalidOperationException($"Handle reference of type {Code} cannot be used as an absolute handle.");
             }
         }
     }

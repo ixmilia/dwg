@@ -192,7 +192,7 @@ namespace IxMilia.Dwg
                 offset = (offset << 8) + b;
             }
 
-            return new DwgHandleReference((DwgHandleReferenceCode)code, offset);
+            return new DwgHandleReference((DwgHandleReferenceCode)code, (uint)offset);
         }
 
         public static string Read_T(this BitReader reader)

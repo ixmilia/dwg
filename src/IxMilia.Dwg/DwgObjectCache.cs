@@ -5,8 +5,8 @@ namespace IxMilia.Dwg
 {
     internal class DwgObjectCache
     {
-        private IDictionary<int, int> _handleToOffset = new Dictionary<int, int>();
-        private IDictionary<int, DwgObject> _handleToObject = new Dictionary<int, DwgObject>();
+        private IDictionary<DwgHandle, int> _handleToOffset = new Dictionary<DwgHandle, int>();
+        private IDictionary<DwgHandle, DwgObject> _handleToObject = new Dictionary<DwgHandle, DwgObject>();
         private DwgVersionId _version;
 
         public int ObjectCount => _handleToOffset.Count;
@@ -19,7 +19,7 @@ namespace IxMilia.Dwg
             Classes = classes;
         }
 
-        public int GetOffsetFromHandle(int handle)
+        public int GetOffsetFromHandle(DwgHandle handle)
         {
             if (_handleToOffset.TryGetValue(handle, out var offset))
             {
@@ -29,7 +29,7 @@ namespace IxMilia.Dwg
             throw new DwgReadException($"Unable to get offset for object handle {handle}");
         }
 
-        public DwgObject GetObject(BitReader reader, int handle, bool allowNull = false)
+        public DwgObject GetObject(BitReader reader, DwgHandle handle, bool allowNull = false)
         {
             if (_handleToObject.TryGetValue(handle, out var obj))
             {
@@ -51,7 +51,7 @@ namespace IxMilia.Dwg
             throw new DwgReadException($"Object with handle {handle} not found in object map.");
         }
 
-        public T GetObject<T>(BitReader reader, int handle) where T: DwgObject
+        public T GetObject<T>(BitReader reader, DwgHandle handle) where T: DwgObject
         {
             var obj = GetObject(reader, handle);
             if (obj is T specific)
@@ -62,9 +62,9 @@ namespace IxMilia.Dwg
             throw new DwgReadException($"Expected object of type {typeof(T)} with handle {handle} but instead found {obj.GetType().Name}.");
         }
 
-        public T GetObjectOrDefault<T>(BitReader reader, int handle) where T: DwgObject
+        public T GetObjectOrDefault<T>(BitReader reader, DwgHandle handle) where T: DwgObject
         {
-            if (handle == 0)
+            if (handle.IsNull)
             {
                 return null;
             }
@@ -96,7 +96,7 @@ namespace IxMilia.Dwg
                     var locationOffset = reader.Read_MC();
                     var handle = lastHandle + handleOffset;
                     var location = lastLocation + locationOffset;
-                    objectCache._handleToOffset.Add(handle, location);
+                    objectCache._handleToOffset.Add(new DwgHandle((uint)handle), location);
                     lastHandle = handle;
                     lastLocation = location;
                 }
