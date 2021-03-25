@@ -2,32 +2,31 @@
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using Microsoft.CodeAnalysis;
 
 namespace IxMilia.Dwg.Generator
 {
-    internal class HeaderVariablesGenerator : GeneratorBase
+    [Generator]
+    internal class HeaderVariablesGenerator : GeneratorBase, ISourceGenerator
     {
-        private string _outputDir;
         private XElement _xml;
         private IEnumerable<XElement> _variables;
         private IEnumerable<XElement> _aliases;
 
-        public HeaderVariablesGenerator(string _outputDir)
+        public void Initialize(GeneratorInitializationContext context)
         {
-            this._outputDir = _outputDir;
-            Directory.CreateDirectory(_outputDir);
         }
 
-        public void Run()
+        public void Execute(GeneratorExecutionContext context)
         {
-            _xml = XDocument.Load(Path.Combine("Spec", "HeaderVariables.xml")).Root;
+            var specText = context.AdditionalFiles.Single(f => Path.GetFileName(f.Path) == "HeaderVariables.xml").GetText().ToString();
+            _xml = XDocument.Parse(specText).Root;
             _variables = _xml.Elements("Variable");
             _aliases = _xml.Element("ShortNameAliases").Elements("Alias");
-
-            OutputHeaderVariables();
+            OutputHeaderVariables(context);
         }
 
-        private void OutputHeaderVariables()
+        private void OutputHeaderVariables(GeneratorExecutionContext context)
         {
             CreateNewFile("IxMilia.Dwg", "System");
 
@@ -236,7 +235,7 @@ namespace IxMilia.Dwg.Generator
             AppendLine("}");
             DecreaseIndent();
 
-            FinishFile(Path.Combine(_outputDir, "DwgHeaderVariables.Generated.cs"));
+            FinishFile(context, "DwgHeaderVariables.Generated.cs");
         }
     }
 }

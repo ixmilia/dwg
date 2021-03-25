@@ -1,4 +1,5 @@
 # ignore VS files
+*.binlog
 *.suo
 *.user
 .vs/

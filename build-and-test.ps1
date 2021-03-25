@@ -1,6 +1,6 @@
 #!/usr/bin/pwsh
 
-[CmdletBinding(PositionalBinding=$false)]
+[CmdletBinding(PositionalBinding = $false)]
 param (
     [string]$configuration = "Debug",
     [switch]$noTest
@@ -24,27 +24,12 @@ function Single([string]$pattern) {
 }
 
 try {
-    # run code generator
-    $generatorLocation = Single "$PSScriptRoot/src/*.Generator"
-    $generatorDestination = $generatorLocation.FullName -Replace ".Generator$", ""
-    Push-Location $generatorLocation
-    dotnet restore || (Pop-Location && Fail "Failed to restore generator.")
-    dotnet build || (Pop-Location && Fail "Failed to build generator.")
-    dotnet run -- $generatorDestination || (Pop-Location && Fail "Failed to run generator.")
-    Pop-Location
-
-    # build
-    $solution = Single "$PSScriptRoot/*.sln"
-    dotnet restore $solution || Fail "Failed to restore solution"
-    dotnet build $solution --configuration $configuration || Fail "Failed to build solution"
-
-    # test
+    dotnet restore || Fail "Error restoring."
+    dotnet build --configuration $configuration || Fail "Error building."
     if (-Not $noTest) {
         dotnet test --no-restore --no-build --configuration $configuration || Fail "Error running tests."
     }
-
-    # create package
-    dotnet pack --no-restore --no-build --configuration $configuration $solution || Fail "Error creating package."
+    dotnet pack --no-restore --no-build --configuration $configuration || "Error creating package."
     $package = Single "$PSScriptRoot/artifacts/packages/$configuration/*.nupkg"
     Write-Host "Package generated at '$package'"
 }

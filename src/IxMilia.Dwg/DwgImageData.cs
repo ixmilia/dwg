@@ -19,7 +19,6 @@ namespace IxMilia.Dwg
         public byte[] BmpData { get; set; }
         public byte[] WmfData { get; set; }
 
-#if HAS_FILESYSTEM_ACCESS
         public void WriteBitmap(string path)
         {
             using (var fs = new FileStream(path, FileMode.Create))
@@ -27,7 +26,6 @@ namespace IxMilia.Dwg
                 WriteBitmap(fs);
             }
         }
-#endif
 
         public void WriteBitmap(Stream stream)
         {

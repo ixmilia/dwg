@@ -1,7 +1,8 @@
 ﻿using System;
-using System.IO;
 using System.Text;
 using System.Xml.Linq;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Text;
 
 namespace IxMilia.Dwg.Generator
 {
@@ -56,10 +57,10 @@ namespace IxMilia.Dwg.Generator
             _sb.AppendLine(line);
         }
 
-        public void FinishFile(string path)
+        public void FinishFile(GeneratorExecutionContext context, string path)
         {
             AppendLine("}");
-            File.WriteAllText(path, _sb.ToString());
+            context.AddSource(path, SourceText.From(_sb.ToString(), Encoding.UTF8));
             _sb = null;
         }
 

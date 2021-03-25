@@ -105,7 +105,6 @@ namespace IxMilia.Dwg
             DimensionTextStyle = Styles["STANDARD"];
         }
 
-#if HAS_FILESYSTEM_ACCESS
         public static DwgDrawing Load(string path)
         {
             using (var stream = new FileStream(path, FileMode.Open))
@@ -113,7 +112,6 @@ namespace IxMilia.Dwg
                 return Load(stream);
             }
         }
-#endif
 
         public static DwgDrawing Load(Stream stream)
         {
@@ -205,7 +203,6 @@ namespace IxMilia.Dwg
             }
         }
 
-#if HAS_FILESYSTEM_ACCESS
         public void Save(string path)
         {
             using (var fs = new FileStream(path, FileMode.Create))
@@ -213,7 +210,6 @@ namespace IxMilia.Dwg
                 Save(fs);
             }
         }
-#endif
 
         public void Save(Stream stream)
         {
