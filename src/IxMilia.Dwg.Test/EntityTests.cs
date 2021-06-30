@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.IO;
+using System.Linq;
 using IxMilia.Dwg.Objects;
 using Xunit;
 
@@ -141,6 +143,25 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(new DwgPoint(1.0, 2.0, 3.0), roundTripped.Location);
             Assert.Single(roundTripped.Attributes);
             Assert.Equal("some-attribute", roundTripped.Attributes[0].Value);
+        }
+
+        [Fact]
+        public void CantWriteSolidWithDifferentZValues()
+        {
+            var solid = new DwgSolid()
+            {
+                FirstCorner = new DwgPoint(0.0, 0.0, 0.0),
+                SecondCorner = new DwgPoint(0.0, 0.0, 0.0),
+                ThirdCorner = new DwgPoint(0.0, 0.0, 0.0),
+                FourthCorner = new DwgPoint(0.0, 0.0, 1.0), // this elevation is different
+            };
+            var drawing = new DwgDrawing();
+            solid.Layer = drawing.CurrentLayer;
+            drawing.ModelSpaceBlockRecord.Entities.Add(solid);
+            using (var ms = new MemoryStream())
+            {
+                Assert.Throws<InvalidOperationException>(() => drawing.Save(ms));
+            }
         }
     }
 }
