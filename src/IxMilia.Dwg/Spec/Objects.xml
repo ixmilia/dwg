@@ -444,7 +444,10 @@
   Polyline (PFace)
 
   -->
-  <Object Name="PolylinePFace" Value="0x1D" IsEntity="true" NotImplemented="true">
+  <Object Name="PolylinePFace" Value="0x1D" IsEntity="true">
+    <Property Name="_vertexCount" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" Accessibility="private" />
+    <Property Name="_faceCount" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" Accessibility="private" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
