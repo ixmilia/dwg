@@ -744,7 +744,7 @@
     <Property Name="_generationFlags" Type="byte" BinaryType="RC" DefaultValue="0" Accessibility="internal" />
     <Property Name="LastHeight" Type="double" BinaryType="BD" DefaultValue="0.2" />
     <Property Name="FontName" Type="string" BinaryType="T" DefaultValue='"txt"' />
-    <Property Name="BigFontName" Type="string" BinaryType="T" DefaultValue="null" />
+    <Property Name="BigFontName" Type="string" BinaryType="T" DefaultValue='"bigfont"' />
     <ObjectSizeEnd />
 
     <!-- handles -->
