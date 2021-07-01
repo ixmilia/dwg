@@ -498,7 +498,16 @@
   Shape
 
   -->
-  <Object Name="Shape" Value="0x21" IsEntity="true" NotImplemented="true">
+  <Object Name="Shape" Value="0x21" IsEntity="true">
+    <Property Name="InsertionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="Scale" Type="double" BinaryType="BD" DefaultValue="1.0" />
+    <Property Name="Rotation" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="WidthFactor" Type="double" BinaryType="BD" DefaultValue="1.0" />
+    <Property Name="Oblique" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="Thickness" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="ShapeNumber" Type="short" BinaryType="BS" DefaultValue="0" />
+    <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
