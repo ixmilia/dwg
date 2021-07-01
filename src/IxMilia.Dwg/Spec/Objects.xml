@@ -511,10 +511,14 @@
   </Object>
   <!--
 
-  Viewport
+  Viewport entity
 
   -->
-  <Object Name="Viewport" Value="0x22" IsEntity="false" NotImplemented="true">
+  <Object Name="ViewPortEntity" Value="0x22" IsEntity="true">
+    <Property Name="Center" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="Width" Type="double" BinaryType="BD" DefaultValue="10.0" />
+    <Property Name="Height" Type="double" BinaryType="BD" DefaultValue="10.0" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
