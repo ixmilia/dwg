@@ -163,5 +163,24 @@ namespace IxMilia.Dwg.Test
                 Assert.Throws<InvalidOperationException>(() => drawing.Save(ms));
             }
         }
+
+        [Fact]
+        public void CantWriteTraceWithDifferentZValues()
+        {
+            var trace = new DwgTrace()
+            {
+                FirstCorner = new DwgPoint(0.0, 0.0, 0.0),
+                SecondCorner = new DwgPoint(0.0, 0.0, 0.0),
+                ThirdCorner = new DwgPoint(0.0, 0.0, 0.0),
+                FourthCorner = new DwgPoint(0.0, 0.0, 1.0), // this elevation is different
+            };
+            var drawing = new DwgDrawing();
+            trace.Layer = drawing.CurrentLayer;
+            drawing.ModelSpaceBlockRecord.Entities.Add(trace);
+            using (var ms = new MemoryStream())
+            {
+                Assert.Throws<InvalidOperationException>(() => drawing.Save(ms));
+            }
+        }
     }
 }

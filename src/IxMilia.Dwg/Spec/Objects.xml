@@ -483,7 +483,15 @@
   Trace
 
   -->
-  <Object Name="Trace" Value="0x20" IsEntity="true" NotImplemented="true">
+  <Object Name="Trace" Value="0x20" IsEntity="true">
+    <Property Name="Thickness" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="FirstCorner" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
+    <Property Name="SecondCorner" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
+    <Property Name="ThirdCorner" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
+    <Property Name="FourthCorner" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
+    <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
