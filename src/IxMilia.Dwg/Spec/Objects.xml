@@ -136,11 +136,9 @@
   </Object>
   <!--
 
-  *UNUSED*
+  *UNUSED* - 0x09
 
   -->
-  <Object Name="*UNUSED*" Value="0x09" IsEntity="false" NotImplemented="true">
-  </Object>
   <!--
 
   Vertex (2D)
@@ -601,11 +599,9 @@
   </Object>
   <!--
 
-  *UNUSED*
+  *UNUSED* - 0x2B
 
   -->
-  <Object Name="*UNUSED*" Value="0x2B" IsEntity="false" NotImplemented="true">
-  </Object>
   <!--
 
   MText
@@ -759,18 +755,14 @@
   </Object>
   <!--
 
-  *UNUSED*
+  *UNUSED* - 0x36
 
   -->
-  <Object Name="*UNUSED*" Value="0x36" IsEntity="false" NotImplemented="true">
-  </Object>
   <!--
 
-  *UNUSED*
+  *UNUSED* - 0x37
 
   -->
-  <Object Name="*UNUSED*" Value="0x37" IsEntity="false" NotImplemented="true">
-  </Object>
   <!--
 
   Line Type control
@@ -813,18 +805,14 @@
   </Object>
   <!--
 
-  *UNUSED*
+  *UNUSED* - 0x3A
 
   -->
-  <Object Name="*UNUSED*" Value="0x3A" IsEntity="false" NotImplemented="true">
-  </Object>
   <!--
 
-  UNUSED
+  *UNUSED* - 0x3B
 
   -->
-  <Object Name="*UNUSED*" Value="0x3B" IsEntity="false" NotImplemented="true">
-  </Object>
   <!--
 
   View control
