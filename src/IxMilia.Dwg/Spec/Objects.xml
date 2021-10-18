@@ -443,8 +443,8 @@
 
   -->
   <Object Name="PolylinePFace" Value="0x1D" IsEntity="true">
-    <Property Name="_vertexCount" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" Accessibility="private" />
-    <Property Name="_faceCount" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" Accessibility="private" />
+    <Property Name="_vertexCount" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" Accessibility="internal" />
+    <Property Name="_faceCount" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" Accessibility="internal" />
     <ObjectSizeEnd />
   </Object>
   <!--
@@ -455,10 +455,10 @@
   <Object Name="PolylineMesh" Value="0x1E" IsEntity="true">
     <Property Name="Flags" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" />
     <Property Name="CurveType" Type="DwgCurveType" BinaryType="BS" DefaultValue="DwgCurveType.None" ReadConverter="(DwgCurveType){0}" WriteConverter="(short){0}" />
-    <Property Name="_mVertexCount" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" Accessibility="private" />
-    <Property Name="_nVertexCount" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" Accessibility="private" />
-    <Property Name="_mDensity" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" Accessibility="private" />
-    <Property Name="_nDensity" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" Accessibility="private" />
+    <Property Name="_mVertexCount" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" Accessibility="internal" />
+    <Property Name="_nVertexCount" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" Accessibility="internal" />
+    <Property Name="_mDensity" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" Accessibility="internal" />
+    <Property Name="_nDensity" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" Accessibility="internal" />
     <ObjectSizeEnd />
   </Object>
   <!--

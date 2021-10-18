@@ -6,7 +6,7 @@ namespace IxMilia.Dwg.Objects
     {
         public DwgViewPortEntityHeader ViewPortEntityHeader { get; set; }
 
-        private DwgHandleReference _viewPortEntityHeaderHandleReference;
+        internal DwgHandleReference _viewPortEntityHeaderHandleReference;
 
         internal override IEnumerable<DwgObject> ChildItems
         {
