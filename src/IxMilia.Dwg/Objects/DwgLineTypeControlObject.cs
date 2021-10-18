@@ -71,13 +71,17 @@ namespace IxMilia.Dwg.Objects
                     throw new DwgReadException("Incorrect child line type handle code.");
                 }
 
-                var lineType = objectCache.GetObject<DwgLineType>(reader, ResolveHandleReference(lineTypeHandleReference));
-                if (!lineType.LineTypeControlHandleReference.IsEmpty && lineType.ResolveHandleReference(lineType.LineTypeControlHandleReference) != Handle)
+                var resolvedHandle = ResolveHandleReference(lineTypeHandleReference);
+                if (!resolvedHandle.IsNull)
                 {
-                    throw new DwgReadException("Incorrect line type control object parent handle reference.");
-                }
+                    var lineType = objectCache.GetObject<DwgLineType>(reader, resolvedHandle);
+                    if (!lineType.LineTypeControlHandleReference.IsEmpty && lineType.ResolveHandleReference(lineType.LineTypeControlHandleReference) != Handle)
+                    {
+                        throw new DwgReadException("Incorrect line type control object parent handle reference.");
+                    }
 
-                _lineTypes.Add(lineType.Name, lineType);
+                    _lineTypes.Add(lineType.Name, lineType);
+                }
             }
 
             if (_byLayerHandleReference.Code != DwgHandleReferenceCode.SoftPointer)

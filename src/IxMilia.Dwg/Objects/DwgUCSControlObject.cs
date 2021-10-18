@@ -30,13 +30,17 @@ namespace IxMilia.Dwg.Objects
                     throw new DwgReadException("Incorrect child UCS handle code.");
                 }
 
-                var ucs = objectCache.GetObject<DwgUCS>(reader, ResolveHandleReference(ucsHandleReference));
-                if (ucs.ResolveHandleReference(ucs.UCSControlHandleReference) != Handle)
+                var resolvedHandle = ResolveHandleReference(ucsHandleReference);
+                if (!resolvedHandle.IsNull)
                 {
-                    throw new DwgReadException("Incorrect UCS control object parent handle reference.");
-                }
+                    var ucs = objectCache.GetObject<DwgUCS>(reader, resolvedHandle);
+                    if (ucs.ResolveHandleReference(ucs.UCSControlHandleReference) != Handle)
+                    {
+                        throw new DwgReadException("Incorrect UCS control object parent handle reference.");
+                    }
 
-                _ucs.Add(ucs.Name, ucs);
+                    _ucs.Add(ucs.Name, ucs);
+                }
             }
         }
 

@@ -30,13 +30,17 @@ namespace IxMilia.Dwg.Objects
                     throw new DwgReadException("Incorrect child view handle code.");
                 }
 
-                var view = objectCache.GetObject<DwgView>(reader, ResolveHandleReference(viewHandleReference));
-                if (view.ResolveHandleReference(view.ViewControlHandleReference) != Handle)
+                var resolvedHandle = ResolveHandleReference(viewHandleReference);
+                if (!resolvedHandle.IsNull)
                 {
-                    throw new DwgReadException("Incorrect view control object parent handle reference.");
-                }
+                    var view = objectCache.GetObject<DwgView>(reader, resolvedHandle);
+                    if (view.ResolveHandleReference(view.ViewControlHandleReference) != Handle)
+                    {
+                        throw new DwgReadException("Incorrect view control object parent handle reference.");
+                    }
 
-                _views.Add(view.Name, view);
+                    _views.Add(view.Name, view);
+                }
             }
         }
 

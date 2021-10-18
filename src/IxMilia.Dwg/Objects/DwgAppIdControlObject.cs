@@ -31,13 +31,17 @@ namespace IxMilia.Dwg.Objects
                     throw new DwgReadException("Incorrect child app id handle code.");
                 }
 
-                var appId = objectCache.GetObject<DwgAppId>(reader, ResolveHandleReference(appIdHandleReference));
-                if (appId.ResolveHandleReference(appId.AppIdControlHandleReference) != Handle)
+                var resolvedHandle = ResolveHandleReference(appIdHandleReference);
+                if (!resolvedHandle.IsNull)
                 {
-                    throw new DwgReadException("Incorrect app id control object parent handle reference.");
-                }
+                    var appId = objectCache.GetObject<DwgAppId>(reader, resolvedHandle);
+                    if (appId.ResolveHandleReference(appId.AppIdControlHandleReference) != Handle)
+                    {
+                        throw new DwgReadException("Incorrect app id control object parent handle reference.");
+                    }
 
-                _appIds.Add(appId.Name, appId);
+                    _appIds.Add(appId.Name, appId);
+                }
             }
         }
 

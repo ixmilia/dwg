@@ -30,13 +30,17 @@ namespace IxMilia.Dwg.Objects
                     throw new DwgReadException("Incorrect child view port handle code.");
                 }
 
-                var viewPort = objectCache.GetObject<DwgViewPort>(reader, ResolveHandleReference(viewPortHandleReference));
-                if (viewPort.ResolveHandleReference(viewPort.ViewPortControlHandleReference) != Handle)
+                var resolvedHandle = ResolveHandleReference(viewPortHandleReference);
+                if (!resolvedHandle.IsNull)
                 {
-                    throw new DwgReadException("Incorrect view port control object parent handle reference.");
-                }
+                    var viewPort = objectCache.GetObject<DwgViewPort>(reader, resolvedHandle);
+                    if (viewPort.ResolveHandleReference(viewPort.ViewPortControlHandleReference) != Handle)
+                    {
+                        throw new DwgReadException("Incorrect view port control object parent handle reference.");
+                    }
 
-                _viewPorts.Add(viewPort.Name, viewPort);
+                    _viewPorts.Add(viewPort.Name, viewPort);
+                }
             }
         }
 

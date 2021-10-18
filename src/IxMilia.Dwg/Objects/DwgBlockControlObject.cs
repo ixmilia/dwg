@@ -68,13 +68,17 @@ namespace IxMilia.Dwg.Objects
                     throw new DwgReadException("Incorrect child block header handle code.");
                 }
 
-                var blockHeader = objectCache.GetObject<DwgBlockHeader>(reader, ResolveHandleReference(blockHeaderHandle));
-                if (!blockHeader.BlockControlHandleReference.IsEmpty && ResolveHandleReference(blockHeader.BlockControlHandleReference) != Handle)
+                var resolvedHandle = ResolveHandleReference(blockHeaderHandle);
+                if (!resolvedHandle.IsNull)
                 {
-                    throw new DwgReadException("Incorrect block header control object parent handle reference.");
-                }
+                    var blockHeader = objectCache.GetObject<DwgBlockHeader>(reader, resolvedHandle);
+                    if (!blockHeader.BlockControlHandleReference.IsEmpty && ResolveHandleReference(blockHeader.BlockControlHandleReference) != Handle)
+                    {
+                        throw new DwgReadException("Incorrect block header control object parent handle reference.");
+                    }
 
-                _blockHeaders.Add(blockHeader.Name, blockHeader);
+                    _blockHeaders.Add(blockHeader.Name, blockHeader);
+                }
             }
 
             if (_modelSpaceBlockHeaderHandleReference.Code != DwgHandleReferenceCode.SoftPointer)

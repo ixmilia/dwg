@@ -42,14 +42,18 @@ namespace IxMilia.Dwg.Objects
                     throw new DwgReadException("Incorrect child layer handle code.");
                 }
 
-                var layer = objectCache.GetObject<DwgLayer>(reader, ResolveHandleReference(layerHandleReference));
-                if (layer.ResolveHandleReference(layer.LayerControlHandleReference) != Handle)
+                var resolvedHandle = ResolveHandleReference(layerHandleReference);
+                if (!resolvedHandle.IsNull)
                 {
-                    throw new DwgReadException("Incorrect layer control object parent handle reference.");
-                }
+                    var layer = objectCache.GetObject<DwgLayer>(reader, resolvedHandle);
+                    if (layer.ResolveHandleReference(layer.LayerControlHandleReference) != Handle)
+                    {
+                        throw new DwgReadException("Incorrect layer control object parent handle reference.");
+                    }
 
-                _layers.Add(layer.Name, layer);
-                _layersFromHandle.Add(layer.Handle, layer);
+                    _layers.Add(layer.Name, layer);
+                    _layersFromHandle.Add(layer.Handle, layer);
+                }
             }
         }
 

@@ -30,13 +30,17 @@ namespace IxMilia.Dwg.Objects
                     throw new DwgReadException("Incorrect child style handle code.");
                 }
 
-                var style = objectCache.GetObject<DwgDimStyle>(reader, ResolveHandleReference(styleHandleReference));
-                if (style.ResolveHandleReference(style.DimStyleControlHandleReference) != Handle)
+                var resolvedHandle = ResolveHandleReference(styleHandleReference);
+                if (!resolvedHandle.IsNull)
                 {
-                    throw new DwgReadException("Incorrect style control object parent handle reference.");
-                }
+                    var style = objectCache.GetObject<DwgDimStyle>(reader, resolvedHandle);
+                    if (style.ResolveHandleReference(style.DimStyleControlHandleReference) != Handle)
+                    {
+                        throw new DwgReadException("Incorrect style control object parent handle reference.");
+                    }
 
-                _styles.Add(style.Name, style);
+                    _styles.Add(style.Name, style);
+                }
             }
         }
 
