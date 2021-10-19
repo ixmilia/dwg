@@ -561,21 +561,30 @@
   Region
 
   -->
-  <Object Name="Region" Value="0x25" IsEntity="false" NotImplemented="true">
+  <Object Name="Region" Value="0x25" IsEntity="true" CustomReader="true" CustomWriter="true">
+    <Property Name="RawData" Type="byte" BinaryType="RC" DefaultValue="new List&lt;byte&gt;()" SkipCreation="true" />
+    <Property Name="TrailingData" Type="byte" BinaryType="RC" DefaultValue="new List&lt;byte&gt;()" SkipCreation="true" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
   3D Solid
 
   -->
-  <Object Name="Solid3D" Value="0x26" IsEntity="true" NotImplemented="true">
+  <Object Name="Solid3D" Value="0x26" IsEntity="true" CustomReader="true" CustomWriter="true">
+    <Property Name="RawData" Type="byte" BinaryType="RC" DefaultValue="new List&lt;byte&gt;()" SkipCreation="true" />
+    <Property Name="TrailingData" Type="byte" BinaryType="RC" DefaultValue="new List&lt;byte&gt;()" SkipCreation="true" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
   Body
 
   -->
-  <Object Name="Body" Value="0x27" IsEntity="true" NotImplemented="true">
+  <Object Name="Body" Value="0x27" IsEntity="true" CustomReader="true" CustomWriter="true">
+    <Property Name="RawData" Type="byte" BinaryType="RC" DefaultValue="new List&lt;byte&gt;()" SkipCreation="true" />
+    <Property Name="TrailingData" Type="byte" BinaryType="RC" DefaultValue="new List&lt;byte&gt;()" SkipCreation="true" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 

@@ -163,6 +163,23 @@ namespace IxMilia.Dwg.Test
         }
 
         [Fact]
+        public void RoundTripRegion()
+        {
+            var region = new DwgRegion();
+            region.RawData.AddRange(new byte[]
+            {
+                0x01, 0x02, 0x03, 0x04
+            });
+            region.TrailingData.AddRange(new byte[]
+            {
+                0x05, 0x06
+            });
+            var roundTrippedRegion = (DwgRegion)RoundTrip(region);
+            Assert.Equal(region.RawData, roundTrippedRegion.RawData);
+            Assert.Equal(region.TrailingData, roundTrippedRegion.TrailingData);
+        }
+
+        [Fact]
         public void CantWriteSolidWithDifferentZValues()
         {
             var solid = new DwgSolid()
