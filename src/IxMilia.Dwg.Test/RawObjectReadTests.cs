@@ -934,6 +934,116 @@ namespace IxMilia.Dwg.Test
         }
 
         [Fact]
+        public void ReadRawSpline1()
+        {
+            var spline = (DwgSpline)ParseRaw(
+                0x61, 0x00,                                     // length
+                0x49, 0x00, 0x80, 0x40, 0x66, 0xA8, 0x10, 0x00, // data
+                0x05, 0x5B, 0x20, 0x48, 0x19, 0x77, 0x7B, 0xAF,
+                0xB3, 0xBE, 0xF9, 0xB6, 0x7B, 0x55, 0x48, 0x21,
+                0xD1, 0xF6, 0xEC, 0x49, 0x3D, 0x16, 0x1C, 0x80,
+                0x60, 0x3C, 0x07, 0x63, 0x43, 0x16, 0xF8, 0x9F,
+                0xC0, 0xE4, 0x4E, 0x53, 0x64, 0xCA, 0x30, 0xB2,
+                0x01, 0xF0, 0x33, 0x3C, 0x1C, 0xA7, 0xC2, 0x0E,
+                0x81, 0x01, 0x85, 0x80, 0x9A, 0xFE, 0x6F, 0x63,
+                0x88, 0x02, 0x07, 0x89, 0xBE, 0x3C, 0x1B, 0x4F,
+                0x51, 0xFC, 0x5F, 0x51, 0x14, 0xFA, 0x2F, 0xCF,
+                0x94, 0x20, 0x04, 0x18, 0xCB, 0x8B, 0xBB, 0xC6,
+                0x9D, 0x67, 0xF1, 0x82, 0x88, 0x7E, 0x08, 0x13,
+                0x05,
+                0x99, 0xF5                                      // crc
+            );
+            Assert.Equal(new DwgHandle(0x0101), spline.Handle);
+            Assert.Equal(DwgSplineType.FitPointsOnly, spline.SplineType);
+            Assert.Equal(3, spline.Degree);
+            Assert.Equal(1.0e-10, spline.FitTolerance);
+            Assert.Equal(new DwgVector(0.0, 0.0, 0.0), spline.StartTangentVector);
+            Assert.Equal(new DwgVector(0.0, 0.0, 0.0), spline.EndTangentVector);
+            Assert.Equal(4, spline.FitPoints.Count);
+            Assert.Equal(new DwgPoint(3.8181727265177763, 1.0736148583014682, 0.0), spline.FitPoints[0]);
+            Assert.Equal(new DwgPoint(5.568944644796172, 2.9850217000960093, 0.0), spline.FitPoints[1]);
+            Assert.Equal(new DwgPoint(7.121047362928049, 0.8253802195536437, 0.0), spline.FitPoints[2]);
+            Assert.Equal(new DwgPoint(12.311278944094166, 0.8502036880001391, 0.0), spline.FitPoints[3]);
+            Assert.False(spline.IsRational);
+            Assert.False(spline.IsClosed);
+            Assert.False(spline.IsPeriodic);
+            Assert.Equal(0.0, spline.KnotTolerance);
+            Assert.Equal(0.0, spline.ControlTolerance);
+            Assert.Empty(spline.KnotValues);
+            Assert.Empty(spline.ControlPoints);
+        }
+
+        [Fact]
+        public void ReadRawSpline2()
+        {
+            var spline = (DwgSpline)ParseRaw(
+                0xBB, 0x00,                                     // length
+                0x49, 0x00, 0x80, 0x40, 0xA5, 0xC8, 0x28, 0x00, // data
+                0x05, 0x7B, 0x20, 0x28, 0x18, 0x12, 0x2B, 0xEF,
+                0x26, 0xBC, 0xB5, 0xDE, 0x8F, 0x84, 0x8A, 0xFB,
+                0xC9, 0xAF, 0x2D, 0x77, 0xA3, 0xE4, 0x29, 0x06,
+                0x55, 0x01, 0xE2, 0x91, 0xA5, 0xD0, 0x17, 0x80,
+                0x88, 0x04, 0x31, 0x35, 0xFD, 0x44, 0xD0, 0x08,
+                0xAA, 0x01, 0x79, 0x09, 0xBE, 0x48, 0x77, 0xC4,
+                0x48, 0x80, 0x5E, 0x42, 0x6F, 0x92, 0x1D, 0xF1,
+                0x12, 0x20, 0x17, 0x90, 0x9B, 0xE4, 0x87, 0x7C,
+                0x44, 0x88, 0x05, 0xE4, 0x26, 0xF9, 0x21, 0xDF,
+                0x11, 0x22, 0x00, 0x51, 0x81, 0x5C, 0xA9, 0x30,
+                0xEA, 0x18, 0x80, 0x40, 0x1B, 0x4B, 0xCF, 0x66,
+                0xF3, 0x7D, 0x9F, 0xC4, 0x63, 0x6D, 0xAF, 0x9B,
+                0x7D, 0xA8, 0x82, 0x00, 0x51, 0x75, 0x80, 0x5C,
+                0xB0, 0x1C, 0x0C, 0x81, 0x09, 0xD0, 0x81, 0x4C,
+                0x07, 0xB7, 0x62, 0xA8, 0x05, 0x58, 0xF7, 0xA1,
+                0x59, 0x01, 0xE8, 0x9A, 0x04, 0x5B, 0x36, 0x58,
+                0x8C, 0x6B, 0x16, 0x0E, 0x20, 0x1F, 0xC2, 0x20,
+                0x5C, 0x89, 0xE6, 0xDA, 0x97, 0xF1, 0x0C, 0x22,
+                0xB6, 0x2B, 0x1A, 0x3A, 0x48, 0x80, 0x23, 0x05,
+                0x1E, 0xF2, 0x8C, 0x22, 0x74, 0x9F, 0xC6, 0x74,
+                0x99, 0xBC, 0x06, 0xF0, 0xC9, 0x42, 0x01, 0xA0,
+                0x40, 0x6E, 0x0F, 0x6C, 0xA7, 0xF0, 0x7F, 0x18,
+                0x28, 0x87, 0xD7,
+                0xE3, 0xF3                                      // crc
+            );
+            Assert.Equal(new DwgHandle(0x0102), spline.Handle);
+            Assert.Equal(DwgSplineType.ControlAndKnotsOnly, spline.SplineType);
+            Assert.Equal(3, spline.Degree);
+            Assert.Equal(0.0, spline.FitTolerance);
+            Assert.Equal(new DwgVector(1.0, 0.0, 0.0), spline.StartTangentVector);
+            Assert.Equal(new DwgVector(1.0, 0.0, 0.0), spline.EndTangentVector);
+            Assert.Empty(spline.FitPoints);
+            Assert.False(spline.IsRational);
+            Assert.False(spline.IsClosed);
+            Assert.False(spline.IsPeriodic);
+            Assert.Equal(1.0e-7, spline.KnotTolerance);
+            Assert.Equal(1.0e-7, spline.ControlTolerance);
+            Assert.Equal(10, spline.KnotValues.Count);
+            Assert.Equal(0.0, spline.KnotValues[0]);
+            Assert.Equal(0.0, spline.KnotValues[1]);
+            Assert.Equal(0.0, spline.KnotValues[2]);
+            Assert.Equal(0.0, spline.KnotValues[3]);
+            Assert.Equal(2.592041362457628, spline.KnotValues[4]);
+            Assert.Equal(5.2515665404004093, spline.KnotValues[5]);
+            Assert.Equal(10.441857483181927, spline.KnotValues[6]);
+            Assert.Equal(10.441857483181927, spline.KnotValues[7]);
+            Assert.Equal(10.441857483181927, spline.KnotValues[8]);
+            Assert.Equal(10.441857483181927, spline.KnotValues[9]);
+            Assert.Equal(6, spline.ControlPoints.Count);
+            Assert.Equal(new DwgPoint(3.5574194541768698, 1.7438484377811676, 0.0), spline.ControlPoints[0].Point);
+            Assert.Equal(1.0, spline.ControlPoints[0].Weight);
+            Assert.Equal(new DwgPoint(4.177184875439149, 2.757004132515494, 0.0), spline.ControlPoints[1].Point);
+            Assert.Equal(1.0, spline.ControlPoints[1].Weight);
+            Assert.Equal(new DwgPoint(5.432851315156837, 4.809693037772074, 0.0), spline.ControlPoints[2].Point);
+            Assert.Equal(1.0, spline.ControlPoints[2].Weight);
+            Assert.Equal(new DwgPoint(7.043785463170186, -0.3158149458543277, 0.0), spline.ControlPoints[3].Point);
+            Assert.Equal(1.0, spline.ControlPoints[3].Weight);
+            Assert.Equal(new DwgPoint(10.05771700607944, 0.7895626523316615, 0.0), spline.ControlPoints[4].Point);
+            Assert.Equal(1.0, spline.ControlPoints[4].Weight);
+            Assert.Equal(new DwgPoint(12.05052567175326, 1.5204372674798385, 0.0), spline.ControlPoints[5].Point);
+            Assert.Equal(1.0, spline.ControlPoints[5].Weight);
+            Assert.Empty(spline.FitPoints);
+        }
+
+        [Fact]
         public void ReadRawRay()
         {
             var ray = (DwgRay)ParseRaw(

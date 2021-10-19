@@ -25,4 +25,10 @@
         Middle = 2,
         Top = 3
     }
+
+    public enum DwgSplineType
+    {
+        ControlAndKnotsOnly = 1,
+        FitPointsOnly = 2,
+    }
 }

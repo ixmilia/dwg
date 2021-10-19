@@ -146,6 +146,23 @@ namespace IxMilia.Dwg.Test
         }
 
         [Fact]
+        public void RoundTripSpline()
+        {
+            var spline = new DwgSpline();
+            spline.SplineType = DwgSplineType.FitPointsOnly;
+            spline.FitTolerance = 0.25;
+            spline.StartTangentVector = new DwgVector(1.0, 2.0, 3.0);
+            spline.EndTangentVector = new DwgVector(4.0, 5.0, 6.0);
+            spline.FitPoints.Add(new DwgPoint(7.0, 8.0, 9.0));
+            var roundTrippedSpline = (DwgSpline)RoundTrip(spline);
+            Assert.Equal(spline.SplineType, roundTrippedSpline.SplineType);
+            Assert.Equal(spline.FitTolerance, roundTrippedSpline.FitTolerance);
+            Assert.Equal(spline.StartTangentVector, roundTrippedSpline.StartTangentVector);
+            Assert.Equal(spline.EndTangentVector, roundTrippedSpline.EndTangentVector);
+            Assert.Equal(spline.FitPoints.Single(), roundTrippedSpline.FitPoints.Single());
+        }
+
+        [Fact]
         public void CantWriteSolidWithDifferentZValues()
         {
             var solid = new DwgSolid()

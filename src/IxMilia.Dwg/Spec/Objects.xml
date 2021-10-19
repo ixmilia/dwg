@@ -537,7 +537,24 @@
   Spline
 
   -->
-  <Object Name="Spline" Value="0x24" IsEntity="true" NotImplemented="true">
+  <Object Name="Spline" Value="0x24" IsEntity="true" CustomReader="true" CustomWriter="true">
+    <Property Name="SplineType" Type="DwgSplineType" BinaryType="BS" DefaultValue="DwgSplineType.FitPointsOnly" SkipCreation="true" />
+    <Property Name="Degree" Type="int" BinaryType="BS" DefaultValue="3" WriteConverter="(short){0}" />
+    <!-- if (scenario == 2) -->
+    <Property Name="FitTolerance" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="StartTangentVector" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.XAxis" />
+    <Property Name="EndTangentVector" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.XAxis" />
+    <Property Name="FitPoints" Type="DwgPoint" BinaryType="3BD" DefaultValue="new List&lt;DwgPoint&gt;()" SkipCreation="true" />
+    <!-- else if (scenario == 1) -->
+    <Property Name="IsRational" Type="bool" BinaryType="B" DefaultValue="false" />
+    <Property Name="IsClosed" Type="bool" BinaryType="B" DefaultValue="false" />
+    <Property Name="IsPeriodic" Type="bool" BinaryType="B" DefaultValue="false" />
+    <Property Name="KnotTolerance" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="ControlTolerance" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="ControlPoints" Type="DwgControlPoint" BinaryType="3BD" DefaultValue="new List&lt;DwgControlPoint&gt;()" SkipCreation="true" />
+    <Property Name="KnotValues" Type="double" BinaryType="BD" DefaultValue="new List&lt;double&gt;()" SkipCreation="true" />
+    <!-- endif -->
+    <ObjectSizeEnd />
   </Object>
   <!--
 
