@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace IxMilia.Dwg.Objects
 {
@@ -7,19 +6,23 @@ namespace IxMilia.Dwg.Objects
     {
         public List<byte> RawData { get; private set; }
         public List<byte> TrailingData { get; private set; }
+        public int FinalBitCount { get; set; }
+        public byte FinalByte { get; set; }
 
         internal override void WriteSpecific(BitWriter writer, DwgVersionId version)
         {
-            WriteSpecificRegionData(writer, RawData, TrailingData, ref _objectSize);
+            WriteSpecificRegionData(writer, RawData, TrailingData, FinalBitCount, FinalByte, ref _objectSize);
         }
 
         internal override void ParseSpecific(BitReader reader, int objectBitOffsetStart, DwgVersionId version)
         {
-            ParseSpecificRegionData(reader, objectBitOffsetStart, RawData, TrailingData, _objectSize);
+            ParseSpecificRegionData(reader, objectBitOffsetStart, RawData, TrailingData, _objectSize, out var finalBitCount, out var finalByte);
+            FinalBitCount = finalBitCount;
+            FinalByte = finalByte;
             AssertObjectSize(reader, objectBitOffsetStart);
         }
 
-        internal static void WriteSpecificRegionData(BitWriter writer, List<byte> rawData, List<byte> trailingData, ref int objectSize)
+        internal static void WriteSpecificRegionData(BitWriter writer, List<byte> rawData, List<byte> trailingData, int finalBitCount, byte finalByte, ref int objectSize)
         {
             writer.Write_BS(64); // item type
             writer.Write_BD(1.0); // unknown
@@ -27,11 +30,12 @@ namespace IxMilia.Dwg.Objects
             writer.WriteBytes(rawData);
             writer.Write_BL(0); // end of data chunks
             writer.WriteBytes(trailingData);
+            writer.WriteBits((finalByte << (8 - finalBitCount)), finalBitCount);
 
             objectSize = writer.BitCount;
         }
 
-        internal static void ParseSpecificRegionData(BitReader reader, int objectBitOffsetStart, List<byte> rawData, List<byte> trailingData, int objectSize)
+        internal static void ParseSpecificRegionData(BitReader reader, int objectBitOffsetStart, List<byte> rawData, List<byte> trailingData, int objectSize, out int finalBitCount, out byte finalByte)
         {
             var itemType = reader.Read_BS();
             if (itemType == 64)
@@ -65,11 +69,11 @@ namespace IxMilia.Dwg.Objects
             var trailingBytes = reader.ReadBytes(remainingBytes);
             trailingData.AddRange(trailingBytes);
 
-            var trailingBitCount = remainingBits % 8;
-            if (trailingBitCount != 0)
+            finalBitCount = remainingBits % 8;
+            finalByte = 0;
+            if (finalBitCount != 0)
             {
-                var finalByte = (byte)reader.ReadBits(trailingBitCount);
-                trailingData.Add(finalByte);
+                finalByte = (byte)reader.ReadBits(finalBitCount);
             }
         }
     }

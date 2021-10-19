@@ -564,6 +564,8 @@
   <Object Name="Region" Value="0x25" IsEntity="true" CustomReader="true" CustomWriter="true">
     <Property Name="RawData" Type="byte" BinaryType="RC" DefaultValue="new List&lt;byte&gt;()" SkipCreation="true" />
     <Property Name="TrailingData" Type="byte" BinaryType="RC" DefaultValue="new List&lt;byte&gt;()" SkipCreation="true" />
+    <Property Name="FinalBitCount" Type="int" BinaryType="BL" DefaultValue="0" SkipCreation="true" />
+    <Property Name="FinalByte" Type="byte" BinaryType="B" DefaultValue="0" SkipCreation="true" />
     <ObjectSizeEnd />
   </Object>
   <!--
@@ -574,6 +576,8 @@
   <Object Name="Solid3D" Value="0x26" IsEntity="true" CustomReader="true" CustomWriter="true">
     <Property Name="RawData" Type="byte" BinaryType="RC" DefaultValue="new List&lt;byte&gt;()" SkipCreation="true" />
     <Property Name="TrailingData" Type="byte" BinaryType="RC" DefaultValue="new List&lt;byte&gt;()" SkipCreation="true" />
+    <Property Name="FinalBitCount" Type="int" BinaryType="BL" DefaultValue="0" SkipCreation="true" />
+    <Property Name="FinalByte" Type="byte" BinaryType="B" DefaultValue="0" SkipCreation="true" />
     <ObjectSizeEnd />
   </Object>
   <!--
@@ -584,6 +588,8 @@
   <Object Name="Body" Value="0x27" IsEntity="true" CustomReader="true" CustomWriter="true">
     <Property Name="RawData" Type="byte" BinaryType="RC" DefaultValue="new List&lt;byte&gt;()" SkipCreation="true" />
     <Property Name="TrailingData" Type="byte" BinaryType="RC" DefaultValue="new List&lt;byte&gt;()" SkipCreation="true" />
+    <Property Name="FinalBitCount" Type="int" BinaryType="BL" DefaultValue="0" SkipCreation="true" />
+    <Property Name="FinalByte" Type="byte" BinaryType="B" DefaultValue="0" SkipCreation="true" />
     <ObjectSizeEnd />
   </Object>
   <!--

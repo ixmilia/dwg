@@ -1123,6 +1123,8 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(new DwgHandle(0x0103), region.Handle);
             Assert.Equal(518, region.RawData.Count);
             Assert.Equal(19, region.TrailingData.Count);
+            Assert.Equal(0, region.FinalBitCount);
+            Assert.Equal(0, region.FinalByte);
         }
 
         [Fact]
@@ -1237,7 +1239,9 @@ namespace IxMilia.Dwg.Test
             );
             Assert.Equal(new DwgHandle(0x0104), solid.Handle);
             Assert.Equal(242, solid.RawData.Count);
-            Assert.Equal(562, solid.TrailingData.Count);
+            Assert.Equal(561, solid.TrailingData.Count);
+            Assert.Equal(5, solid.FinalBitCount);
+            Assert.Equal(0x15, solid.FinalByte);
         }
 
         [Fact]

@@ -177,6 +177,29 @@ namespace IxMilia.Dwg.Test
             var roundTrippedRegion = (DwgRegion)RoundTrip(region);
             Assert.Equal(region.RawData, roundTrippedRegion.RawData);
             Assert.Equal(region.TrailingData, roundTrippedRegion.TrailingData);
+            Assert.Equal(region.FinalBitCount, roundTrippedRegion.FinalBitCount);
+            Assert.Equal(region.FinalByte, roundTrippedRegion.FinalByte);
+        }
+
+        [Fact]
+        public void RoundTripSolid3D()
+        {
+            var solid = new DwgSolid3D();
+            solid.RawData.AddRange(new byte[]
+            {
+                0x01, 0x02, 0x03, 0x04
+            });
+            solid.TrailingData.AddRange(new byte[]
+            {
+                0x05, 0x06
+            });
+            solid.FinalBitCount = 3;
+            solid.FinalByte = 0x07;
+            var roundTrippedSolid = (DwgSolid3D)RoundTrip(solid);
+            Assert.Equal(solid.RawData, roundTrippedSolid.RawData);
+            Assert.Equal(solid.TrailingData, roundTrippedSolid.TrailingData);
+            Assert.Equal(solid.FinalBitCount, roundTrippedSolid.FinalBitCount);
+            Assert.Equal(solid.FinalByte, roundTrippedSolid.FinalByte);
         }
 
         [Fact]
