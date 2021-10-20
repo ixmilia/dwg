@@ -639,7 +639,18 @@
   MText
 
   -->
-  <Object Name="MText" Value="0x2C" IsEntity="true" NotImplemented="true">
+  <Object Name="MText" Value="0x2C" IsEntity="true">
+    <Property Name="InsertionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="XAxisDirection" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.XAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="RectangleWidth" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="TextHeight" Type="double" BinaryType="BD" DefaultValue="1.0" />
+    <Property Name="Attachment" Type="DwgAttachmentPoint" BinaryType="BS" DefaultValue="DwgAttachmentPoint.TopLeft" ReadConverter="(DwgAttachmentPoint){0}" WriteConverter="(short){0}" />
+    <Property Name="DrawingDirection" Type="DwgDrawingDirection" BinaryType="BS" DefaultValue="DwgDrawingDirection.LeftToRight" ReadConverter="(DwgDrawingDirection){0}" WriteConverter="(short){0}" />
+    <Property Name="ExtentsHeight" Type="double" BinaryType="BD" DefaultValue="1.0" />
+    <Property Name="ExtentsWidth" Type="double" BinaryType="BD" DefaultValue="1.0" />
+    <Property Name="Text" Type="string" BinaryType="T" DefaultValue="string.Empty" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 

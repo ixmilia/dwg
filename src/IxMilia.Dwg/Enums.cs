@@ -1,11 +1,31 @@
 ﻿namespace IxMilia.Dwg
 {
+    public enum DwgAttachmentPoint
+    {
+        TopLeft = 1,
+        TopCenter = 2,
+        TopRight = 3,
+        MiddleLeft = 4,
+        MiddleCenter = 5,
+        MiddleRight = 6,
+        BottomLeft = 7,
+        BottomCenter = 8,
+        BottomRight = 9
+    }
+
     public enum DwgCurveType
     {
         None = 0,
         QuadraticBSpline = 5,
         CubicBSpline = 6,
         Bezier = 8
+    }
+
+    public enum DwgDrawingDirection
+    {
+        LeftToRight = 1,
+        TopToBottom = 3,
+        ByStyle = 5
     }
 
     public enum DwgHorizontalTextJustification

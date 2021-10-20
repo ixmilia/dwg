@@ -1245,6 +1245,36 @@ namespace IxMilia.Dwg.Test
         }
 
         [Fact]
+        public void ReadRawMText()
+        {
+            var mtext = (DwgMText)ParseRaw(
+                0x4D, 0x00,                                     // length
+                0x4B, 0x00, 0x73, 0xA0, 0xC8, 0x10, 0x00, 0x01, // data
+                0x33, 0x0F, 0xAE, 0x2B, 0x5E, 0xAE, 0xE0, 0x84,
+                0x48, 0x04, 0x88, 0x93, 0xFD, 0xFD, 0x9A, 0x00,
+                0xFA, 0x05, 0x4B, 0x50, 0x15, 0xAF, 0x46, 0xE0,
+                0x7A, 0x15, 0x8E, 0x7E, 0x82, 0xA0, 0x20, 0x6E,
+                0xBD, 0x1B, 0x81, 0xE8, 0x56, 0x39, 0xF9, 0x9B,
+                0x99, 0x99, 0x99, 0x99, 0x99, 0xE0, 0x7E, 0x85,
+                0xAE, 0x20, 0x98, 0x9D, 0xA9, 0x18, 0x17, 0x1B,
+                0x1B, 0x19, 0x1B, 0x60, 0x82, 0x18, 0x28, 0x87,
+                0xA8, 0x89, 0xA8, 0x88, 0x00,
+                0x6F, 0xF0                                      // crc
+            );
+            Assert.Equal(new DwgHandle(0xCE), mtext.Handle);
+            Assert.Equal(new DwgPoint(9.008727710047191, 7.813185684328929, 0.0), mtext.InsertionPoint);
+            Assert.Equal(DwgVector.ZAxis, mtext.Extrusion);
+            Assert.Equal(DwgVector.XAxis, mtext.XAxisDirection);
+            Assert.Equal(0.0, mtext.RectangleWidth);
+            Assert.Equal(0.18, mtext.TextHeight);
+            Assert.Equal(DwgAttachmentPoint.MiddleCenter, mtext.Attachment);
+            Assert.Equal(DwgDrawingDirection.LeftToRight, mtext.DrawingDirection);
+            Assert.Equal(0.18000000000000008, mtext.ExtentsHeight);
+            Assert.Equal(1.05, mtext.ExtentsWidth);
+            Assert.Equal("\\A1;R0.6626", mtext.Text);
+        }
+
+        [Fact]
         public void ReadRawRay()
         {
             var ray = (DwgRay)ParseRaw(
