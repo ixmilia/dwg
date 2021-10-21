@@ -703,7 +703,14 @@
   MLine
 
   -->
-  <Object Name="MLine" Value="0x2F" IsEntity="true" NotImplemented="true">
+  <Object Name="MLine" Value="0x2F" IsEntity="true" CustomReader="true" CustomWriter="true">
+    <Property Name="Scale" Type="double" BinaryType="BD" DefaultValue="1.0" />
+    <Property Name="Justification" Type="DwgJustification" BinaryType="EC" DefaultValue="DwgJustification.Top" />
+    <Property Name="BasePoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" />
+    <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" />
+    <Property Name="IsClosed" Type="bool" BinaryType="BS" DefaultValue="false" />
+    <Property Name="Vertices" Type="DwgMLineVertex" BinaryType="3BD" DefaultValue="new List&lt;DwgMLineVertex&gt;()" ReadCount="_vertexCount" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 

@@ -1358,6 +1358,76 @@ namespace IxMilia.Dwg.Test
         }
 
         [Fact]
+        public void ReadRawMLine()
+        {
+            var ml = (DwgMLine)ParseRaw(
+                0xE4, 0x00,                                     // length
+                0x4B, 0xC0, 0x80, 0x43, 0x66, 0xC8, 0x30, 0x00, // data
+                0x05, 0x5B, 0x20, 0x04, 0x61, 0xAD, 0x1E, 0xF2,
+                0x13, 0xA8, 0x8A, 0x01, 0x81, 0x93, 0x3C, 0x67,
+                0xD4, 0x2B, 0xC0, 0x7F, 0x52, 0x80, 0x81, 0x20,
+                0x64, 0x61, 0xAD, 0x1E, 0xF2, 0x13, 0xA8, 0x8A,
+                0x01, 0x81, 0x93, 0x3C, 0x67, 0xD4, 0x2B, 0xC0,
+                0x7F, 0x13, 0xE9, 0xCF, 0x70, 0xDE, 0x47, 0x3C,
+                0xC7, 0xE4, 0xF8, 0x6A, 0x7B, 0x9C, 0x00, 0x2F,
+                0x39, 0xFC, 0x4E, 0x86, 0xA7, 0xB9, 0xC0, 0x02,
+                0xF3, 0xDF, 0x93, 0xE9, 0xCF, 0x70, 0xDE, 0x47,
+                0x3C, 0xC7, 0xF2, 0x05, 0x52, 0x04, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x00, 0x78, 0x5F, 0xD0, 0x38,
+                0xDD, 0x69, 0xB0, 0x78, 0xDE, 0x38, 0x80, 0x44,
+                0x0A, 0x1C, 0x33, 0xBD, 0xE1, 0x05, 0x20, 0x40,
+                0x62, 0xC6, 0x53, 0x15, 0xC9, 0x57, 0x71, 0xF9,
+                0xFB, 0x6C, 0xF0, 0x9B, 0x58, 0xB3, 0xAB, 0x7F,
+                0x05, 0x47, 0x3C, 0xF4, 0x7B, 0x0B, 0x79, 0xB7,
+                0xE0, 0x8F, 0x92, 0x1D, 0xDC, 0xD1, 0x2F, 0x79,
+                0xFC, 0x81, 0x54, 0x81, 0x18, 0xD6, 0xBA, 0x82,
+                0xC0, 0x20, 0xDE, 0x77, 0xF4, 0x27, 0x50, 0xA1,
+                0x65, 0x46, 0x02, 0x92, 0xA0, 0x13, 0x16, 0x15,
+                0x43, 0xDA, 0x24, 0x00, 0x28, 0x10, 0x1C, 0xB1,
+                0x94, 0xC5, 0x72, 0x55, 0xDC, 0x7E, 0x7F, 0x5B,
+                0x3C, 0x26, 0xD6, 0x2C, 0xEA, 0xDF, 0xC7, 0x65,
+                0xB3, 0xC2, 0x6D, 0x62, 0xCE, 0xA9, 0xF8, 0x20,
+                0xB1, 0x94, 0xC5, 0x72, 0x55, 0xDC, 0x7F, 0x20,
+                0x55, 0x20, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00,
+                0x07, 0x85, 0xFD, 0x18, 0x28, 0x87, 0xC0, 0x50,
+                0x87, 0x28, 0x8E, 0x4C,
+                0x91, 0x88                                      // crc
+            );
+            Assert.Equal(new DwgHandle(0x010D), ml.Handle);
+            Assert.Equal(1.0, ml.Scale);
+            Assert.Equal(DwgJustification.Top, ml.Justification);
+            Assert.Equal(new DwgPoint(4.36451290007734, 0.5026751526077575, 0.0), ml.BasePoint);
+            Assert.Equal(DwgVector.ZAxis, ml.Extrusion);
+            Assert.False(ml.IsClosed);
+            Assert.Equal(3, ml.Vertices.Count);
+            Assert.Equal(new DwgPoint(4.36451290007734, 0.5026751526077575, 0.0), ml.Vertices[0].Location);
+            Assert.Equal(new DwgVector(0.6945736528964125, 0.71942160149813, 0.0), ml.Vertices[0].VertexDirection);
+            Assert.Equal(new DwgVector(-0.7194216014981297, 0.6945736528964125, 0.0), ml.Vertices[0].MiterDirection);
+            Assert.Equal(2, ml.Vertices[0].Styles.Count);
+            Assert.Equal(new[] { 0.0, 0.0 }, ml.Vertices[0].Styles[0].SegmentParameters);
+            Assert.Equal(Array.Empty<double>(), ml.Vertices[0].Styles[0].AreaFillParameters);
+            Assert.Equal(new[] { -1.0, 0.0 }, ml.Vertices[0].Styles[1].SegmentParameters);
+            Assert.Equal(Array.Empty<double>(), ml.Vertices[0].Styles[1].AreaFillParameters);
+            Assert.Equal(new DwgPoint(7.10863054848917, 3.344961935423786, 0.0), ml.Vertices[1].Location);
+            Assert.Equal(new DwgVector(0.9427153520107381, -0.3335982090528516, 0.0), ml.Vertices[1].VertexDirection);
+            Assert.Equal(new DwgVector(-0.22936542513930053, 0.9733403832938753, 0.0), ml.Vertices[1].MiterDirection);
+            Assert.Equal(2, ml.Vertices[0].Styles.Count);
+            Assert.Equal(new[] { 0.0, 0.0 }, ml.Vertices[1].Styles[0].SegmentParameters);
+            Assert.Equal(Array.Empty<double>(), ml.Vertices[1].Styles[0].AreaFillParameters);
+            Assert.Equal(new[] { -1.1889658824760416, 0.0 }, ml.Vertices[1].Styles[1].SegmentParameters);
+            Assert.Equal(Array.Empty<double>(), ml.Vertices[1].Styles[1].AreaFillParameters);
+            Assert.Equal(new DwgPoint(10.510839768060261, 2.1410238643494033, 0.0), ml.Vertices[2].Location);
+            Assert.Equal(new DwgVector(0.9427153520107383, -0.33359820905285165, 0.0), ml.Vertices[2].VertexDirection);
+            Assert.Equal(new DwgVector(0.33359820905285065, 0.9427153520107385, 0.0), ml.Vertices[2].MiterDirection);
+            Assert.Equal(2, ml.Vertices[0].Styles.Count);
+            Assert.Equal(new[] { 0.0, 0.0 }, ml.Vertices[2].Styles[0].SegmentParameters);
+            Assert.Equal(Array.Empty<double>(), ml.Vertices[2].Styles[0].AreaFillParameters);
+            Assert.Equal(new[] { -1.0, 0.0 }, ml.Vertices[2].Styles[1].SegmentParameters);
+            Assert.Equal(Array.Empty<double>(), ml.Vertices[2].Styles[1].AreaFillParameters);
+            Assert.Equal(new DwgHandle(0x1C), ml.ResolveHandleReference(ml._mlineStyleHandleReference));
+        }
+
+        [Fact]
         public void ReadRawRay()
         {
             var ray = (DwgRay)ParseRaw(

@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
 using IxMilia.Dwg.Objects;
-using Xunit;
 
 namespace IxMilia.Dwg.Test
 {

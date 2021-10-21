@@ -203,6 +203,47 @@ namespace IxMilia.Dwg.Test
         }
 
         [Fact]
+        public void RoundTripMLine()
+        {
+            var ml = new DwgMLine();
+            ml.Scale = 1.0;
+            ml.Justification = DwgJustification.Bottom;
+            ml.BasePoint = new DwgPoint(1.0, 2.0, 3.0);
+            ml.Extrusion = DwgVector.ZAxis;
+            ml.IsClosed = true;
+            ml.Vertices.Add(new DwgMLineVertex(
+                new DwgPoint(4.0, 5.0, 6.0),
+                new DwgVector(7.0, 8.0, 9.0),
+                new DwgVector(10.0, 11.0, 12.0),
+                new[]
+                {
+                    new DwgMLineVertexStyle(
+                        new[] { 0.0, 1.0 },
+                        new[] { 2.0, 3.0 }
+                    )
+                }
+            ));
+            ml.MLineStyle = new DwgMLineStyle();
+            var roundTrippedMLine = (DwgMLine)RoundTrip(ml);
+            Assert.Equal(ml.Scale, roundTrippedMLine.Scale);
+            Assert.Equal(ml.Justification, roundTrippedMLine.Justification);
+            Assert.Equal(ml.BasePoint, roundTrippedMLine.BasePoint);
+            Assert.Equal(ml.Extrusion, roundTrippedMLine.Extrusion);
+            Assert.Equal(ml.IsClosed, roundTrippedMLine.IsClosed);
+            Assert.Equal(ml.Vertices.Count, roundTrippedMLine.Vertices.Count);
+            var v1 = ml.Vertices.Single();
+            var v2 = roundTrippedMLine.Vertices.Single();
+            Assert.Equal(v1.Location, v2.Location);
+            Assert.Equal(v1.VertexDirection, v2.VertexDirection);
+            Assert.Equal(v1.MiterDirection, v2.MiterDirection);
+            Assert.Equal(v1.Styles.Count, v2.Styles.Count);
+            var s1 = v1.Styles.Single();
+            var s2 = v2.Styles.Single();
+            Assert.Equal(s1.SegmentParameters, s2.SegmentParameters);
+            Assert.Equal(s1.AreaFillParameters, s2.AreaFillParameters);
+        }
+
+        [Fact]
         public void CantWriteSolidWithDifferentZValues()
         {
             var solid = new DwgSolid()
