@@ -756,7 +756,7 @@ namespace IxMilia.Dwg.Test
         }
 
         [Fact]
-        public void ReadRawPolylinePMesh()
+        public void ReadRawPolylineMesh()
         {
             var mesh = (DwgPolylineMesh)ParseRaw(
                 0x1A, 0x00,                                     // length

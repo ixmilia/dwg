@@ -1,4 +1,6 @@
-﻿namespace IxMilia.Dwg.Objects
+﻿using System.Collections.Generic;
+
+namespace IxMilia.Dwg.Objects
 {
     public partial class DwgLeader
     {
@@ -8,6 +10,15 @@
         public DwgObject Annotation { get; set; }
 
         public DwgDimStyle DimensionStyle { get; set; }
+
+        internal override IEnumerable<DwgObject> ChildItems
+        {
+            get
+            {
+                yield return Annotation;
+                yield return DimensionStyle;
+            }
+        }
 
         internal override void ReadPostData(BitReader reader, DwgVersionId version)
         {
