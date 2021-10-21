@@ -1188,7 +1188,13 @@
   Group
 
   -->
-  <Object Name="Group" Value="0x48" IsEntity="false" NotImplemented="true">
+  <Object Name="Group" Value="0x48" IsEntity="false">
+    <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
+    <Property Name="_isUnnamed" Type="bool" BinaryType="BS" DefaultValue="false" ReadConverter="Converters.BoolShort({0})" WriteConverter="(short)(Name == null ? 1 : 0)" Accessibility="internal" />
+    <Property Name="IsSelectable" Type="bool" BinaryType="BS" DefaultValue="true" ReadConverter="Converters.BoolShort({0})" WriteConverter="Converters.BoolShort({0})" />
+    <Property Name="_handleCount" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="internal" />
+    <ObjectSizeEnd />
+    <Property Name="_handles" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" ReadCount="_handleCount" Accessibility="internal" />
   </Object>
   <!--
 

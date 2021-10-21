@@ -1977,6 +1977,27 @@ namespace IxMilia.Dwg.Test
         }
 
         [Fact]
+        public void ReadRawGroup()
+        {
+            var g = (DwgGroup)ParseRaw(
+               0x27, 0x00,                                     // length
+               0x52, 0x00, 0x5E, 0xED, 0xE0, 0x00, 0x00, 0x04, // data
+               0x05, 0x0F, 0x74, 0x68, 0x69, 0x73, 0x20, 0x69,
+               0x73, 0x20, 0x6D, 0x79, 0x67, 0x72, 0x6F, 0x75,
+               0x70, 0x90, 0x14, 0x0D, 0x04, 0x35, 0x04, 0x34,
+               0xC1, 0x45, 0xE9, 0x45, 0xB5, 0x45, 0xA1,
+               0x35, 0x69                                      // crc
+            );
+            Assert.Equal(new DwgHandle(0x7B), g.Handle);
+            Assert.Equal("this is mygroup", g.Name);
+            Assert.True(g.IsSelectable);
+            Assert.Equal(3, g._handles.Count);
+            Assert.Equal(new DwgHandle(0x0D), g.ResolveHandleReference(g._handles[0]));
+            Assert.Equal(new DwgHandle(0x0D), g.ResolveHandleReference(g._handles[1]));
+            Assert.Equal(new DwgHandle(0x00), g.ResolveHandleReference(g._handles[2]));
+        }
+
+        [Fact]
         public void ReadRawMLineStyle()
         {
             var m = (DwgMLineStyle)ParseRaw(

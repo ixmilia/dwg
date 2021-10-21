@@ -24,5 +24,13 @@ namespace IxMilia.Dwg.Test
             var roundTrippedDrawing = RoundTrip(drawing);
             return roundTrippedDrawing.ModelSpaceBlockRecord.Entities.Single();
         }
+
+        public static DwgObject RoundTrip(DwgObject obj)
+        {
+            var drawing = new DwgDrawing();
+            drawing.NamedObjectDictionary["the-object"] = obj;
+            var roundTrippedDrawing = RoundTrip(drawing);
+            return roundTrippedDrawing.NamedObjectDictionary["the-object"];
+        }
     }
 }
