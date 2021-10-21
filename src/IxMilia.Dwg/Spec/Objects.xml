@@ -688,7 +688,15 @@
   Tolerance
 
   -->
-  <Object Name="Tolerance" Value="0x2E" IsEntity="true" NotImplemented="true">
+  <Object Name="Tolerance" Value="0x2E" IsEntity="true">
+    <Property Name="_unknownShort" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
+    <Property Name="Height" Type="double" BinaryType="BD" DefaultValue="0.18" />
+    <Property Name="DimensionLineGap" Type="double" BinaryType="BD" DefaultValue="0.09" />
+    <Property Name="InsertionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="XAxisDirection" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.XAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="Text" Type="string" BinaryType="T" DefaultValue="string.Empty" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
