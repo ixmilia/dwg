@@ -1271,7 +1271,16 @@
   Image definition
 
   -->
-  <Object Name="ImageDefinition" Value="504" IsEntity="false" ClassName="IMAGEDEF" NotImplemented="true">
+  <Object Name="ImageDefinition" Value="504" IsEntity="false" ClassName="IMAGEDEF">
+    <Property Name="ClassVersion" Type="int" BinaryType="BL" DefaultValue="0" />
+    <Property Name="ImageWidth" Type="double" BinaryType="RD" DefaultValue="0.0" />
+    <Property Name="ImageHeight" Type="double" BinaryType="RD" DefaultValue="0.0" />
+    <Property Name="FilePath" Type="string" BinaryType="T" DefaultValue="null" />
+    <Property Name="IsLoaded" Type="bool" BinaryType="B" DefaultValue="true" />
+    <Property Name="ResolutionUnits" Type="DwgImageResolutionUnits" BinaryType="RC" DefaultValue="DwgImageResolutionUnits.Inches" ReadConverter="(DwgImageResolutionUnits){0}" WriteConverter="(byte){0}" />
+    <Property Name="PixelWidth" Type="double" BinaryType="RD" DefaultValue="0.0" />
+    <Property Name="PixelHeight" Type="double" BinaryType="RD" DefaultValue="0.0" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 

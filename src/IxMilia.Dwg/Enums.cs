@@ -46,6 +46,13 @@
         Fit = 5
     }
 
+    public enum DwgImageResolutionUnits
+    {
+        None = 0,
+        Centimeters = 2,
+        Inches = 5
+    }
+
     public enum DwgVerticalTextJustification
     {
         Baseline = 0,

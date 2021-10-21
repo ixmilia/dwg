@@ -17,7 +17,7 @@ namespace IxMilia.Dwg.Test
                 null,
                 null,
                 null,
-                null,
+                new DwgClassDefinition(0, 0, "", "", "IMAGEDEF", false, false),
                 null,
                 new DwgClassDefinition(0, 0, "", "", "DICTIONARYVAR", false, false),
                 new DwgClassDefinition(0, 0, "", "", "IDBUFFER", false, false)
@@ -2060,6 +2060,34 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(0x00, id._unknownRc);
             Assert.Single(id._objectHandleReferences);
             Assert.Equal(new DwgHandle(0x8A), id.ResolveHandleReference(id._objectHandleReferences[0]));
+        }
+
+        [Fact]
+        public void ReadRawImageDefinition()
+        {
+            var id = (DwgImageDefinition)ParseRaw(
+                0x4E, 0x00,                                     // length
+                0x3D, 0xC0, 0x40, 0x5A, 0xE3, 0xB0, 0x20, 0x00, // data
+                0x04, 0x0A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                0x60, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                0x60, 0x40, 0x46, 0xD0, 0xCE, 0x97, 0x15, 0xD2,
+                0x53, 0x93, 0x95, 0x17, 0x11, 0x99, 0x58, 0x5D,
+                0x1A, 0x19, 0x5C, 0x95, 0x19, 0x5E, 0x1D, 0x1D,
+                0x5C, 0x99, 0x4B, 0x98, 0x9B, 0x5C, 0x20, 0x5E,
+                0x25, 0xD4, 0xEB, 0x07, 0x52, 0xBA, 0xC7, 0xFE,
+                0x25, 0xD4, 0xEB, 0x07, 0x52, 0xBA, 0xC7, 0xF0,
+                0x08, 0x2D, 0x48, 0x2D, 0x86, 0x11,
+                0xE8, 0x23                                      // crc
+            );
+            Assert.Equal(new DwgHandle(0x6B), id.Handle);
+            Assert.Equal(0, id.ClassVersion);
+            Assert.Equal(128.0, id.ImageWidth);
+            Assert.Equal(128.0, id.ImageHeight);
+            Assert.Equal(@"C:\WINNT\FeatherTexture.bmp", id.FilePath);
+            Assert.True(id.IsLoaded);
+            Assert.Equal(DwgImageResolutionUnits.Centimeters, id.ResolutionUnits);
+            Assert.Equal(0.352858149123434, id.PixelWidth);
+            Assert.Equal(0.352858149123434, id.PixelHeight);
         }
     }
 }
