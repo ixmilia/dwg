@@ -28,13 +28,13 @@ namespace IxMilia.Dwg.Objects
             Name = name;
         }
 
-        internal override void OnBeforeObjectWrite()
+        internal override void OnBeforeObjectWrite(DwgVersionId version)
         {
-            base.OnBeforeObjectWrite();
+            base.OnBeforeObjectWrite(version);
             _lineTypeHandleReference = LineType.MakeHandleReference(DwgHandleReferenceCode.SoftOwner);
         }
 
-        internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
+        internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
             if (LayerControlHandleReference.Code != DwgHandleReferenceCode.HardPointer)
             {

@@ -21,9 +21,9 @@ namespace IxMilia.Dwg.Objects
             return null;
         }
 
-        internal override void OnBeforeObjectWrite()
+        internal override void OnBeforeObjectWrite(DwgVersionId version)
         {
-            base.OnBeforeObjectWrite();
+            base.OnBeforeObjectWrite(version);
             foreach (var layer in _layers.Values)
             {
                 _entityHandleReferences.Add(layer.MakeHandleReference(DwgHandleReferenceCode.None));
@@ -31,7 +31,7 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
+        internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
             _layers.Clear();
             _layersFromHandle.Clear();

@@ -47,9 +47,9 @@ namespace IxMilia.Dwg.Objects
 
         internal override IEnumerable<DwgObject> ChildItems => _lineTypes.Values;
 
-        internal override void OnBeforeObjectWrite()
+        internal override void OnBeforeObjectWrite(DwgVersionId version)
         {
-            base.OnBeforeObjectWrite();
+            base.OnBeforeObjectWrite(version);
             _entityHandleReferences.Clear();
             foreach (var lineType in _lineTypes.Values.Where(lt => !IsHardCodedname(lt.Name)))
             {
@@ -61,7 +61,7 @@ namespace IxMilia.Dwg.Objects
             _byBlockHandleReference = ByBlock.MakeHandleReference(DwgHandleReferenceCode.SoftPointer);
         }
 
-        internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
+        internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
             _lineTypes.Clear();
             foreach (var lineTypeHandleReference in _entityHandleReferences)

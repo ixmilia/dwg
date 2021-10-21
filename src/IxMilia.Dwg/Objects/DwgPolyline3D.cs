@@ -41,7 +41,7 @@ namespace IxMilia.Dwg.Objects
         {
         }
 
-        internal override void ReadPostData(BitReader reader)
+        internal override void ReadPostData(BitReader reader, DwgVersionId version)
         {
             _firstVertexHandleReference = reader.Read_H();
             if (_firstVertexHandleReference.Code != DwgHandleReferenceCode.HardPointer)
@@ -62,7 +62,7 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal override void OnAfterEntityRead(BitReader reader, DwgObjectCache objectCache)
+        internal override void OnAfterEntityRead(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
             Vertices.Clear();
             var vertices = DwgEntityHelpers.EntitiesFromHandlePointer<DwgVertex3D>(objectCache, reader, Handle, _firstVertexHandleReference);
@@ -70,14 +70,14 @@ namespace IxMilia.Dwg.Objects
             SeqEnd = objectCache.GetObject<DwgSeqEnd>(reader, ResolveHandleReference(_seqEndHandleReference));
         }
 
-        internal override void OnBeforeEntityWrite()
+        internal override void OnBeforeEntityWrite(DwgVersionId version)
         {
             DwgEntityHelpers.PopulateEntityPointers(Vertices, ref _firstVertexHandleReference, ref _lastVertexHandleReference, Layer);
             SeqEnd.Layer = Layer;
             _seqEndHandleReference = SeqEnd.MakeHandleReference(DwgHandleReferenceCode.SoftPointer);
         }
 
-        internal override void WritePostData(BitWriter writer)
+        internal override void WritePostData(BitWriter writer, DwgVersionId version)
         {
             writer.Write_H(_firstVertexHandleReference);
             writer.Write_H(_lastVertexHandleReference);

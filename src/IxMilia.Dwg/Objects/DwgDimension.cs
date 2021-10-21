@@ -9,7 +9,7 @@
 
         public DwgBlock AnonymousBlock { get; set; }
 
-        internal override void ReadPostData(BitReader reader)
+        internal override void ReadPostData(BitReader reader, DwgVersionId version)
         {
             _dimStyleHandleReference = reader.Read_H();
             if (_dimStyleHandleReference.Code != DwgHandleReferenceCode.SoftOwner)
@@ -24,19 +24,19 @@
             }
         }
 
-        internal override void OnAfterEntityRead(BitReader reader, DwgObjectCache objectCache)
+        internal override void OnAfterEntityRead(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
             DimensionStyle = objectCache.GetObject<DwgDimStyle>(reader, ResolveHandleReference(_dimStyleHandleReference));
             AnonymousBlock = objectCache.GetObject<DwgBlock>(reader, ResolveHandleReference(_anonymousBlockHandleReference));
         }
 
-        internal override void OnBeforeEntityWrite()
+        internal override void OnBeforeEntityWrite(DwgVersionId version)
         {
             _dimStyleHandleReference = DimensionStyle.MakeHandleReference(DwgHandleReferenceCode.SoftOwner);
             _anonymousBlockHandleReference = AnonymousBlock.MakeHandleReference(DwgHandleReferenceCode.SoftOwner);
         }
 
-        internal override void WritePostData(BitWriter writer)
+        internal override void WritePostData(BitWriter writer, DwgVersionId version)
         {
             writer.Write_H(_dimStyleHandleReference);
             writer.Write_H(_anonymousBlockHandleReference);

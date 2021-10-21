@@ -10,9 +10,9 @@ namespace IxMilia.Dwg.Objects
 
         internal override IEnumerable<DwgObject> ChildItems => _appIds.Values;
 
-        internal override void OnBeforeObjectWrite()
+        internal override void OnBeforeObjectWrite(DwgVersionId version)
         {
-            base.OnBeforeObjectWrite();
+            base.OnBeforeObjectWrite(version);
             _entityHandleReferences.Clear();
             foreach (var appId in _appIds.Values)
             {
@@ -21,7 +21,7 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
+        internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
             _appIds.Clear();
             foreach (var appIdHandleReference in _entityHandleReferences)

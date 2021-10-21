@@ -44,9 +44,9 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal override void OnBeforeObjectWrite()
+        internal override void OnBeforeObjectWrite(DwgVersionId version)
         {
-            base.OnBeforeObjectWrite();
+            base.OnBeforeObjectWrite(version);
             BlockEntityHandleReference = Block.MakeHandleReference(DwgHandleReferenceCode.SoftPointer);
             EndBlockEntityHandleReference = EndBlock.MakeHandleReference(DwgHandleReferenceCode.SoftPointer);
             if (Entities.Count == 0)
@@ -83,7 +83,7 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
+        internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
             if (BlockControlHandleReference.Code != DwgHandleReferenceCode.HardPointer)
             {

@@ -65,7 +65,7 @@ namespace IxMilia.Dwg.Objects
             }
 
             PrepareCommonValues();
-            OnBeforeObjectWrite();
+            OnBeforeObjectWrite(version);
             SetCommonValues();
             objectMap.SetOffset(Handle, writer.Position);
 
@@ -102,7 +102,7 @@ namespace IxMilia.Dwg.Objects
                 var objectSizeOffset = WriteCommonDataStart(tempWriter, appIdMap);
                 WriteSpecific(tempWriter, version);
                 WriteCommonDataEnd(tempWriter);
-                WritePostData(tempWriter);
+                WritePostData(tempWriter, version);
                 var tempBytes = tempWriter.AsBytes();
 
                 if (_objectSize == 0)
@@ -159,7 +159,7 @@ namespace IxMilia.Dwg.Objects
             obj.ReadCommonDataStart(reader);
             obj.ParseSpecific(reader, objectBitOffsetStart, version);
             obj.ReadCommonDataEnd(reader);
-            obj.ReadPostData(reader);
+            obj.ReadPostData(reader, version);
 
             if (!obj._objectSizeVerified)
             {
@@ -181,7 +181,7 @@ namespace IxMilia.Dwg.Objects
             var obj = ParseRaw(reader, version, objectCache.Classes);
             if (obj != null)
             {
-                obj.OnAfterObjectRead(reader, objectCache);
+                obj.OnAfterObjectRead(reader, objectCache, version);
                 obj.XData = DwgXData.FromMap(reader, objectCache, obj._xdataMap);
                 obj._xdataMap = null;
             }
@@ -216,7 +216,7 @@ namespace IxMilia.Dwg.Objects
         {
         }
 
-        internal virtual void ReadPostData(BitReader reader)
+        internal virtual void ReadPostData(BitReader reader, DwgVersionId version)
         {
         }
 
@@ -234,15 +234,15 @@ namespace IxMilia.Dwg.Objects
         {
         }
 
-        internal virtual void WritePostData(BitWriter writer)
+        internal virtual void WritePostData(BitWriter writer, DwgVersionId version)
         {
         }
 
-        internal virtual void OnBeforeObjectWrite()
+        internal virtual void OnBeforeObjectWrite(DwgVersionId version)
         {
         }
 
-        internal virtual void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
+        internal virtual void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
         }
 

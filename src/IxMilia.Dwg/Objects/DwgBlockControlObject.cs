@@ -44,9 +44,9 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal override void OnBeforeObjectWrite()
+        internal override void OnBeforeObjectWrite(DwgVersionId version)
         {
-            base.OnBeforeObjectWrite();
+            base.OnBeforeObjectWrite(version);
             _entityHandleReferences.Clear();
             foreach (var blockHeader in _blockHeaders.Values.Where(b => !IsHardCodedName(b.Name)))
             {
@@ -58,7 +58,7 @@ namespace IxMilia.Dwg.Objects
             _paperSpaceBlockHeaderHandleReference = PaperSpace.MakeHandleReference(DwgHandleReferenceCode.SoftPointer);
         }
 
-        internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
+        internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
             _blockHeaders.Clear();
             foreach (var blockHeaderHandle in _entityHandleReferences)

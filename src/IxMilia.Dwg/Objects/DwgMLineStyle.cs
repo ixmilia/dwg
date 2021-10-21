@@ -15,7 +15,7 @@ namespace IxMilia.Dwg.Objects
             Name = name;
         }
 
-        internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
+        internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
         }
 

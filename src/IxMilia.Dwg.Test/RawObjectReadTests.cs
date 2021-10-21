@@ -1275,6 +1275,59 @@ namespace IxMilia.Dwg.Test
         }
 
         [Fact]
+        public void ReadRawLeader()
+        {
+            var leader = (DwgLeader)ParseRaw(
+                0x80, 0x00,                                     // length
+                0x4B, 0x40, 0x80, 0x42, 0x65, 0x20, 0x18, 0x00, // data
+                0x05, 0x5B, 0x29, 0x03, 0x25, 0xAD, 0x59, 0x2D,
+                0x08, 0x7D, 0xC9, 0x50, 0x04, 0x41, 0xFF, 0xAB,
+                0xAF, 0xA2, 0x81, 0x04, 0x08, 0x2E, 0xE6, 0x9D,
+                0x29, 0x5D, 0x0C, 0x21, 0x40, 0x1C, 0x3C, 0xC0,
+                0x0F, 0xB5, 0xED, 0x05, 0xD0, 0x20, 0x50, 0x04,
+                0x84, 0x77, 0x1E, 0x34, 0x65, 0x00, 0x78, 0x56,
+                0x18, 0x21, 0xBF, 0xAB, 0x15, 0x40, 0x89, 0x6B,
+                0x56, 0x4B, 0x42, 0x1F, 0x72, 0x54, 0x01, 0x10,
+                0x7F, 0xEA, 0xEB, 0xE8, 0xA0, 0x41, 0x02, 0xA5,
+                0xAA, 0xAA, 0x02, 0xB5, 0xE8, 0xDC, 0x0F, 0x42,
+                0xAD, 0xCF, 0xC0, 0xAD, 0x7A, 0x37, 0x03, 0xD0,
+                0xAC, 0x73, 0xF3, 0x0B, 0xD4, 0xA1, 0x72, 0x3F,
+                0x0B, 0xB4, 0xFF, 0x80, 0xAD, 0x7A, 0x37, 0x03,
+                0xD0, 0xAC, 0x73, 0xF2, 0xC3, 0x05, 0x10, 0xFC,
+                0x10, 0x26, 0x05, 0x20, 0x10, 0xA5, 0x11, 0xD6,
+                0x6E, 0xAB                                      // crc
+            );
+            Assert.Equal(new DwgHandle(0x0109), leader.Handle);
+            Assert.False(leader._unknownBit1);
+            Assert.Equal(DwgAnnotationType.MText, leader.AnnotationType);
+            Assert.Equal(0, leader.PathType);
+            Assert.Equal(3, leader.Points.Count);
+            Assert.Equal(new DwgPoint(10.982679021161669, 4.0400189604914125, 0.0), leader.Points[0]);
+            Assert.Equal(new DwgPoint(8.524148273968503, 5.926602333839455, 0.0), leader.Points[1]);
+            Assert.Equal(new DwgPoint(6.388454871310632, 5.417721287832698, 0.0), leader.Points[2]);
+            Assert.Equal(new DwgVector(10.982679021161669, 4.0400189604914125, 0.0), leader.EndPointProjection);
+            Assert.Equal(DwgVector.ZAxis, leader.Extrusion);
+            Assert.Equal(DwgVector.XAxis, leader.XAxisDirection);
+            Assert.Equal(DwgPoint.Origin, leader.OffsetBlockInsertionPoint);
+            Assert.Equal(DwgPoint.Origin, leader._unknownPoint);
+            Assert.Equal(0.09, leader.DimensionLineGap);
+            Assert.Equal(0.18, leader.BoxHeight);
+            Assert.Equal(0.92999999999999994, leader.BoxWidth);
+            Assert.True(leader.IsHookLineOnXAxis);
+            Assert.True(leader.IsArrowheadOnIndicator);
+            Assert.Equal(0, leader.ArrowheadType);
+            Assert.Equal(0.18, leader.DimensioningArrowSize);
+            Assert.False(leader._unknownBit2);
+            Assert.False(leader._unknownBit3);
+            Assert.Equal(0, leader._unknownShort);
+            Assert.Equal(DwgColor.ByLayer, leader.ByBlockColor);
+            Assert.False(leader._unknownBit4);
+            Assert.False(leader._unknownBit5);
+            Assert.Equal(new DwgHandle(0x010A), leader.ResolveHandleReference(leader._associatedAnnotationHandleReference));
+            Assert.Equal(new DwgHandle(0x1D), leader.ResolveHandleReference(leader._dimStyleHandleReference));
+        }
+
+        [Fact]
         public void ReadRawRay()
         {
             var ray = (DwgRay)ParseRaw(

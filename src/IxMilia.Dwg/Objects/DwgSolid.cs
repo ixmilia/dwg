@@ -5,7 +5,7 @@ namespace IxMilia.Dwg.Objects
 {
     public partial class DwgSolid
     {
-        internal override void OnAfterEntityRead(BitReader reader, DwgObjectCache objectCache)
+        internal override void OnAfterEntityRead(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
             FirstCorner = new DwgPoint(FirstCorner.X, FirstCorner.Y, Elevation);
             SecondCorner = new DwgPoint(SecondCorner.X, SecondCorner.Y, Elevation);
@@ -13,7 +13,7 @@ namespace IxMilia.Dwg.Objects
             FourthCorner = new DwgPoint(FourthCorner.X, FourthCorner.Y, Elevation);
         }
 
-        internal override void OnBeforeEntityWrite()
+        internal override void OnBeforeEntityWrite(DwgVersionId version)
         {
             var elevationValues = new[] { FirstCorner.Z, SecondCorner.Z, ThirdCorner.Z, FourthCorner.Z };
             var uniqueElevationValues = elevationValues.Distinct().ToList();

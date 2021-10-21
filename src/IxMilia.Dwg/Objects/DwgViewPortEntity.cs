@@ -16,7 +16,7 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal override void ReadPostData(BitReader reader)
+        internal override void ReadPostData(BitReader reader, DwgVersionId version)
         {
             _viewPortEntityHeaderHandleReference = reader.Read_H();
             if (_viewPortEntityHeaderHandleReference.Code != DwgHandleReferenceCode.SoftOwner)
@@ -25,17 +25,17 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal override void OnAfterEntityRead(BitReader reader, DwgObjectCache objectCache)
+        internal override void OnAfterEntityRead(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
             ViewPortEntityHeader = objectCache.GetObject<DwgViewPortEntityHeader>(reader, ResolveHandleReference(_viewPortEntityHeaderHandleReference));
         }
 
-        internal override void OnBeforeEntityWrite()
+        internal override void OnBeforeEntityWrite(DwgVersionId version)
         {
             _viewPortEntityHeaderHandleReference = ViewPortEntityHeader.MakeHandleReference(DwgHandleReferenceCode.SoftOwner);
         }
 
-        internal override void WritePostData(BitWriter writer)
+        internal override void WritePostData(BitWriter writer, DwgVersionId version)
         {
             writer.Write_H(_viewPortEntityHeaderHandleReference);
         }

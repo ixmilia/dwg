@@ -10,7 +10,7 @@ namespace IxMilia.Dwg.Objects
             Point = point;
         }
 
-        internal override void OnAfterEntityRead(BitReader reader, DwgObjectCache objectCache)
+        internal override void OnAfterEntityRead(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
             if (StartWidth < 0.0)
             {

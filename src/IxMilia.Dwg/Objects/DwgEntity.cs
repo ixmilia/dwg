@@ -22,11 +22,11 @@ namespace IxMilia.Dwg.Objects
         internal DwgHandleReference PreviousEntityHandle { get; set; } = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0);
         internal DwgHandleReference NextEntityHandle { get; set; } = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0);
 
-        internal virtual void OnBeforeEntityWrite()
+        internal virtual void OnBeforeEntityWrite(DwgVersionId version)
         {
         }
 
-        internal virtual void OnAfterEntityRead(BitReader reader, DwgObjectCache objectCache)
+        internal virtual void OnAfterEntityRead(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
         }
 
@@ -134,17 +134,17 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal override void OnBeforeObjectWrite()
+        internal override void OnBeforeObjectWrite(DwgVersionId version)
         {
-            base.OnBeforeObjectWrite();
+            base.OnBeforeObjectWrite(version);
             LayerHandleReference = GetHandleToObject(Layer, DwgHandleReferenceCode.SoftOwner, throwOnNull: true);
             LineTypeHandleReference = GetHandleToObject(LineType, DwgHandleReferenceCode.SoftOwner);
             _isLineTypeByLayer = LineType == null;
             _noLinks = PreviousEntityHandle.IsValidNavigationHandle && NextEntityHandle.IsValidNavigationHandle;
-            OnBeforeEntityWrite();
+            OnBeforeEntityWrite(version);
         }
 
-        internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
+        internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
             if (LayerHandleReference.Code != DwgHandleReferenceCode.SoftOwner && LayerHandleReference.Code != DwgHandleReferenceCode.HardOwner)
             {
@@ -177,7 +177,7 @@ namespace IxMilia.Dwg.Objects
                 LineType = objectCache.GetObject<DwgLineType>(reader, ResolveHandleReference(LineTypeHandleReference));
             }
 
-            OnAfterEntityRead(reader, objectCache);
+            OnAfterEntityRead(reader, objectCache, version);
         }
     }
 }

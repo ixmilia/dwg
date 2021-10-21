@@ -10,9 +10,9 @@ namespace IxMilia.Dwg.Objects
 
         internal override IEnumerable<DwgObject> ChildItems => _viewPorts.Values;
 
-        internal override void OnBeforeObjectWrite()
+        internal override void OnBeforeObjectWrite(DwgVersionId version)
         {
-            base.OnBeforeObjectWrite();
+            base.OnBeforeObjectWrite(version);
             foreach (var viewPort in _viewPorts.Values)
             {
                 _entityHandleReferences.Add(viewPort.MakeHandleReference(DwgHandleReferenceCode.None));
@@ -20,7 +20,7 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
+        internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
             _viewPorts.Clear();
             foreach (var viewPortHandleReference in _entityHandleReferences)

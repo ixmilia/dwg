@@ -1,5 +1,13 @@
 ﻿namespace IxMilia.Dwg
 {
+    public enum DwgAnnotationType
+    {
+        MText = 0,
+        Tolerance = 1,
+        Insert = 2,
+        None = 3,
+    }
+
     public enum DwgAttachmentPoint
     {
         TopLeft = 1,

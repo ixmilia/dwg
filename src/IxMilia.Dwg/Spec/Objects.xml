@@ -657,7 +657,31 @@
   Leader
 
   -->
-  <Object Name="Leader" Value="0x2D" IsEntity="true" NotImplemented="true">
+  <Object Name="Leader" Value="0x2D" IsEntity="true">
+    <Property Name="_unknownBit1" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
+    <Property Name="AnnotationType" Type="DwgAnnotationType" BinaryType="BS" DefaultValue="DwgAnnotationType.MText" ReadConverter="(DwgAnnotationType){0}" WriteConverter="(short){0}" />
+    <Property Name="PathType" Type="short" BinaryType="BS" DefaultValue="0" />
+    <Property Name="_pointCount" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" Accessibility="internal" />
+    <Property Name="Points" Type="DwgPoint" BinaryType="3BD" DefaultValue="new List&lt;DwgPoint&gt;()" ReadCount="_pointCount" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="EndPointProjection" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.Zero" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="XAxisDirection" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.XAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="OffsetBlockInsertionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="_unknownPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" ReadCondition="version == DwgVersionId.R14" WriteCondition="version == DwgVersionId.R14" Accessibility="internal" />
+    <Property Name="DimensionLineGap" Type="double" BinaryType="BD" DefaultValue="0.09" />
+    <Property Name="BoxHeight" Type="double" BinaryType="BD" DefaultValue="0.18" />
+    <Property Name="BoxWidth" Type="double" BinaryType="BD" DefaultValue="0.93" />
+    <Property Name="IsHookLineOnXAxis" Type="bool" BinaryType="B" DefaultValue="true" />
+    <Property Name="IsArrowheadOnIndicator" Type="bool" BinaryType="B" DefaultValue="true" />
+    <Property Name="ArrowheadType" Type="short" BinaryType="BS" DefaultValue="0" />
+    <Property Name="DimensioningArrowSize" Type="double" BinaryType="BD" DefaultValue="0.18" />
+    <Property Name="_unknownBit2" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
+    <Property Name="_unknownBit3" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
+    <Property Name="_unknownShort" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
+    <Property Name="ByBlockColor" Type="DwgColor" BinaryType="BS" DefaultValue="DwgColor.ByLayer" ReadConverter="DwgColor.FromRawValue({0})" WriteConverter="{0}.RawValue" />
+    <Property Name="_unknownBit4" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
+    <Property Name="_unknownBit5" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 

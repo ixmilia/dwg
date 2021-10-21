@@ -17,7 +17,7 @@ namespace IxMilia.Dwg.Objects
 
         internal override DwgHandleReferenceCode ExpectedNullHandleCode => DwgHandleReferenceCode.SoftOwner;
 
-        internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache)
+        internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
             if (ViewPortEntityHeaderControlHandleReference.Code != DwgHandleReferenceCode.HardPointer)
             {
