@@ -29,6 +29,12 @@ namespace IxMilia.Dwg.Test
         {
             var drawing = new DwgDrawing();
             drawing.NamedObjectDictionary["the-object"] = obj;
+            var className = DwgObjectTypeExtensions.ClassNameFromTypeCode(obj.Type);
+            if (className != null)
+            {
+                drawing.Classes.Add(new DwgClassDefinition(0, 0, "", "", className, false, false));
+            }
+
             var roundTrippedDrawing = RoundTrip(drawing);
             return roundTrippedDrawing.NamedObjectDictionary["the-object"];
         }

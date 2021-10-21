@@ -19,7 +19,8 @@ namespace IxMilia.Dwg.Test
                 null,
                 null,
                 null,
-                new DwgClassDefinition(0, 0, "", "", "DICTIONARYVAR", false, false)
+                new DwgClassDefinition(0, 0, "", "", "DICTIONARYVAR", false, false),
+                new DwgClassDefinition(0, 0, "", "", "IDBUFFER", false, false)
             };
         }
 
@@ -2043,6 +2044,22 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(0x00, d.IntVal);
             Assert.Equal("3", d.Str);
             Assert.Equal(new DwgHandle(0x00), d.ResolveHandleReference(d._parentHandleReference));
+        }
+
+        [Fact]
+        public void ReadRawIdBuffer()
+        {
+            var id = (DwgIdBuffer)ParseRaw(
+                0x12, 0x00,                                     // length
+                0x3E, 0x80, 0x40, 0x62, 0xE6, 0x00, 0x00, 0x00, // data
+                0x04, 0x04, 0x01, 0x01, 0x80, 0x41, 0x8A, 0x30,
+                0x41, 0x89,
+                0xC9, 0x64                                      // crc
+            );
+            Assert.Equal(new DwgHandle(0x8B), id.Handle);
+            Assert.Equal(0x00, id._unknownRc);
+            Assert.Single(id._objectHandleReferences);
+            Assert.Equal(new DwgHandle(0x8A), id.ResolveHandleReference(id._objectHandleReferences[0]));
         }
     }
 }

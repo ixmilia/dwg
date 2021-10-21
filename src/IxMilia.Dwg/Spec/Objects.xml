@@ -1252,7 +1252,12 @@
   ID buffer
 
   -->
-  <Object Name="IdBuffer" Value="502" IsEntity="false" ClassName="IDBUFFER" NotImplemented="true">
+  <Object Name="IdBuffer" Value="502" IsEntity="false" ClassName="IDBUFFER">
+    <Property Name="_unknownRc" Type="byte" BinaryType="RC" DefaultValue="0x00" Accessibility="internal" />
+    <Property Name="_objectIdCount" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="internal" />
+    <ObjectSizeEnd />
+
+    <Property Name="_objectHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" ReadCount="_objectIdCount" Accessibility="internal" />
   </Object>
   <!--
 
