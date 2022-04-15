@@ -10,26 +10,30 @@ namespace IxMilia.Dwg.Test
     /// </summary>
     public class RawObjectReadTests : AbstractReaderTests
     {
-        private static IList<DwgClassDefinition> Classes()
+        private static DwgClassDefinition[] CommonClasses()
         {
-            return new List<DwgClassDefinition>()
+            return new DwgClassDefinition[]
             {
                 null,
                 null,
                 null,
                 new DwgClassDefinition(0, 0, "", "", "IMAGEDEF", false, false),
-                null,
-                new DwgClassDefinition(0, 0, "", "", "DICTIONARYVAR", false, false),
+                new DwgClassDefinition(0, 0, "", "", "IMAGEDEFREACTOR", false, false),
+                new DwgClassDefinition(0, 0, "", "", "IMAGE", false, false),
                 new DwgClassDefinition(0, 0, "", "", "IDBUFFER", false, false)
             };
         }
 
-        public static DwgObject ParseRaw(params int[] data)
+        public static DwgObject ParseRaw(DwgClassDefinition[] classes, params int[] data)
         {
             var reader = Bits(data);
-            var classes = Classes();
             var obj = DwgObject.ParseRaw(reader, DwgVersionId.R14, classes);
             return obj;
+        }
+
+        public static DwgObject ParseRaw(params int[] data)
+        {
+            return ParseRaw(CommonClasses(), data);
         }
 
         [Fact]
@@ -2034,6 +2038,15 @@ namespace IxMilia.Dwg.Test
         public void ReadRawDictionaryVar()
         {
             var d = (DwgDictionaryVar)ParseRaw(
+                new[]
+                {
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    new DwgClassDefinition(0, 0, "", "", "DICTIONARYVAR", false, false),
+                },
                 0x12, 0x00,                                     // length
                 0x3E, 0x40, 0x40, 0x80, 0x7A, 0xA7, 0x00, 0x00, // data
                 0x00, 0x04, 0x04, 0x01, 0x01, 0x33, 0x40, 0x41,
@@ -2063,6 +2076,69 @@ namespace IxMilia.Dwg.Test
         }
 
         [Fact]
+        public void ReadRawImage()
+        {
+            var i = (DwgImage)ParseRaw(
+                0x09, 0x01,                                     // length
+                0x3E, 0x40, 0x40, 0x5B, 0x6C, 0x60, 0x00, 0x00, // data
+                0x04, 0x60, 0x00, 0x00, 0x00, 0x08, 0x00, 0x00,
+                0x04, 0x20, 0x00, 0x00, 0x00, 0x30, 0x00, 0x00,
+                0x00, 0x28, 0x00, 0x00, 0x06, 0xB5, 0x6E, 0x62,
+                0x0B, 0xAA, 0xE1, 0x02, 0x00, 0x03, 0x72, 0xC5,
+                0x63, 0xF8, 0xD8, 0xAA, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x00, 0x06, 0xB5, 0x6E, 0x62,
+                0x0B, 0xAA, 0xE1, 0x02, 0x00, 0x03, 0x72, 0xC5,
+                0x63, 0xF8, 0xD8, 0xCA, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x00, 0x06, 0xB5, 0x6E, 0x62,
+                0x0B, 0xAA, 0xE1, 0x12, 0x00, 0x03, 0x72, 0xC5,
+                0x63, 0xF8, 0xD8, 0xCA, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x00, 0x06, 0xB5, 0x6E, 0x62,
+                0x0B, 0xAA, 0xE1, 0x12, 0x00, 0x03, 0x72, 0xC5,
+                0x63, 0xF8, 0xD8, 0xAA, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x00, 0x06, 0xB5, 0x6E, 0x62,
+                0x0B, 0xAA, 0xE1, 0x02, 0x00, 0x03, 0x72, 0xC5,
+                0x63, 0xF8, 0xD8, 0xAA, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x00, 0x06, 0xD0, 0x38, 0x00,
+                0x02, 0x80, 0xDB, 0x46, 0xB5, 0x6E, 0x62, 0x0B,
+                0xAA, 0xE1, 0x02, 0x00, 0x00, 0xDC, 0xB1, 0x58,
+                0xFE, 0x36, 0x2A, 0x81, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x10, 0x07, 0xF4, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x53, 0x10, 0x9E, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x10, 0x07, 0xF0, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x03, 0x02, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x03, 0x02, 0x02, 0x0E, 0x32,
+                0x32, 0x00, 0x40, 0x40, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x38, 0x2F, 0xC0, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x38, 0x2F, 0xC0, 0x00, 0x00, 0x00, 0x00,
+                0x38, 0x17, 0xD0, 0x00, 0x00, 0x00, 0x00, 0x00,
+                0x38, 0x17, 0xD0, 0x10, 0x5E, 0xCC, 0x14, 0x43,
+                0xF0, 0x41, 0x68, 0x43, 0x54, 0x5A, 0xCC, 0x5B,
+                0x3F,
+                0x0D, 0x2A                                      // crc
+            );
+            Assert.Equal(new DwgHandle(0x6D), i.Handle);
+            Assert.Equal(0, i.ClassVersion);
+            Assert.Equal(new DwgPoint(8.180582100138889, 5.276854222199745, 0.0), i.InsertionPoint);
+            Assert.Equal(new DwgVector(0.0078125, 0.0, 0.0), i.UVector);
+            Assert.Equal(new DwgVector(4.783618569618661E-19, 0.0078125, 0.0), i.VVector);
+            Assert.Equal(new DwgVector(128.0, 128.0, 0.0), i.ImageSize);
+            Assert.True(i.ShowImage);
+            Assert.True(i.ShowImageWhenNotAlignedToScreen);
+            Assert.True(i.UseClippingBoundary);
+            Assert.False(i.TransparencyOn);
+            Assert.False(i.Clipping);
+            Assert.Equal(50, i.Brightness);
+            Assert.Equal(50, i.Contrast);
+            Assert.Equal(0, i.Fade);
+            Assert.Equal(DwgClipBoundaryType.Rectangle, i.ClipBoundaryType);
+            Assert.Equal(new DwgPoint(-0.5, -0.5, 0.0), i.ClipBoundaryFirstPoint);
+            Assert.Equal(new DwgPoint(127.5, 127.5, 0.0), i.ClipBoundarySecondPoint);
+            Assert.Empty(i.ClipVertices);
+            Assert.Equal(new DwgHandle(0x6B), i.ResolveHandleReference(i._imageDefHandleReference));
+            Assert.Equal(new DwgHandle(0x6C), i.ResolveHandleReference(i._imageDefReactorHandleReference));
+        }
+
+        [Fact]
         public void ReadRawImageDefinition()
         {
             var id = (DwgImageDefinition)ParseRaw(
@@ -2088,6 +2164,18 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(DwgImageResolutionUnits.Centimeters, id.ResolutionUnits);
             Assert.Equal(0.352858149123434, id.PixelWidth);
             Assert.Equal(0.352858149123434, id.PixelHeight);
+        }
+
+        [Fact]
+        public void ReadRawImageDefinitionReactor()
+        {
+            var i = (DwgImageDefinitionReactor)ParseRaw(
+                0x0C, 0x00,                                     // length
+                0x3E, 0x00, 0x40, 0x5B, 0x25, 0x00, 0x00, 0x00, // data
+                0x09, 0x02, 0x60, 0x30,
+                0xA1, 0x13                                      // crc
+            );
+            Assert.Equal(new DwgHandle(0x6C), i.Handle);
         }
     }
 }

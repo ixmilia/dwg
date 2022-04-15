@@ -1264,7 +1264,28 @@
   Image
 
   -->
-  <Object Name="Image" Value="503" IsEntity="false" ClassName="IMAGE" NotImplemented="true">
+  <Object Name="Image" Value="503" IsEntity="true" ClassName="IMAGE">
+    <Property Name="ClassVersion" Type="int" BinaryType="BL" DefaultValue="0" />
+    <Property Name="InsertionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="UVector" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.XAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="VVector" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.YAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="ImageSize" Type="DwgVector" BinaryType="2RD" DefaultValue="new DwgVector(1.0, 1.0, 0.0)" ReadConverter="Converters.DoubleVector({0})" WriteConverter="Converters.DoubleVector({0})" />
+    <Property Name="DisplayPropertyFlags" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}">
+      <Flag Name="ShowImage" Mask="1" />
+      <Flag Name="ShowImageWhenNotAlignedToScreen" Mask="2" />
+      <Flag Name="UseClippingBoundary" Mask="4" />
+      <Flag Name="TransparencyOn" Mask="8" />
+    </Property>
+    <Property Name="Clipping" Type="bool" BinaryType="B" DefaultValue="false" />
+    <Property Name="Brightness" Type="short" BinaryType="RC" DefaultValue="50" WriteConverter="(byte){0}" />
+    <Property Name="Contrast" Type="short" BinaryType="RC" DefaultValue="50" WriteConverter="(byte){0}" />
+    <Property Name="Fade" Type="short" BinaryType="RC" DefaultValue="0" WriteConverter="(byte){0}" />
+    <Property Name="ClipBoundaryType" Type="DwgClipBoundaryType" BinaryType="BS" DefaultValue="DwgClipBoundaryType.Rectangle" ReadConverter="(DwgClipBoundaryType){0}" WriteConverter="(short){0}" />
+    <Property Name="ClipBoundaryFirstPoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" ReadCondition="ClipBoundaryType == DwgClipBoundaryType.Rectangle" WriteCondition="ClipBoundaryType == DwgClipBoundaryType.Rectangle" />
+    <Property Name="ClipBoundarySecondPoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" ReadCondition="ClipBoundaryType == DwgClipBoundaryType.Rectangle" WriteCondition="ClipBoundaryType == DwgClipBoundaryType.Rectangle" />
+    <Property Name="_clipBoundaryVertexCount" Type="int" BinaryType="BL" DefaultValue="0" ReadCondition="ClipBoundaryType == DwgClipBoundaryType.Polygon" WriteCondition="ClipBoundaryType == DwgClipBoundaryType.Polygon" Accessibility="private" />
+    <Property Name="ClipVertices" Type="DwgPoint" BinaryType="2RD" DefaultValue="new List&lt;DwgPoint&gt;()" ReadCount="_clipBoundaryVertexCount" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" ReadCondition="ClipBoundaryType == DwgClipBoundaryType.Polygon" WriteCondition="ClipBoundaryType == DwgClipBoundaryType.Polygon" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
@@ -1287,7 +1308,9 @@
   Image definition reactor
 
   -->
-  <Object Name="ImageDefinitionReactor" Value="505" IsEntity="false" ClassName="IMAGEDEFREACTOR" NotImplemented="true">
+  <Object Name="ImageDefinitionReactor" Value="505" IsEntity="false" ClassName="IMAGEDEFREACTOR">
+    <Property Name="ClassVersion" Type="int" BinaryType="BL" DefaultValue="0" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 

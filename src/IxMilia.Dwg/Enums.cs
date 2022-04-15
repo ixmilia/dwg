@@ -21,6 +21,12 @@
         BottomRight = 9
     }
 
+    public enum DwgClipBoundaryType
+    {
+        Rectangle = 1,
+        Polygon = 2,
+    }
+
     public enum DwgCurveType
     {
         None = 0,
