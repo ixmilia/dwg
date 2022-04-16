@@ -1335,7 +1335,26 @@
   LW Polyline
 
   -->
-  <Object Name="LwPolyline" Value="507" IsEntity="false" ClassName="LWPLINE" NotImplemented="true">
+  <Object Name="LwPolyline" Value="507" IsEntity="true" ClassName="LWPLINE">
+    <Property Name="_flags" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" Accessibility="private">
+      <Flag Name="HasNormal" Mask="1" /> 
+      <Flag Name="HasThickness" Mask="2" />
+      <Flag Name="HasConstantWidth" Mask="4" />
+      <Flag Name="HasElevation" Mask="8" />
+      <Flag Name="HasBulges" Mask="16" />
+      <Flag Name="HasWidths" Mask="32" />
+    </Property>
+    <Property Name="Width" Type="double" BinaryType="BD" DefaultValue="0.0" ReadCondition="HasConstantWidth" WriteCondition="HasConstantWidth" />
+    <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" ReadCondition="HasElevation" WriteCondition="HasElevation" />
+    <Property Name="Thickness" Type="double" BinaryType="BD" DefaultValue="0.0" ReadCondition="HasThickness" WriteCondition="HasThickness" />
+    <Property Name="Normal" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" ReadCondition="HasNormal" WriteCondition="HasNormal" />
+    <Property Name="_pointCount" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="internal" />
+    <Property Name="_bulgeCount" Type="int" BinaryType="BL" DefaultValue="0" ReadCondition="HasBulges" Accessibility="internal" />
+    <Property Name="_widthCount" Type="int" BinaryType="BL" DefaultValue="0" ReadCondition="HasWidths" Accessibility="internal" />
+    <Property Name="_points" Type="Tuple&lt;double, double&gt;" BinaryType="2RD" DefaultValue="new List&lt;Tuple&lt;double, double&gt;&gt;()" ReadCount="_pointCount" Accessibility="internal" />
+    <Property Name="_bulges" Type="double" BinaryType="BD" DefaultValue="new List&lt;double&gt;()" ReadCount="_bulgeCount" Accessibility="internal" />
+    <Property Name="_widths" Type="Tuple&lt;double, double&gt;" BinaryType="2BD" DefaultValue="new List&lt;Tuple&lt;double, double&gt;&gt;()" ReadCount="_widthCount" Accessibility="internal" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 

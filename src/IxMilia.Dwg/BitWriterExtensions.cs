@@ -102,6 +102,13 @@ namespace IxMilia.Dwg
             return writer;
         }
 
+        public static BitWriter Write_2BD(this BitWriter writer, Tuple<double, double> value)
+        {
+            writer.Write_BD(value.Item1);
+            writer.Write_BD(value.Item2);
+            return writer;
+        }
+
         public static BitWriter Write_3BD(this BitWriter writer, Tuple<double, double, double> value)
         {
             writer.Write_BD(value.Item1);

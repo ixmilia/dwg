@@ -22,7 +22,7 @@ namespace IxMilia.Dwg.Test
                 new DwgClassDefinition(0, 0, "", "", "IMAGEDEFREACTOR", false, false),
                 new DwgClassDefinition(0, 0, "", "", "IMAGE", false, false),
                 new DwgClassDefinition(0, 0, "", "", "IDBUFFER", false, false),
-                null,
+                new DwgClassDefinition(0, 0, "", "", "LWPLINE", false, false),
                 null,
                 null,
                 null,
@@ -2226,6 +2226,69 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(new DwgHandle(0x01FD), i.ResolveHandleReference(i._layerHandleReferences[3]));
             Assert.Equal(new DwgHandle(0x01FE), i.ResolveHandleReference(i._layerHandleReferences[4]));
             Assert.Equal(new DwgHandle(0x01FF), i.ResolveHandleReference(i._layerHandleReferences[5]));
+        }
+
+        [Fact]
+        public void ReadRawLwPolyline()
+        {
+            var p = (DwgLwPolyline)ParseRaw(
+                0xC8, 0x00,                                     // length
+                0x3E, 0xC0, 0x40, 0x80, 0x43, 0xD0, 0x35, 0x20, // data
+                0x10, 0x94, 0x60, 0x10, 0x08, 0x2A, 0x0C, 0x00,
+                0x00, 0x5E, 0xA0, 0x20, 0x80, 0x12, 0x14, 0x85,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x14, 0xA0,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x14, 0xA0,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x78, 0x1F,
+                0x80, 0x00, 0x00, 0x00, 0x00, 0x40, 0x23, 0x20,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x78, 0x1F,
+                0x80, 0x00, 0x00, 0x00, 0x00, 0x40, 0x23, 0x20,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x40, 0x23, 0x20,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1E, 0x20,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x40, 0x23, 0x20,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1E, 0xA0,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x14, 0xA0,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1E, 0xA0,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x14, 0xA0,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1F, 0x20,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1F, 0x20,
+                0x55, 0x1F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFD,
+                0xF7, 0xF5, 0x56, 0x08, 0x19, 0x82, 0x88, 0x7A,
+                0x85, 0x93                                      // crc
+            );
+            Assert.Equal(new DwgHandle(0x010F), p.Handle);
+            Assert.Equal(0.0, p.Width);
+            Assert.Equal(0.0, p.Elevation);
+            Assert.Equal(0.0, p.Thickness);
+            Assert.Equal(DwgVector.ZAxis, p.Normal);
+            Assert.Equal(10, p._pointCount);
+            Assert.Equal(10, p._bulgeCount);
+            Assert.Equal(0, p._widthCount);
+            Assert.Equal(10, p._points.Count);
+            Assert.Equal(Tuple.Create(0.0, 0.0), p._points[0]);
+            Assert.Equal(Tuple.Create(12.5, 0.0), p._points[1]);
+            Assert.Equal(Tuple.Create(12.5, 1.0), p._points[2]);
+            Assert.Equal(Tuple.Create(45.0, 1.0), p._points[3]);
+            Assert.Equal(Tuple.Create(45.0, 2.0), p._points[4]);
+            Assert.Equal(Tuple.Create(45.0, 28.0), p._points[5]);
+            Assert.Equal(Tuple.Create(45.0, 29.0), p._points[6]);
+            Assert.Equal(Tuple.Create(12.5, 29.0), p._points[7]);
+            Assert.Equal(Tuple.Create(12.5, 30.0), p._points[8]);
+            Assert.Equal(Tuple.Create(0.0, 30.0), p._points[9]);
+            Assert.Equal(0.0, p._bulges[0]);
+            Assert.Equal(0.0, p._bulges[1]);
+            Assert.Equal(0.0, p._bulges[2]);
+            Assert.Equal(0.0, p._bulges[3]);
+            Assert.Equal(-0.9999999999999999, p._bulges[4]);
+            Assert.Equal(0.0, p._bulges[5]);
+            Assert.Equal(0.0, p._bulges[6]);
+            Assert.Equal(0.0, p._bulges[7]);
+            Assert.Equal(0.0, p._bulges[8]);
+            Assert.Equal(0.0, p._bulges[9]);
         }
     }
 }
