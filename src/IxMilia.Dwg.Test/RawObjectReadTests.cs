@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using IxMilia.Dwg.Objects;
 using Xunit;
 
@@ -20,7 +21,12 @@ namespace IxMilia.Dwg.Test
                 new DwgClassDefinition(0, 0, "", "", "IMAGEDEF", false, false),
                 new DwgClassDefinition(0, 0, "", "", "IMAGEDEFREACTOR", false, false),
                 new DwgClassDefinition(0, 0, "", "", "IMAGE", false, false),
-                new DwgClassDefinition(0, 0, "", "", "IDBUFFER", false, false)
+                new DwgClassDefinition(0, 0, "", "", "IDBUFFER", false, false),
+                null,
+                null,
+                null,
+                null,
+                new DwgClassDefinition(0, 0, "", "", "LAYER_INDEX", false, false)
             };
         }
 
@@ -2176,6 +2182,50 @@ namespace IxMilia.Dwg.Test
                 0xA1, 0x13                                      // crc
             );
             Assert.Equal(new DwgHandle(0x6C), i.Handle);
+        }
+
+        [Fact]
+        public void ReadRawLayerIndex()
+        {
+            var i = (DwgLayerIndex)ParseRaw(
+                0x59, 0x00,                                     // length
+                0x3F, 0xC0, 0x40, 0x80, 0x7E, 0x20, 0xC0, 0x20, // data
+                0x00, 0x04, 0x04, 0x61, 0x65, 0x25, 0x00, 0x3B,
+                0x3A, 0x89, 0x80, 0x90, 0x64, 0xDD, 0x01, 0x30,
+                0x42, 0x50, 0x64, 0x15, 0x34, 0x84, 0x14, 0x44,
+                0x54, 0x05, 0x08, 0x55, 0x52, 0x4C, 0x4C, 0x41,
+                0x59, 0x45, 0x52, 0x90, 0x94, 0x44, 0x54, 0x65,
+                0x04, 0xF4, 0x94, 0xE5, 0x45, 0x34, 0x1D, 0x03,
+                0x52, 0x45, 0x44, 0x41, 0x10, 0x44, 0x24, 0xC5,
+                0x54, 0x58, 0x04, 0x20, 0x1F, 0x73, 0x03, 0x20,
+                0x1F, 0xA3, 0x20, 0x1F, 0xB3, 0x20, 0x1F, 0xC3,
+                0x20, 0x1F, 0xD3, 0x20, 0x1F, 0xE3, 0x20, 0x1F,
+                0xFE,
+                0x46, 0xE8                                      // crc
+            );
+            Assert.Equal(new DwgHandle(0x01F8), i.Handle);
+            Assert.Equal(new DateTime(1997, 12, 2, 10, 1, 44, 940), i.TimeStamp);
+            Assert.Equal(6, i._entryCount);
+            Assert.Equal(55, i._layerIndices[0]);
+            Assert.Equal(9, i._layerIndices[1]);
+            Assert.Equal(1, i._layerIndices[2]);
+            Assert.Equal(0, i._layerIndices[3]);
+            Assert.Equal(7, i._layerIndices[4]);
+            Assert.Equal(4, i._layerIndices[5]);
+            Assert.Equal("0", i._layerNames[0]);
+            Assert.Equal("ASHADE", i._layerNames[1]);
+            Assert.Equal("URLLAYER", i._layerNames[2]);
+            Assert.Equal("DEFPOINTS", i._layerNames[3]);
+            Assert.Equal("RED", i._layerNames[4]);
+            Assert.Equal("BLUE", i._layerNames[5]);
+            Assert.Equal(new DwgHandle(0x01F7), i.ResolveHandleReference(i._parentHandleReference));
+            Assert.Equal(new DwgHandle(0x01F7), i.ResolveHandleReference(i._reactorHandleReferences.Single()));
+            Assert.Equal(new DwgHandle(0x01FA), i.ResolveHandleReference(i._layerHandleReferences[0]));
+            Assert.Equal(new DwgHandle(0x01FB), i.ResolveHandleReference(i._layerHandleReferences[1]));
+            Assert.Equal(new DwgHandle(0x01FC), i.ResolveHandleReference(i._layerHandleReferences[2]));
+            Assert.Equal(new DwgHandle(0x01FD), i.ResolveHandleReference(i._layerHandleReferences[3]));
+            Assert.Equal(new DwgHandle(0x01FE), i.ResolveHandleReference(i._layerHandleReferences[4]));
+            Assert.Equal(new DwgHandle(0x01FF), i.ResolveHandleReference(i._layerHandleReferences[5]));
         }
     }
 }
