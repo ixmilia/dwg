@@ -16,7 +16,7 @@ namespace IxMilia.Dwg.Test
             return new DwgClassDefinition[]
             {
                 null,
-                null,
+                new DwgClassDefinition(0, 0, "", "", "RASTERVARIABLES", false, false),
                 null,
                 new DwgClassDefinition(0, 0, "", "", "IMAGEDEF", false, false),
                 new DwgClassDefinition(0, 0, "", "", "IMAGEDEFREACTOR", false, false),
@@ -2308,6 +2308,23 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(0.0, p._bulges[7]);
             Assert.Equal(0.0, p._bulges[8]);
             Assert.Equal(0.0, p._bulges[9]);
+        }
+
+        [Fact]
+        public void ReadRawRasterVariables()
+        {
+            var r = (DwgRasterVariables)ParseRaw(
+                0x11, 0x00,                                     // length
+                0x3D, 0x40, 0x40, 0x56, 0xA6, 0x60, 0x00, 0x00, // data
+                0x04, 0x06, 0x40, 0x50, 0x19, 0x01, 0x04, 0x30,
+                0xC0,
+                0xDC, 0xD2                                      // crc
+            );
+            Assert.Equal(new DwgHandle(0x5A), r.Handle);
+            Assert.Equal(0, r.ClassVersion);
+            Assert.True(r.DisplayFrame);
+            Assert.True(r.IsHighQuality);
+            Assert.Equal(DwgImageResolutionUnits.None, r.Units);
         }
     }
 }

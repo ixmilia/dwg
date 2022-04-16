@@ -55,8 +55,14 @@
     public enum DwgImageResolutionUnits
     {
         None = 0,
+        Millimieters = 1,
         Centimeters = 2,
-        Inches = 5
+        Meters = 3,
+        Kilometers = 4,
+        Inches = 5,
+        Feet = 6,
+        Yards = 7,
+        Miles = 8,
     }
 
     public enum DwgVerticalTextJustification
