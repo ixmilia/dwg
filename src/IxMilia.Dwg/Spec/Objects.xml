@@ -1361,7 +1361,11 @@
   OLE2 frame
 
   -->
-  <Object Name="Ole2Frame" Value="508" IsEntity="false" ClassName="OLE2FRAME" NotImplemented="true">
+  <Object Name="Ole2Frame" Value="508" IsEntity="true" ClassName="OLE2FRAME">
+    <Property Name="Flags" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" />
+    <Property Name="_dataLength" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="internal" />
+    <Property Name="Data" Type="byte" BinaryType="RC" DefaultValue="new List&lt;byte&gt;()" ReadCount="_dataLength" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
