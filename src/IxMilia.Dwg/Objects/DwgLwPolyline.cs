@@ -10,6 +10,16 @@ namespace IxMilia.Dwg.Objects
 
         internal override void OnAfterEntityRead(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
+            BindVertices();
+        }
+
+        internal override void OnBeforeEntityWrite(DwgVersionId version)
+        {
+            DeconstructVertices();
+        }
+
+        internal void BindVertices()
+        {
             Vertices.Clear();
             for (int i = 0; i < _pointCount; i++)
             {
@@ -21,7 +31,7 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal override void OnBeforeEntityWrite(DwgVersionId version)
+        internal void DeconstructVertices()
         {
             _points = Vertices.Select(v => Tuple.Create(v.X, v.Y)).ToList();
             _bulges = Vertices.Select(v => v.Bulge).ToList();

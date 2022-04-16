@@ -2265,6 +2265,25 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(0.0, p.Elevation);
             Assert.Equal(0.0, p.Thickness);
             Assert.Equal(DwgVector.ZAxis, p.Normal);
+
+            // check vertex creation
+            p.BindVertices();
+            Assert.Equal(10, p.Vertices.Count);
+            Assert.Equal(new DwgLwPolylineVertex(0.0, 0.0, 0.0, 0.0, 0.0), p.Vertices[0]);
+            Assert.Equal(new DwgLwPolylineVertex(12.5, 0.0, 0.0, 0.0, 0.0), p.Vertices[1]);
+            Assert.Equal(new DwgLwPolylineVertex(12.5, 1.0, 0.0, 0.0, 0.0), p.Vertices[2]);
+            Assert.Equal(new DwgLwPolylineVertex(45.0, 1.0, 0.0, 0.0, 0.0), p.Vertices[3]);
+            Assert.Equal(new DwgLwPolylineVertex(45.0, 2.0, 0.0, 0.0, -0.9999999999999999), p.Vertices[4]);
+            Assert.Equal(new DwgLwPolylineVertex(45.0, 28.0, 0.0, 0.0, 0.0), p.Vertices[5]);
+            Assert.Equal(new DwgLwPolylineVertex(45.0, 29.0, 0.0, 0.0, 0.0), p.Vertices[6]);
+            Assert.Equal(new DwgLwPolylineVertex(12.5, 29.0, 0.0, 0.0, 0.0), p.Vertices[7]);
+            Assert.Equal(new DwgLwPolylineVertex(12.5, 30.0, 0.0, 0.0, 0.0), p.Vertices[8]);
+            Assert.Equal(new DwgLwPolylineVertex(0.0, 30.0, 0.0, 0.0, 0.0), p.Vertices[9]);
+
+            // check parameter deconstruction (really a writing scenario, but this is too convenient to pass up)
+            p.DeconstructVertices();
+            Assert.True(p.HasBulges);
+            Assert.False(p.HasWidths);
             Assert.Equal(10, p._pointCount);
             Assert.Equal(10, p._bulgeCount);
             Assert.Equal(0, p._widthCount);
