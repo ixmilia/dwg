@@ -2326,5 +2326,77 @@ namespace IxMilia.Dwg.Test
             Assert.True(r.IsHighQuality);
             Assert.Equal(DwgImageResolutionUnits.None, r.Units);
         }
+
+        [Fact]
+        public void ReadRawSortEntsTable()
+        {
+            var s = (DwgSortEntsTable)ParseRaw(
+                new[]
+                {
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    new DwgClassDefinition(0, 0, "", "", "SORTENTSTABLE", false, false),
+                },
+                0x59, 0x00,                                     // length
+                0x3E, 0x80, 0x40, 0x69, 0x67, 0x80, 0x10, 0x00, // data
+                0x04, 0x05, 0x12, 0x01, 0x6E, 0x01, 0x68, 0x01,
+                0x6C, 0x01, 0x5E, 0x01, 0x53, 0x01, 0x6A, 0x01,
+                0x60, 0x01, 0x95, 0x01, 0x58, 0x01, 0xA6, 0x01,
+                0x6F, 0x01, 0x6D, 0x01, 0x54, 0x01, 0x6B, 0x01,
+                0x56, 0x01, 0x69, 0x01, 0x76, 0x01, 0x55, 0x40,
+                0x41, 0xA4, 0x30, 0x41, 0x19, 0x41, 0x6D, 0x41,
+                0x60, 0x41, 0x6B, 0x41, 0x56, 0x41, 0xA6, 0x41,
+                0x69, 0x41, 0x58, 0x41, 0x76, 0x41, 0x54, 0x41,
+                0x95, 0x41, 0x6E, 0x41, 0x6C, 0x41, 0x55, 0x41,
+                0x6A, 0x41, 0x53, 0x41, 0x68, 0x41, 0x6F, 0x41,
+                0x5E,
+                0xD3, 0xA5                                      // crc
+            );
+            Assert.Equal(new DwgHandle(0xA5), s.Handle);
+            Assert.Equal(new DwgHandle(0x00), s.ResolveHandleReference(s._parentHandleReference));
+            Assert.Equal(new DwgHandle(0x19), s.ResolveHandleReference(s._ownerHandleReference));
+            Assert.Equal(18, s._sortHandleReferences.Count);
+            Assert.Equal(new DwgHandle(0x6E), s.ResolveHandleReference(s._sortHandleReferences[0]));
+            Assert.Equal(new DwgHandle(0x68), s.ResolveHandleReference(s._sortHandleReferences[1]));
+            Assert.Equal(new DwgHandle(0x6C), s.ResolveHandleReference(s._sortHandleReferences[2]));
+            Assert.Equal(new DwgHandle(0x5E), s.ResolveHandleReference(s._sortHandleReferences[3]));
+            Assert.Equal(new DwgHandle(0x53), s.ResolveHandleReference(s._sortHandleReferences[4]));
+            Assert.Equal(new DwgHandle(0x6A), s.ResolveHandleReference(s._sortHandleReferences[5]));
+            Assert.Equal(new DwgHandle(0x60), s.ResolveHandleReference(s._sortHandleReferences[6]));
+            Assert.Equal(new DwgHandle(0x95), s.ResolveHandleReference(s._sortHandleReferences[7]));
+            Assert.Equal(new DwgHandle(0x58), s.ResolveHandleReference(s._sortHandleReferences[8]));
+            Assert.Equal(new DwgHandle(0xA6), s.ResolveHandleReference(s._sortHandleReferences[9]));
+            Assert.Equal(new DwgHandle(0x6F), s.ResolveHandleReference(s._sortHandleReferences[10]));
+            Assert.Equal(new DwgHandle(0x6D), s.ResolveHandleReference(s._sortHandleReferences[11]));
+            Assert.Equal(new DwgHandle(0x54), s.ResolveHandleReference(s._sortHandleReferences[12]));
+            Assert.Equal(new DwgHandle(0x6B), s.ResolveHandleReference(s._sortHandleReferences[13]));
+            Assert.Equal(new DwgHandle(0x56), s.ResolveHandleReference(s._sortHandleReferences[14]));
+            Assert.Equal(new DwgHandle(0x69), s.ResolveHandleReference(s._sortHandleReferences[15]));
+            Assert.Equal(new DwgHandle(0x76), s.ResolveHandleReference(s._sortHandleReferences[16]));
+            Assert.Equal(new DwgHandle(0x55), s.ResolveHandleReference(s._sortHandleReferences[17]));
+            Assert.Equal(18, s._objectHandleReferences.Count);
+            Assert.Equal(new DwgHandle(0x6D), s.ResolveHandleReference(s._objectHandleReferences[0]));
+            Assert.Equal(new DwgHandle(0x60), s.ResolveHandleReference(s._objectHandleReferences[1]));
+            Assert.Equal(new DwgHandle(0x6B), s.ResolveHandleReference(s._objectHandleReferences[2]));
+            Assert.Equal(new DwgHandle(0x56), s.ResolveHandleReference(s._objectHandleReferences[3]));
+            Assert.Equal(new DwgHandle(0xA6), s.ResolveHandleReference(s._objectHandleReferences[4]));
+            Assert.Equal(new DwgHandle(0x69), s.ResolveHandleReference(s._objectHandleReferences[5]));
+            Assert.Equal(new DwgHandle(0x58), s.ResolveHandleReference(s._objectHandleReferences[6]));
+            Assert.Equal(new DwgHandle(0x76), s.ResolveHandleReference(s._objectHandleReferences[7]));
+            Assert.Equal(new DwgHandle(0x54), s.ResolveHandleReference(s._objectHandleReferences[8]));
+            Assert.Equal(new DwgHandle(0x95), s.ResolveHandleReference(s._objectHandleReferences[9]));
+            Assert.Equal(new DwgHandle(0x6E), s.ResolveHandleReference(s._objectHandleReferences[10]));
+            Assert.Equal(new DwgHandle(0x6C), s.ResolveHandleReference(s._objectHandleReferences[11]));
+            Assert.Equal(new DwgHandle(0x55), s.ResolveHandleReference(s._objectHandleReferences[12]));
+            Assert.Equal(new DwgHandle(0x6A), s.ResolveHandleReference(s._objectHandleReferences[13]));
+            Assert.Equal(new DwgHandle(0x53), s.ResolveHandleReference(s._objectHandleReferences[14]));
+            Assert.Equal(new DwgHandle(0x68), s.ResolveHandleReference(s._objectHandleReferences[15]));
+            Assert.Equal(new DwgHandle(0x6F), s.ResolveHandleReference(s._objectHandleReferences[16]));
+            Assert.Equal(new DwgHandle(0x5E), s.ResolveHandleReference(s._objectHandleReferences[17]));
+        }
     }
 }
