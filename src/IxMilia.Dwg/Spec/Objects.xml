@@ -1425,7 +1425,14 @@
   Spatial index
 
   -->
-  <Object Name="SpatialIndex" Value="512" IsEntity="false" ClassName="SPATIAL_INDEX" NotImplemented="true">
+  <Object Name="SpatialIndex" Value="512" IsEntity="false" ClassName="SPATIAL_INDEX" CustomReader="true" CustomWriter="true">
+    <Property Name="TimeStamp" Type="DateTime" BinaryType="2BL" DefaultValue="new DateTime()" ReadConverter="Converters.JulianDate({0})" WriteConverter="Converters.JulianDate({0})" />
+    <ObjectSizeEnd />
+
+    <!-- handles -->
+    <Property Name="_parentHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" Accessibility="internal" />
+    <Property Name="_reactorHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
+    <Property Name="_xDictionaryObjectHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
   </Object>
   <!--
 
