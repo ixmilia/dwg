@@ -35,6 +35,8 @@ namespace IxMilia.Dwg
         {
         }
 
+        internal static DwgHandleReference Empty => new DwgHandleReference(0, 0);
+
         internal static DwgHandle ReadSecondHeader(BitReader reader, int byteCount)
         {
             var handleBytes = reader.ReadBytes(byteCount);

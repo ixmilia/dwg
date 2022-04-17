@@ -24,7 +24,7 @@ namespace IxMilia.Dwg.Test
                 new DwgClassDefinition(0, 0, "", "", "IDBUFFER", false, false),
                 new DwgClassDefinition(0, 0, "", "", "LWPLINE", false, false),
                 null,
-                null,
+                new DwgClassDefinition(0, 0, "", "", "SPATIAL_FILTER", false, false),
                 null,
                 new DwgClassDefinition(0, 0, "", "", "LAYER_INDEX", false, false)
             };
@@ -2397,6 +2397,70 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(new DwgHandle(0x68), s.ResolveHandleReference(s._objectHandleReferences[15]));
             Assert.Equal(new DwgHandle(0x6F), s.ResolveHandleReference(s._objectHandleReferences[16]));
             Assert.Equal(new DwgHandle(0x5E), s.ResolveHandleReference(s._objectHandleReferences[17]));
+        }
+
+        [Fact]
+        public void ReadRawSpatialFilter()
+        {
+            var s = (DwgSpatialFilter)ParseRaw(
+                0x7B, 0x00,                                     // length
+                0x3F, 0x40, 0x40, 0x80, 0x85, 0x6A, 0xA0, 0x30, // data
+                0x00, 0x04, 0x05, 0x05, 0x96, 0xEA, 0x02, 0x5E,
+                0x66, 0x70, 0x2E, 0x40, 0x3A, 0xAF, 0xB1, 0x4B,
+                0x54, 0x7F, 0x16, 0x40, 0x27, 0xE0, 0xD7, 0x48,
+                0x12, 0x9C, 0x30, 0x40, 0x4A, 0xF2, 0x5C, 0xDF,
+                0x87, 0x03, 0x14, 0x40, 0xB5, 0xAB, 0x90, 0xF2,
+                0x93, 0xF6, 0x31, 0x40, 0x82, 0x75, 0x1C, 0x3F,
+                0x54, 0x3A, 0x17, 0x40, 0x75, 0x79, 0x73, 0xB8,
+                0x56, 0xD7, 0x32, 0x40, 0xEF, 0x3D, 0x5C, 0x72,
+                0xDC, 0x11, 0x20, 0x40, 0x74, 0x94, 0x83, 0xD9,
+                0x04, 0x00, 0x2E, 0x40, 0xE7, 0xDF, 0x2E, 0xFB,
+                0x75, 0xA7, 0x20, 0x40, 0xA6, 0xA4, 0x06, 0x9A,
+                0x0F, 0x88, 0xC4, 0x46, 0xB0, 0x5D, 0x8A, 0x70,
+                0x26, 0x06, 0xE1, 0x49, 0x2C, 0xDE, 0xA1, 0xC0,
+                0x70, 0x29, 0x9A, 0xA6, 0xA9, 0x90, 0x10, 0x80,
+                0x85, 0x0C, 0x10,
+                0x07, 0x5E                                      // crc
+            );
+            Assert.Equal(new DwgHandle(0x0215), s.Handle);
+            Assert.Equal(5, s.ClippingPoints.Count);
+            Assert.Equal(new DwgPoint(15.219531, 5.624345, 0.0), s.ClippingPoints[0]);
+            Assert.Equal(new DwgPoint(16.609654000000003, 5.003448000000001, 0.0), s.ClippingPoints[1]);
+            Assert.Equal(new DwgPoint(17.963195000000002, 5.806962, 0.0), s.ClippingPoints[2]);
+            Assert.Equal(new DwgPoint(18.841167000000002, 8.034885000000001, 0.0), s.ClippingPoints[3]);
+            Assert.Equal(new DwgPoint(15.000036999999999, 8.327072, 0.0), s.ClippingPoints[4]);
+            Assert.Equal(DwgVector.ZAxis, s.Extrusion);
+            Assert.Equal(DwgPoint.Origin, s.ClipOrigin);
+            Assert.True(s.DisplayBoundary);
+            Assert.False(s.ClipFront);
+            Assert.False(s.ClipBack);
+            Assert.Equal(12, s.InverseBlockTransformationMatrix.Count);
+            Assert.Equal(1.0, s.InverseBlockTransformationMatrix[0]);
+            Assert.Equal(0.0, s.InverseBlockTransformationMatrix[1]);
+            Assert.Equal(0.0, s.InverseBlockTransformationMatrix[2]);
+            Assert.Equal(-12.731942, s.InverseBlockTransformationMatrix[3]);
+            Assert.Equal(0.0, s.InverseBlockTransformationMatrix[4]);
+            Assert.Equal(1.0, s.InverseBlockTransformationMatrix[5]);
+            Assert.Equal(0.0, s.InverseBlockTransformationMatrix[6]);
+            Assert.Equal(-2.191152, s.InverseBlockTransformationMatrix[7]);
+            Assert.Equal(0.0, s.InverseBlockTransformationMatrix[8]);
+            Assert.Equal(0.0, s.InverseBlockTransformationMatrix[9]);
+            Assert.Equal(1.0, s.InverseBlockTransformationMatrix[10]);
+            Assert.Equal(0.0, s.InverseBlockTransformationMatrix[11]);
+            Assert.Equal(12, s.ClipBoundaryTransformationMatrix.Count);
+            Assert.Equal(1.0, s.ClipBoundaryTransformationMatrix[0]);
+            Assert.Equal(0.0, s.ClipBoundaryTransformationMatrix[1]);
+            Assert.Equal(0.0, s.ClipBoundaryTransformationMatrix[2]);
+            Assert.Equal(0.0, s.ClipBoundaryTransformationMatrix[3]);
+            Assert.Equal(0.0, s.ClipBoundaryTransformationMatrix[4]);
+            Assert.Equal(1.0, s.ClipBoundaryTransformationMatrix[5]);
+            Assert.Equal(0.0, s.ClipBoundaryTransformationMatrix[6]);
+            Assert.Equal(0.0, s.ClipBoundaryTransformationMatrix[7]);
+            Assert.Equal(0.0, s.ClipBoundaryTransformationMatrix[8]);
+            Assert.Equal(0.0, s.ClipBoundaryTransformationMatrix[9]);
+            Assert.Equal(1.0, s.ClipBoundaryTransformationMatrix[10]);
+            Assert.Equal(0.0, s.ClipBoundaryTransformationMatrix[11]);
+            Assert.Equal(new DwgHandle(0x00), s.ResolveHandleReference(s._parentHandleReference));
         }
     }
 }

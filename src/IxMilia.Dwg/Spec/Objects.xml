@@ -1401,7 +1401,24 @@
   Spatial filter
 
   -->
-  <Object Name="SpatialFilter" Value="511" IsEntity="false" ClassName="SPATIAL_FILTER" NotImplemented="true">
+  <Object Name="SpatialFilter" Value="511" IsEntity="false" ClassName="SPATIAL_FILTER">
+    <Property Name="_pointCount" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" Accessibility="internal" />
+    <Property Name="ClippingPoints" Type="DwgPoint" BinaryType="2RD" DefaultValue="new List&lt;DwgPoint&gt;()" ReadCount="_pointCount" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
+    <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
+    <Property Name="ClipOrigin" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
+    <Property Name="DisplayBoundary" Type="bool" BinaryType="BS" DefaultValue="false" ReadConverter="Converters.BoolShort({0})" WriteConverter="Converters.BoolShort({0})" />
+    <Property Name="ClipFront" Type="bool" BinaryType="BS" DefaultValue="false" ReadConverter="Converters.BoolShort({0})" WriteConverter="Converters.BoolShort({0})" />
+    <Property Name="FrontClipDistance" Type="double" BinaryType="BD" DefaultValue="0.0" ReadCondition="ClipFront" WriteCondition="ClipFront" />
+    <Property Name="ClipBack" Type="bool" BinaryType="BS" DefaultValue="false" ReadConverter="Converters.BoolShort({0})" WriteConverter="Converters.BoolShort({0})" />
+    <Property Name="BackClipDistance" Type="double" BinaryType="BD" DefaultValue="0.0" ReadCondition="ClipBack" WriteCondition="ClipBack" />
+    <Property Name="InverseBlockTransformationMatrix" Type="double" BinaryType="BD" DefaultValue="new List&lt;double&gt;()" ReadCount="12" Comment="4x3 matrix, column major order" />
+    <Property Name="ClipBoundaryTransformationMatrix" Type="double" BinaryType="BD" DefaultValue="new List&lt;double&gt;()" ReadCount="12" Comment="4x3 matrix, column major order" />
+    <ObjectSizeEnd />
+
+    <!-- handles -->
+    <Property Name="_parentHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" Accessibility="internal" />
+    <Property Name="_reactorHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
+    <Property Name="_xDictionaryObjectHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
   </Object>
   <!--
 
