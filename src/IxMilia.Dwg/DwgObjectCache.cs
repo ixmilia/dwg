@@ -1,4 +1,5 @@
 ﻿using IxMilia.Dwg.Objects;
+using System;
 using System.Collections.Generic;
 
 namespace IxMilia.Dwg
@@ -7,6 +8,7 @@ namespace IxMilia.Dwg
     {
         private IDictionary<DwgHandle, int> _handleToOffset = new Dictionary<DwgHandle, int>();
         private IDictionary<DwgHandle, DwgObject> _handleToObject = new Dictionary<DwgHandle, DwgObject>();
+        private List<Tuple<DwgHandle, bool, Action<DwgObject>>> _lazyResolvers = new List<Tuple<DwgHandle, bool, Action<DwgObject>>>();
         private DwgVersionId _version;
 
         public int ObjectCount => _handleToOffset.Count;
@@ -51,6 +53,12 @@ namespace IxMilia.Dwg
             throw new DwgReadException($"Object with handle {handle} not found in object map.");
         }
 
+        // TODO: this should be the default
+        public void GetObjectLazy(DwgHandle handle, Action<DwgObject> onObjectResolved, bool allowNull = false)
+        {
+            _lazyResolvers.Add(Tuple.Create(handle, allowNull, onObjectResolved));
+        }
+
         public T GetObject<T>(BitReader reader, DwgHandle handle) where T: DwgObject
         {
             var obj = GetObject(reader, handle);
@@ -76,6 +84,30 @@ namespace IxMilia.Dwg
             }
 
             return null;
+        }
+
+        public void ResolveLazyObjects()
+        {
+            foreach (var resolverPair in _lazyResolvers)
+            {
+                var handle = resolverPair.Item1;
+                var allowNull = resolverPair.Item2;
+                var resolverAction = resolverPair.Item3;
+                DwgObject resolved;
+                if (!_handleToObject.TryGetValue(handle, out resolved))
+                {
+                    if (allowNull)
+                    {
+                        resolved = null;
+                    }
+                    else
+                    {
+                        throw new DwgReadException($"Unable to resolve object with handle {handle}.");
+                    }
+                }
+
+                resolverAction(resolved);
+            }
         }
 
         public static DwgObjectCache Parse(BitReader reader, DwgVersionId version, IList<DwgClassDefinition> classes)

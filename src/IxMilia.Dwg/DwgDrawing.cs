@@ -133,6 +133,9 @@ namespace IxMilia.Dwg
 
             var objectCache = DwgObjectCache.Parse(reader.FromOffset(drawing.FileHeader.ObjectMapLocator.Pointer), drawing.FileHeader.Version, drawing.Classes);
             drawing.LoadObjects(reader, objectCache);
+            objectCache.ResolveLazyObjects();
+
+            // TODO: one final pass of the objects now that everything has been resolved
 
             if (drawing.FileHeader.ObjectFreeSpaceLocator.Pointer != 0)
             {
