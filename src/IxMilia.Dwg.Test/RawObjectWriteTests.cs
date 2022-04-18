@@ -15,7 +15,7 @@ namespace IxMilia.Dwg.Test
         {
             return new Dictionary<string, short>()
             {
-                { "DICTIONARYVAR", 5 }
+                { "DICTIONARYVAR", 505 }
             };
         }
 

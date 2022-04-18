@@ -44,7 +44,7 @@ namespace IxMilia.Dwg
                 var classWriter = new BitWriter(ms);
                 for (int i = 0; i < classes.Count; i++)
                 {
-                    classes[i].Number = (short)i;
+                    classes[i].Number = (short)(i + 500);
                     classes[i].Write(classWriter);
                 }
 
