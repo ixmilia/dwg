@@ -1,4 +1,5 @@
-﻿using IxMilia.Dwg.Objects;
+﻿using System.Linq;
+using IxMilia.Dwg.Objects;
 using Xunit;
 
 namespace IxMilia.Dwg.Test
@@ -28,6 +29,22 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(id._unknownRc, roundTrippedIdBuffer._unknownRc);
             Assert.Single(id.Objects);
             Assert.Equal(id.Objects.Count, roundTrippedIdBuffer.Objects.Count);
+        }
+
+        [Fact]
+        public void RoundTripEntityWithLineType()
+        {
+            var drawing = new DwgDrawing();
+            var line = new DwgLine()
+            {
+                Layer = drawing.CurrentLayer,
+                LineType = drawing.CurrentEntityLineType,
+            };
+            drawing.ModelSpaceBlockRecord.Entities.Add(line);
+            var roundTrippedDrawing = RoundTrip(drawing);
+            var roundTrippedLine = (DwgLine)roundTrippedDrawing.ModelSpaceBlockRecord.Entities.Single();
+            Assert.NotNull(roundTrippedLine.LineType);
+            Assert.Equal(drawing.CurrentEntityLineType.Name, roundTrippedLine.LineType.Name);
         }
     }
 }

@@ -151,7 +151,7 @@ namespace IxMilia.Dwg.Objects
                 throw new DwgReadException($"Incorrect layer handle code {LayerHandleReference.Code}.");
             }
 
-            if (!_isLineTypeByLayer && (LineTypeHandleReference.IsEmpty || !LineTypeHandleReference.IsValidNavigationHandle))
+            if (!_isLineTypeByLayer && (LineTypeHandleReference.Code != DwgHandleReferenceCode.SoftOwner))
             {
                 throw new DwgReadException($"Incorrect line type handle code {LineTypeHandleReference.Code}.");
             }
