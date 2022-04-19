@@ -230,8 +230,8 @@
     <Property Name="Radius" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="Thickness" Type="double" BinaryType="BD" DefaultValue="1.0" />
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
-    <Property Name="StartAngle" Type="double" BinaryType="BD" DefaultValue="0.0" Comment="Arc start angle in degrees." />
-    <Property Name="EndAngle" Type="double" BinaryType="BD" DefaultValue="360.0" Comment="Arc end angle in degrees." />
+    <Property Name="StartAngle" Type="double" BinaryType="BD" DefaultValue="0.0" Comment="Arc start angle in radians." />
+    <Property Name="EndAngle" Type="double" BinaryType="BD" DefaultValue="Math.PI * 2.0" Comment="Arc end angle in radians." />
     <ObjectSizeEnd />
   </Object>
   <!--
