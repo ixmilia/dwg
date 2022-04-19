@@ -140,7 +140,7 @@ namespace IxMilia.Dwg.Objects
             LayerHandleReference = GetHandleToObject(Layer, DwgHandleReferenceCode.SoftOwner, throwOnNull: true);
             LineTypeHandleReference = GetHandleToObject(LineType, DwgHandleReferenceCode.SoftOwner);
             _isLineTypeByLayer = LineType == null;
-            _noLinks = PreviousEntityHandle.IsValidNavigationHandle && NextEntityHandle.IsValidNavigationHandle;
+            _noLinks = !PreviousEntityHandle.IsValidNavigationHandle && !NextEntityHandle.IsValidNavigationHandle;
             OnBeforeEntityWrite(version);
         }
 

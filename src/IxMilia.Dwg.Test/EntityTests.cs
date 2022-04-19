@@ -280,5 +280,24 @@ namespace IxMilia.Dwg.Test
                 Assert.Throws<InvalidOperationException>(() => drawing.Save(ms));
             }
         }
+
+        [Fact]
+        public void RoundTripMultipleEntities()
+        {
+            // due to a bug when computing an entity's `_noLinks` flag, only the first 2 entities had valid navigation
+            // handles, so this test will be to verify 3
+            var dwg = new DwgDrawing();
+            for (int i = 0; i < 3; i++)
+            {
+                var line = new DwgLine()
+                {
+                    Layer = dwg.CurrentLayer,
+                };
+                dwg.ModelSpaceBlockRecord.Entities.Add(line);
+            }
+
+            var roundTrippedDwg = RoundTrip(dwg);
+            Assert.Equal(3, roundTrippedDwg.ModelSpaceBlockRecord.Entities.Count);
+        }
     }
 }
