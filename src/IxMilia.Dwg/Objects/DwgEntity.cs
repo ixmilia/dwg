@@ -11,6 +11,10 @@ namespace IxMilia.Dwg.Objects
         internal int _entityMode = 2;
         protected bool _isLineTypeByLayer;
         protected DwgHandleReference _subentityRef { get; set; }
+
+        /// <summary>
+        /// No previous/next entity links; assume previous is (Handle - 1) and next is (Handle + 1)
+        /// </summary>
         protected bool _noLinks;
         public DwgColor Color { get; set; }
         public double LineTypeScale { get; set; }
@@ -19,8 +23,8 @@ namespace IxMilia.Dwg.Objects
         internal DwgHandleReference LayerHandleReference { get; set; }
         public DwgLineType LineType { get; set; }
         internal DwgHandleReference LineTypeHandleReference { get; set; }
-        internal DwgHandleReference PreviousEntityHandle { get; set; } = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0);
-        internal DwgHandleReference NextEntityHandle { get; set; } = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0);
+        internal DwgHandleReference PreviousEntityHandle { get; set; } = new DwgHandleReference(DwgHandleReferenceCode.HandleMinus1, 0);
+        internal DwgHandleReference NextEntityHandle { get; set; } = new DwgHandleReference(DwgHandleReferenceCode.HandlePlus1, 0);
 
         internal virtual void OnBeforeEntityWrite(DwgVersionId version)
         {
@@ -73,10 +77,6 @@ namespace IxMilia.Dwg.Objects
             if (!_noLinks)
             {
                 PreviousEntityHandle = reader.Read_H();
-            }
-
-            if (!_noLinks)
-            {
                 NextEntityHandle = reader.Read_H();
             }
         }
@@ -126,10 +126,6 @@ namespace IxMilia.Dwg.Objects
             if (!_noLinks)
             {
                 writer.Write_H(PreviousEntityHandle);
-            }
-
-            if (!_noLinks)
-            {
                 writer.Write_H(NextEntityHandle);
             }
         }
@@ -140,13 +136,25 @@ namespace IxMilia.Dwg.Objects
             LayerHandleReference = GetHandleToObject(Layer, DwgHandleReferenceCode.SoftOwner, throwOnNull: true);
             LineTypeHandleReference = GetHandleToObject(LineType, DwgHandleReferenceCode.SoftOwner);
             _isLineTypeByLayer = LineType == null;
-            _noLinks = !PreviousEntityHandle.IsValidNavigationHandle && !NextEntityHandle.IsValidNavigationHandle;
+
+            _noLinks = false; // assume previous/next links, unless we decide otherwise
+            var previousHandle = ResolveHandleReference(PreviousEntityHandle);
+            var nextHandle = ResolveHandleReference(NextEntityHandle);
+            if (!PreviousEntityHandle.PointsToNull &&
+                !NextEntityHandle.PointsToNull &&
+                (uint)previousHandle == (uint)Handle - 1 &&
+                (uint)nextHandle == (uint)Handle + 1)
+            {
+                // if both previous and next handles exist and they point to -1/+1 respectively then omit writing them
+                _noLinks = true;
+            }
+
             OnBeforeEntityWrite(version);
         }
 
         internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
-            if (LayerHandleReference.Code != DwgHandleReferenceCode.SoftOwner && LayerHandleReference.Code != DwgHandleReferenceCode.HardOwner)
+            if (LayerHandleReference.Code != DwgHandleReferenceCode.SoftOwner && LayerHandleReference.Code != DwgHandleReferenceCode.SoftOwner)
             {
                 throw new DwgReadException($"Incorrect layer handle code {LayerHandleReference.Code}.");
             }

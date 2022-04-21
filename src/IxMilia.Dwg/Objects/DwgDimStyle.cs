@@ -38,10 +38,7 @@ namespace IxMilia.Dwg.Objects
 
         internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
-            if (DimStyleControlHandleReference.Code != DwgHandleReferenceCode.HardPointer)
-            {
-                throw new DwgReadException("Incorrect style control object parent handle code.");
-            }
+            // according to the spec, DimStyleControlHandleReference.Code should be HardPointer (4), but AutoCAD sometimes produces HandleMinus1 (8)
 
             if (_styleHandleReference.Code != DwgHandleReferenceCode.SoftOwner)
             {

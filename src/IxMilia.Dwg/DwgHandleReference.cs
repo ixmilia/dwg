@@ -5,12 +5,14 @@ namespace IxMilia.Dwg
 {
     public enum DwgHandleReferenceCode : byte
     {
+        // use offset as-is
         Declaration = 0x00,
         None = 0x02,
         SoftPointer = 0x03,
         HardPointer = 0x04,
         SoftOwner = 0x05,
-        HardOwner = 0x06,
+
+        // do math to get the offset
         HandlePlus1 = 0x06,
         HandleMinus1 = 0x08,
         HandlePlusOffset = 0x0A,
@@ -86,9 +88,9 @@ namespace IxMilia.Dwg
             {
                 switch (Code)
                 {
+                    case DwgHandleReferenceCode.Declaration:
                     case DwgHandleReferenceCode.SoftOwner:
                     case DwgHandleReferenceCode.SoftPointer:
-                    case DwgHandleReferenceCode.HardOwner:
                     case DwgHandleReferenceCode.HardPointer:
                         return HandleOrOffset == 0;
                     default:
@@ -172,7 +174,6 @@ namespace IxMilia.Dwg
                 case DwgHandleReferenceCode.SoftPointer:
                 case DwgHandleReferenceCode.SoftOwner:
                 case DwgHandleReferenceCode.HardPointer:
-                case DwgHandleReferenceCode.HardOwner:
                     return new DwgHandle(HandleOrOffset);
                 default:
                     throw new InvalidOperationException($"Handle reference of type {Code} cannot be used as an absolute handle.");

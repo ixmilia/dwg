@@ -64,7 +64,6 @@ namespace IxMilia.Dwg
             };
 
             var standardStyle = new DwgStyle("STANDARD");
-            var standardMLineStyle = DwgMLineStyle.GetDefaultMLineStyle();
 
             LineTypes = DwgLineTypeControlObject.Create();
             var defaultLayer = new DwgLayer("0") { LineType = LineTypes.Continuous };
@@ -93,11 +92,8 @@ namespace IxMilia.Dwg
                 DwgDimStyle.GetStandardDimStyle(standardStyle)
             };
             ViewPortEntityHeaders = new DwgViewPortEntityHeaderControlObject();
-            GroupDictionary = new DwgDictionary();
-            MLineStyleDictionary = new DwgDictionary()
-            {
-                { standardMLineStyle.Name, standardMLineStyle }
-            };
+            GroupDictionary = DefaultGroupDictionary;
+            MLineStyleDictionary = DefaultMLineStyleDictionary;
             NamedObjectDictionary = new DwgDictionary()
             {
                 { "ACAD_GROUP", new DwgDictionary() },
@@ -117,7 +113,7 @@ namespace IxMilia.Dwg
             TextStyle = Styles["STANDARD"];
             CurrentEntityLineType = LineTypes.ByBlock;
             DimensionStyle = DimStyles["STANDARD"];
-            CurrentMultiLineStyle = (DwgMLineStyle)MLineStyleDictionary["Standard"];
+            CurrentMultiLineStyle = GetDefaultMLineStyle(MLineStyleDictionary);
             DimensionTextStyle = Styles["STANDARD"];
         }
 
@@ -195,8 +191,8 @@ namespace IxMilia.Dwg
             AppIds = objectCache.GetObject<DwgAppIdControlObject>(reader, Variables.AppIdControlObjectHandle.AsAbsoluteHandle());
             DimStyles = objectCache.GetObject<DwgDimStyleControlObject>(reader, Variables.DimStyleControlObjectHandle.AsAbsoluteHandle());
             ViewPortEntityHeaders = objectCache.GetObject<DwgViewPortEntityHeaderControlObject>(reader, Variables.ViewPortEntityHeaderControlObjectHandle.AsAbsoluteHandle());
-            GroupDictionary = objectCache.GetObject<DwgDictionary>(reader, Variables.GroupDictionaryHandle.AsAbsoluteHandle());
-            MLineStyleDictionary = objectCache.GetObject<DwgDictionary>(reader, Variables.MLineStyleDictionaryHandle.AsAbsoluteHandle());
+            GroupDictionary = objectCache.GetObject<DwgDictionary>(reader, Variables.GroupDictionaryHandle.AsAbsoluteHandle(), allowNull: true) ?? DefaultGroupDictionary;
+            MLineStyleDictionary = objectCache.GetObject<DwgDictionary>(reader, Variables.MLineStyleDictionaryHandle.AsAbsoluteHandle(), allowNull: true) ?? DefaultMLineStyleDictionary;
             NamedObjectDictionary = objectCache.GetObject<DwgDictionary>(reader, Variables.NamedObjectsDictionaryHandle.AsAbsoluteHandle());
             PaperSpaceBlockRecord = objectCache.GetObject<DwgBlockHeader>(reader, Variables.PaperSpaceBlockRecordHandle.AsAbsoluteHandle());
             ModelSpaceBlockRecord = objectCache.GetObject<DwgBlockHeader>(reader, Variables.ModelSpaceBlockRecordHandle.AsAbsoluteHandle());
@@ -208,11 +204,25 @@ namespace IxMilia.Dwg
             TextStyle = objectCache.GetObject<DwgStyle>(reader, Variables.TextStyleHandle.AsAbsoluteHandle());
             CurrentEntityLineType = objectCache.GetObject<DwgLineType>(reader, Variables.CurrentEntityLineTypeHandle.AsAbsoluteHandle());
             DimensionStyle = objectCache.GetObject<DwgDimStyle>(reader, Variables.DimensionStyleHandle.AsAbsoluteHandle());
-            CurrentMultiLineStyle = objectCache.GetObject<DwgMLineStyle>(reader, Variables.CurrentMultiLineStyleHandle.AsAbsoluteHandle());
+            CurrentMultiLineStyle = objectCache.GetObject<DwgMLineStyle>(reader, Variables.CurrentMultiLineStyleHandle.AsAbsoluteHandle(), allowNull: true) ?? GetDefaultMLineStyle(MLineStyleDictionary);
             PaperSpaceCurrentUCS = objectCache.GetObjectOrDefault<DwgUCS>(reader, Variables.PaperSpaceCurrentUCSHandle.AsAbsoluteHandle());
             CurrentUCS = objectCache.GetObjectOrDefault<DwgUCS>(reader, Variables.CurrentUCSHandle.AsAbsoluteHandle());
             DimensionTextStyle = objectCache.GetObject<DwgStyle>(reader, Variables.DimensionTextStyleHandle.AsAbsoluteHandle());
         }
+
+        private static DwgDictionary DefaultGroupDictionary => new DwgDictionary();
+        private static DwgDictionary DefaultMLineStyleDictionary
+        {
+            get
+            {
+                var standardMLineStyle = DwgMLineStyle.GetDefaultMLineStyle();
+                return new DwgDictionary()
+                {
+                    { standardMLineStyle.Name, standardMLineStyle }
+                };
+            }
+        }
+        private static DwgMLineStyle GetDefaultMLineStyle(DwgDictionary mlineStyleDictionary) => (DwgMLineStyle)mlineStyleDictionary["Standard"];
 
         private static void AssertHandleType(DwgHandleReference handle, DwgHandleReferenceCode expectedHandleCode, string itemName)
         {

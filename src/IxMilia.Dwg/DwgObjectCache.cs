@@ -50,6 +50,12 @@ namespace IxMilia.Dwg
                 return obj;
             }
 
+            if (allowNull)
+            {
+                // handle didn't resolve to anything, but it doesn't matter
+                return null;
+            }
+
             throw new DwgReadException($"Object with handle {handle} not found in object map.");
         }
 
@@ -59,9 +65,14 @@ namespace IxMilia.Dwg
             _lazyResolvers.Add(Tuple.Create(handle, allowNull, onObjectResolved));
         }
 
-        public T GetObject<T>(BitReader reader, DwgHandle handle) where T: DwgObject
+        public T GetObject<T>(BitReader reader, DwgHandle handle, bool allowNull = false) where T: DwgObject
         {
-            var obj = GetObject(reader, handle);
+            var obj = GetObject(reader, handle, allowNull);
+            if (obj is null && allowNull)
+            {
+                return null;
+            }
+
             if (obj is T specific)
             {
                 return specific;
@@ -113,7 +124,7 @@ namespace IxMilia.Dwg
         public static DwgObjectCache Parse(BitReader reader, DwgVersionId version, IList<DwgClassDefinition> classes)
         {
             var objectCache = new DwgObjectCache(version, classes);
-            var lastHandle = 0;
+            var lastHandle = 0u;
             var lastLocation = 0;
             reader.StartCrcCheck();
             var sectionSize = reader.ReadShortBigEndian();
@@ -126,7 +137,7 @@ namespace IxMilia.Dwg
                     // read data
                     var handleOffset = reader.Read_MC(allowNegation: false);
                     var locationOffset = reader.Read_MC();
-                    var handle = lastHandle + handleOffset;
+                    var handle = (uint)((long)lastHandle + handleOffset);
                     var location = lastLocation + locationOffset;
                     objectCache._handleToOffset.Add(new DwgHandle((uint)handle), location);
                     lastHandle = handle;

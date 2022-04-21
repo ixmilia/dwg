@@ -36,10 +36,7 @@ namespace IxMilia.Dwg.Objects
 
         internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
-            if (LayerControlHandleReference.Code != DwgHandleReferenceCode.HardPointer)
-            {
-                throw new DwgReadException("Incorrect layer control object parent handle code.");
-            }
+            // according to the spec, LayerControlHandleReference.Code should be HardPointer (4), but AutoCAD sometimes produces HandleMinus1 (8)
 
             if (_lineTypeHandleReference.Code != DwgHandleReferenceCode.SoftOwner)
             {

@@ -19,10 +19,7 @@ namespace IxMilia.Dwg.Objects
 
         internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
-            if (AppIdControlHandleReference.Code != DwgHandleReferenceCode.HardPointer)
-            {
-                throw new DwgReadException("Incorrect app id control object parent handle code.");
-            }
+            // according to the spec, AppIdControlHandleReference.Code should be HardPointer (4), but AutoCAD sometimes produces HandleMinus1 (8)
         }
 
         internal static DwgAppId GetAcadAppId()

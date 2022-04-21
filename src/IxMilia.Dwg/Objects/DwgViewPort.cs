@@ -19,10 +19,7 @@ namespace IxMilia.Dwg.Objects
 
         internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
-            if (ViewPortControlHandleReference.Code != DwgHandleReferenceCode.HardPointer)
-            {
-                throw new DwgReadException("Incorrect view port control object parent handle code.");
-            }
+            // according to the spec, ViewPortControlHandleReference.Code should be HardPointer (4), but AutoCAD sometimes produces HandleMinus1 (8)
         }
 
         internal static DwgViewPort GetActiveViewPort()

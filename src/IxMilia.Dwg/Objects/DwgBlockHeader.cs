@@ -85,10 +85,7 @@ namespace IxMilia.Dwg.Objects
 
         internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
-            if (BlockControlHandleReference.Code != DwgHandleReferenceCode.HardPointer)
-            {
-                throw new DwgReadException("Incorrect block header control object parent handle code.");
-            }
+            // according to the spec, BlockControlHandleReference.Code should be HardPointer (4), but AutoCAD sometimes produces HandleMinus1 (8)
 
             if (BlockEntityHandleReference.Code != DwgHandleReferenceCode.SoftPointer)
             {

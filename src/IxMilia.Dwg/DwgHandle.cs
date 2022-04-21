@@ -28,7 +28,6 @@ namespace IxMilia.Dwg
                 case DwgHandleReferenceCode.SoftPointer:
                 case DwgHandleReferenceCode.SoftOwner:
                 case DwgHandleReferenceCode.HardPointer:
-                case DwgHandleReferenceCode.HardOwner:
                 case DwgHandleReferenceCode.None:
                     return new DwgHandleReference(code, _rawValue);
                 default:

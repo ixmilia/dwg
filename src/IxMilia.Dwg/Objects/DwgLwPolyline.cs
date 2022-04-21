@@ -8,6 +8,11 @@ namespace IxMilia.Dwg.Objects
     {
         public List<DwgLwPolylineVertex> Vertices = new List<DwgLwPolylineVertex>();
 
+        public DwgLwPolyline(IEnumerable<DwgLwPolylineVertex> vertices)
+        {
+            Vertices.AddRange(vertices);
+        }
+
         internal override void OnAfterEntityRead(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
             BindVertices();

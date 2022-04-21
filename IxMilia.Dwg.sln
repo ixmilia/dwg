@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IxMilia.Dwg.Generator", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examples", "src\Examples\Examples.csproj", "{F5F1773B-E58A-41E8-BEDD-028EC91ED377}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IxMilia.Dwg.Integration.Test", "src\IxMilia.Dwg.Integration.Test\IxMilia.Dwg.Integration.Test.csproj", "{1FC135A6-C7D1-4C62-A290-61E557A9047B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{F5F1773B-E58A-41E8-BEDD-028EC91ED377}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5F1773B-E58A-41E8-BEDD-028EC91ED377}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5F1773B-E58A-41E8-BEDD-028EC91ED377}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FC135A6-C7D1-4C62-A290-61E557A9047B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FC135A6-C7D1-4C62-A290-61E557A9047B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FC135A6-C7D1-4C62-A290-61E557A9047B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FC135A6-C7D1-4C62-A290-61E557A9047B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

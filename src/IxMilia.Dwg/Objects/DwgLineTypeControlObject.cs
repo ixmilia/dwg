@@ -75,7 +75,7 @@ namespace IxMilia.Dwg.Objects
                 if (!resolvedHandle.IsNull)
                 {
                     var lineType = objectCache.GetObject<DwgLineType>(reader, resolvedHandle);
-                    if (!lineType.LineTypeControlHandleReference.IsEmpty && lineType.ResolveHandleReference(lineType.LineTypeControlHandleReference) != Handle)
+                    if (!lineType.LineTypeControlHandleReference.PointsToNull && lineType.ResolveHandleReference(lineType.LineTypeControlHandleReference) != Handle)
                     {
                         throw new DwgReadException("Incorrect line type control object parent handle reference.");
                     }
