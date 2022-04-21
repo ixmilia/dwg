@@ -1,15 +1,20 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using System.Xml.Linq;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Text;
 
 namespace IxMilia.Dwg.Generator
 {
     public abstract class GeneratorBase
     {
+        private string _outputDir;
         private StringBuilder _sb;
         private int _indentationLevel;
+
+        protected GeneratorBase(string outputDir)
+        {
+            _outputDir = outputDir;
+        }
 
         public void CreateNewFile(string ns, params string[] usings)
         {
@@ -57,10 +62,11 @@ namespace IxMilia.Dwg.Generator
             _sb.AppendLine(line);
         }
 
-        public void FinishFile(GeneratorExecutionContext context, string path)
+        public void FinishFile(string path)
         {
             AppendLine("}");
-            context.AddSource(path, SourceText.From(_sb.ToString(), Encoding.UTF8));
+            var fullPath = Path.Combine(_outputDir, path);
+            File.WriteAllText(fullPath, _sb.ToString());
             _sb = null;
         }
 

@@ -3,41 +3,35 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using Microsoft.CodeAnalysis;
 
 namespace IxMilia.Dwg.Generator
 {
-    [Generator]
-    public class ObjectGenerator : GeneratorBase, ISourceGenerator
+    public class ObjectGenerator : GeneratorBase
     {
         private XElement _xml;
         private IEnumerable<XElement> _objects;
 
-        public void Initialize(GeneratorInitializationContext context)
+        public ObjectGenerator(string outputDir)
+            : base(outputDir)
         {
         }
 
-        public void Execute(GeneratorExecutionContext context)
+        public void Run()
         {
-            var specText = context.AdditionalFiles.Single(f => Path.GetFileName(f.Path) == "Objects.xml").GetText().ToString();
-            _xml = XDocument.Parse(specText).Root;
+            _xml = XDocument.Load(Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), "Spec", "Objects.xml")).Root;
             _objects = _xml.Elements("Object").Where(IsImplemented);
-            OutputObjects(context);
+
+            OutputObjectTypeEnum();
+            OutputObjectBaseClass();
+            OutputObjectClasses();
         }
 
-        private void OutputObjects(GeneratorExecutionContext context)
-        {
-            OutputObjectTypeEnum(context);
-            OutputObjectBaseClass(context);
-            OutputObjectClasses(context);
-        }
-
-        private void OutputObjectTypeEnum(GeneratorExecutionContext context)
+        private void OutputObjectTypeEnum()
         {
             CreateNewFile("IxMilia.Dwg.Objects");
 
             IncreaseIndent();
-            
+
             AppendLine("public enum DwgObjectType : short");
             AppendLine("{");
             IncreaseIndent();
@@ -95,10 +89,10 @@ namespace IxMilia.Dwg.Generator
             AppendLine("}");
             DecreaseIndent();
 
-            FinishFile(context, "DwgObjectType.Generated.cs");
+            FinishFile("DwgObjectType.Generated.cs");
         }
 
-        private void OutputObjectBaseClass(GeneratorExecutionContext context)
+        private void OutputObjectBaseClass()
         {
             CreateNewFile("IxMilia.Dwg.Objects", "System");
 
@@ -133,10 +127,10 @@ namespace IxMilia.Dwg.Generator
             AppendLine("}");
             DecreaseIndent();
 
-            FinishFile(context, "DwgObject.Generated.cs");
+            FinishFile("DwgObject.Generated.cs");
         }
 
-        private void OutputObjectClasses(GeneratorExecutionContext context)
+        private void OutputObjectClasses()
         {
             foreach (var o in _objects)
             {
@@ -464,7 +458,7 @@ namespace IxMilia.Dwg.Generator
                 AppendLine("}");
                 DecreaseIndent();
 
-                FinishFile(context, $"Dwg{Name(o)}.Generated.cs");
+                FinishFile($"Dwg{Name(o)}.Generated.cs");
             }
         }
 

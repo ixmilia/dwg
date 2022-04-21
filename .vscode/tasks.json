@@ -1,0 +1,34 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build",
+      "type": "shell",
+      "command": "dotnet build",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "dependsOn": [
+        "generate"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "generate",
+      "type": "shell",
+      "command": "pwsh ./generate-code.ps1",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    },
+    {
+      "label": "build-generator",
+      "type": "shell",
+      "command": "dotnet build",
+      "options": {
+        "cwd": "${workspaceFolder}/src/IxMilia.Dwg.Generator"
+      },
+      "problemMatcher": "$msCompile"
+    }
+  ]
+}

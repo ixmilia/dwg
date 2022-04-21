@@ -2,32 +2,26 @@
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using Microsoft.CodeAnalysis;
 
 namespace IxMilia.Dwg.Generator
 {
-    [Generator]
-    internal class HeaderVariablesGenerator : GeneratorBase, ISourceGenerator
+    internal class HeaderVariablesGenerator : GeneratorBase
     {
         private XElement _xml;
         private IEnumerable<XElement> _variables;
         private IEnumerable<XElement> _aliases;
 
-        public void Initialize(GeneratorInitializationContext context)
+        public HeaderVariablesGenerator(string outputDir)
+            : base(outputDir)
         {
         }
 
-        public void Execute(GeneratorExecutionContext context)
+        public void Run()
         {
-            var specText = context.AdditionalFiles.Single(f => Path.GetFileName(f.Path) == "HeaderVariables.xml").GetText().ToString();
-            _xml = XDocument.Parse(specText).Root;
+            _xml = XDocument.Load(Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), "Spec", "HeaderVariables.xml")).Root;
             _variables = _xml.Elements("Variable");
             _aliases = _xml.Element("ShortNameAliases").Elements("Alias");
-            OutputHeaderVariables(context);
-        }
 
-        private void OutputHeaderVariables(GeneratorExecutionContext context)
-        {
             CreateNewFile("IxMilia.Dwg", "System");
 
             IncreaseIndent();
@@ -235,7 +229,7 @@ namespace IxMilia.Dwg.Generator
             AppendLine("}");
             DecreaseIndent();
 
-            FinishFile(context, "DwgHeaderVariables.Generated.cs");
+            FinishFile("DwgHeaderVariables.Generated.cs");
         }
     }
 }

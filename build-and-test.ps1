@@ -24,6 +24,8 @@ function Single([string]$pattern) {
 }
 
 try {
+    . "$PSScriptRoot/generate-code.ps1"
+
     dotnet restore || Fail "Error restoring."
     dotnet build --configuration $configuration || Fail "Error building."
     if (-Not $noTest) {

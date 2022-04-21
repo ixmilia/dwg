@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch generator",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-generator",
+      "program": "${workspaceFolder}/artifacts/bin/IxMilia.Dwg.Generator/Debug/net6.0/IxMilia.Dwg.Generator.dll",
+      "args": [
+        "${workspaceFolder}/src/IxMilia.Dwg/Generated"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole"
+    }
+  ]
+}
