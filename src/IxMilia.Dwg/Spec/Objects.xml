@@ -1335,7 +1335,7 @@
   LW Polyline
 
   -->
-  <Object Name="LwPolyline" Value="507" IsEntity="true" ClassName="LWPLINE">
+  <Object Name="LwPolyline" Value="507" IsEntity="true" ClassName="LWPOLYLINE">
     <Property Name="_flags" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" Accessibility="private">
       <Flag Name="HasNormal" Mask="1" /> 
       <Flag Name="HasThickness" Mask="2" />

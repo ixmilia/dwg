@@ -22,7 +22,7 @@ namespace IxMilia.Dwg.Test
                 new DwgClassDefinition(0, 0, "", "", "IMAGEDEFREACTOR", false, false),
                 new DwgClassDefinition(0, 0, "", "", "IMAGE", false, false),
                 new DwgClassDefinition(0, 0, "", "", "IDBUFFER", false, false),
-                new DwgClassDefinition(0, 0, "", "", "LWPLINE", false, false),
+                new DwgClassDefinition(0, 0, "", "", "LWPOLYLINE", false, false),
                 null,
                 new DwgClassDefinition(0, 0, "", "", "SPATIAL_FILTER", false, false),
                 null,
