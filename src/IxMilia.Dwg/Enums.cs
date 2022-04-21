@@ -42,6 +42,20 @@
         ByStyle = 5
     }
 
+    public enum DwgHatchPatternType
+    {
+        UserDefined = 0,
+        Predefined = 1,
+        Custom = 2
+    }
+
+    public enum DwgHatchStyle
+    {
+        OddParity = 0,
+        OutermostAreaOnly = 1,
+        EntireArea = 2
+    }
+
     public enum DwgHorizontalTextJustification
     {
         Left = 0,

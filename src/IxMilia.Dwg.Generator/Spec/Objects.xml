@@ -1245,7 +1245,19 @@
   Hatch
 
   -->
-  <Object Name="Hatch" Value="501" IsEntity="false" ClassName="HATCH" NotImplemented="true">
+  <Object Name="Hatch" Value="501" IsEntity="true" ClassName="HATCH" CustomReader="true" CustomWriter="true">
+    <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" />
+    <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
+    <Property Name="IsSolidFill" Type="bool" BinaryType="B" DefaultValue="false" />
+    <Property Name="IsAssociative" Type="bool" BinaryType="B" DefaultValue="false" />
+    <Property Name="HatchStyle" Type="DwgHatchStyle" BinaryType="BS" DefaultValue="DwgHatchStyle.OddParity" />
+    <Property Name="PatternType" Type="DwgHatchPatternType" BinaryType="BS" DefaultValue="DwgHatchPatternType.UserDefined" />
+    <Property Name="PatternAngle" Type="double" BinaryType="BD" DefaultValue="0.0" />
+    <Property Name="PatternScale" Type="double" BinaryType="BD" DefaultValue="1.0" />
+    <Property Name="IsPatternDoubled" Type="bool" BinaryType="B" DefaultValue="false" />
+    <Property Name="PixelSize" Type="double" BinaryType="BD" DefaultValue="1.0" />
+    <ObjectSizeEnd />
   </Object>
   <!--
 
