@@ -33,6 +33,11 @@ namespace IxMilia.Dwg
             ProducesEntities = producesEntities;
         }
 
+        public override string ToString()
+        {
+            return $"{ApplicationName}|{CPlusPlusClassName}|{DxfClassName}";
+        }
+
         public static bool operator ==(DwgClassDefinition left, DwgClassDefinition right)
         {
             if (left is null && right is null)

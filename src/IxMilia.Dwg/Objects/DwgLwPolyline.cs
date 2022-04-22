@@ -9,6 +9,7 @@ namespace IxMilia.Dwg.Objects
         public List<DwgLwPolylineVertex> Vertices = new List<DwgLwPolylineVertex>();
 
         public DwgLwPolyline(IEnumerable<DwgLwPolylineVertex> vertices)
+            : this()
         {
             Vertices.AddRange(vertices);
         }
@@ -42,7 +43,7 @@ namespace IxMilia.Dwg.Objects
             _bulges = Vertices.Select(v => v.Bulge).ToList();
             _widths = Vertices.Select(v => Tuple.Create(v.StartWidth, v.EndWidth)).ToList();
 
-            HasNormal = Normal != DwgVector.ZAxis;
+            HasNormal = Normal != DwgVector.Zero;
             HasThickness = Thickness != 0.0;
             HasElevation = Elevation != 0.0;
 
@@ -52,12 +53,12 @@ namespace IxMilia.Dwg.Objects
                 _bulges.Clear();
             }
 
-            HasWidths = _widths.Any(w => w.Item1 != 0.0 || w.Item2 != 0.0);
-            HasConstantWidth = true;
-            if (!HasWidths)
+            var hasCustomWidth = _widths.Any(w => w.Item1 != 0.0 || w.Item2 != 0.0);
+            HasWidths = hasCustomWidth;
+            HasConstantWidth = !hasCustomWidth;
+            if (!hasCustomWidth)
             {
                 _widths.Clear();
-                HasConstantWidth = false;
             }
 
             _pointCount = _points.Count;

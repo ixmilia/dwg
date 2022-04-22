@@ -2332,7 +2332,7 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(0.0, p.Width);
             Assert.Equal(0.0, p.Elevation);
             Assert.Equal(0.0, p.Thickness);
-            Assert.Equal(DwgVector.ZAxis, p.Normal);
+            Assert.Equal(DwgVector.Zero, p.Normal);
 
             // check vertex creation
             p.BindVertices();

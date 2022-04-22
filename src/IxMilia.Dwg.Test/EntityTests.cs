@@ -299,5 +299,64 @@ namespace IxMilia.Dwg.Test
             var roundTrippedDwg = RoundTrip(dwg);
             Assert.Equal(3, roundTrippedDwg.ModelSpaceBlockRecord.Entities.Count);
         }
+
+        [Fact]
+        public void WritingFileWithLwPolylineDoesNotAddClassWhenAlreadyPresent()
+        {
+            var drawing = new DwgDrawing();
+
+            // ensure class is present
+            var existingClass = drawing.Classes.Single(c => c.DxfClassName == "LWPOLYLINE");
+            if (existingClass == null)
+            {
+                drawing.Classes.Add(DwgObjectTypeExtensions.GetClassDefinitionForObjectType(DwgObjectType.LwPolyline));
+            }
+
+            // add lwpolyline
+            var lw = new DwgLwPolyline(new[]
+            {
+                new DwgLwPolylineVertex(0.0, 0.0, 0.0, 0.0, 0.0),
+                new DwgLwPolylineVertex(1.0, 1.0, 0.0, 0.0, 0.0),
+            });
+            lw.Layer = drawing.CurrentLayer;
+            drawing.ModelSpaceBlockRecord.Entities.Add(lw);
+
+            // ensure only one class is present after save
+            using var ms = new MemoryStream();
+            drawing.Save(ms);
+            var classes = drawing.Classes.Where(c => c.DxfClassName == "LWPOLYLINE").ToList();
+            Assert.Single(classes);
+        }
+
+        [Fact]
+        public void WritingFileWithLwPolylineAddsClassWhenNotPresent()
+        {
+            var drawing = new DwgDrawing();
+
+            // ensure class is not present
+            for (int i = drawing.Classes.Count - 1; i >= 0; i--)
+            {
+                if (drawing.Classes[i].DxfClassName == "LWPOLYLINE")
+                {
+                    drawing.Classes.RemoveAt(i);
+                }
+            }
+            Assert.Null(drawing.Classes.FirstOrDefault(c => c.DxfClassName == "LWPOLYLINE"));
+
+            // add lwpolyline
+            var lw = new DwgLwPolyline(new[]
+            {
+                new DwgLwPolylineVertex(0.0, 0.0, 0.0, 0.0, 0.0),
+                new DwgLwPolylineVertex(1.0, 1.0, 0.0, 0.0, 0.0),
+            });
+            lw.Layer = drawing.CurrentLayer;
+            drawing.ModelSpaceBlockRecord.Entities.Add(lw);
+
+            // ensure class is present after save
+            using var ms = new MemoryStream();
+            drawing.Save(ms);
+            var classes = drawing.Classes.Where(c => c.DxfClassName == "LWPOLYLINE").ToList();
+            Assert.Single(classes);
+        }
     }
 }

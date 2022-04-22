@@ -85,6 +85,24 @@ namespace IxMilia.Dwg.Generator
             DecreaseIndent();
             AppendLine("}");
 
+            AppendLine("public static DwgClassDefinition GetClassDefinitionForObjectType(DwgObjectType type)");
+            AppendLine("{");
+            IncreaseIndent();
+            AppendLine("switch (type)");
+            AppendLine("{");
+            IncreaseIndent();
+            foreach (var o in _objects.Where(o => AttributeValue(o, "CppClassName") != null))
+            {
+                AppendLine($"case DwgObjectType.{Name(o)}:");
+                AppendLine($"    return new DwgClassDefinition(0, 0, \"ObjectDBX Classes\", \"{AttributeValue(o, "CppClassName")}\", ClassNameFromTypeCode(DwgObjectType.{Name(o)}), false, {(IsEntity(o) ? "true" : "false")});");
+            }
+            AppendLine("default:");
+            AppendLine("    return null;");
+            DecreaseIndent();
+            AppendLine("}");
+            DecreaseIndent();
+            AppendLine("}");
+
             DecreaseIndent();
             AppendLine("}");
             DecreaseIndent();

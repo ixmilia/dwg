@@ -57,7 +57,7 @@ namespace IxMilia.Dwg
                 new DwgClassDefinition(0, 0, "ObjectDBX Classes", "AcDbDictionaryVar", "DICTIONARYVAR", false, false),
                 new DwgClassDefinition(0, 1152, "ObjectDBX Classes", "AcDbCellStyleMap", "CELLSTYLEMAP", false, false),
                 new DwgClassDefinition(0, 0, "ObjectDBX Classes", "AcDbXrecord", "XRECORD", false, false),
-                new DwgClassDefinition(0, 0, "ObjectDBX Classes", "AcDbPolyline", "LWPOLYLINE", false, true),
+                DwgObjectTypeExtensions.GetClassDefinitionForObjectType(DwgObjectType.LwPolyline),
                 new DwgClassDefinition(0, 0, "ObjectDBX Classes", "AcDbHatch", "HATCH", false, true),
                 new DwgClassDefinition(0, 0, "ObjectDBX Classes", "AcDbPlaceHolder", "ACDBPLACEHOLDER", false, false),
                 new DwgClassDefinition(0, 0, "ObjectDBX Classes", "AcDbLayout", "LAYOUT", false, false),
@@ -243,6 +243,7 @@ namespace IxMilia.Dwg
         public void Save(Stream stream)
         {
             EnsureObjectMemberships();
+            EnsureClasses();
 
             var objectMap = new DwgObjectMap();
             AssignHandles(objectMap);
@@ -373,6 +374,29 @@ namespace IxMilia.Dwg
             EnsureCollectionContains(MLineStyleDictionary, nameof(MLineStyleDictionary), CurrentMultiLineStyle, nameof(CurrentMultiLineStyle));
             EnsureCollectionContains(UCSs, nameof(UCSs), PaperSpaceCurrentUCS, nameof(PaperSpaceCurrentUCS), allowNull: true);
             EnsureCollectionContains(UCSs, nameof(UCSs), CurrentUCS, nameof(CurrentUCS), allowNull: true);
+        }
+
+        private void EnsureClasses()
+        {
+            var classNames = new HashSet<string>(Classes.Select(c => c.DxfClassName));
+            foreach (var entity in ModelSpaceBlockRecord.Entities)
+            {
+                var expectedClassName = DwgObjectTypeExtensions.ClassNameFromTypeCode(entity.Type);
+                if (expectedClassName is not null)
+                {
+                    if (!classNames.Contains(expectedClassName))
+                    {
+                        var classDefinition = DwgObjectTypeExtensions.GetClassDefinitionForObjectType(entity.Type);
+                        if (classDefinition is null)
+                        {
+                            throw new InvalidOperationException($"Unable to create class definition for object type {entity.Type}.");
+                        }
+
+                        Classes.Add(classDefinition);
+                        classNames.Add(expectedClassName);
+                    }
+                }
+            }
         }
 
         private static void EnsureCollectionContains<TKey, TValue>(IDictionary<TKey, TValue> collection, string collectionName, params Tuple<TValue, string>[] items)

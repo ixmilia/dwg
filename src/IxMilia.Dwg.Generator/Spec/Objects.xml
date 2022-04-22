@@ -1230,7 +1230,7 @@
   DICTIONARYVAR
 
   -->
-  <Object Name="DictionaryVar" Value="500" IsEntity="false" ClassName="DICTIONARYVAR">
+  <Object Name="DictionaryVar" Value="500" IsEntity="false" ClassName="DICTIONARYVAR" CppClassName="DictionaryVariables">
     <Property Name="IntVal" Type="int" BinaryType="RC" DefaultValue="0x00" WriteConverter="(byte){0}" />
     <Property Name="Str" Type="string" BinaryType="T" DefaultValue="null" />
     <ObjectSizeEnd />
@@ -1245,7 +1245,7 @@
   Hatch
 
   -->
-  <Object Name="Hatch" Value="501" IsEntity="true" ClassName="HATCH" CustomReader="true" CustomWriter="true">
+  <Object Name="Hatch" Value="501" IsEntity="true" ClassName="HATCH" CppClassName="AcDbHatch" CustomReader="true" CustomWriter="true">
     <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" />
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
@@ -1264,7 +1264,7 @@
   ID buffer
 
   -->
-  <Object Name="IdBuffer" Value="502" IsEntity="false" ClassName="IDBUFFER">
+  <Object Name="IdBuffer" Value="502" IsEntity="false" ClassName="IDBUFFER" CppClassName="AcDbIdBuffer">
     <Property Name="_unknownRc" Type="byte" BinaryType="RC" DefaultValue="0x00" Accessibility="internal" />
     <Property Name="_objectIdCount" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="internal" />
     <ObjectSizeEnd />
@@ -1276,7 +1276,7 @@
   Image
 
   -->
-  <Object Name="Image" Value="503" IsEntity="true" ClassName="IMAGE">
+  <Object Name="Image" Value="503" IsEntity="true" ClassName="IMAGE" CppClassName="AcDbRasterImage">
     <Property Name="ClassVersion" Type="int" BinaryType="BL" DefaultValue="0" />
     <Property Name="InsertionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="UVector" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.XAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
@@ -1304,7 +1304,7 @@
   Image definition
 
   -->
-  <Object Name="ImageDefinition" Value="504" IsEntity="false" ClassName="IMAGEDEF">
+  <Object Name="ImageDefinition" Value="504" IsEntity="false" ClassName="IMAGEDEF" CppClassName="AcDbRasterImageDef">
     <Property Name="ClassVersion" Type="int" BinaryType="BL" DefaultValue="0" />
     <Property Name="ImageWidth" Type="double" BinaryType="RD" DefaultValue="0.0" />
     <Property Name="ImageHeight" Type="double" BinaryType="RD" DefaultValue="0.0" />
@@ -1320,7 +1320,7 @@
   Image definition reactor
 
   -->
-  <Object Name="ImageDefinitionReactor" Value="505" IsEntity="false" ClassName="IMAGEDEFREACTOR">
+  <Object Name="ImageDefinitionReactor" Value="505" IsEntity="false" ClassName="IMAGEDEFREACTOR" CppClassName="AcDbRasterImageDefReactor">
     <Property Name="ClassVersion" Type="int" BinaryType="BL" DefaultValue="0" />
     <ObjectSizeEnd />
   </Object>
@@ -1329,7 +1329,7 @@
   Layer index
 
   -->
-  <Object Name="LayerIndex" Value="506" IsEntity="false" ClassName="LAYER_INDEX" CustomReader="true" CustomWriter="true">
+  <Object Name="LayerIndex" Value="506" IsEntity="false" ClassName="LAYER_INDEX" CppClassName="AcDbLayerIndex" CustomReader="true" CustomWriter="true">
     <Property Name="TimeStamp" Type="DateTime" BinaryType="2BL" DefaultValue="new DateTime()" />
     <Property Name="_entryCount" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="internal" />
     <Property Name="_layerIndices" Type="int" BinaryType="BL" DefaultValue="new List&lt;int&gt;()" Accessibility="internal" ReadCount="_entryCount" />
@@ -1347,7 +1347,7 @@
   LW Polyline
 
   -->
-  <Object Name="LwPolyline" Value="507" IsEntity="true" ClassName="LWPOLYLINE">
+  <Object Name="LwPolyline" Value="507" IsEntity="true" ClassName="LWPOLYLINE" CppClassName="AcDbPolyline">
     <Property Name="_flags" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" Accessibility="private">
       <Flag Name="HasNormal" Mask="1" /> 
       <Flag Name="HasThickness" Mask="2" />
@@ -1359,10 +1359,10 @@
     <Property Name="Width" Type="double" BinaryType="BD" DefaultValue="0.0" ReadCondition="HasConstantWidth" WriteCondition="HasConstantWidth" />
     <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" ReadCondition="HasElevation" WriteCondition="HasElevation" />
     <Property Name="Thickness" Type="double" BinaryType="BD" DefaultValue="0.0" ReadCondition="HasThickness" WriteCondition="HasThickness" />
-    <Property Name="Normal" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" ReadCondition="HasNormal" WriteCondition="HasNormal" />
+    <Property Name="Normal" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.Zero" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" ReadCondition="HasNormal" WriteCondition="HasNormal" />
     <Property Name="_pointCount" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="internal" />
-    <Property Name="_bulgeCount" Type="int" BinaryType="BL" DefaultValue="0" ReadCondition="HasBulges" Accessibility="internal" />
-    <Property Name="_widthCount" Type="int" BinaryType="BL" DefaultValue="0" ReadCondition="HasWidths" Accessibility="internal" />
+    <Property Name="_bulgeCount" Type="int" BinaryType="BL" DefaultValue="0" ReadCondition="HasBulges" WriteCondition="HasBulges" Accessibility="internal" />
+    <Property Name="_widthCount" Type="int" BinaryType="BL" DefaultValue="0" ReadCondition="HasWidths" WriteCondition="HasWidths" Accessibility="internal" />
     <Property Name="_points" Type="Tuple&lt;double, double&gt;" BinaryType="2RD" DefaultValue="new List&lt;Tuple&lt;double, double&gt;&gt;()" ReadCount="_pointCount" Accessibility="internal" />
     <Property Name="_bulges" Type="double" BinaryType="BD" DefaultValue="new List&lt;double&gt;()" ReadCount="_bulgeCount" Accessibility="internal" />
     <Property Name="_widths" Type="Tuple&lt;double, double&gt;" BinaryType="2BD" DefaultValue="new List&lt;Tuple&lt;double, double&gt;&gt;()" ReadCount="_widthCount" Accessibility="internal" />
@@ -1373,7 +1373,7 @@
   OLE2 frame
 
   -->
-  <Object Name="Ole2Frame" Value="508" IsEntity="true" ClassName="OLE2FRAME">
+  <Object Name="Ole2Frame" Value="508" IsEntity="true" ClassName="OLE2FRAME" CppClassName="AcDbOle2Frame">
     <Property Name="Flags" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" />
     <Property Name="_dataLength" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="internal" />
     <Property Name="Data" Type="byte" BinaryType="RC" DefaultValue="new List&lt;byte&gt;()" ReadCount="_dataLength" />
@@ -1384,7 +1384,7 @@
   Proxy
 
   -->
-  <Object Name="Proxy" Value="509" IsEntity="false" ClassName="PROXY" CustomReader="true" CustomWriter="true">
+  <Object Name="Proxy" Value="509" IsEntity="false" ClassName="PROXY" CppClassName="AcDbProxyObject" CustomReader="true" CustomWriter="true">
     <!-- consists entirely of unknown bits -->
     <ObjectSizeEnd />
 
@@ -1396,7 +1396,7 @@
   Raster variables
 
   -->
-  <Object Name="RasterVariables" Value="510" IsEntity="false" ClassName="RASTERVARIABLES">
+  <Object Name="RasterVariables" Value="510" IsEntity="false" ClassName="RASTERVARIABLES" CppClassName="AcDbRasterVariables">
     <Property Name="ClassVersion" Type="int" BinaryType="BL" DefaultValue="0" />
     <Property Name="DisplayFrame" Type="bool" BinaryType="BS" DefaultValue="false" ReadConverter="Converters.BoolShort({0})" WriteConverter="Converters.BoolShort({0})" />
     <Property Name="IsHighQuality" Type="bool" BinaryType="BS" DefaultValue="false" ReadConverter="Converters.BoolShort({0})" WriteConverter="Converters.BoolShort({0})" />
@@ -1408,7 +1408,7 @@
   Sortents table
 
   -->
-  <Object Name="SortEntsTable" Value="511" IsEntity="false" ClassName="SORTENTSTABLE">
+  <Object Name="SortEntsTable" Value="511" IsEntity="false" ClassName="SORTENTSTABLE" CppClassName="AcDbSortentsTable">
     <Property Name="_entryCount" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="internal" />
     <Property Name="_sortHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" ReadCount="_entryCount" Accessibility="internal" />
     <ObjectSizeEnd />
@@ -1425,7 +1425,7 @@
   Spatial filter
 
   -->
-  <Object Name="SpatialFilter" Value="512" IsEntity="false" ClassName="SPATIAL_FILTER">
+  <Object Name="SpatialFilter" Value="512" IsEntity="false" ClassName="SPATIAL_FILTER" CppClassName="AcDbSpatialFilter">
     <Property Name="_pointCount" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" Accessibility="internal" />
     <Property Name="ClippingPoints" Type="DwgPoint" BinaryType="2RD" DefaultValue="new List&lt;DwgPoint&gt;()" ReadCount="_pointCount" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
@@ -1449,7 +1449,7 @@
   Spatial index
 
   -->
-  <Object Name="SpatialIndex" Value="513" IsEntity="false" ClassName="SPATIAL_INDEX" CustomReader="true" CustomWriter="true">
+  <Object Name="SpatialIndex" Value="513" IsEntity="false" ClassName="SPATIAL_INDEX" CppClassName="AcDbIndex" CustomReader="true" CustomWriter="true">
     <Property Name="TimeStamp" Type="DateTime" BinaryType="2BL" DefaultValue="new DateTime()" ReadConverter="Converters.JulianDate({0})" WriteConverter="Converters.JulianDate({0})" />
     <ObjectSizeEnd />
 
@@ -1463,7 +1463,7 @@
   XRecord
 
   -->
-  <Object Name="XRecord" Value="514" IsEntity="false" ClassName="XRECORD" CustomReader="true" CustomWriter="true">
+  <Object Name="XRecord" Value="514" IsEntity="false" ClassName="XRECORD" CppClassName="AcDbXrecord" CustomReader="true" CustomWriter="true">
     <Property Name="_dataSize" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="internal" />
     <ObjectSizeEnd />
 
