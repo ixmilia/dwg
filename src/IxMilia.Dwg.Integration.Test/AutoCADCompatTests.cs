@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using IxMilia.Dwg.Objects;
 using Xunit;
 
 namespace IxMilia.Dwg.Integration.Test
@@ -26,55 +25,6 @@ namespace IxMilia.Dwg.Integration.Test
             foreach (var entityPair in drawing.ModelSpaceBlockRecord.Entities.Zip(roundTrippedDrawing.ModelSpaceBlockRecord.Entities))
             {
                 AssertEquivalent(entityPair.First, entityPair.Second);
-            }
-        }
-
-        private IEnumerable<DwgEntity> GetTestEntities()
-        {
-            yield return new DwgArc(new DwgPoint(0.0, 0.0, 0.0), 1.0, 0.0, Math.PI);
-            yield return new DwgCircle(new DwgPoint(1.0, 1.0, 0.0), 1.0);
-            yield return new DwgLine(new DwgPoint(0.0, 0.0, 0.0), new DwgPoint(1.0, 1.0, 0.0));
-            yield return new DwgLwPolyline(new[]
-            {
-                new DwgLwPolylineVertex(0.0, 0.0, 0.0, 0.0, 0.0),
-                new DwgLwPolylineVertex(2.0, 0.0, 0.0, 0.0, 0.0),
-                new DwgLwPolylineVertex(2.0, 1.0, 0.0, 0.0, 0.0),
-            });
-        }
-
-        private void AssertEquivalent(DwgEntity e1, DwgEntity e2)
-        {
-            Assert.Equal(e1.Color, e2.Color);
-            Assert.Equal(e1.Layer.Name, e2.Layer.Name);
-            Assert.Equal(e1.LineType?.Name, e2.LineType?.Name);
-            Assert.Equal(e1.LineTypeScale, e1.LineTypeScale);
-            switch ((e1, e2))
-            {
-                case (DwgArc a1, DwgArc a2):
-                    Assert.Equal(a1.Center, a2.Center);
-                    Assert.Equal(a1.Radius, a2.Radius);
-                    Assert.Equal(a1.StartAngle, a2.StartAngle);
-                    Assert.Equal(a1.EndAngle, a2.EndAngle);
-                    Assert.Equal(a1.Thickness, a2.Thickness);
-                    break;
-                case (DwgCircle c1, DwgCircle c2):
-                    Assert.Equal(c1.Center, c2.Center);
-                    Assert.Equal(c1.Radius, c2.Radius);
-                    Assert.Equal(c1.Thickness, c2.Thickness);
-                    break;
-                case (DwgLine l1, DwgLine l2):
-                    Assert.Equal(l1.P1, l2.P1);
-                    Assert.Equal(l1.P2, l2.P2);
-                    break;
-                case (DwgLwPolyline lw1, DwgLwPolyline lw2):
-                    Assert.Equal(lw1.Width, lw2.Width);
-                    Assert.Equal(lw1.Elevation, lw2.Elevation);
-                    Assert.Equal(lw1.Thickness, lw2.Thickness);
-                    Assert.Equal(lw1.Normal, lw2.Normal);
-                    Assert.Equal(lw1.Vertices, lw2.Vertices);
-                    break;
-                default:
-                    throw new NotSupportedException($"Unsupported entity comparison: {e1.GetType().Name}/{e2.GetType().Name}");
             }
         }
 

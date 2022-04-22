@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using IxMilia.Dwg.Objects;
 using Xunit;
 
@@ -6,6 +7,14 @@ namespace IxMilia.Dwg.Test
 {
     public class ObjectTests : TestBase
     {
+        [Theory]
+        [MemberData(nameof(Entities))]
+        public void RoundTripWellKnownEntities(DwgEntity entity)
+        {
+            var roundTripped = RoundTrip(entity);
+            AssertEquivalent(entity, roundTripped);
+        }
+
         [Fact]
         public void RoundTripGroup()
         {
@@ -45,6 +54,14 @@ namespace IxMilia.Dwg.Test
             var roundTrippedLine = (DwgLine)roundTrippedDrawing.ModelSpaceBlockRecord.Entities.Single();
             Assert.NotNull(roundTrippedLine.LineType);
             Assert.Equal(drawing.CurrentEntityLineType.Name, roundTrippedLine.LineType.Name);
+        }
+
+        public static IEnumerable<object[]> Entities()
+        {
+            foreach (var entity in GetTestEntities())
+            {
+                yield return new object[] { entity };
+            }
         }
     }
 }

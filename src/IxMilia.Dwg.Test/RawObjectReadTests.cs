@@ -979,8 +979,8 @@ namespace IxMilia.Dwg.Test
             Assert.False(spline.IsRational);
             Assert.False(spline.IsClosed);
             Assert.False(spline.IsPeriodic);
-            Assert.Equal(0.0, spline.KnotTolerance);
-            Assert.Equal(0.0, spline.ControlTolerance);
+            Assert.Equal(1.0e-9, spline.KnotTolerance);
+            Assert.Equal(1.0e-10, spline.ControlTolerance);
             Assert.Empty(spline.KnotValues);
             Assert.Empty(spline.ControlPoints);
         }
