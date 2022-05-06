@@ -17,7 +17,7 @@ namespace IxMilia.Dwg.Objects
         /// </summary>
         protected bool _noLinks;
         public DwgColor Color { get; set; }
-        public double LineTypeScale { get; set; }
+        public double LineTypeScale { get; set; } = 1.0;
         protected short _invisibility;
         public DwgLayer Layer { get; set; }
         internal DwgHandleReference LayerHandleReference { get; set; }

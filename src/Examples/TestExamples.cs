@@ -48,5 +48,27 @@ namespace Examples
 
             drawing.SaveExample();
         }
+
+        [Fact]
+        public void WriteCustomLineType()
+        {
+            var drawing = new DwgDrawing();
+            drawing.FileHeader.Version = DwgVersionId.R14;
+
+            // create a custom line type and add it to the file
+            // this line type will have a dash of length 0.5 followed by a gap of length 0.25
+            var dashed = new DwgLineType("dashed");
+            dashed.DashInfos.Add(new DwgLineType.DwgLineTypeDashInfo(0.5));
+            dashed.DashInfos.Add(new DwgLineType.DwgLineTypeDashInfo(0.25));
+            drawing.LineTypes.Add(dashed);
+
+            // now add a line using this line type
+            var line = new DwgLine(new DwgPoint(0.0, 0.0, 0.0), new DwgPoint(10.0, 10.0, 0.0));
+            line.Layer = drawing.CurrentLayer;
+            line.LineType = dashed;
+            drawing.ModelSpaceBlockRecord.Entities.Add(line);
+
+            drawing.SaveExample();
+        }
     }
 }

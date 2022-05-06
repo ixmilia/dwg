@@ -868,10 +868,10 @@
   -->
   <Object Name="LineType" Value="0x39" IsEntity="false" CustomReader="true" CustomWriter="true" ConstructorAccessibility="internal">
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
-    <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
+    <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="true" Accessibility="private" />
     <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="private" />
     <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
-    <Property Name="Description" Type="string" BinaryType="T" DefaultValue="null" />
+    <Property Name="Description" Type="string" BinaryType="T" DefaultValue="string.Empty" />
     <Property Name="PatternLength" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="_alignment" Type="char" BinaryType="RC" DefaultValue="'A'" />
     <Property Name="_numDashes" Type="int" BinaryType="RC" DefaultValue="0" />

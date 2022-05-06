@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace IxMilia.Dwg.Objects
 {
     public partial class DwgLineType
     {
-        public IList<DwgLineTypeDashInfo> DashInfos = new List<DwgLineTypeDashInfo>();
+        // not sure why, but AutoCAD refuses to accept a line type with a description that's not exactly 47 characters long
+        private const int DescriptionLength = 47;
+
+        public IList<DwgLineTypeDashInfo> DashInfos { get; } = new List<DwgLineTypeDashInfo>();
 
         internal override DwgHandleReferenceCode ExpectedNullHandleCode => DwgHandleReferenceCode.SoftOwner;
 
@@ -54,6 +58,25 @@ namespace IxMilia.Dwg.Objects
             _nullHandleReference = reader.Read_H();
         }
 
+        internal override void OnBeforeObjectWrite(DwgVersionId version)
+        {
+            // normalize dash lengths
+            for (int i = 0; i < DashInfos.Count; i++)
+            {
+                DashInfos[i] = DashInfos[i].WithLength(Math.Abs(DashInfos[i].DashLength));
+                if (i % 2 == 1)
+                {
+                    DashInfos[i] = DashInfos[i].WithLength(DashInfos[i].DashLength * -1.0);
+                }
+            }
+
+            PatternLength = DashInfos.Sum(d => Math.Abs(d.DashLength));
+
+            // ensure description is the correct length
+            Description = Description is null ? new string(' ', DescriptionLength) : Description.PadRight(DescriptionLength);
+            Description = Description.Substring(0, DescriptionLength);
+        }
+
         internal override void WriteSpecific(BitWriter writer, DwgVersionId version)
         {
             writer.Write_T(Name);
@@ -88,7 +111,13 @@ namespace IxMilia.Dwg.Objects
             public double Rotation { get; }
             public short ShapeFlag { get; }
 
+            public DwgLineTypeDashInfo(double sectionLength)
+                : this(sectionLength, 0, DwgVector.Zero, 1.0, 0.0, 0)
+            {
+            }
+
             public DwgLineTypeDashInfo(double dashLength, short shapeCode, DwgVector offset, double scale, double rotation, short shapeFlag)
+                : this()
             {
                 DashLength = dashLength;
                 ShapeCode = shapeCode;
@@ -97,6 +126,8 @@ namespace IxMilia.Dwg.Objects
                 Rotation = rotation;
                 ShapeFlag = shapeFlag;
             }
+
+            internal DwgLineTypeDashInfo WithLength(double length) => new DwgLineTypeDashInfo(length, ShapeCode, Offset, Scale, Rotation, ShapeFlag);
 
             internal static DwgLineTypeDashInfo Parse(BitReader reader)
             {

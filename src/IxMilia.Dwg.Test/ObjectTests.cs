@@ -56,6 +56,32 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(drawing.CurrentEntityLineType.Name, roundTrippedLine.LineType.Name);
         }
 
+        [Fact]
+        public void RoundTripEntityWithCustomLineType()
+        {
+            var drawing = new DwgDrawing();
+            var lineType = new DwgLineType("custom-line-type");
+            lineType.DashInfos.Add(new DwgLineType.DwgLineTypeDashInfo(0.5));
+            lineType.DashInfos.Add(new DwgLineType.DwgLineTypeDashInfo(0.25));
+            drawing.LineTypes.Add(lineType);
+
+            var line = new DwgLine()
+            {
+                Layer = drawing.CurrentLayer,
+                LineType = lineType,
+            };
+            drawing.ModelSpaceBlockRecord.Entities.Add(line);
+
+            var roundTrippedDrawing = RoundTrip(drawing);
+            var roundTrippedLine = (DwgLine)roundTrippedDrawing.ModelSpaceBlockRecord.Entities.Single();
+            var roundTrippedLineType = roundTrippedLine.LineType;
+            Assert.NotNull(roundTrippedLineType);
+            Assert.Equal(2, roundTrippedLineType.DashInfos.Count);
+            Assert.Equal(0.5, roundTrippedLineType.DashInfos[0].DashLength);
+            Assert.Equal(-0.25, roundTrippedLineType.DashInfos[1].DashLength);
+            Assert.Equal(new string(' ', 47), roundTrippedLineType.Description);
+        }
+
         public static IEnumerable<object[]> Entities()
         {
             foreach (var entity in GetTestEntities())
