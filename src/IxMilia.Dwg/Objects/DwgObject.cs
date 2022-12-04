@@ -22,7 +22,7 @@ namespace IxMilia.Dwg.Objects
         internal short _entityCount;
         internal List<DwgHandleReference> _entityHandleReferences = new List<DwgHandleReference>();
         protected DwgHandleReference _nullHandleReference;
-        protected DwgHandleReference _xDictionaryObjectHandleReference;
+        protected DwgHandleReference _xDictionaryObjectHandleReference = new DwgHandleReference(DwgHandleReferenceCode.SoftPointer, 0);
         private DwgXData _xdata = new DwgXData();
 
         internal virtual bool IsEntity => false;
