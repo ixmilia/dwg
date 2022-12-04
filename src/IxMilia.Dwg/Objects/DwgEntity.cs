@@ -23,8 +23,8 @@ namespace IxMilia.Dwg.Objects
         internal DwgHandleReference LayerHandleReference { get; set; }
         public DwgLineType LineType { get; set; }
         internal DwgHandleReference LineTypeHandleReference { get; set; }
-        internal DwgHandleReference PreviousEntityHandle { get; set; } = new DwgHandleReference(DwgHandleReferenceCode.HandleMinus1, 0);
-        internal DwgHandleReference NextEntityHandle { get; set; } = new DwgHandleReference(DwgHandleReferenceCode.HandlePlus1, 0);
+        internal DwgHandleReference PreviousEntityHandle { get; set; } = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0);
+        internal DwgHandleReference NextEntityHandle { get; set; } = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0);
 
         internal virtual void OnBeforeEntityWrite(DwgVersionId version)
         {
@@ -74,7 +74,12 @@ namespace IxMilia.Dwg.Objects
                 LineTypeHandleReference = reader.Read_H();
             }
 
-            if (!_noLinks)
+            if (_noLinks)
+            {
+                PreviousEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.HandleMinus1, 0);
+                NextEntityHandle = new DwgHandleReference(DwgHandleReferenceCode.HandlePlus1, 0);
+            }
+            else
             {
                 PreviousEntityHandle = reader.Read_H();
                 NextEntityHandle = reader.Read_H();
@@ -186,6 +191,14 @@ namespace IxMilia.Dwg.Objects
             }
 
             OnAfterEntityRead(reader, objectCache, version);
+        }
+
+        internal void AssignSubentityReference(DwgHandle ownerHandle)
+        {
+            if (_entityMode == 0)
+            {
+                _subentityRef = ownerHandle.MakeHandleReference(DwgHandleReferenceCode.HardPointer);
+            }
         }
     }
 }
