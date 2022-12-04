@@ -1644,8 +1644,8 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(new DwgHandle(0x05), lc.Handle);
             Assert.Equal(1, lc._entityCount);
             Assert.Equal(new DwgHandle(0x15), lc.ResolveHandleReference(lc._entityHandleReferences[0]));
-            Assert.Equal(new DwgHandle(0x13), lc.ResolveHandleReference(lc._byLayerHandleReference));
-            Assert.Equal(new DwgHandle(0x14), lc.ResolveHandleReference(lc._byBlockHandleReference));
+            Assert.Equal(new DwgHandle(0x13), lc.ResolveHandleReference(lc._byBlockHandleReference));
+            Assert.Equal(new DwgHandle(0x14), lc.ResolveHandleReference(lc._byLayerHandleReference));
         }
 
         [Fact]

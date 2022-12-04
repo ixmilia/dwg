@@ -110,7 +110,7 @@
     <Property Name="XScale" Type="double" BinaryType="BD" DefaultValue="1.0" />
     <Property Name="YScale" Type="double" BinaryType="BD" DefaultValue="1.0" />
     <Property Name="ZScale" Type="double" BinaryType="BD" DefaultValue="1.0" />
-    <Property Name="Rotation" Type="double" BinaryType="BD" DefaultValue="1.0" />
+    <Property Name="Rotation" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
     <Property Name="_hasAttributes" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
     <ObjectSizeEnd />
@@ -254,7 +254,7 @@
   <Object Name="Line" Value="0x13" IsEntity="true" ConstructorAccessibility="internal">
     <Property Name="P1" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="P2" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
-    <Property Name="Thickness" Type="double" BinaryType="BD" DefaultValue="1.0" />
+    <Property Name="Thickness" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
     <ObjectSizeEnd />
   </Object>
@@ -743,7 +743,7 @@
     <Property Name="IsXRef" Type="bool" BinaryType="B" DefaultValue="false" />
     <Property Name="IsOverlaidXref" Type="bool" BinaryType="B" DefaultValue="false" />
     <Property Name="BasePoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
-    <Property Name="PathName" Type="string" BinaryType="T" DefaultValue="null" />
+    <Property Name="PathName" Type="string" BinaryType="T" DefaultValue="string.Empty" />
     <ObjectSizeEnd />
 
     <!-- handles -->
@@ -858,8 +858,8 @@
     <Property Name="_nullHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" SkipCreation="true" />
     <Property Name="_xDictionaryObjectHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
     <Property Name="_entityHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_entityCount" />
-    <Property Name="_byLayerHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" Accessibility="internal" />
     <Property Name="_byBlockHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" Accessibility="internal" />
+    <Property Name="_byLayerHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" Accessibility="internal" />
   </Object>
   <!--
 

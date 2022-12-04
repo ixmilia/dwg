@@ -34,8 +34,8 @@ namespace IxMilia.Dwg.Objects
         public static DwgLineTypeControlObject Create(params DwgLineType[] lineTypes)
         {
             var control = new DwgLineTypeControlObject();
-            control.ByLayer = new DwgLineType(ByLayerName);
             control.ByBlock = new DwgLineType(ByBlockName);
+            control.ByLayer = new DwgLineType(ByLayerName);
             control.Continuous = new DwgLineType(ContinuousName) { Description = "Solid line" };
             foreach (var lineType in lineTypes)
             {
