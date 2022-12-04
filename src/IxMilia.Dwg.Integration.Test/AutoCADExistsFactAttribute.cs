@@ -6,7 +6,7 @@ namespace IxMilia.Dwg.Integration.Test
 {
     public class AutoCADExistsFactAttribute : FactAttribute
     {
-        private const string _converterExe = "acad.exe";
+        private const string _converterExe = "accoreconsole.exe";
         private static bool _pathResolved = false;
         private static string _converterPath = null;
 

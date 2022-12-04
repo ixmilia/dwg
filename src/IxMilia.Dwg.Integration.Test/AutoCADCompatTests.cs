@@ -38,14 +38,11 @@ namespace IxMilia.Dwg.Integration.Test
 
             var lines = new List<string>
             {
-                "FILEDIA 0",
-                $"OPEN \"{inputFile}\"",
                 $"SAVEAS {VersionIdToString(drawing.FileHeader.Version)} \"{outputFile}\"",
-                "FILEDIA 1",
                 "QUIT Y"
             };
             File.WriteAllLines(scriptFile, lines);
-            ExecuteAutoCadScript(scriptFile);
+            ExecuteAutoCadScriptOnDrawing(scriptFile, inputFile);
 
             var result = DwgDrawing.Load(outputFile);
             return result;
@@ -61,9 +58,9 @@ namespace IxMilia.Dwg.Integration.Test
             };
         }
 
-        private void ExecuteAutoCadScript(string pathToScript)
+        private void ExecuteAutoCadScriptOnDrawing(string pathToScript, string pathToInputDrawing)
         {
-            WaitForProcess(AutoCADExistsFactAttribute.GetPathToAutoCad(), $"/b \"{pathToScript}\"", TimeSpan.FromSeconds(30));
+            WaitForProcess(AutoCADExistsFactAttribute.GetPathToAutoCad(), $"/i \"{pathToInputDrawing}\" /s \"{pathToScript}\"", TimeSpan.FromSeconds(30));
             // TODO: kill all instances of senddmp.exe and fail if present
         }
     }

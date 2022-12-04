@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using IxMilia.Dwg.Test;
 using Xunit;
 
@@ -30,25 +31,37 @@ namespace IxMilia.Dwg.Integration.Test
 
         protected void WaitForProcess(string fileName, string arguments, TimeSpan timeout)
         {
-            var psi = new ProcessStartInfo();
-            psi.FileName = fileName;
-            psi.Arguments = arguments;
-            var proc = Process.Start(psi);
-            if (Debugger.IsAttached)
+            var proc = new Process()
             {
-                proc.WaitForExit();
-            }
-            else
-            {
-                var exited = proc.WaitForExit((int)timeout.TotalMilliseconds);
-                if (!exited)
+                StartInfo = new ProcessStartInfo()
                 {
-                    proc.Kill(entireProcessTree: true);
-                    throw new Exception("The process failed to exit within the timeout.");
-                }
+                    FileName = fileName,
+                    Arguments = arguments,
+                    CreateNoWindow = true,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    StandardOutputEncoding = Encoding.Unicode,
+                    StandardErrorEncoding = Encoding.Unicode,
+                    UseShellExecute = false,
+                },
+            };
+            var stdout = new StringBuilder();
+            var stderr = new StringBuilder();
+            proc.OutputDataReceived += (_, args) => stdout.AppendLine(args.Data);
+            proc.ErrorDataReceived += (_, args) => stderr.AppendLine(args.Data);
+            proc.Start();
+            proc.BeginOutputReadLine();
+            proc.BeginErrorReadLine();
+            var exited = proc.WaitForExit((int)timeout.TotalMilliseconds);
+            proc.CancelOutputRead();
+            proc.CancelErrorRead();
+            if (!exited)
+            {
+                proc.Kill();
             }
 
-            Assert.Equal(0, proc.ExitCode);
+            var message = $"STDOUT:\n{stdout}\nSTDERR:\n{stderr}";
+            Assert.True(exited && proc.ExitCode == 0, message);
         }
     }
 }
