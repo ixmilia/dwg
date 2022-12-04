@@ -24,14 +24,6 @@ namespace IxMilia.Dwg.Objects
             Name = name;
         }
 
-        internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
-        {
-            if (!LineTypeControlHandleReference.IsEmpty && LineTypeControlHandleReference.Code != DwgHandleReferenceCode.HardPointer)
-            {
-                throw new DwgReadException("Incorrect line type control object parent handle code.");
-            }
-        }
-
         internal override void ParseSpecific(BitReader reader, int objectBitOffsetStart, DwgVersionId version)
         {
             Name = reader.Read_T();

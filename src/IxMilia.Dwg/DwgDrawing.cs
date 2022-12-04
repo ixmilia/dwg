@@ -247,6 +247,7 @@ namespace IxMilia.Dwg
 
             var objectMap = new DwgObjectMap();
             AssignHandles(objectMap);
+            AssignOwnershipHandles();
 
             // write the file header; this will be re-written again once the pointers have been calculated
             var writer = new BitWriter(stream);
@@ -353,6 +354,14 @@ namespace IxMilia.Dwg
             Variables.DimensionTextStyleHandle = (DimensionTextStyle?.Handle ?? new DwgHandle()).MakeHandleReference(DwgHandleReferenceCode.SoftOwner);
 
             objectMap.SetNextAvailableHandle(Variables);
+        }
+
+        private void AssignOwnershipHandles()
+        {
+            foreach (var lt in LineTypes.Values)
+            {
+                lt.LineTypeControlHandleReference = LineTypes.Handle.MakeHandleReference(DwgHandleReferenceCode.HardPointer);
+            }
         }
 
         private void EnsureObjectMemberships()
