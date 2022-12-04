@@ -16,7 +16,7 @@ namespace IxMilia.Dwg.Objects
         public bool IsModelSpaceBlock => string.Compare(Name, ModelSpaceBlockName, StringComparison.OrdinalIgnoreCase) == 0;
         public bool IsPaperSpaceBlock => string.Compare(Name, PaperSpaceBlockName, StringComparison.OrdinalIgnoreCase) == 0;
 
-        public DwgBlockHeader(string name, DwgBlock block, DwgEndBlock endBlock)
+        public DwgBlockHeader(string name)
             : this()
         {
             if (string.IsNullOrEmpty(name))
@@ -25,8 +25,14 @@ namespace IxMilia.Dwg.Objects
             }
 
             Name = name;
-            Block = block;
-            EndBlock = endBlock;
+            Block = new DwgBlock(name);
+            EndBlock = new DwgEndBlock();
+        }
+
+        public void SetLayer(DwgLayer layer)
+        {
+            Block.Layer = layer;
+            EndBlock.Layer = layer;
         }
 
         internal override DwgHandleReferenceCode ExpectedNullHandleCode => DwgHandleReferenceCode.SoftOwner;
@@ -64,6 +70,16 @@ namespace IxMilia.Dwg.Objects
 
                 _firstEntityHandleReference = flatList.First().MakeHandleReference(DwgHandleReferenceCode.HardPointer);
                 _lastEntityHandleReference = flatList.Last().MakeHandleReference(DwgHandleReferenceCode.HardPointer);
+            }
+
+            // assign subentity references
+            AssignEntityMode(Block);
+            AssignEntityMode(EndBlock);
+            Block.AssignSubentityReference(Handle);
+            EndBlock.AssignSubentityReference(Handle);
+            foreach (var entity in Entities)
+            {
+                entity.AssignSubentityReference(Handle);
             }
         }
 
@@ -149,11 +165,11 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal static DwgBlockHeader CreateBlockRecordWithName(string name, DwgLayer layer)
+        public static DwgBlockHeader CreateBlockRecordWithName(string name, DwgLayer layer)
         {
-            var block = new DwgBlock(name) { Layer = layer };
-            var endBlock = new DwgEndBlock() { Layer = layer };
-            return new DwgBlockHeader(name, block, endBlock);
+            var blockHeader = new DwgBlockHeader(name);
+            blockHeader.SetLayer(layer);
+            return blockHeader;
         }
     }
 }

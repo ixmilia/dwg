@@ -58,7 +58,7 @@ namespace IxMilia.Dwg.Test
         {
             var drawing = new DwgDrawing();
 
-            var blockHeader = new DwgBlockHeader("some-block", new DwgBlock("some-block") { Layer = drawing.CurrentLayer }, new DwgEndBlock() { Layer = drawing.CurrentLayer });
+            var blockHeader = DwgBlockHeader.CreateBlockRecordWithName("some-block", drawing.CurrentLayer);
             drawing.BlockHeaders.Add(blockHeader);
 
             var ins = new DwgInsert();
@@ -80,7 +80,7 @@ namespace IxMilia.Dwg.Test
         {
             var drawing = new DwgDrawing();
 
-            var blockHeader = new DwgBlockHeader("some-block", new DwgBlock("some-block") { Layer = drawing.CurrentLayer }, new DwgEndBlock() { Layer = drawing.CurrentLayer });
+            var blockHeader = DwgBlockHeader.CreateBlockRecordWithName("some-block", drawing.CurrentLayer);
             drawing.BlockHeaders.Add(blockHeader);
 
             var ins = new DwgInsert();
@@ -104,7 +104,7 @@ namespace IxMilia.Dwg.Test
         {
             var drawing = new DwgDrawing();
 
-            var blockHeader = new DwgBlockHeader("some-block", new DwgBlock("some-block") { Layer = drawing.CurrentLayer }, new DwgEndBlock() { Layer = drawing.CurrentLayer });
+            var blockHeader = DwgBlockHeader.CreateBlockRecordWithName("some-block", drawing.CurrentLayer);
             drawing.BlockHeaders.Add(blockHeader);
 
             var ins = new DwgMInsert();
@@ -126,7 +126,7 @@ namespace IxMilia.Dwg.Test
         {
             var drawing = new DwgDrawing();
 
-            var blockHeader = new DwgBlockHeader("some-block", new DwgBlock("some-block") { Layer = drawing.CurrentLayer }, new DwgEndBlock() { Layer = drawing.CurrentLayer });
+            var blockHeader = DwgBlockHeader.CreateBlockRecordWithName("some-block", drawing.CurrentLayer);
             drawing.BlockHeaders.Add(blockHeader);
 
             var ins = new DwgMInsert();

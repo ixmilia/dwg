@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace IxMilia.Dwg.Objects
 {
@@ -23,7 +24,10 @@ namespace IxMilia.Dwg.Objects
                     yield return attrib;
                 }
 
-                yield return SeqEnd;
+                if (Attributes.Any())
+                {
+                    yield return SeqEnd;
+                }
             }
         }
 

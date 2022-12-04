@@ -24,7 +24,5 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
     - run: .\build-and-test.ps1 -configuration Release -notest
     - run: dotnet nuget push .\artifacts\packages\Release\*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --no-symbols
