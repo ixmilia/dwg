@@ -1282,7 +1282,7 @@
     <Property Name="UVector" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.XAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
     <Property Name="VVector" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.YAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
     <Property Name="ImageSize" Type="DwgVector" BinaryType="2RD" DefaultValue="new DwgVector(1.0, 1.0, 0.0)" ReadConverter="Converters.DoubleVector({0})" WriteConverter="Converters.DoubleVector({0})" />
-    <Property Name="DisplayPropertyFlags" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}">
+    <Property Name="DisplayPropertyFlags" Type="int" BinaryType="BS" DefaultValue="3" WriteConverter="(short){0}">
       <Flag Name="ShowImage" Mask="1" />
       <Flag Name="ShowImageWhenNotAlignedToScreen" Mask="2" />
       <Flag Name="UseClippingBoundary" Mask="4" />
@@ -1314,14 +1314,19 @@
     <Property Name="PixelWidth" Type="double" BinaryType="RD" DefaultValue="0.0" />
     <Property Name="PixelHeight" Type="double" BinaryType="RD" DefaultValue="0.0" />
     <ObjectSizeEnd />
+
+    <!-- handles -->
+    <Property Name="_parentHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(4, 0)" Accessibility="internal" />
+    <Property Name="_reactorHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
+    <Property Name="_xDictionaryObjectHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
   </Object>
   <!--
 
   Image definition reactor
 
   -->
-  <Object Name="ImageDefinitionReactor" Value="505" IsEntity="false" ClassName="IMAGEDEFREACTOR" CppClassName="AcDbRasterImageDefReactor">
-    <Property Name="ClassVersion" Type="int" BinaryType="BL" DefaultValue="0" />
+  <Object Name="ImageDefinitionReactor" Value="505" IsEntity="false" ClassName="IMAGEDEF_REACTOR" CppClassName="AcDbRasterImageDefReactor">
+    <Property Name="ClassVersion" Type="int" BinaryType="BL" DefaultValue="2" />
     <ObjectSizeEnd />
   </Object>
   <!--

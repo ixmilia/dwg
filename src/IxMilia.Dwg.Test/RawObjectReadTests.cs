@@ -19,7 +19,7 @@ namespace IxMilia.Dwg.Test
                 new DwgClassDefinition(0, 0, "", "", "RASTERVARIABLES", false, false),
                 null,
                 new DwgClassDefinition(0, 0, "", "", "IMAGEDEF", false, false),
-                new DwgClassDefinition(0, 0, "", "", "IMAGEDEFREACTOR", false, false),
+                new DwgClassDefinition(0, 0, "", "", "IMAGEDEF_REACTOR", false, false),
                 new DwgClassDefinition(0, 0, "", "", "IMAGE", false, false),
                 new DwgClassDefinition(0, 0, "", "", "IDBUFFER", false, false),
                 new DwgClassDefinition(0, 0, "", "", "LWPOLYLINE", false, false),
@@ -2250,6 +2250,7 @@ namespace IxMilia.Dwg.Test
                 0xA1, 0x13                                      // crc
             );
             Assert.Equal(new DwgHandle(0x6C), i.Handle);
+            Assert.Equal(2, i.ClassVersion);
         }
 
         [Fact]

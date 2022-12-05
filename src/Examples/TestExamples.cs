@@ -1,3 +1,6 @@
+using System;
+using System.IO;
+using System.Runtime.CompilerServices;
 using IxMilia.Dwg;
 using IxMilia.Dwg.Objects;
 using Xunit;
@@ -94,6 +97,36 @@ namespace Examples
             drawing.ModelSpaceBlockRecord.Entities.Add(insert);
 
             drawing.SaveExample();
+        }
+
+        [Fact]
+        public void WriteImage()
+        {
+            var drawing = new DwgDrawing();
+            drawing.FileHeader.Version = DwgVersionId.R14;
+
+            // create an image object
+            var fourtyFiveDegrees = Math.PI / 4.0;
+            var image = new DwgImage(
+                filePath: GetSampleImagePath(),
+                insertionPoint: new DwgPoint(2.0, 2.0, 0.0), // where the bottom left corner of the original image will be
+                widthInPixels: 16, // should be pulled directly from the image
+                heightInPixels: 16,
+                displayWidth: 1.0, // in drawing units
+                displayHeight: 1.0,
+                rotationAngleInRadians: fourtyFiveDegrees); // counter-clockwise rotation
+            image.Layer = drawing.CurrentLayer;
+            drawing.ModelSpaceBlockRecord.Entities.Add(image);
+
+            drawing.SaveExample();
+        }
+
+        private static string GetSampleImagePath([CallerFilePath] string testFilePath = null)
+        {
+            var thisDirectory = Path.GetDirectoryName(testFilePath);
+            var sampleImagesDirectory = Path.Combine(thisDirectory, "Images");
+            var sampleImagePath = Path.Combine(sampleImagesDirectory, "arrow.png");
+            return sampleImagePath;
         }
     }
 }

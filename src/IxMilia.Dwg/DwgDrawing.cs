@@ -390,21 +390,31 @@ namespace IxMilia.Dwg
             var classNames = new HashSet<string>(Classes.Select(c => c.DxfClassName));
             foreach (var entity in ModelSpaceBlockRecord.Entities)
             {
-                var expectedClassName = DwgObjectTypeExtensions.ClassNameFromTypeCode(entity.Type);
-                if (expectedClassName is not null)
-                {
-                    if (!classNames.Contains(expectedClassName))
-                    {
-                        var classDefinition = DwgObjectTypeExtensions.GetClassDefinitionForObjectType(entity.Type);
-                        if (classDefinition is null)
-                        {
-                            throw new InvalidOperationException($"Unable to create class definition for object type {entity.Type}.");
-                        }
+                EnsureClassesFromObject(entity, classNames);
+            }
+        }
 
-                        Classes.Add(classDefinition);
-                        classNames.Add(expectedClassName);
+        private void EnsureClassesFromObject(DwgObject obj, HashSet<string> seenClasses)
+        {
+            var expectedClassName = DwgObjectTypeExtensions.ClassNameFromTypeCode(obj.Type);
+            if (expectedClassName is not null)
+            {
+                if (!seenClasses.Contains(expectedClassName))
+                {
+                    var classDefinition = DwgObjectTypeExtensions.GetClassDefinitionForObjectType(obj.Type);
+                    if (classDefinition is null)
+                    {
+                        throw new InvalidOperationException($"Unable to create class definition for object type {obj.Type}.");
                     }
+
+                    Classes.Add(classDefinition);
+                    seenClasses.Add(expectedClassName);
                 }
+            }
+
+            foreach (var child in obj.ChildItems)
+            {
+                EnsureClassesFromObject(child, seenClasses);
             }
         }
 

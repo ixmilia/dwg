@@ -62,7 +62,7 @@ namespace IxMilia.Dwg.Objects
             }
             else
             {
-                var flatList = DwgEntityHelpers.FlattenAndAssignPointersForWrite(Entities);
+                var flatList = DwgEntityHelpers.FlattenAndAssignPointersForWrite(Entities).OfType<DwgEntity>().ToArray();
                 foreach (var entity in Entities)
                 {
                     AssignEntityMode(entity);
