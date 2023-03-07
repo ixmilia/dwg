@@ -22,7 +22,7 @@ namespace IxMilia.Dwg
     public struct DwgHandleReference : IEquatable<DwgHandleReference>
     {
         public DwgHandleReferenceCode Code { get; }
-        internal uint HandleOrOffset { get; }
+        public uint HandleOrOffset { get; }
 
         public bool IsEmpty => (int)Code == 0 && HandleOrOffset == 0;
 
