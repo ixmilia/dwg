@@ -645,7 +645,7 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(new DwgHandle(0xCA), dim.ResolveHandleReference(dim._anonymousBlockHandleReference));
 
             // verify xdata
-            Assert.Equal(1, dim._xdataMap.Keys.Count);
+            Assert.Single(dim._xdataMap.Keys);
             var items = dim._xdataMap[new DwgHandle(0x11)];
             Assert.Equal(2, items.Count);
             Assert.Equal("DSTYLE", ((DwgXDataString)items[0]).Value);
@@ -694,7 +694,7 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(new DwgHandle(0xD6), dim.ResolveHandleReference(dim._anonymousBlockHandleReference));
 
             // verify xdata
-            Assert.Equal(1, dim._xdataMap.Keys.Count);
+            Assert.Single(dim._xdataMap.Keys);
             var items = dim._xdataMap[new DwgHandle(0x11)];
             Assert.Equal(2, items.Count);
             Assert.Equal("DSTYLE", ((DwgXDataString)items[0]).Value);
