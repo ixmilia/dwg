@@ -71,7 +71,13 @@ namespace IxMilia.Dwg
             _lazyResolvers.Add(Tuple.Create(handle, allowNull, onObjectResolved));
         }
 
-        public T? GetObject<T>(BitReader reader, DwgHandle handle, bool allowNull = false) where T: DwgObject
+        public T GetObject<T>(BitReader reader, DwgHandle handle) where T: DwgObject
+        {
+            var result = GetObject<T>(reader, handle, allowNull: false);
+            return result!;
+        }
+
+        public T? GetObject<T>(BitReader reader, DwgHandle handle, bool allowNull) where T: DwgObject
         {
             var obj = GetObject(reader, handle, allowNull);
             if (obj is null && allowNull)

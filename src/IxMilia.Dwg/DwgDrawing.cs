@@ -1,4 +1,6 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -31,14 +33,14 @@ namespace IxMilia.Dwg
         public DwgLineType ByLayerLineType { get => LineTypes.ByLayer; set => LineTypes.ByLayer = value; }
         public DwgLineType ByBlockLineType { get => LineTypes.ByBlock; set => LineTypes.ByBlock = value; }
         public DwgLineType ContinuousLineType { get => LineTypes.Continuous; set => LineTypes.Continuous = value; }
-        public DwgViewPort CurrentViewPort { get; set; }
+        public DwgViewPort? CurrentViewPort { get; set; }
         public DwgLayer CurrentLayer { get; set; }
         public DwgStyle TextStyle { get; set; }
         public DwgLineType CurrentEntityLineType { get; set; }
         public DwgDimStyle DimensionStyle { get; set; }
         public DwgMLineStyle CurrentMultiLineStyle { get; set; }
-        public DwgUCS PaperSpaceCurrentUCS { get; set; }
-        public DwgUCS CurrentUCS { get; set; }
+        public DwgUCS? PaperSpaceCurrentUCS { get; set; }
+        public DwgUCS? CurrentUCS { get; set; }
         public DwgStyle DimensionTextStyle { get; set; }
 
         public DwgDrawing()
