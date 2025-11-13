@@ -1,4 +1,6 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.Collections.Generic;
 
 namespace IxMilia.Dwg
@@ -136,9 +138,9 @@ namespace IxMilia.Dwg
             return !(r1 == r2);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            return obj is DwgHandleReference && Equals((DwgHandleReference)obj);
+            return obj is DwgHandleReference handleRef && Equals(handleRef);
         }
 
         public bool Equals(DwgHandleReference other)

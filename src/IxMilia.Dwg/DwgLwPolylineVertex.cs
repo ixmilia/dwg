@@ -1,3 +1,5 @@
+#nullable enable
+
 using System;
 
 namespace IxMilia.Dwg
@@ -34,7 +36,7 @@ namespace IxMilia.Dwg
             return !(a == b);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is DwgLwPolylineVertex vertex && this == vertex;
         }

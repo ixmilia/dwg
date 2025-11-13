@@ -1,4 +1,6 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.IO;
 
 namespace IxMilia.Dwg
@@ -15,9 +17,9 @@ namespace IxMilia.Dwg
             0xE0, 0xDA, 0x92, 0xF8, 0x2B, 0xc9, 0xD7, 0xD7, 0x62, 0xA8, 0x35, 0xC0, 0x62, 0xBB, 0xEF, 0xD4
         };
 
-        public byte[] HeaderData { get; set; }
-        public byte[] BmpData { get; set; }
-        public byte[] WmfData { get; set; }
+        public byte[]? HeaderData { get; set; }
+        public byte[]? BmpData { get; set; }
+        public byte[]? WmfData { get; set; }
 
         public void WriteBitmap(string path)
         {
@@ -29,6 +31,11 @@ namespace IxMilia.Dwg
 
         public void WriteBitmap(Stream stream)
         {
+            if (BmpData is null)
+            {
+                return;
+            }
+
             // write the required (but for some reason missing) 14 byte header
             var totalLength = BmpData.Length + 14;
             stream.WriteByte((byte)'B');
@@ -140,17 +147,17 @@ namespace IxMilia.Dwg
             writer.WriteBytes(StartSentinel);
 
             var imageCount = 0;
-            if (HeaderData?.Length > 0)
+            if ((HeaderData?.Length ?? 0) > 0)
             {
                 imageCount++;
             }
 
-            if (BmpData?.Length > 0)
+            if ((BmpData?.Length ?? 0) > 0)
             {
                 imageCount++;
             }
 
-            if (WmfData?.Length > 0)
+            if ((WmfData?.Length ?? 0) > 0)
             {
                 imageCount++;
             }
@@ -166,23 +173,23 @@ namespace IxMilia.Dwg
             writer.Write_RL(overallSize);
 
             writer.Write_RC((byte)imageCount);
-            if (HeaderData?.Length > 0)
+            if ((HeaderData?.Length ?? 0) > 0)
             {
                 writer.Write_RC(1);
                 writer.Write_RL(writer.Position - startOffset + offsetAdjustment); // start
-                writer.Write_RL(HeaderData.Length);
+                writer.Write_RL(HeaderData!.Length);
             }
-            if (BmpData?.Length > 0)
+            if ((BmpData?.Length ?? 0) > 0)
             {
                 writer.Write_RC(2);
                 writer.Write_RL(writer.Position - startOffset + offsetAdjustment); // start
-                writer.Write_RL(BmpData.Length);
+                writer.Write_RL(BmpData!.Length);
             }
-            if (WmfData?.Length > 0)
+            if ((WmfData?.Length ?? 0) > 0)
             {
                 writer.Write_RC(3);
                 writer.Write_RL(writer.Position - startOffset + offsetAdjustment); // start
-                writer.Write_RL(WmfData.Length);
+                writer.Write_RL(WmfData!.Length);
             }
 
             writer.WriteBytes(EndSentinel);

@@ -1,4 +1,6 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.Collections.Generic;
 
 namespace IxMilia.Dwg
@@ -38,7 +40,7 @@ namespace IxMilia.Dwg
             return $"{ApplicationName}|{CPlusPlusClassName}|{DxfClassName}";
         }
 
-        public static bool operator ==(DwgClassDefinition left, DwgClassDefinition right)
+        public static bool operator ==(DwgClassDefinition? left, DwgClassDefinition? right)
         {
             if (left is null && right is null)
             {
@@ -69,12 +71,17 @@ namespace IxMilia.Dwg
             return !(left == right);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            return Equals(obj as DwgClassDefinition);
+            if (obj is DwgClassDefinition classDef)
+            {
+                return Equals(classDef);
+            }
+
+            return false;
         }
 
-        public bool Equals(DwgClassDefinition other)
+        public bool Equals(DwgClassDefinition? other)
         {
             return this == other;
         }

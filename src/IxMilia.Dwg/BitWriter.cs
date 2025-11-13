@@ -1,4 +1,6 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -189,11 +191,6 @@ namespace IxMilia.Dwg
 
         public static void WriteByteAtPosition(byte[] data, byte value, int bitLocation)
         {
-            if (data == null)
-            {
-                throw new ArgumentNullException(nameof(data));
-            }
-
             if (bitLocation < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(bitLocation), "Location must not be negative.");

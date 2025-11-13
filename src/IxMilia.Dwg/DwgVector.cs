@@ -1,4 +1,6 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 
 namespace IxMilia.Dwg
 {
@@ -44,7 +46,7 @@ namespace IxMilia.Dwg
 
         public static bool operator !=(DwgVector p1, DwgVector p2) => !(p1 == p2);
 
-        public override bool Equals(object obj) => obj is DwgVector && this == (DwgVector)obj;
+        public override bool Equals(object? obj) => obj is DwgVector && this == (DwgVector)obj;
 
         public bool Equals(DwgVector other) => this == other;
 

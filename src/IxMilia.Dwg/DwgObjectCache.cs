@@ -1,4 +1,6 @@
-﻿using IxMilia.Dwg.Objects;
+﻿#nullable enable
+
+using IxMilia.Dwg.Objects;
 using System;
 using System.Collections.Generic;
 
@@ -8,7 +10,7 @@ namespace IxMilia.Dwg
     {
         private IDictionary<DwgHandle, int> _handleToOffset = new Dictionary<DwgHandle, int>();
         private IDictionary<DwgHandle, DwgObject> _handleToObject = new Dictionary<DwgHandle, DwgObject>();
-        private List<Tuple<DwgHandle, bool, Action<DwgObject>>> _lazyResolvers = new List<Tuple<DwgHandle, bool, Action<DwgObject>>>();
+        private List<Tuple<DwgHandle, bool, Action<DwgObject?>>> _lazyResolvers = new List<Tuple<DwgHandle, bool, Action<DwgObject?>>>();
         private DwgVersionId _version;
 
         public int ObjectCount => _handleToOffset.Count;
@@ -31,7 +33,7 @@ namespace IxMilia.Dwg
             throw new DwgReadException($"Unable to get offset for object handle {handle}");
         }
 
-        public DwgObject GetObject(BitReader reader, DwgHandle handle, bool allowNull = false)
+        public DwgObject? GetObject(BitReader reader, DwgHandle handle, bool allowNull = false)
         {
             if (_handleToObject.TryGetValue(handle, out var obj))
             {
@@ -46,7 +48,11 @@ namespace IxMilia.Dwg
                     throw new DwgReadException($"Unsupported object from handle {handle} at offset {offset}.");
                 }
 
-                _handleToObject.Add(handle, obj);
+                if (obj is not null)
+                {
+                    _handleToObject.Add(handle, obj);
+                }
+
                 return obj;
             }
 
@@ -60,12 +66,12 @@ namespace IxMilia.Dwg
         }
 
         // TODO: this should be the default
-        public void GetObjectLazy(DwgHandle handle, Action<DwgObject> onObjectResolved, bool allowNull = false)
+        public void GetObjectLazy(DwgHandle handle, Action<DwgObject?> onObjectResolved, bool allowNull = false)
         {
             _lazyResolvers.Add(Tuple.Create(handle, allowNull, onObjectResolved));
         }
 
-        public T GetObject<T>(BitReader reader, DwgHandle handle, bool allowNull = false) where T: DwgObject
+        public T? GetObject<T>(BitReader reader, DwgHandle handle, bool allowNull = false) where T: DwgObject
         {
             var obj = GetObject(reader, handle, allowNull);
             if (obj is null && allowNull)
@@ -78,10 +84,10 @@ namespace IxMilia.Dwg
                 return specific;
             }
 
-            throw new DwgReadException($"Expected object of type {typeof(T)} with handle {handle} but instead found {obj.GetType().Name}.");
+            throw new DwgReadException($"Expected object of type {typeof(T)} with handle {handle} but instead found {obj?.GetType().Name ?? "<null>"}.");
         }
 
-        public T GetObjectOrDefault<T>(BitReader reader, DwgHandle handle) where T: DwgObject
+        public T? GetObjectOrDefault<T>(BitReader reader, DwgHandle handle) where T: DwgObject
         {
             if (handle.IsNull)
             {
@@ -104,7 +110,7 @@ namespace IxMilia.Dwg
                 var handle = resolverPair.Item1;
                 var allowNull = resolverPair.Item2;
                 var resolverAction = resolverPair.Item3;
-                DwgObject resolved;
+                DwgObject? resolved;
                 if (!_handleToObject.TryGetValue(handle, out resolved))
                 {
                     if (allowNull)

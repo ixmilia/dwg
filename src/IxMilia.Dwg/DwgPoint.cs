@@ -1,4 +1,6 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 
 namespace IxMilia.Dwg
 {
@@ -30,7 +32,7 @@ namespace IxMilia.Dwg
 
         public static DwgPoint operator /(DwgPoint p, double scalar) => new DwgPoint(p.X / scalar, p.Y / scalar, p.Z / scalar);
 
-        public override bool Equals(object obj) => obj is DwgPoint && this == (DwgPoint)obj;
+        public override bool Equals(object? obj) => obj is DwgPoint && this == (DwgPoint)obj;
 
         public bool Equals(DwgPoint other) => this == other;
 

@@ -1,5 +1,8 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using IxMilia.Dwg.Objects;
 
@@ -108,7 +111,7 @@ namespace IxMilia.Dwg
             return _items.Remove(key);
         }
 
-        public bool TryGetValue(string key, out IList<DwgXDataItem> value)
+        public bool TryGetValue(string key, [NotNullWhen(returnValue: true)]out IList<DwgXDataItem>? value)
         {
             return _items.TryGetValue(key, out value);
         }

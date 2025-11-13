@@ -1,4 +1,6 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -18,7 +20,7 @@ namespace IxMilia.Dwg
             WriteData(writer);
         }
 
-        internal static DwgXDataItem Parse(BitReader reader, bool readListClosureAsNull = false)
+        internal static DwgXDataItem? Parse(BitReader reader, bool readListClosureAsNull = false)
         {
             var type = reader.ReadByte();
             switch (type)
@@ -62,7 +64,10 @@ namespace IxMilia.Dwg
             while (reader.RemainingBytes > 0)
             {
                 var item = Parse(reader);
-                items.Add(item);
+                if (item is not null)
+                {
+                    items.Add(item);
+                }
             }
 
             return items;
@@ -130,7 +135,7 @@ namespace IxMilia.Dwg
             writer.WriteByte(1);
         }
 
-        internal static DwgXDataItemList ParseItemList(BitReader reader, bool readListClosureAsNull = false)
+        internal static DwgXDataItemList? ParseItemList(BitReader reader, bool readListClosureAsNull = false)
         {
             var openingMark = reader.ReadByte();
             if (readListClosureAsNull && openingMark == 1)
@@ -254,7 +259,7 @@ namespace IxMilia.Dwg
 
         public DwgXDataBinaryChunk(byte[] data)
         {
-            Data = data ?? throw new ArgumentNullException(nameof(data));
+            Data = data;
             if (Data.Length > 256)
             {
                 throw new ArgumentOutOfRangeException(nameof(data), "Data must not exceed 256 bytes.");

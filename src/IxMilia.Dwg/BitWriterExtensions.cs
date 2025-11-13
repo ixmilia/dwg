@@ -1,4 +1,6 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -247,7 +249,7 @@ namespace IxMilia.Dwg
             return writer;
         }
 
-        public static BitWriter Write_T(this BitWriter writer, string value)
+        public static BitWriter Write_T(this BitWriter writer, string? value)
         {
             if (value == null)
             {

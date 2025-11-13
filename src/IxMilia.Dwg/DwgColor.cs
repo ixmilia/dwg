@@ -1,4 +1,6 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
 
@@ -104,7 +106,7 @@ namespace IxMilia.Dwg
             }
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj is DwgColor)
             {

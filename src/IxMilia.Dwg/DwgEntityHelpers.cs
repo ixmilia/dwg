@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿#nullable enable
+
+using System.Collections.Generic;
 using IxMilia.Dwg.Objects;
 
 namespace IxMilia.Dwg
@@ -60,22 +62,25 @@ namespace IxMilia.Dwg
             }
         }
 
-        public static IEnumerable<TEntity> EntitiesFromHandlePointer<TEntity>(DwgObjectCache objectCache, BitReader reader, DwgHandle initialHandle, DwgHandleReference startHandleReference)
+        public static IEnumerable<TEntity?> EntitiesFromHandlePointer<TEntity>(DwgObjectCache objectCache, BitReader reader, DwgHandle initialHandle, DwgHandleReference startHandleReference)
             where TEntity : DwgEntity
         {
-            var result = new List<TEntity>();
+            var result = new List<TEntity?>();
             var currentEntityHandle = initialHandle.ResolveHandleReference(startHandleReference);
             while (!currentEntityHandle.IsNull)
             {
                 var entity = objectCache.GetObject<TEntity>(reader, currentEntityHandle);
                 result.Add(entity);
-                currentEntityHandle = entity.ResolveHandleReference(entity.NextEntityHandle);
+                if (entity is not null)
+                {
+                    currentEntityHandle = entity.ResolveHandleReference(entity.NextEntityHandle);
+                }
             }
 
             return result;
         }
 
-        public static void PopulateEntityPointers<TEntity>(IList<TEntity> entities, ref DwgHandleReference firstEntityHandle, ref DwgHandleReference lastEntityHandle, DwgLayer layerToAssign = null)
+        public static void PopulateEntityPointers<TEntity>(IList<TEntity> entities, ref DwgHandleReference firstEntityHandle, ref DwgHandleReference lastEntityHandle, DwgLayer? layerToAssign = null)
             where TEntity : DwgEntity
         {
             for (int i = 0; i < entities.Count; i++)

@@ -1,4 +1,6 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,7 +13,7 @@ namespace IxMilia.Dwg
         public uint ObjectDataStart { get; }
         public List<long> AdditionalValues { get; }
 
-        public DwgObjectFreeSpaceSection(uint handleCount, DateTime updateTime, uint objectDataStart, IEnumerable<long> additionalValues = null)
+        public DwgObjectFreeSpaceSection(uint handleCount, DateTime updateTime, uint objectDataStart, IEnumerable<long>? additionalValues = null)
         {
             HandleCount = handleCount;
             UpdateTime = updateTime;

@@ -1,4 +1,6 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 
 namespace IxMilia.Dwg
 {
@@ -88,7 +90,7 @@ namespace IxMilia.Dwg
             return h1._rawValue != h2._rawValue;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is DwgHandle handle && _rawValue == handle._rawValue;
         }
@@ -103,9 +105,14 @@ namespace IxMilia.Dwg
             return $"{_rawValue:X}";
         }
 
-        public int CompareTo(object obj)
+        public int CompareTo(object? obj)
         {
-            return _rawValue.CompareTo(((DwgHandle)obj)._rawValue);
+            if (obj is DwgHandle handle)
+            {
+                return _rawValue.CompareTo(handle._rawValue);
+            }
+
+            return 1;
         }
     }
 }
