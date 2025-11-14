@@ -1,8 +1,10 @@
+#nullable enable
+
 namespace IxMilia.Dwg.Objects
 {
     public partial class DwgSpatialFilter
     {
-        public DwgObject Parent { get; set; }
+        public DwgObject? Parent { get; set; }
 
         internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {

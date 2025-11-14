@@ -1,6 +1,9 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace IxMilia.Dwg.Objects
 {
@@ -64,7 +67,7 @@ namespace IxMilia.Dwg.Objects
 
         public bool Remove(string key) => ((IDictionary<string, DwgViewPort>)_viewPorts).Remove(key);
 
-        public bool TryGetValue(string key, out DwgViewPort value) => ((IDictionary<string, DwgViewPort>)_viewPorts).TryGetValue(key, out value);
+        public bool TryGetValue(string key, [NotNullWhen(returnValue: true)] out DwgViewPort? value) => ((IDictionary<string, DwgViewPort>)_viewPorts).TryGetValue(key, out value);
 
         public void Add(KeyValuePair<string, DwgViewPort> item) => ((IDictionary<string, DwgViewPort>)_viewPorts).Add(item);
 

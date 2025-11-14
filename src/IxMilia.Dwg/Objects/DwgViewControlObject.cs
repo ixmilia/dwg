@@ -1,6 +1,9 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace IxMilia.Dwg.Objects
 {
@@ -64,7 +67,7 @@ namespace IxMilia.Dwg.Objects
 
         public bool Remove(string key) => ((IDictionary<string, DwgView>)_views).Remove(key);
 
-        public bool TryGetValue(string key, out DwgView value) => ((IDictionary<string, DwgView>)_views).TryGetValue(key, out value);
+        public bool TryGetValue(string key, [NotNullWhen(returnValue: true)] out DwgView? value) => ((IDictionary<string, DwgView>)_views).TryGetValue(key, out value);
 
         public void Add(KeyValuePair<string, DwgView> item) => ((IDictionary<string, DwgView>)_views).Add(item);
 

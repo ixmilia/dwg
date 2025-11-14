@@ -33,6 +33,12 @@ namespace IxMilia.Dwg
             throw new DwgReadException($"Unable to get offset for object handle {handle}");
         }
 
+        public DwgObject GetObject(BitReader reader, DwgHandle handle)
+        {
+            var result = GetObject(reader, handle, allowNull: false);
+            return result!;
+        }
+
         public DwgObject? GetObject(BitReader reader, DwgHandle handle, bool allowNull = false)
         {
             if (_handleToObject.TryGetValue(handle, out var obj))

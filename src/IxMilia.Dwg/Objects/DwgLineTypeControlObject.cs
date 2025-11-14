@@ -1,6 +1,9 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace IxMilia.Dwg.Objects
@@ -118,7 +121,7 @@ namespace IxMilia.Dwg.Objects
 
         public bool Remove(string key) => ((IDictionary<string, DwgLineType>)_lineTypes).Remove(key);
 
-        public bool TryGetValue(string key, out DwgLineType value) => ((IDictionary<string, DwgLineType>)_lineTypes).TryGetValue(key, out value);
+        public bool TryGetValue(string key, [NotNullWhen(returnValue: true)] out DwgLineType? value) => ((IDictionary<string, DwgLineType>)_lineTypes).TryGetValue(key, out value);
 
         public void Add(KeyValuePair<string, DwgLineType> item) => ((IDictionary<string, DwgLineType>)_lineTypes).Add(item);
 

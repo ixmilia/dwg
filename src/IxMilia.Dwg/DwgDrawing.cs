@@ -428,7 +428,12 @@ namespace IxMilia.Dwg
             }
         }
 
-        private static void EnsureCollectionContains<TKey, TValue>(IDictionary<TKey, TValue> collection, string collectionName, TValue item, string itemName, bool allowNull = false)
+        private static void EnsureCollectionContains<TKey, TValue>(IDictionary<TKey, TValue> collection, string collectionName, TValue item, string itemName)
+        {
+            EnsureCollectionContains<TKey, TValue>(collection, collectionName, item, itemName, allowNull: false);
+        }
+
+        private static void EnsureCollectionContains<TKey, TValue>(IDictionary<TKey, TValue> collection, string collectionName, TValue? item, string itemName, bool allowNull)
         {
             if (!allowNull)
             {

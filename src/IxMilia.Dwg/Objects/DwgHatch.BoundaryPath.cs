@@ -1,4 +1,6 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -54,9 +56,9 @@ namespace IxMilia.Dwg.Objects
                 writer.Write_2RD(Converters.DoublePoint(End));
             }
 
-            public override bool Equals(object obj) => Equals(obj as LineBoundaryPathEdge);
+            public override bool Equals(object? obj) => Equals(obj as LineBoundaryPathEdge);
 
-            public bool Equals(LineBoundaryPathEdge other)
+            public bool Equals(LineBoundaryPathEdge? other)
             {
                 return other is not null
                     && Start == other.Start

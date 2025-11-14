@@ -1,4 +1,6 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 
 namespace IxMilia.Dwg.Objects
 {
@@ -9,7 +11,7 @@ namespace IxMilia.Dwg.Objects
         {
             if (string.IsNullOrEmpty(name))
             {
-                throw new ArgumentNullException(nameof(name), "Name cannot be null.");
+                throw new ArgumentNullException(nameof(name), "Name cannot be empty.");
             }
 
             Name = name;

@@ -1,6 +1,9 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace IxMilia.Dwg.Objects
@@ -115,7 +118,7 @@ namespace IxMilia.Dwg.Objects
 
         public bool Remove(string key) => ((IDictionary<string, DwgBlockHeader>)_blockHeaders).Remove(key);
 
-        public bool TryGetValue(string key, out DwgBlockHeader value) => ((IDictionary<string, DwgBlockHeader>)_blockHeaders).TryGetValue(key, out value);
+        public bool TryGetValue(string key, [NotNullWhen(returnValue: true)] out DwgBlockHeader? value) => ((IDictionary<string, DwgBlockHeader>)_blockHeaders).TryGetValue(key, out value);
 
         public void Add(KeyValuePair<string, DwgBlockHeader> item) => ((IDictionary<string, DwgBlockHeader>)_blockHeaders).Add(item);
 

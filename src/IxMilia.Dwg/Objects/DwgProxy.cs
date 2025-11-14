@@ -1,8 +1,10 @@
+#nullable enable
+
 namespace IxMilia.Dwg.Objects
 {
     public partial class DwgProxy
     {
-        public DwgObject Parent { get; set; }
+        public DwgObject? Parent { get; set; }
 
         public byte[] RawData { get; set; }
         public byte TrailingBits { get; set; }

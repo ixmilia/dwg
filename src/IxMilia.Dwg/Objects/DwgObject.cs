@@ -1,4 +1,6 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -14,7 +16,7 @@ namespace IxMilia.Dwg.Objects
             set => _xdata = value ?? throw new ArgumentNullException("value");
         }
 
-        internal IDictionary<DwgHandle, IList<DwgXDataItem>> _xdataMap;
+        internal IDictionary<DwgHandle, IList<DwgXDataItem>>? _xdataMap;
         private bool _objectSizeVerified;
         protected int _objectSize;
         protected int _reactorCount;
@@ -116,7 +118,7 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal static DwgObject ParseRaw(BitReader reader, DwgVersionId version, IList<DwgClassDefinition> classes)
+        internal static DwgObject? ParseRaw(BitReader reader, DwgVersionId version, IList<DwgClassDefinition> classes)
         {
             var objectStart = reader.Offset;
             reader.StartCrcCheck();
@@ -172,14 +174,17 @@ namespace IxMilia.Dwg.Objects
             return obj;
         }
 
-        internal static DwgObject Parse(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
+        internal static DwgObject? Parse(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
             var obj = ParseRaw(reader, version, objectCache.Classes);
             if (obj != null)
             {
                 obj.OnAfterObjectRead(reader, objectCache, version);
-                obj.XData = DwgXData.FromMap(reader, objectCache, obj._xdataMap);
-                obj._xdataMap = null;
+                if (obj._xdataMap != null)
+                {
+                    obj.XData = DwgXData.FromMap(reader, objectCache, obj._xdataMap);
+                    obj._xdataMap = null;
+                }
             }
 
             return obj;
@@ -271,7 +276,7 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal DwgHandleReference GetHandleToObject(DwgObject other, DwgHandleReferenceCode absoluteCodeType, bool throwOnNull = false)
+        internal DwgHandleReference GetHandleToObject(DwgObject? other, DwgHandleReferenceCode absoluteCodeType, bool throwOnNull = false)
         {
             if (throwOnNull && other == null)
             {
