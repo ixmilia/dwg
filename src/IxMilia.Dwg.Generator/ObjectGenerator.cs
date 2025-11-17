@@ -152,7 +152,7 @@ namespace IxMilia.Dwg.Generator
             foreach (var o in _objects)
             {
                 var enableNullable = EnableNullable(o);
-                CreateNewFile("IxMilia.Dwg.Objects", enableNullable, "System", "System.Collections.Generic");
+                CreateNewFile("IxMilia.Dwg.Objects", enableNullable, "System", "System.Collections.Generic", "System.Diagnostics.CodeAnalysis");
 
                 IncreaseIndent();
                 var baseClass = BaseClass(o) ?? (IsEntity(o) ? "DwgEntity" : "DwgObject");
@@ -228,6 +228,18 @@ namespace IxMilia.Dwg.Generator
                 AppendLine();
 
                 // defaults
+                if (enableNullable)
+                {
+                    foreach (var p in o.Elements("Property"))
+                    {
+                        var t = Type(p);
+                        if (ReportTypeAsNotNull(t))
+                        {
+                            AppendLine($"[MemberNotNull(nameof({Name(p)}))]");
+                        }
+                    }
+                }
+
                 AppendLine("internal void SetDefaults()");
                 AppendLine("{");
                 IncreaseIndent();

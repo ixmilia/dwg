@@ -134,5 +134,16 @@ namespace IxMilia.Dwg.Generator
 
             return value;
         }
+
+        public bool ReportTypeAsNotNull(string typeName)
+        {
+            switch (typeName)
+            {
+                case "string":
+                    return true;
+                default:
+                    return false;
+            }
+        }
     }
 }

@@ -5,7 +5,7 @@
   Text
 
   -->
-  <Object Name="Text" Value="0x01" IsEntity="true" ConstructorAccessibility="internal">
+  <Object Name="Text" Value="0x01" IsEntity="true" ConstructorAccessibility="internal" EnableNullable="true">
     <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="InsertionPoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
     <Property Name="AlignmentPoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
@@ -15,7 +15,7 @@
     <Property Name="RotationAngle" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="Height" Type="double" BinaryType="BD" DefaultValue="1.0" />
     <Property Name="WidthFactor" Type="double" BinaryType="BD" DefaultValue="1.0" />
-    <Property Name="Value" Type="string" BinaryType="T" DefaultValue="null" />
+    <Property Name="Value" Type="string?" BinaryType="T" DefaultValue="null" />
     <Property Name="_generationFlags" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" Accessibility="private">
       <Flag Name="IsTextBackward" Mask="2" />
       <Flag Name="IsTextUpsideDown" Mask="4" />
@@ -29,7 +29,7 @@
   Attribute
 
   -->
-  <Object Name="Attribute" Value="0x02" IsEntity="true" ConstructorAccessibility="internal">
+  <Object Name="Attribute" Value="0x02" IsEntity="true" ConstructorAccessibility="internal" EnableNullable="true">
     <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="InsertionPoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
     <Property Name="AlignmentPoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
@@ -39,11 +39,11 @@
     <Property Name="RotationAngle" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="Height" Type="double" BinaryType="BD" DefaultValue="1.0" />
     <Property Name="WidthFactor" Type="double" BinaryType="BD" DefaultValue="1.0" />
-    <Property Name="Value" Type="string" BinaryType="T" DefaultValue="null" />
+    <Property Name="Value" Type="string?" BinaryType="T" DefaultValue="null" />
     <Property Name="Generation" Type="short" BinaryType="BS" DefaultValue="0" />
     <Property Name="HorizontalAlignment" Type="DwgHorizontalTextJustification" BinaryType="BS" DefaultValue="DwgHorizontalTextJustification.Left" ReadConverter="(DwgHorizontalTextJustification){0}" WriteConverter="(short){0}" />
     <Property Name="VerticalAlignment" Type="DwgVerticalTextJustification" BinaryType="BS" DefaultValue="DwgVerticalTextJustification.Baseline" ReadConverter="(DwgVerticalTextJustification){0}" WriteConverter="(short){0}" />
-    <Property Name="Tag" Type="string" BinaryType="T" DefaultValue="null" />
+    <Property Name="Tag" Type="string?" BinaryType="T" DefaultValue="null" />
     <Property Name="FieldLength" Type="short" BinaryType="BS" DefaultValue="0" />
     <Property Name="Flags" Type="byte" BinaryType="EC" DefaultValue="0" />
     <ObjectSizeEnd />
@@ -53,7 +53,7 @@
   Attribute definition
 
   -->
-  <Object Name="AttributeDefinition" Value="0x03" IsEntity="true" ConstructorAccessibility="internal">
+  <Object Name="AttributeDefinition" Value="0x03" IsEntity="true" ConstructorAccessibility="internal" EnableNullable="true">
     <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="InsertionPoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
     <Property Name="AlignmentPoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
@@ -63,14 +63,14 @@
     <Property Name="RotationAngle" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="Height" Type="double" BinaryType="BD" DefaultValue="1.0" />
     <Property Name="WidthFactor" Type="double" BinaryType="BD" DefaultValue="1.0" />
-    <Property Name="DefaultValue" Type="string" BinaryType="T" DefaultValue="null" />
+    <Property Name="DefaultValue" Type="string?" BinaryType="T" DefaultValue="null" />
     <Property Name="Generation" Type="short" BinaryType="BS" DefaultValue="0" />
     <Property Name="HorizontalAlignment" Type="DwgHorizontalTextJustification" BinaryType="BS" DefaultValue="DwgHorizontalTextJustification.Left" ReadConverter="(DwgHorizontalTextJustification){0}" WriteConverter="(short){0}" />
     <Property Name="VerticalAlignment" Type="DwgVerticalTextJustification" BinaryType="BS" DefaultValue="DwgVerticalTextJustification.Baseline" ReadConverter="(DwgVerticalTextJustification){0}" WriteConverter="(short){0}" />
-    <Property Name="Tag" Type="string" BinaryType="T" DefaultValue="null" />
+    <Property Name="Tag" Type="string?" BinaryType="T" DefaultValue="null" />
     <Property Name="FieldLength" Type="short" BinaryType="BS" DefaultValue="0" />
     <Property Name="Flags" Type="byte" BinaryType="RC" DefaultValue="0" />
-    <Property Name="Prompt" Type="string" BinaryType="T" DefaultValue="null" />
+    <Property Name="Prompt" Type="string?" BinaryType="T" DefaultValue="null" />
     <ObjectSizeEnd />
   </Object>
   <!--
@@ -78,8 +78,8 @@
   Block
 
   -->
-  <Object Name="Block" Value="0x04" IsEntity="true" ConstructorAccessibility="internal">
-    <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
+  <Object Name="Block" Value="0x04" IsEntity="true" ConstructorAccessibility="internal" EnableNullable="true">
+    <Property Name="Name" Type="string" BinaryType="T" DefaultValue="string.Empty" />
     <ObjectSizeEnd />
   </Object>
   <!--
@@ -87,7 +87,7 @@
   End block
 
   -->
-  <Object Name="EndBlock" Value="0x05" IsEntity="true">
+  <Object Name="EndBlock" Value="0x05" IsEntity="true" EnableNullable="true">
     <!-- only common values -->
     <ObjectSizeEnd />
   </Object>
@@ -96,7 +96,7 @@
   SEQEND
 
   -->
-  <Object Name="SeqEnd" Value="0x06" IsEntity="true">
+  <Object Name="SeqEnd" Value="0x06" IsEntity="true" EnableNullable="true">
     <!-- only common values -->
     <ObjectSizeEnd />
   </Object>
@@ -105,7 +105,7 @@
   INSERT
 
   -->
-  <Object Name="Insert" Value="0x07" IsEntity="true">
+  <Object Name="Insert" Value="0x07" IsEntity="true" EnableNullable="true">
     <Property Name="Location" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="XScale" Type="double" BinaryType="BD" DefaultValue="1.0" />
     <Property Name="YScale" Type="double" BinaryType="BD" DefaultValue="1.0" />
@@ -120,7 +120,7 @@
   MINSERT
 
   -->
-  <Object Name="MInsert" Value="0x08" IsEntity="true">
+  <Object Name="MInsert" Value="0x08" IsEntity="true" EnableNullable="true">
     <Property Name="Location" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="XScale" Type="double" BinaryType="BD" DefaultValue="1.0" />
     <Property Name="YScale" Type="double" BinaryType="BD" DefaultValue="1.0" />
@@ -144,7 +144,7 @@
   Vertex (2D)
 
   -->
-  <Object Name="Vertex2D" Value="0x0A" IsEntity="true" ConstructorAccessibility="internal">
+  <Object Name="Vertex2D" Value="0x0A" IsEntity="true" ConstructorAccessibility="internal" EnableNullable="true">
     <Property Name="Flags" Type="int" BinaryType="EC" DefaultValue="0" WriteConverter="(byte){0}" />
     <Property Name="Point" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="StartWidth" Type="double" BinaryType="BD" DefaultValue="0.0" WriteConverter="Converters.NegativeIfEqual(StartWidth, EndWidth)" />
@@ -158,7 +158,7 @@
   Vertex (3D)
 
   -->
-  <Object Name="Vertex3D" Value="0x0B" IsEntity="true" ConstructorAccessibility="internal">
+  <Object Name="Vertex3D" Value="0x0B" IsEntity="true" ConstructorAccessibility="internal" EnableNullable="true">
     <Property Name="Flags" Type="int" BinaryType="EC" DefaultValue="0x20" WriteConverter="(byte){0}" />
     <Property Name="Point" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <ObjectSizeEnd />
@@ -168,7 +168,7 @@
   Vertex (Mesh)
 
   -->
-  <Object Name="VertexMesh" Value="0x0C" IsEntity="true" ConstructorAccessibility="internal">
+  <Object Name="VertexMesh" Value="0x0C" IsEntity="true" ConstructorAccessibility="internal" EnableNullable="true">
     <Property Name="Flags" Type="int" BinaryType="EC" DefaultValue="0x40" WriteConverter="(byte){0}" />
     <Property Name="Point" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <ObjectSizeEnd />
@@ -178,7 +178,7 @@
   Vertex (PFace)
 
   -->
-  <Object Name="VertexPFace" Value="0x0D" IsEntity="true" ConstructorAccessibility="internal">
+  <Object Name="VertexPFace" Value="0x0D" IsEntity="true" ConstructorAccessibility="internal" EnableNullable="true">
     <Property Name="Flags" Type="int" BinaryType="EC" DefaultValue="0xC0" WriteConverter="(byte){0}" />
     <Property Name="Point" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <ObjectSizeEnd />
@@ -188,7 +188,7 @@
   Vertex (PFace Face)
 
   -->
-  <Object Name="VertexPFaceFace" Value="0x0E" IsEntity="true">
+  <Object Name="VertexPFaceFace" Value="0x0E" IsEntity="true" EnableNullable="true">
     <Property Name="Index1" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" />
     <Property Name="Index2" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" />
     <Property Name="Index3" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" />
@@ -200,7 +200,7 @@
   Polyline (2D)
 
   -->
-  <Object Name="Polyline2D" Value="0x0F" IsEntity="true">
+  <Object Name="Polyline2D" Value="0x0F" IsEntity="true" EnableNullable="true">
     <Property Name="Flags" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" />
     <Property Name="CurveType" Type="DwgCurveType" BinaryType="BS" DefaultValue="0" ReadConverter="(DwgCurveType){0}" WriteConverter="(short){0}" />
     <Property Name="StartWidth" Type="double" BinaryType="BD" DefaultValue="0.0" />
@@ -215,7 +215,7 @@
   Polyline (3D)
 
   -->
-  <Object Name="Polyline3D" Value="0x10" IsEntity="true">
+  <Object Name="Polyline3D" Value="0x10" IsEntity="true" EnableNullable="true">
     <Property Name="_flags1" Type="int" BinaryType="RC" DefaultValue="0" WriteConverter="(byte){0}" Accessibility="internal" />
     <Property Name="_flags2" Type="int" BinaryType="RC" DefaultValue="0b00001000" WriteConverter="(byte){0}" Accessibility="internal" />
     <ObjectSizeEnd />
@@ -225,7 +225,7 @@
   Arc
 
   -->
-  <Object Name="Arc" Value="0x11" IsEntity="true" ConstructorAccessibility="internal">
+  <Object Name="Arc" Value="0x11" IsEntity="true" ConstructorAccessibility="internal" EnableNullable="true">
     <Property Name="Center" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="Radius" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="Thickness" Type="double" BinaryType="BD" DefaultValue="1.0" />
@@ -239,7 +239,7 @@
   Circle
 
   -->
-  <Object Name="Circle" Value="0x12" IsEntity="true" ConstructorAccessibility="internal">
+  <Object Name="Circle" Value="0x12" IsEntity="true" ConstructorAccessibility="internal" EnableNullable="true">
     <Property Name="Center" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="Radius" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="Thickness" Type="double" BinaryType="BD" DefaultValue="1.0" />
@@ -251,7 +251,7 @@
   Line
 
   -->
-  <Object Name="Line" Value="0x13" IsEntity="true" ConstructorAccessibility="internal">
+  <Object Name="Line" Value="0x13" IsEntity="true" ConstructorAccessibility="internal" EnableNullable="true">
     <Property Name="P1" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="P2" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="Thickness" Type="double" BinaryType="BD" DefaultValue="0.0" />

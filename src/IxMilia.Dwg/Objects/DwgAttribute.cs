@@ -4,7 +4,7 @@ namespace IxMilia.Dwg.Objects
 {
     public partial class DwgAttribute
     {
-        public DwgAttribute(string value)
+        public DwgAttribute(string? value)
             : this()
         {
             Value = value;

@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
+﻿#nullable enable
+
+using System.Collections.Generic;
 using System.Linq;
 
 namespace IxMilia.Dwg.Objects
 {
     public partial class DwgInsert
     {
-        public DwgBlockHeader BlockHeader { get; set; }
+        public DwgBlockHeader BlockHeader { get; set; } = new DwgBlockHeader();
         public DwgSeqEnd SeqEnd { get; private set; } = new DwgSeqEnd();
         public List<DwgAttribute> Attributes { get; } = new List<DwgAttribute>();
 
