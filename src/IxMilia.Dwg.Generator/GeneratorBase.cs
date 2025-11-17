@@ -106,6 +106,7 @@ namespace IxMilia.Dwg.Generator
         public string? ReaderArgument(XElement xml) => AttributeValue(xml, "ReaderArgument");
         public string? ShortName(XElement xml) => AttributeValue(xml, "ShortName");
         public bool SkipCreation(XElement xml) => bool.Parse(AttributeValue(xml, "SkipCreation") ?? "false");
+        public bool SuppressConstructor(XElement xml) => bool.Parse(AttributeValue(xml, "SuppressConstructor") ?? "false");
         public string To(XElement xml) => AttributeValueNotNull(xml, "To");
         public string Type(XElement xml) => AttributeValueNotNull(xml, "Type");
         public string Value(XElement xml) => AttributeValueNotNull(xml, "Value");

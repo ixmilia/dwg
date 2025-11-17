@@ -263,7 +263,7 @@
   Dimension (Ordinate)
 
   -->
-  <Object Name="DimensionOrdinate" Value="0x14" IsEntity="true" BaseClass="DwgDimension">
+  <Object Name="DimensionOrdinate" Value="0x14" IsEntity="true" BaseClass="DwgDimension" SuppressConstructor="true" EnableNullable="true">
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
     <Property Name="TextMidpoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
     <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
@@ -285,7 +285,7 @@
   Dimension (Linear)
 
   -->
-  <Object Name="DimensionLinear" Value="0x15" IsEntity="true" BaseClass="DwgDimension">
+  <Object Name="DimensionLinear" Value="0x15" IsEntity="true" BaseClass="DwgDimension" SuppressConstructor="true" EnableNullable="true">
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
     <Property Name="TextMidpoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
     <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
@@ -308,7 +308,7 @@
   Dimension (Aligned)
 
   -->
-  <Object Name="DimensionAligned" Value="0x16" IsEntity="true" BaseClass="DwgDimension">
+  <Object Name="DimensionAligned" Value="0x16" IsEntity="true" BaseClass="DwgDimension" SuppressConstructor="true" EnableNullable="true">
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
     <Property Name="TextMidpoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
     <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
@@ -330,7 +330,7 @@
   Dimension (Angular 3 Point)
 
   -->
-  <Object Name="DimensionAngular3Point" Value="0x17" IsEntity="true" BaseClass="DwgDimension">
+  <Object Name="DimensionAngular3Point" Value="0x17" IsEntity="true" BaseClass="DwgDimension" SuppressConstructor="true" EnableNullable="true">
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
     <Property Name="TextMidpoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
     <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
@@ -352,7 +352,7 @@
   Dimension (Angular 2 Line)
 
   -->
-  <Object Name="DimensionAngular2Line" Value="0x18" IsEntity="true" BaseClass="DwgDimension">
+  <Object Name="DimensionAngular2Line" Value="0x18" IsEntity="true" BaseClass="DwgDimension" SuppressConstructor="true" EnableNullable="true">
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
     <Property Name="TextMidpoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
     <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
@@ -375,7 +375,7 @@
   Dimension (Radius)
 
   -->
-  <Object Name="DimensionRadius" Value="0x19" IsEntity="true" BaseClass="DwgDimension">
+  <Object Name="DimensionRadius" Value="0x19" IsEntity="true" BaseClass="DwgDimension" SuppressConstructor="true" EnableNullable="true">
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
     <Property Name="TextMidpoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
     <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
@@ -396,7 +396,7 @@
   Dimension (Diameter)
 
   -->
-  <Object Name="DimensionDiameter" Value="0x1A" IsEntity="true" BaseClass="DwgDimension">
+  <Object Name="DimensionDiameter" Value="0x1A" IsEntity="true" BaseClass="DwgDimension" SuppressConstructor="true" EnableNullable="true">
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
     <Property Name="TextMidpoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
     <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />

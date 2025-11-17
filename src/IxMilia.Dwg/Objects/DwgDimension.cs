@@ -1,4 +1,6 @@
-﻿namespace IxMilia.Dwg.Objects
+﻿#nullable enable
+
+namespace IxMilia.Dwg.Objects
 {
     public abstract class DwgDimension : DwgEntity
     {
@@ -8,6 +10,12 @@
         public DwgDimStyle DimensionStyle { get; set; }
 
         public DwgBlock AnonymousBlock { get; set; }
+
+        protected DwgDimension(DwgDimStyle dimensionStyle, DwgBlock anonymousBlock)
+        {
+            DimensionStyle = dimensionStyle;
+            AnonymousBlock = anonymousBlock;
+        }
 
         internal override void ReadPostData(BitReader reader, DwgVersionId version)
         {

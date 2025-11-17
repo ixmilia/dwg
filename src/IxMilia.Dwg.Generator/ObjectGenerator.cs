@@ -219,13 +219,16 @@ namespace IxMilia.Dwg.Generator
                 }
 
                 // .ctor
-                AppendLine($"{ConstructorAccessibility(o)} Dwg{Name(o)}()");
-                AppendLine("{");
-                IncreaseIndent();
-                AppendLine("SetDefaults();");
-                DecreaseIndent();
-                AppendLine("}");
-                AppendLine();
+                if (!SuppressConstructor(o))
+                {
+                    AppendLine($"{ConstructorAccessibility(o)} Dwg{Name(o)}()");
+                    AppendLine("{");
+                    IncreaseIndent();
+                    AppendLine("SetDefaults();");
+                    DecreaseIndent();
+                    AppendLine("}");
+                    AppendLine();
+                }
 
                 // defaults
                 if (enableNullable)
