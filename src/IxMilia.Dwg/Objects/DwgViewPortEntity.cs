@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿#nullable enable
+
+using System.Collections.Generic;
 
 namespace IxMilia.Dwg.Objects
 {
     public partial class DwgViewPortEntity
     {
-        public DwgViewPortEntityHeader ViewPortEntityHeader { get; set; }
+        public DwgViewPortEntityHeader ViewPortEntityHeader { get; set; } = new DwgViewPortEntityHeader();
 
         internal DwgHandleReference _viewPortEntityHeaderHandleReference;
 

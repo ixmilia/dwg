@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿#nullable enable
+
+using System.Collections.Generic;
 
 namespace IxMilia.Dwg.Objects
 {
@@ -7,15 +9,19 @@ namespace IxMilia.Dwg.Objects
         internal DwgHandleReference _associatedAnnotationHandleReference;
         internal DwgHandleReference _dimStyleHandleReference;
 
-        public DwgObject Annotation { get; set; }
+        public DwgObject? Annotation { get; set; }
 
-        public DwgDimStyle DimensionStyle { get; set; }
+        public DwgDimStyle DimensionStyle { get; set; } = new DwgDimStyle();
 
         internal override IEnumerable<DwgObject> ChildItems
         {
             get
             {
-                yield return Annotation;
+                if (Annotation is not null)
+                {
+                    yield return Annotation;
+                }
+
                 yield return DimensionStyle;
             }
         }
@@ -52,6 +58,11 @@ namespace IxMilia.Dwg.Objects
         {
             if (version == DwgVersionId.R14)
             {
+                if (Annotation is null)
+                {
+                    throw new DwgWriteException("Leader annotation cannot be null in R14 DWG files.");
+                }
+
                 _associatedAnnotationHandleReference = Annotation.MakeHandleReference(DwgHandleReferenceCode.SoftOwner);
             }
 

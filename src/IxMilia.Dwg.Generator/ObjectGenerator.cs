@@ -235,8 +235,7 @@ namespace IxMilia.Dwg.Generator
                 {
                     foreach (var p in o.Elements("Property"))
                     {
-                        var t = Type(p);
-                        if (ReportTypeAsNotNull(t))
+                        if (ReportPropertyAsNotNull(p))
                         {
                             AppendLine($"[MemberNotNull(nameof({Name(p)}))]");
                         }

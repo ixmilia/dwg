@@ -9,9 +9,9 @@ namespace IxMilia.Dwg.Objects
     public partial class DwgSpline
     {
         public DwgSplineType SplineType { get; set; }
-        public List<DwgPoint> FitPoints { get; private set; }
-        public List<double> KnotValues { get; private set; }
-        public List<DwgControlPoint> ControlPoints { get; private set; }
+        public List<DwgPoint> FitPoints { get; private set; } = new List<DwgPoint>();
+        public List<double> KnotValues { get; private set; } = new List<double>();
+        public List<DwgControlPoint> ControlPoints { get; private set; } = new List<DwgControlPoint>();
 
         internal override void WriteSpecific(BitWriter writer, DwgVersionId version)
         {

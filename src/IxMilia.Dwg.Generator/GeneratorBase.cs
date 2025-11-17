@@ -136,10 +136,14 @@ namespace IxMilia.Dwg.Generator
             return value;
         }
 
-        public bool ReportTypeAsNotNull(string typeName)
+        public bool ReportPropertyAsNotNull(XElement property)
         {
+            var typeName = Type(property);
             switch (typeName)
             {
+                case "DwgMLineVertex":
+                case "DwgPoint":
+                    return ReadCount(property) is not null; // new List<T>()
                 case "string":
                     return true;
                 default:

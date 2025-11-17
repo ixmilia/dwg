@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿#nullable enable
+
+using System.Collections.Generic;
 
 namespace IxMilia.Dwg.Objects
 {
     public partial class DwgShape
     {
-        public DwgStyle ShapeFile { get; set; }
+        public DwgStyle ShapeFile { get; set; } = new DwgStyle();
 
         private DwgHandleReference _shapeFileHandleReference;
 

@@ -6,8 +6,8 @@ namespace IxMilia.Dwg.Objects
 {
     public partial class DwgSolid3D
     {
-        public List<byte> RawData { get; private set; }
-        public List<byte> TrailingData { get; private set; }
+        public List<byte> RawData { get; private set; } = new List<byte>();
+        public List<byte> TrailingData { get; private set; } = new List<byte>();
         public int FinalBitCount { get; set; }
         public byte FinalByte { get; set; }
 

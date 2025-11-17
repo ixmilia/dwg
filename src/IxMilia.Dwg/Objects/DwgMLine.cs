@@ -1,4 +1,6 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,7 +10,7 @@ namespace IxMilia.Dwg.Objects
     {
         internal DwgHandleReference _mlineStyleHandleReference;
 
-        internal DwgMLineStyle MLineStyle { get; set; }
+        internal DwgMLineStyle MLineStyle { get; set; } = new DwgMLineStyle();
 
         internal override IEnumerable<DwgObject> ChildItems
         {
