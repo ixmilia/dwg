@@ -27,7 +27,7 @@ namespace IxMilia.Dwg.Generator
 
         private void OutputObjectTypeEnum()
         {
-            CreateNewFile("IxMilia.Dwg.Objects", false);
+            CreateNewFile("IxMilia.Dwg.Objects", true);
 
             IncreaseIndent();
 
@@ -66,7 +66,7 @@ namespace IxMilia.Dwg.Generator
 
             AppendLine();
 
-            AppendLine("public static string ClassNameFromTypeCode(DwgObjectType type)");
+            AppendLine("public static string? ClassNameFromTypeCode(DwgObjectType type)");
             AppendLine("{");
             IncreaseIndent();
             AppendLine("switch (type)");
@@ -84,7 +84,7 @@ namespace IxMilia.Dwg.Generator
             DecreaseIndent();
             AppendLine("}");
 
-            AppendLine("public static DwgClassDefinition GetClassDefinitionForObjectType(DwgObjectType type)");
+            AppendLine("public static DwgClassDefinition? GetClassDefinitionForObjectType(DwgObjectType type)");
             AppendLine("{");
             IncreaseIndent();
             AppendLine("switch (type)");
@@ -93,7 +93,7 @@ namespace IxMilia.Dwg.Generator
             foreach (var o in _objects.Where(o => AttributeValue(o, "CppClassName") != null))
             {
                 AppendLine($"case DwgObjectType.{Name(o)}:");
-                AppendLine($"    return new DwgClassDefinition(0, 0, \"ObjectDBX Classes\", \"{AttributeValue(o, "CppClassName")}\", ClassNameFromTypeCode(DwgObjectType.{Name(o)}), false, {(IsEntity(o) ? "true" : "false")});");
+                AppendLine($"    return new DwgClassDefinition(0, 0, \"ObjectDBX Classes\", \"{AttributeValue(o, "CppClassName")}\", ClassNameFromTypeCode(DwgObjectType.{Name(o)})!, false, {(IsEntity(o) ? "true" : "false")});");
             }
             AppendLine("default:");
             AppendLine("    return null;");
@@ -111,7 +111,7 @@ namespace IxMilia.Dwg.Generator
 
         private void OutputObjectBaseClass()
         {
-            CreateNewFile("IxMilia.Dwg.Objects", false, "System");
+            CreateNewFile("IxMilia.Dwg.Objects", true, "System");
 
             IncreaseIndent();
             AppendLine("public abstract partial class DwgObject");

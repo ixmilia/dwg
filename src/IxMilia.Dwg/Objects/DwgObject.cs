@@ -89,7 +89,7 @@ namespace IxMilia.Dwg.Objects
                 if (typeCode >= 500)
                 {
                     var className = DwgObjectTypeExtensions.ClassNameFromTypeCode(Type);
-                    if (!classMap.TryGetValue(className, out typeCode))
+                    if (className is null || !classMap.TryGetValue(className, out typeCode))
                     {
                         throw new InvalidOperationException($"Missing class '{className}' in drawing's {nameof(DwgDrawing.Classes)} collection");
                     }

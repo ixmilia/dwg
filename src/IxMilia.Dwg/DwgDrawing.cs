@@ -59,7 +59,7 @@ namespace IxMilia.Dwg
                 new DwgClassDefinition(0, 0, "ObjectDBX Classes", "AcDbDictionaryVar", "DICTIONARYVAR", false, false),
                 new DwgClassDefinition(0, 1152, "ObjectDBX Classes", "AcDbCellStyleMap", "CELLSTYLEMAP", false, false),
                 new DwgClassDefinition(0, 0, "ObjectDBX Classes", "AcDbXrecord", "XRECORD", false, false),
-                DwgObjectTypeExtensions.GetClassDefinitionForObjectType(DwgObjectType.LwPolyline),
+                DwgObjectTypeExtensions.GetClassDefinitionForObjectType(DwgObjectType.LwPolyline)!,
                 new DwgClassDefinition(0, 0, "ObjectDBX Classes", "AcDbHatch", "HATCH", false, true),
                 new DwgClassDefinition(0, 0, "ObjectDBX Classes", "AcDbPlaceHolder", "ACDBPLACEHOLDER", false, false),
                 new DwgClassDefinition(0, 0, "ObjectDBX Classes", "AcDbLayout", "LAYOUT", false, false),
