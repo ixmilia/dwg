@@ -14,13 +14,12 @@ namespace IxMilia.Dwg.Generator
         public ObjectGenerator(string outputDir)
             : base(outputDir)
         {
+            _xml = XDocument.Load(Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location)!, "Spec", "Objects.xml")).Root!;
+            _objects = _xml.Elements("Object").Where(IsImplemented);
         }
 
         public void Run()
         {
-            _xml = XDocument.Load(Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), "Spec", "Objects.xml")).Root;
-            _objects = _xml.Elements("Object").Where(IsImplemented);
-
             OutputObjectTypeEnum();
             OutputObjectBaseClass();
             OutputObjectClasses();
@@ -28,7 +27,7 @@ namespace IxMilia.Dwg.Generator
 
         private void OutputObjectTypeEnum()
         {
-            CreateNewFile("IxMilia.Dwg.Objects");
+            CreateNewFile("IxMilia.Dwg.Objects", false);
 
             IncreaseIndent();
 
@@ -112,7 +111,7 @@ namespace IxMilia.Dwg.Generator
 
         private void OutputObjectBaseClass()
         {
-            CreateNewFile("IxMilia.Dwg.Objects", "System");
+            CreateNewFile("IxMilia.Dwg.Objects", false, "System");
 
             IncreaseIndent();
             AppendLine("public abstract partial class DwgObject");
@@ -152,7 +151,8 @@ namespace IxMilia.Dwg.Generator
         {
             foreach (var o in _objects)
             {
-                CreateNewFile("IxMilia.Dwg.Objects", "System", "System.Collections.Generic");
+                var enableNullable = EnableNullable(o);
+                CreateNewFile("IxMilia.Dwg.Objects", enableNullable, "System", "System.Collections.Generic");
 
                 IncreaseIndent();
                 var baseClass = BaseClass(o) ?? (IsEntity(o) ? "DwgEntity" : "DwgObject");

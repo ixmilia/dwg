@@ -14,15 +14,14 @@ namespace IxMilia.Dwg.Generator
         public HeaderVariablesGenerator(string outputDir)
             : base(outputDir)
         {
+            _xml = XDocument.Load(Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location)!, "Spec", "HeaderVariables.xml")).Root!;
+            _variables = _xml.Elements("Variable");
+            _aliases = _xml.Element("ShortNameAliases")!.Elements("Alias");
         }
 
         public void Run()
         {
-            _xml = XDocument.Load(Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), "Spec", "HeaderVariables.xml")).Root;
-            _variables = _xml.Elements("Variable");
-            _aliases = _xml.Element("ShortNameAliases").Elements("Alias");
-
-            CreateNewFile("IxMilia.Dwg", "System");
+            CreateNewFile("IxMilia.Dwg", false, "System");
 
             IncreaseIndent();
             AppendLine("public partial class DwgHeaderVariables");
