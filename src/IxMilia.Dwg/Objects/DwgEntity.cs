@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿#nullable enable
+
+using System.Collections.Generic;
 
 namespace IxMilia.Dwg.Objects
 {
@@ -21,10 +23,16 @@ namespace IxMilia.Dwg.Objects
         protected short _invisibility;
         public DwgLayer Layer { get; set; }
         internal DwgHandleReference LayerHandleReference { get; set; }
-        public DwgLineType LineType { get; set; }
+        public DwgLineType? LineType { get; set; }
         internal DwgHandleReference LineTypeHandleReference { get; set; }
         internal DwgHandleReference PreviousEntityHandle { get; set; } = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0);
         internal DwgHandleReference NextEntityHandle { get; set; } = new DwgHandleReference(DwgHandleReferenceCode.HardPointer, 0);
+
+        // only exists for object creation during parsing
+        internal DwgEntity()
+        {
+            Layer = null!;
+        }
 
         internal virtual void OnBeforeEntityWrite(DwgVersionId version)
         {
