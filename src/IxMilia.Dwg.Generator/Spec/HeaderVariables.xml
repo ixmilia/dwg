@@ -183,11 +183,11 @@
   <Variable Name="DimensionVerticalTextPosition" BinaryType="BD" Type="double" DefaultValue="0.0" ShortName="DIMTVP" Comment="Text vertical position." />
   <Variable Name="DimensionToleranceDisplayScaleFactor" BinaryType="BD" Type="double" DefaultValue="1.0" ShortName="DIMTFAC" Comment="Dimension tolerance display factor." />
   <Variable Name="DimensionLineGap" BinaryType="BD" Type="double" DefaultValue="0.09" ShortName="DIMGAP" Comment="Dimension line gap." />
-  <Variable Name="DimensioningSuffix" BinaryType="T" Type="string" DefaultValue="null" ShortName="DIMPOST" Comment="General dimensioning suffix." />
-  <Variable Name="AlternateDimensioningSuffix" BinaryType="T" Type="string" DefaultValue="null" ShortName="DIMAPOST" Comment="Alternate dimensioning suffix." />
-  <Variable Name="ArrowBlockName" BinaryType="T" Type="string" DefaultValue="null" ShortName="DIMBLK" Comment="Arrow block name." />
-  <Variable Name="FirstArrowBlockName" BinaryType="T" Type="string" DefaultValue="null" ShortName="DIMBLK1" Comment="First arrow block name." />
-  <Variable Name="SecondArrowBlockName" BinaryType="T" Type="string" DefaultValue="null" ShortName="DIMBLK2" Comment="Second arrow block name." />
+  <Variable Name="DimensioningSuffix" BinaryType="T" Type="string" DefaultValue="string.Empty" ShortName="DIMPOST" Comment="General dimensioning suffix." />
+  <Variable Name="AlternateDimensioningSuffix" BinaryType="T" Type="string" DefaultValue="string.Empty" ShortName="DIMAPOST" Comment="Alternate dimensioning suffix." />
+  <Variable Name="ArrowBlockName" BinaryType="T" Type="string" DefaultValue="string.Empty" ShortName="DIMBLK" Comment="Arrow block name." />
+  <Variable Name="FirstArrowBlockName" BinaryType="T" Type="string" DefaultValue="string.Empty" ShortName="DIMBLK1" Comment="First arrow block name." />
+  <Variable Name="SecondArrowBlockName" BinaryType="T" Type="string" DefaultValue="string.Empty" ShortName="DIMBLK2" Comment="Second arrow block name." />
   <Variable Name="DimensionLineColor" BinaryType="BS" Type="DwgColor" DefaultValue="DwgColor.ByBlock" ShortName="DIMCLRD" ReadConverter="DwgColor.FromRawValue({0})" WriteConverter="{0}.RawValue" Comment="Dimension line color." />
   <Variable Name="DimensionExtensionLineColor" BinaryType="BS" Type="DwgColor" DefaultValue="DwgColor.ByBlock" ShortName="DIMCLRE" ReadConverter="DwgColor.FromRawValue({0})" WriteConverter="{0}.RawValue" Comment="Dimension extension line color." />
   <Variable Name="DimensionTextColor" BinaryType="BS" Type="DwgColor" DefaultValue="DwgColor.ByBlock" ShortName="DIMCLRT" ReadConverter="DwgColor.FromRawValue({0})" WriteConverter="{0}.RawValue" Comment="Dimension text color." />

@@ -21,7 +21,7 @@ namespace IxMilia.Dwg.Generator
 
         public void Run()
         {
-            CreateNewFile("IxMilia.Dwg", false, "System");
+            CreateNewFile("IxMilia.Dwg", true, "System", "System.Diagnostics.CodeAnalysis");
 
             IncreaseIndent();
             AppendLine("public partial class DwgHeaderVariables");
@@ -173,6 +173,14 @@ namespace IxMilia.Dwg.Generator
 
             // init
             AppendLine();
+            foreach (var v in _variables)
+            {
+                if (ReportPropertyAsNotNull(v))
+                {
+                    AppendLine($"[MemberNotNull(nameof({Name(v)}))]");
+                }
+            }
+
             AppendLine("public void SetDefaults()");
             AppendLine("{");
             IncreaseIndent();

@@ -82,7 +82,7 @@ namespace IxMilia.Dwg.Generator
 
         // xml helpers
         public string? AttributeValue(XElement xml, string attributeName) => xml?.Attribute(attributeName)?.Value;
-        public string AttributeValueNotNull(XElement xml, string attributeName) => AttributeValue(xml, attributeName) ?? throw new ArgumentNullException(nameof(attributeName));
+        public string AttributeValueNotNull(XElement xml, string attributeName) => AttributeValue(xml, attributeName) ?? throw new ArgumentNullException(attributeName);
 
         public string Accessibility(XElement xml, string defaultValue = "public") => AttributeValue(xml, "Accessibility") ?? defaultValue;
 
@@ -138,8 +138,13 @@ namespace IxMilia.Dwg.Generator
 
         public bool ReportPropertyAsNotNull(XElement property)
         {
-            var typeName = Type(property);
-            switch (typeName)
+            var nullableTypeName = AttributeValue(property, "Type");
+            if (nullableTypeName is null)
+            {
+                return false;
+            }
+
+            switch (nullableTypeName)
             {
                 case "DwgHandleReference":
                 case "DwgMLineVertex":
