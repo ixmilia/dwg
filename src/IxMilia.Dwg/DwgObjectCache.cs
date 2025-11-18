@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-using IxMilia.Dwg.Objects;
+﻿using IxMilia.Dwg.Objects;
 using System;
 using System.Collections.Generic;
 

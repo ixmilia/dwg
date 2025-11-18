@@ -21,7 +21,7 @@ namespace IxMilia.Dwg.Generator
 
         public void Run()
         {
-            CreateNewFile("IxMilia.Dwg", true, "System", "System.Diagnostics.CodeAnalysis");
+            CreateNewFile("IxMilia.Dwg", "System", "System.Diagnostics.CodeAnalysis");
 
             IncreaseIndent();
             AppendLine("public partial class DwgHeaderVariables");

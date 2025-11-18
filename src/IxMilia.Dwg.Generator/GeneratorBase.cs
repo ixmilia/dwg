@@ -18,7 +18,7 @@ namespace IxMilia.Dwg.Generator
             _sb = new StringBuilder();
         }
 
-        public void CreateNewFile(string ns, bool enableNullable, params string[] usings)
+        public void CreateNewFile(string ns, params string[] usings)
         {
             if (_writingFile)
             {
@@ -29,12 +29,8 @@ namespace IxMilia.Dwg.Generator
             _writingFile = true;
             _indentationLevel = 0;
 
-            if (enableNullable)
-            {
-                AppendLine("#nullable enable");
-                AppendLine();
-            }
-
+            AppendLine("#nullable enable"); // generated code always requires this
+            AppendLine();
             foreach (var u in usings)
             {
                 AppendLine($"using {u};");
@@ -94,7 +90,6 @@ namespace IxMilia.Dwg.Generator
         public bool CustomReader(XElement xml) => bool.Parse(AttributeValue(xml, "CustomReader") ?? "false");
         public bool CustomWriter(XElement xml) => bool.Parse(AttributeValue(xml, "CustomWriter") ?? "false");
         public string DefaultValue(XElement xml) => AttributeValueNotNull(xml, "DefaultValue");
-        public bool EnableNullable(XElement xml) => bool.Parse(AttributeValue(xml, "EnableNullable") ?? "false");
         public string From(XElement xml) => AttributeValueNotNull(xml, "From");
         public bool IsEntity(XElement xml) => bool.Parse(AttributeValue(xml, "IsEntity") ?? "false");
         public bool IsImplemented(XElement xml) => !bool.Parse(AttributeValue(xml, "NotImplemented") ?? "false");

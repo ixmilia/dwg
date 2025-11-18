@@ -5,7 +5,7 @@
   Text
 
   -->
-  <Object Name="Text" Value="0x01" IsEntity="true" ConstructorAccessibility="internal" EnableNullable="true">
+  <Object Name="Text" Value="0x01" IsEntity="true" ConstructorAccessibility="internal">
     <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="InsertionPoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
     <Property Name="AlignmentPoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
@@ -29,7 +29,7 @@
   Attribute
 
   -->
-  <Object Name="Attribute" Value="0x02" IsEntity="true" ConstructorAccessibility="internal" EnableNullable="true">
+  <Object Name="Attribute" Value="0x02" IsEntity="true" ConstructorAccessibility="internal">
     <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="InsertionPoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
     <Property Name="AlignmentPoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
@@ -53,7 +53,7 @@
   Attribute definition
 
   -->
-  <Object Name="AttributeDefinition" Value="0x03" IsEntity="true" ConstructorAccessibility="internal" EnableNullable="true">
+  <Object Name="AttributeDefinition" Value="0x03" IsEntity="true" ConstructorAccessibility="internal">
     <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="InsertionPoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
     <Property Name="AlignmentPoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
@@ -78,7 +78,7 @@
   Block
 
   -->
-  <Object Name="Block" Value="0x04" IsEntity="true" ConstructorAccessibility="internal" EnableNullable="true">
+  <Object Name="Block" Value="0x04" IsEntity="true" ConstructorAccessibility="internal">
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="string.Empty" />
     <ObjectSizeEnd />
   </Object>
@@ -87,7 +87,7 @@
   End block
 
   -->
-  <Object Name="EndBlock" Value="0x05" IsEntity="true" EnableNullable="true">
+  <Object Name="EndBlock" Value="0x05" IsEntity="true">
     <!-- only common values -->
     <ObjectSizeEnd />
   </Object>
@@ -96,7 +96,7 @@
   SEQEND
 
   -->
-  <Object Name="SeqEnd" Value="0x06" IsEntity="true" EnableNullable="true">
+  <Object Name="SeqEnd" Value="0x06" IsEntity="true">
     <!-- only common values -->
     <ObjectSizeEnd />
   </Object>
@@ -105,7 +105,7 @@
   INSERT
 
   -->
-  <Object Name="Insert" Value="0x07" IsEntity="true" EnableNullable="true">
+  <Object Name="Insert" Value="0x07" IsEntity="true">
     <Property Name="Location" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="XScale" Type="double" BinaryType="BD" DefaultValue="1.0" />
     <Property Name="YScale" Type="double" BinaryType="BD" DefaultValue="1.0" />
@@ -120,7 +120,7 @@
   MINSERT
 
   -->
-  <Object Name="MInsert" Value="0x08" IsEntity="true" EnableNullable="true">
+  <Object Name="MInsert" Value="0x08" IsEntity="true">
     <Property Name="Location" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="XScale" Type="double" BinaryType="BD" DefaultValue="1.0" />
     <Property Name="YScale" Type="double" BinaryType="BD" DefaultValue="1.0" />
@@ -144,7 +144,7 @@
   Vertex (2D)
 
   -->
-  <Object Name="Vertex2D" Value="0x0A" IsEntity="true" ConstructorAccessibility="internal" EnableNullable="true">
+  <Object Name="Vertex2D" Value="0x0A" IsEntity="true" ConstructorAccessibility="internal">
     <Property Name="Flags" Type="int" BinaryType="EC" DefaultValue="0" WriteConverter="(byte){0}" />
     <Property Name="Point" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="StartWidth" Type="double" BinaryType="BD" DefaultValue="0.0" WriteConverter="Converters.NegativeIfEqual(StartWidth, EndWidth)" />
@@ -158,7 +158,7 @@
   Vertex (3D)
 
   -->
-  <Object Name="Vertex3D" Value="0x0B" IsEntity="true" ConstructorAccessibility="internal" EnableNullable="true">
+  <Object Name="Vertex3D" Value="0x0B" IsEntity="true" ConstructorAccessibility="internal">
     <Property Name="Flags" Type="int" BinaryType="EC" DefaultValue="0x20" WriteConverter="(byte){0}" />
     <Property Name="Point" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <ObjectSizeEnd />
@@ -168,7 +168,7 @@
   Vertex (Mesh)
 
   -->
-  <Object Name="VertexMesh" Value="0x0C" IsEntity="true" ConstructorAccessibility="internal" EnableNullable="true">
+  <Object Name="VertexMesh" Value="0x0C" IsEntity="true" ConstructorAccessibility="internal">
     <Property Name="Flags" Type="int" BinaryType="EC" DefaultValue="0x40" WriteConverter="(byte){0}" />
     <Property Name="Point" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <ObjectSizeEnd />
@@ -178,7 +178,7 @@
   Vertex (PFace)
 
   -->
-  <Object Name="VertexPFace" Value="0x0D" IsEntity="true" ConstructorAccessibility="internal" EnableNullable="true">
+  <Object Name="VertexPFace" Value="0x0D" IsEntity="true" ConstructorAccessibility="internal">
     <Property Name="Flags" Type="int" BinaryType="EC" DefaultValue="0xC0" WriteConverter="(byte){0}" />
     <Property Name="Point" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <ObjectSizeEnd />
@@ -188,7 +188,7 @@
   Vertex (PFace Face)
 
   -->
-  <Object Name="VertexPFaceFace" Value="0x0E" IsEntity="true" EnableNullable="true">
+  <Object Name="VertexPFaceFace" Value="0x0E" IsEntity="true">
     <Property Name="Index1" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" />
     <Property Name="Index2" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" />
     <Property Name="Index3" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" />
@@ -200,7 +200,7 @@
   Polyline (2D)
 
   -->
-  <Object Name="Polyline2D" Value="0x0F" IsEntity="true" EnableNullable="true">
+  <Object Name="Polyline2D" Value="0x0F" IsEntity="true">
     <Property Name="Flags" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" />
     <Property Name="CurveType" Type="DwgCurveType" BinaryType="BS" DefaultValue="0" ReadConverter="(DwgCurveType){0}" WriteConverter="(short){0}" />
     <Property Name="StartWidth" Type="double" BinaryType="BD" DefaultValue="0.0" />
@@ -215,7 +215,7 @@
   Polyline (3D)
 
   -->
-  <Object Name="Polyline3D" Value="0x10" IsEntity="true" EnableNullable="true">
+  <Object Name="Polyline3D" Value="0x10" IsEntity="true">
     <Property Name="_flags1" Type="int" BinaryType="RC" DefaultValue="0" WriteConverter="(byte){0}" Accessibility="internal" />
     <Property Name="_flags2" Type="int" BinaryType="RC" DefaultValue="0b00001000" WriteConverter="(byte){0}" Accessibility="internal" />
     <ObjectSizeEnd />
@@ -225,7 +225,7 @@
   Arc
 
   -->
-  <Object Name="Arc" Value="0x11" IsEntity="true" ConstructorAccessibility="internal" EnableNullable="true">
+  <Object Name="Arc" Value="0x11" IsEntity="true" ConstructorAccessibility="internal">
     <Property Name="Center" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="Radius" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="Thickness" Type="double" BinaryType="BD" DefaultValue="1.0" />
@@ -239,7 +239,7 @@
   Circle
 
   -->
-  <Object Name="Circle" Value="0x12" IsEntity="true" ConstructorAccessibility="internal" EnableNullable="true">
+  <Object Name="Circle" Value="0x12" IsEntity="true" ConstructorAccessibility="internal">
     <Property Name="Center" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="Radius" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="Thickness" Type="double" BinaryType="BD" DefaultValue="1.0" />
@@ -251,7 +251,7 @@
   Line
 
   -->
-  <Object Name="Line" Value="0x13" IsEntity="true" ConstructorAccessibility="internal" EnableNullable="true">
+  <Object Name="Line" Value="0x13" IsEntity="true" ConstructorAccessibility="internal">
     <Property Name="P1" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="P2" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="Thickness" Type="double" BinaryType="BD" DefaultValue="0.0" />
@@ -263,7 +263,7 @@
   Dimension (Ordinate)
 
   -->
-  <Object Name="DimensionOrdinate" Value="0x14" IsEntity="true" BaseClass="DwgDimension" SuppressConstructor="true" EnableNullable="true">
+  <Object Name="DimensionOrdinate" Value="0x14" IsEntity="true" BaseClass="DwgDimension" SuppressConstructor="true">
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
     <Property Name="TextMidpoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
     <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
@@ -285,7 +285,7 @@
   Dimension (Linear)
 
   -->
-  <Object Name="DimensionLinear" Value="0x15" IsEntity="true" BaseClass="DwgDimension" SuppressConstructor="true" EnableNullable="true">
+  <Object Name="DimensionLinear" Value="0x15" IsEntity="true" BaseClass="DwgDimension" SuppressConstructor="true">
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
     <Property Name="TextMidpoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
     <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
@@ -308,7 +308,7 @@
   Dimension (Aligned)
 
   -->
-  <Object Name="DimensionAligned" Value="0x16" IsEntity="true" BaseClass="DwgDimension" SuppressConstructor="true" EnableNullable="true">
+  <Object Name="DimensionAligned" Value="0x16" IsEntity="true" BaseClass="DwgDimension" SuppressConstructor="true">
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
     <Property Name="TextMidpoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
     <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
@@ -330,7 +330,7 @@
   Dimension (Angular 3 Point)
 
   -->
-  <Object Name="DimensionAngular3Point" Value="0x17" IsEntity="true" BaseClass="DwgDimension" SuppressConstructor="true" EnableNullable="true">
+  <Object Name="DimensionAngular3Point" Value="0x17" IsEntity="true" BaseClass="DwgDimension" SuppressConstructor="true">
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
     <Property Name="TextMidpoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
     <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
@@ -352,7 +352,7 @@
   Dimension (Angular 2 Line)
 
   -->
-  <Object Name="DimensionAngular2Line" Value="0x18" IsEntity="true" BaseClass="DwgDimension" SuppressConstructor="true" EnableNullable="true">
+  <Object Name="DimensionAngular2Line" Value="0x18" IsEntity="true" BaseClass="DwgDimension" SuppressConstructor="true">
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
     <Property Name="TextMidpoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
     <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
@@ -375,7 +375,7 @@
   Dimension (Radius)
 
   -->
-  <Object Name="DimensionRadius" Value="0x19" IsEntity="true" BaseClass="DwgDimension" SuppressConstructor="true" EnableNullable="true">
+  <Object Name="DimensionRadius" Value="0x19" IsEntity="true" BaseClass="DwgDimension" SuppressConstructor="true">
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
     <Property Name="TextMidpoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
     <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
@@ -396,7 +396,7 @@
   Dimension (Diameter)
 
   -->
-  <Object Name="DimensionDiameter" Value="0x1A" IsEntity="true" BaseClass="DwgDimension" SuppressConstructor="true" EnableNullable="true">
+  <Object Name="DimensionDiameter" Value="0x1A" IsEntity="true" BaseClass="DwgDimension" SuppressConstructor="true">
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
     <Property Name="TextMidpoint" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
     <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
@@ -417,7 +417,7 @@
   Location
 
   -->
-  <Object Name="Location" Value="0x1B" IsEntity="true" ConstructorAccessibility="internal" EnableNullable="true">
+  <Object Name="Location" Value="0x1B" IsEntity="true" ConstructorAccessibility="internal">
     <Property Name="Point" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="Thickness" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
@@ -429,7 +429,7 @@
   3D Face
 
   -->
-  <Object Name="Face3D" Value="0x1C" IsEntity="true" ConstructorAccessibility="internal" EnableNullable="true">
+  <Object Name="Face3D" Value="0x1C" IsEntity="true" ConstructorAccessibility="internal">
     <Property Name="FirstCorner" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="SecondCorner" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="ThirdCorner" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
@@ -442,7 +442,7 @@
   Polyline (PFace)
 
   -->
-  <Object Name="PolylinePFace" Value="0x1D" IsEntity="true" EnableNullable="true">
+  <Object Name="PolylinePFace" Value="0x1D" IsEntity="true">
     <Property Name="_vertexCount" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" Accessibility="internal" />
     <Property Name="_faceCount" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" Accessibility="internal" />
     <ObjectSizeEnd />
@@ -452,7 +452,7 @@
   Polyline (Mesh)
 
   -->
-  <Object Name="PolylineMesh" Value="0x1E" IsEntity="true" EnableNullable="true">
+  <Object Name="PolylineMesh" Value="0x1E" IsEntity="true">
     <Property Name="Flags" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" />
     <Property Name="CurveType" Type="DwgCurveType" BinaryType="BS" DefaultValue="DwgCurveType.None" ReadConverter="(DwgCurveType){0}" WriteConverter="(short){0}" />
     <Property Name="_mVertexCount" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" Accessibility="internal" />
@@ -466,7 +466,7 @@
   Solid
 
   -->
-  <Object Name="Solid" Value="0x1F" IsEntity="true" EnableNullable="true">
+  <Object Name="Solid" Value="0x1F" IsEntity="true">
     <Property Name="Thickness" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="FirstCorner" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
@@ -481,7 +481,7 @@
   Trace
 
   -->
-  <Object Name="Trace" Value="0x20" IsEntity="true" EnableNullable="true">
+  <Object Name="Trace" Value="0x20" IsEntity="true">
     <Property Name="Thickness" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="FirstCorner" Type="DwgPoint" BinaryType="2RD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
@@ -496,7 +496,7 @@
   Shape
 
   -->
-  <Object Name="Shape" Value="0x21" IsEntity="true" EnableNullable="true">
+  <Object Name="Shape" Value="0x21" IsEntity="true">
     <Property Name="InsertionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="Scale" Type="double" BinaryType="BD" DefaultValue="1.0" />
     <Property Name="Rotation" Type="double" BinaryType="BD" DefaultValue="0.0" />
@@ -512,7 +512,7 @@
   Viewport entity
 
   -->
-  <Object Name="ViewPortEntity" Value="0x22" IsEntity="true" EnableNullable="true">
+  <Object Name="ViewPortEntity" Value="0x22" IsEntity="true">
     <Property Name="Center" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="Width" Type="double" BinaryType="BD" DefaultValue="10.0" />
     <Property Name="Height" Type="double" BinaryType="BD" DefaultValue="10.0" />
@@ -523,7 +523,7 @@
   Ellipse
 
   -->
-  <Object Name="Ellipse" Value="0x23" IsEntity="true" ConstructorAccessibility="internal" EnableNullable="true">
+  <Object Name="Ellipse" Value="0x23" IsEntity="true" ConstructorAccessibility="internal">
     <Property Name="Center" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="MajorAxis" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.XAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
@@ -537,7 +537,7 @@
   Spline
 
   -->
-  <Object Name="Spline" Value="0x24" IsEntity="true" CustomReader="true" CustomWriter="true" EnableNullable="true">
+  <Object Name="Spline" Value="0x24" IsEntity="true" CustomReader="true" CustomWriter="true">
     <Property Name="SplineType" Type="DwgSplineType" BinaryType="BS" DefaultValue="DwgSplineType.FitPointsOnly" SkipCreation="true" />
     <Property Name="Degree" Type="int" BinaryType="BS" DefaultValue="3" WriteConverter="(short){0}" />
     <!-- if (scenario == 2) -->
@@ -561,7 +561,7 @@
   Region
 
   -->
-  <Object Name="Region" Value="0x25" IsEntity="true" CustomReader="true" CustomWriter="true" EnableNullable="true">
+  <Object Name="Region" Value="0x25" IsEntity="true" CustomReader="true" CustomWriter="true">
     <Property Name="RawData" Type="byte" BinaryType="RC" DefaultValue="new List&lt;byte&gt;()" SkipCreation="true" />
     <Property Name="TrailingData" Type="byte" BinaryType="RC" DefaultValue="new List&lt;byte&gt;()" SkipCreation="true" />
     <Property Name="FinalBitCount" Type="int" BinaryType="BL" DefaultValue="0" SkipCreation="true" />
@@ -573,7 +573,7 @@
   3D Solid
 
   -->
-  <Object Name="Solid3D" Value="0x26" IsEntity="true" CustomReader="true" CustomWriter="true" EnableNullable="true">
+  <Object Name="Solid3D" Value="0x26" IsEntity="true" CustomReader="true" CustomWriter="true">
     <Property Name="RawData" Type="byte" BinaryType="RC" DefaultValue="new List&lt;byte&gt;()" SkipCreation="true" />
     <Property Name="TrailingData" Type="byte" BinaryType="RC" DefaultValue="new List&lt;byte&gt;()" SkipCreation="true" />
     <Property Name="FinalBitCount" Type="int" BinaryType="BL" DefaultValue="0" SkipCreation="true" />
@@ -585,7 +585,7 @@
   Body
 
   -->
-  <Object Name="Body" Value="0x27" IsEntity="true" CustomReader="true" CustomWriter="true" EnableNullable="true">
+  <Object Name="Body" Value="0x27" IsEntity="true" CustomReader="true" CustomWriter="true">
     <Property Name="RawData" Type="byte" BinaryType="RC" DefaultValue="new List&lt;byte&gt;()" SkipCreation="true" />
     <Property Name="TrailingData" Type="byte" BinaryType="RC" DefaultValue="new List&lt;byte&gt;()" SkipCreation="true" />
     <Property Name="FinalBitCount" Type="int" BinaryType="BL" DefaultValue="0" SkipCreation="true" />
@@ -597,7 +597,7 @@
   Ray
 
   -->
-  <Object Name="Ray" Value="0x28" IsEntity="true" ConstructorAccessibility="internal" EnableNullable="true">
+  <Object Name="Ray" Value="0x28" IsEntity="true" ConstructorAccessibility="internal">
     <Property Name="Point" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="Vector" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.XAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
     <ObjectSizeEnd />
@@ -607,7 +607,7 @@
   XLine
 
   -->
-  <Object Name="XLine" Value="0x29" IsEntity="true" ConstructorAccessibility="internal" EnableNullable="true">
+  <Object Name="XLine" Value="0x29" IsEntity="true" ConstructorAccessibility="internal">
     <Property Name="Point" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="Vector" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.XAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
     <ObjectSizeEnd />
@@ -617,7 +617,7 @@
   Dictionary
 
   -->
-  <Object Name="Dictionary" Value="0x2A" IsEntity="false" EnableNullable="true">
+  <Object Name="Dictionary" Value="0x2A" IsEntity="false">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
     <Property Name="_unknown" Type="byte" BinaryType="RC" DefaultValue="0" Accessibility="private" ReadCondition="version == DwgVersionId.R14" WriteCondition="version == DwgVersionId.R14" />
     <Property Name="_names" Type="string" BinaryType="T" DefaultValue="new List&lt;string&gt;()" Accessibility="internal" ReadCount="_entityCount" />
@@ -639,7 +639,7 @@
   MText
 
   -->
-  <Object Name="MText" Value="0x2C" IsEntity="true" EnableNullable="true">
+  <Object Name="MText" Value="0x2C" IsEntity="true">
     <Property Name="InsertionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
     <Property Name="XAxisDirection" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.XAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
@@ -657,7 +657,7 @@
   Leader
 
   -->
-  <Object Name="Leader" Value="0x2D" IsEntity="true" EnableNullable="true">
+  <Object Name="Leader" Value="0x2D" IsEntity="true">
     <Property Name="_unknownBit1" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
     <Property Name="AnnotationType" Type="DwgAnnotationType" BinaryType="BS" DefaultValue="DwgAnnotationType.MText" ReadConverter="(DwgAnnotationType){0}" WriteConverter="(short){0}" />
     <Property Name="PathType" Type="short" BinaryType="BS" DefaultValue="0" />
@@ -688,7 +688,7 @@
   Tolerance
 
   -->
-  <Object Name="Tolerance" Value="0x2E" IsEntity="true" EnableNullable="true">
+  <Object Name="Tolerance" Value="0x2E" IsEntity="true">
     <Property Name="_unknownShort" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
     <Property Name="Height" Type="double" BinaryType="BD" DefaultValue="0.18" />
     <Property Name="DimensionLineGap" Type="double" BinaryType="BD" DefaultValue="0.09" />
@@ -703,7 +703,7 @@
   MLine
 
   -->
-  <Object Name="MLine" Value="0x2F" IsEntity="true" CustomReader="true" CustomWriter="true" EnableNullable="true">
+  <Object Name="MLine" Value="0x2F" IsEntity="true" CustomReader="true" CustomWriter="true">
     <Property Name="Scale" Type="double" BinaryType="BD" DefaultValue="1.0" />
     <Property Name="Justification" Type="DwgJustification" BinaryType="EC" DefaultValue="DwgJustification.Top" />
     <Property Name="BasePoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" />
@@ -717,7 +717,7 @@
   Block control
 
   -->
-  <Object Name="BlockControlObject" Value="0x30" IsEntity="false" EnableNullable="true">
+  <Object Name="BlockControlObject" Value="0x30" IsEntity="false">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
     <ObjectSizeEnd />
 
@@ -733,7 +733,7 @@
   Block header
 
   -->
-  <Object Name="BlockHeader" Value="0x31" IsEntity="false" ConstructorAccessibility="internal" EnableNullable="true">
+  <Object Name="BlockHeader" Value="0x31" IsEntity="false" ConstructorAccessibility="internal">
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="string.Empty" />
     <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
     <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
@@ -761,7 +761,7 @@
   Layer control
 
   -->
-  <Object Name="LayerControlObject" Value="0x32" IsEntity="false" EnableNullable="true">
+  <Object Name="LayerControlObject" Value="0x32" IsEntity="false">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
     <ObjectSizeEnd />
 
@@ -775,7 +775,7 @@
   Layer
 
   -->
-  <Object Name="Layer" Value="0x33" IsEntity="false" SuppressConstructor="true" EnableNullable="true">
+  <Object Name="Layer" Value="0x33" IsEntity="false" SuppressConstructor="true">
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="string.Empty" />
     <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
     <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
@@ -799,7 +799,7 @@
   Style control
 
   -->
-  <Object Name="StyleControlObject" Value="0x34" IsEntity="false" EnableNullable="true">
+  <Object Name="StyleControlObject" Value="0x34" IsEntity="false">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
     <ObjectSizeEnd />
 
@@ -813,7 +813,7 @@
   Style
 
   -->
-  <Object Name="Style" Value="0x35" IsEntity="false" ConstructorAccessibility="internal" EnableNullable="true">
+  <Object Name="Style" Value="0x35" IsEntity="false" ConstructorAccessibility="internal">
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="string.Empty" />
     <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
     <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
@@ -850,7 +850,7 @@
   Line Type control
 
   -->
-  <Object Name="LineTypeControlObject" Value="0x38" IsEntity="false" ConstructorAccessibility="internal" EnableNullable="true">
+  <Object Name="LineTypeControlObject" Value="0x38" IsEntity="false" ConstructorAccessibility="internal">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
     <ObjectSizeEnd />
 
@@ -866,7 +866,7 @@
   Line Type
 
   -->
-  <Object Name="LineType" Value="0x39" IsEntity="false" CustomReader="true" CustomWriter="true" ConstructorAccessibility="internal" EnableNullable="true">
+  <Object Name="LineType" Value="0x39" IsEntity="false" CustomReader="true" CustomWriter="true" ConstructorAccessibility="internal">
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="string.Empty" />
     <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="true" Accessibility="private" />
     <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="private" />
@@ -900,7 +900,7 @@
   View control
 
   -->
-  <Object Name="ViewControlObject" Value="0x3C" IsEntity="false" EnableNullable="true">
+  <Object Name="ViewControlObject" Value="0x3C" IsEntity="false">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
     <ObjectSizeEnd />
 
@@ -914,7 +914,7 @@
   View
 
   -->
-  <Object Name="View" Value="0x3D" IsEntity="false" ConstructorAccessibility="internal" EnableNullable="true">
+  <Object Name="View" Value="0x3D" IsEntity="false" ConstructorAccessibility="internal">
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="string.Empty" />
     <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
     <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
@@ -943,7 +943,7 @@
   UCS control
 
   -->
-  <Object Name="UCSControlObject" Value="0x3E" IsEntity="false" EnableNullable="true">
+  <Object Name="UCSControlObject" Value="0x3E" IsEntity="false">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
     <ObjectSizeEnd />
 
@@ -957,7 +957,7 @@
   UCS
 
   -->
-  <Object Name="UCS" Value="0x3F" IsEntity="false" ConstructorAccessibility="internal" EnableNullable="true">
+  <Object Name="UCS" Value="0x3F" IsEntity="false" ConstructorAccessibility="internal">
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="string.Empty" />
     <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
     <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
@@ -978,7 +978,7 @@
   View port control
 
   -->
-  <Object Name="ViewPortControlObject" Value="0x40" IsEntity="false" EnableNullable="true">
+  <Object Name="ViewPortControlObject" Value="0x40" IsEntity="false">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
     <ObjectSizeEnd />
 
@@ -992,7 +992,7 @@
   View port
 
   -->
-  <Object Name="ViewPort" Value="0x41" IsEntity="false" ConstructorAccessibility="internal" EnableNullable="true">
+  <Object Name="ViewPort" Value="0x41" IsEntity="false" ConstructorAccessibility="internal">
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="string.Empty" />
     <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
     <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
@@ -1034,7 +1034,7 @@
   AppId control
 
   -->
-  <Object Name="AppIdControlObject" Value="0x42" IsEntity="false" EnableNullable="true">
+  <Object Name="AppIdControlObject" Value="0x42" IsEntity="false">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
     <ObjectSizeEnd />
 
@@ -1048,7 +1048,7 @@
   AppId
 
   -->
-  <Object Name="AppId" Value="0x43" IsEntity="false" ConstructorAccessibility="internal" EnableNullable="true">
+  <Object Name="AppId" Value="0x43" IsEntity="false" ConstructorAccessibility="internal">
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="string.Empty" />
     <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
     <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
@@ -1067,7 +1067,7 @@
   Dim style control
 
   -->
-  <Object Name="DimStyleControlObject" Value="0x44" IsEntity="false" EnableNullable="true">
+  <Object Name="DimStyleControlObject" Value="0x44" IsEntity="false">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
     <ObjectSizeEnd />
 
@@ -1081,7 +1081,7 @@
   Dim style
 
   -->
-  <Object Name="DimStyle" Value="0x45" IsEntity="false" SuppressConstructor="true" EnableNullable="true">
+  <Object Name="DimStyle" Value="0x45" IsEntity="false" SuppressConstructor="true">
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="string.Empty" />
     <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
     <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
@@ -1155,7 +1155,7 @@
   View port entity header control
 
   -->
-  <Object Name="ViewPortEntityHeaderControlObject" Value="0x46" IsEntity="false" EnableNullable="true">
+  <Object Name="ViewPortEntityHeaderControlObject" Value="0x46" IsEntity="false">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
     <ObjectSizeEnd />
 
@@ -1169,7 +1169,7 @@
   View port entity header
 
   -->
-  <Object Name="ViewPortEntityHeader" Value="0x47" IsEntity="false" ConstructorAccessibility="internal" EnableNullable="true">
+  <Object Name="ViewPortEntityHeader" Value="0x47" IsEntity="false" ConstructorAccessibility="internal">
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="string.Empty" />
     <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
     <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
@@ -1188,7 +1188,7 @@
   Group
 
   -->
-  <Object Name="Group" Value="0x48" IsEntity="false" EnableNullable="true">
+  <Object Name="Group" Value="0x48" IsEntity="false">
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="string.Empty" />
     <Property Name="_isUnnamed" Type="bool" BinaryType="BS" DefaultValue="false" ReadConverter="Converters.BoolShort({0})" WriteConverter="(short)(Name == null ? 1 : 0)" Accessibility="internal" />
     <Property Name="IsSelectable" Type="bool" BinaryType="BS" DefaultValue="true" ReadConverter="Converters.BoolShort({0})" WriteConverter="Converters.BoolShort({0})" />
@@ -1201,7 +1201,7 @@
   MLine style
 
   -->
-  <Object Name="MLineStyle" Value="0x49" IsEntity="false" CustomReader="true" CustomWriter="true" ConstructorAccessibility="internal" EnableNullable="true">
+  <Object Name="MLineStyle" Value="0x49" IsEntity="false" CustomReader="true" CustomWriter="true" ConstructorAccessibility="internal">
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="string.Empty" />
     <Property Name="Description" Type="string" BinaryType="T" DefaultValue="string.Empty" />
     <Property Name="Flags" Type="short" BinaryType="BS" DefaultValue="0" />
@@ -1230,7 +1230,7 @@
   DICTIONARYVAR
 
   -->
-  <Object Name="DictionaryVar" Value="500" IsEntity="false" ClassName="DICTIONARYVAR" CppClassName="DictionaryVariables" EnableNullable="true">
+  <Object Name="DictionaryVar" Value="500" IsEntity="false" ClassName="DICTIONARYVAR" CppClassName="DictionaryVariables">
     <Property Name="IntVal" Type="int" BinaryType="RC" DefaultValue="0x00" WriteConverter="(byte){0}" />
     <Property Name="Str" Type="string" BinaryType="T" DefaultValue="string.Empty" />
     <ObjectSizeEnd />
@@ -1245,7 +1245,7 @@
   Hatch
 
   -->
-  <Object Name="Hatch" Value="501" IsEntity="true" ClassName="HATCH" CppClassName="AcDbHatch" CustomReader="true" CustomWriter="true" EnableNullable="true">
+  <Object Name="Hatch" Value="501" IsEntity="true" ClassName="HATCH" CppClassName="AcDbHatch" CustomReader="true" CustomWriter="true">
     <Property Name="Elevation" Type="double" BinaryType="BD" DefaultValue="0.0" />
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" />
     <Property Name="Name" Type="string" BinaryType="T" DefaultValue="string.Empty" />
@@ -1264,7 +1264,7 @@
   ID buffer
 
   -->
-  <Object Name="IdBuffer" Value="502" IsEntity="false" ClassName="IDBUFFER" CppClassName="AcDbIdBuffer" EnableNullable="true">
+  <Object Name="IdBuffer" Value="502" IsEntity="false" ClassName="IDBUFFER" CppClassName="AcDbIdBuffer">
     <Property Name="_unknownRc" Type="byte" BinaryType="RC" DefaultValue="0x00" Accessibility="internal" />
     <Property Name="_objectIdCount" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="internal" />
     <ObjectSizeEnd />
@@ -1276,7 +1276,7 @@
   Image
 
   -->
-  <Object Name="Image" Value="503" IsEntity="true" ClassName="IMAGE" CppClassName="AcDbRasterImage" EnableNullable="true">
+  <Object Name="Image" Value="503" IsEntity="true" ClassName="IMAGE" CppClassName="AcDbRasterImage">
     <Property Name="ClassVersion" Type="int" BinaryType="BL" DefaultValue="0" />
     <Property Name="InsertionPoint" Type="DwgPoint" BinaryType="3BD" DefaultValue="DwgPoint.Origin" ReadConverter="Converters.TriplePoint({0})" WriteConverter="Converters.TriplePoint({0})" />
     <Property Name="UVector" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.XAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
@@ -1304,7 +1304,7 @@
   Image definition
 
   -->
-  <Object Name="ImageDefinition" Value="504" IsEntity="false" ClassName="IMAGEDEF" CppClassName="AcDbRasterImageDef" EnableNullable="true">
+  <Object Name="ImageDefinition" Value="504" IsEntity="false" ClassName="IMAGEDEF" CppClassName="AcDbRasterImageDef">
     <Property Name="ClassVersion" Type="int" BinaryType="BL" DefaultValue="0" />
     <Property Name="ImageWidth" Type="double" BinaryType="RD" DefaultValue="0.0" />
     <Property Name="ImageHeight" Type="double" BinaryType="RD" DefaultValue="0.0" />
@@ -1325,7 +1325,7 @@
   Image definition reactor
 
   -->
-  <Object Name="ImageDefinitionReactor" Value="505" IsEntity="false" ClassName="IMAGEDEF_REACTOR" CppClassName="AcDbRasterImageDefReactor" EnableNullable="true">
+  <Object Name="ImageDefinitionReactor" Value="505" IsEntity="false" ClassName="IMAGEDEF_REACTOR" CppClassName="AcDbRasterImageDefReactor">
     <Property Name="ClassVersion" Type="int" BinaryType="BL" DefaultValue="2" />
     <ObjectSizeEnd />
   </Object>
@@ -1334,7 +1334,7 @@
   Layer index
 
   -->
-  <Object Name="LayerIndex" Value="506" IsEntity="false" ClassName="LAYER_INDEX" CppClassName="AcDbLayerIndex" CustomReader="true" CustomWriter="true" EnableNullable="true">
+  <Object Name="LayerIndex" Value="506" IsEntity="false" ClassName="LAYER_INDEX" CppClassName="AcDbLayerIndex" CustomReader="true" CustomWriter="true">
     <Property Name="TimeStamp" Type="DateTime" BinaryType="2BL" DefaultValue="new DateTime()" />
     <Property Name="_entryCount" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="internal" />
     <Property Name="_layerIndices" Type="int" BinaryType="BL" DefaultValue="new List&lt;int&gt;()" Accessibility="internal" ReadCount="_entryCount" />
@@ -1352,7 +1352,7 @@
   LW Polyline
 
   -->
-  <Object Name="LwPolyline" Value="507" IsEntity="true" ClassName="LWPOLYLINE" CppClassName="AcDbPolyline" EnableNullable="true">
+  <Object Name="LwPolyline" Value="507" IsEntity="true" ClassName="LWPOLYLINE" CppClassName="AcDbPolyline">
     <Property Name="_flags" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" Accessibility="private">
       <Flag Name="HasNormal" Mask="1" /> 
       <Flag Name="HasThickness" Mask="2" />
@@ -1378,7 +1378,7 @@
   OLE2 frame
 
   -->
-  <Object Name="Ole2Frame" Value="508" IsEntity="true" ClassName="OLE2FRAME" CppClassName="AcDbOle2Frame" EnableNullable="true">
+  <Object Name="Ole2Frame" Value="508" IsEntity="true" ClassName="OLE2FRAME" CppClassName="AcDbOle2Frame">
     <Property Name="Flags" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" />
     <Property Name="_dataLength" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="internal" />
     <Property Name="Data" Type="byte" BinaryType="RC" DefaultValue="new List&lt;byte&gt;()" ReadCount="_dataLength" />
@@ -1389,7 +1389,7 @@
   Proxy
 
   -->
-  <Object Name="Proxy" Value="509" IsEntity="false" ClassName="PROXY" CppClassName="AcDbProxyObject" CustomReader="true" CustomWriter="true" EnableNullable="true">
+  <Object Name="Proxy" Value="509" IsEntity="false" ClassName="PROXY" CppClassName="AcDbProxyObject" CustomReader="true" CustomWriter="true">
     <!-- consists entirely of unknown bits -->
     <ObjectSizeEnd />
 
@@ -1401,7 +1401,7 @@
   Raster variables
 
   -->
-  <Object Name="RasterVariables" Value="510" IsEntity="false" ClassName="RASTERVARIABLES" CppClassName="AcDbRasterVariables" EnableNullable="true">
+  <Object Name="RasterVariables" Value="510" IsEntity="false" ClassName="RASTERVARIABLES" CppClassName="AcDbRasterVariables">
     <Property Name="ClassVersion" Type="int" BinaryType="BL" DefaultValue="0" />
     <Property Name="DisplayFrame" Type="bool" BinaryType="BS" DefaultValue="false" ReadConverter="Converters.BoolShort({0})" WriteConverter="Converters.BoolShort({0})" />
     <Property Name="IsHighQuality" Type="bool" BinaryType="BS" DefaultValue="false" ReadConverter="Converters.BoolShort({0})" WriteConverter="Converters.BoolShort({0})" />
@@ -1413,7 +1413,7 @@
   Sortents table
 
   -->
-  <Object Name="SortEntsTable" Value="511" IsEntity="false" ClassName="SORTENTSTABLE" CppClassName="AcDbSortentsTable" SuppressConstructor="true" EnableNullable="true">
+  <Object Name="SortEntsTable" Value="511" IsEntity="false" ClassName="SORTENTSTABLE" CppClassName="AcDbSortentsTable" SuppressConstructor="true">
     <Property Name="_entryCount" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="internal" />
     <Property Name="_sortHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" ReadCount="_entryCount" Accessibility="internal" />
     <ObjectSizeEnd />
@@ -1430,7 +1430,7 @@
   Spatial filter
 
   -->
-  <Object Name="SpatialFilter" Value="512" IsEntity="false" ClassName="SPATIAL_FILTER" CppClassName="AcDbSpatialFilter" EnableNullable="true">
+  <Object Name="SpatialFilter" Value="512" IsEntity="false" ClassName="SPATIAL_FILTER" CppClassName="AcDbSpatialFilter">
     <Property Name="_pointCount" Type="int" BinaryType="BS" DefaultValue="0" WriteConverter="(short){0}" Accessibility="internal" />
     <Property Name="ClippingPoints" Type="DwgPoint" BinaryType="2RD" DefaultValue="new List&lt;DwgPoint&gt;()" ReadCount="_pointCount" ReadConverter="Converters.DoublePoint({0})" WriteConverter="Converters.DoublePoint({0})" />
     <Property Name="Extrusion" Type="DwgVector" BinaryType="3BD" DefaultValue="DwgVector.ZAxis" ReadConverter="Converters.TripleVector({0})" WriteConverter="Converters.TripleVector({0})" />
@@ -1454,7 +1454,7 @@
   Spatial index
 
   -->
-  <Object Name="SpatialIndex" Value="513" IsEntity="false" ClassName="SPATIAL_INDEX" CppClassName="AcDbIndex" CustomReader="true" CustomWriter="true" EnableNullable="true">
+  <Object Name="SpatialIndex" Value="513" IsEntity="false" ClassName="SPATIAL_INDEX" CppClassName="AcDbIndex" CustomReader="true" CustomWriter="true">
     <Property Name="TimeStamp" Type="DateTime" BinaryType="2BL" DefaultValue="new DateTime()" ReadConverter="Converters.JulianDate({0})" WriteConverter="Converters.JulianDate({0})" />
     <ObjectSizeEnd />
 
@@ -1468,7 +1468,7 @@
   XRecord
 
   -->
-  <Object Name="XRecord" Value="514" IsEntity="false" ClassName="XRECORD" CppClassName="AcDbXrecord" CustomReader="true" CustomWriter="true" EnableNullable="true">
+  <Object Name="XRecord" Value="514" IsEntity="false" ClassName="XRECORD" CppClassName="AcDbXrecord" CustomReader="true" CustomWriter="true">
     <Property Name="_dataSize" Type="int" BinaryType="BL" DefaultValue="0" Accessibility="internal" />
     <ObjectSizeEnd />
 

@@ -1,5 +1,3 @@
-#nullable enable
-
 namespace IxMilia.Dwg.Objects
 {
     public partial class DwgSpatialFilter

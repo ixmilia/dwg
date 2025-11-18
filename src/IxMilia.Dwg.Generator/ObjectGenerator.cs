@@ -27,7 +27,7 @@ namespace IxMilia.Dwg.Generator
 
         private void OutputObjectTypeEnum()
         {
-            CreateNewFile("IxMilia.Dwg.Objects", true);
+            CreateNewFile("IxMilia.Dwg.Objects");
 
             IncreaseIndent();
 
@@ -111,7 +111,7 @@ namespace IxMilia.Dwg.Generator
 
         private void OutputObjectBaseClass()
         {
-            CreateNewFile("IxMilia.Dwg.Objects", true, "System");
+            CreateNewFile("IxMilia.Dwg.Objects", "System");
 
             IncreaseIndent();
             AppendLine("public abstract partial class DwgObject");
@@ -151,8 +151,7 @@ namespace IxMilia.Dwg.Generator
         {
             foreach (var o in _objects)
             {
-                var enableNullable = EnableNullable(o);
-                CreateNewFile("IxMilia.Dwg.Objects", enableNullable, "System", "System.Collections.Generic", "System.Diagnostics.CodeAnalysis");
+                CreateNewFile("IxMilia.Dwg.Objects", "System", "System.Collections.Generic", "System.Diagnostics.CodeAnalysis");
 
                 IncreaseIndent();
                 var baseClass = BaseClass(o) ?? (IsEntity(o) ? "DwgEntity" : "DwgObject");
@@ -231,14 +230,11 @@ namespace IxMilia.Dwg.Generator
                 }
 
                 // defaults
-                if (enableNullable)
+                foreach (var p in o.Elements("Property"))
                 {
-                    foreach (var p in o.Elements("Property"))
+                    if (ReportPropertyAsNotNull(p))
                     {
-                        if (ReportPropertyAsNotNull(p))
-                        {
-                            AppendLine($"[MemberNotNull(nameof({Name(p)}))]");
-                        }
+                        AppendLine($"[MemberNotNull(nameof({Name(p)}))]");
                     }
                 }
 

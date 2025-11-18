@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace IxMilia.Dwg
+﻿namespace IxMilia.Dwg
 {
     public enum DwgAnnotationType
     {
