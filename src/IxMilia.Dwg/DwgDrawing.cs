@@ -10,7 +10,7 @@ namespace IxMilia.Dwg
     {
         public DwgFileHeader FileHeader { get; private set; }
         public DwgHeaderVariables Variables { get; private set; }
-        public IList<DwgClassDefinition> Classes { get; private set; }
+        public IList<DwgClassDefinition?> Classes { get; private set; }
         public DwgImageData ImageData { get; private set; }
         public DwgBlockControlObject BlockHeaders { get; private set; }
         public DwgLayerControlObject Layers { get; private set; }
@@ -45,7 +45,7 @@ namespace IxMilia.Dwg
         {
             FileHeader = new DwgFileHeader(DwgVersionId.Default, 0, 0, 30);
             Variables = new DwgHeaderVariables();
-            Classes = new List<DwgClassDefinition>()
+            Classes = new List<DwgClassDefinition?>()
             {
                 new DwgClassDefinition(0, 0, "ObjectDBX Classes", "AcDbDictionaryWithDefault", "ACDBDICTIONARYWDFLT", false, false),
                 new DwgClassDefinition(0, 1153, "ObjectDBX Classes", "AcDbScale", "SCALE", false, false),
@@ -387,7 +387,7 @@ namespace IxMilia.Dwg
 
         private void EnsureClasses()
         {
-            var classNames = new HashSet<string>(Classes.Select(c => c.DxfClassName));
+            var classNames = new HashSet<string>(Classes.Where(c => c is not null).Select(c => c!.DxfClassName));
             foreach (var entity in ModelSpaceBlockRecord.Entities)
             {
                 EnsureClassesFromObject(entity, classNames);
@@ -472,7 +472,12 @@ namespace IxMilia.Dwg
             var classMap = new Dictionary<string, short>();
             for (int i = 0; i < Classes.Count; i++)
             {
-                classMap.Add(Classes[i].DxfClassName.ToUpperInvariant(), Classes[i].Number);
+                if (Classes[i] is null)
+                {
+                    continue;
+                }
+
+                classMap.Add(Classes[i]!.DxfClassName.ToUpperInvariant(), Classes[i]!.Number);
             }
 
             var appIdMap = AppIds.ToDictionary(appId => appId.Key, appId => appId.Value.Handle);

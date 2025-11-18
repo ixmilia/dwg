@@ -11,7 +11,7 @@ namespace IxMilia.Dwg.Test
         protected static T Parse<T>(params int[] data) where T : DwgXDataItem
         {
             var reader = Bits(data);
-            var item = (T)DwgXDataItem.Parse(reader);
+            var item = (T)DwgXDataItem.Parse(reader)!;
             Assert.Equal(0, reader.RemainingBytes);
             return item;
         }
@@ -280,9 +280,9 @@ namespace IxMilia.Dwg.Test
         }
 
         #region xdata item comparer
-        private class DwgXDataItemComparer : IEqualityComparer<DwgXDataItem>
+        private class DwgXDataItemComparer : IEqualityComparer<DwgXDataItem?>
         {
-            public bool Equals(DwgXDataItem x, DwgXDataItem y)
+            public bool Equals(DwgXDataItem? x, DwgXDataItem? y)
             {
                 return x switch
                 {

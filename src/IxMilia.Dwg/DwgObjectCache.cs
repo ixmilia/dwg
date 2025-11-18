@@ -13,9 +13,9 @@ namespace IxMilia.Dwg
 
         public int ObjectCount => _handleToOffset.Count;
 
-        public IList<DwgClassDefinition> Classes { get; }
+        public IList<DwgClassDefinition?> Classes { get; }
 
-        private DwgObjectCache(DwgVersionId version, IList<DwgClassDefinition> classes)
+        private DwgObjectCache(DwgVersionId version, IList<DwgClassDefinition?> classes)
         {
             _version = version;
             Classes = classes;
@@ -137,7 +137,7 @@ namespace IxMilia.Dwg
             }
         }
 
-        public static DwgObjectCache Parse(BitReader reader, DwgVersionId version, IList<DwgClassDefinition> classes)
+        public static DwgObjectCache Parse(BitReader reader, DwgVersionId version, IList<DwgClassDefinition?> classes)
         {
             var objectCache = new DwgObjectCache(version, classes);
             var lastHandle = 0u;

@@ -121,9 +121,9 @@ namespace Examples
             drawing.SaveExample();
         }
 
-        private static string GetSampleImagePath([CallerFilePath] string testFilePath = null)
+        private static string GetSampleImagePath([CallerFilePath] string? testFilePath = null)
         {
-            var thisDirectory = Path.GetDirectoryName(testFilePath);
+            var thisDirectory = Path.GetDirectoryName(testFilePath)!;
             var sampleImagesDirectory = Path.Combine(thisDirectory, "Images");
             var sampleImagePath = Path.Combine(sampleImagesDirectory, "arrow.png");
             return sampleImagePath;

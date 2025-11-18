@@ -28,7 +28,7 @@ namespace IxMilia.Dwg.Integration.Test
             }
         }
 
-        private DwgDrawing RoundTripDrawingThroughAutoCad(DwgDrawing drawing, [CallerMemberName] string testName = null)
+        private DwgDrawing RoundTripDrawingThroughAutoCad(DwgDrawing drawing, [CallerMemberName] string? testName = null)
         {
             var temp = new TestCaseDirectory($"test-{testName}");
             var inputFile = Path.Combine(temp.DirectoryPath, "input.dwg");
@@ -60,7 +60,7 @@ namespace IxMilia.Dwg.Integration.Test
 
         private void ExecuteAutoCadScriptOnDrawing(string pathToScript, string pathToInputDrawing)
         {
-            WaitForProcess(AutoCADExistsFactAttribute.GetPathToAutoCad(), $"/i \"{pathToInputDrawing}\" /s \"{pathToScript}\"", TimeSpan.FromSeconds(30));
+            WaitForProcess(AutoCADExistsFactAttribute.GetPathToAutoCad()!, $"/i \"{pathToInputDrawing}\" /s \"{pathToScript}\"", TimeSpan.FromSeconds(30));
             // TODO: kill all instances of senddmp.exe and fail if present
         }
     }

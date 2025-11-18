@@ -16,7 +16,7 @@ namespace IxMilia.Dwg.Integration.Test
             public TestCaseDirectory(string subDirectoryName)
             {
                 DirectoryPath = Path.Combine(
-                    Path.GetDirectoryName(GetType().Assembly.Location),
+                    Path.GetDirectoryName(GetType().Assembly.Location)!,
                     "integration-tests",
                     subDirectoryName
                 );

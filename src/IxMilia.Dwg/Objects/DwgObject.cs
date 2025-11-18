@@ -116,7 +116,7 @@ namespace IxMilia.Dwg.Objects
             }
         }
 
-        internal static DwgObject? ParseRaw(BitReader reader, DwgVersionId version, IList<DwgClassDefinition> classes)
+        internal static DwgObject? ParseRaw(BitReader reader, DwgVersionId version, IList<DwgClassDefinition?> classes)
         {
             var objectStart = reader.Offset;
             reader.StartCrcCheck();
@@ -129,7 +129,13 @@ namespace IxMilia.Dwg.Objects
                 if ((typeCode - 500) <= classes.Count)
                 {
                     // non-static type code
-                    var className = classes[typeCode - 500].DxfClassName;
+                    var theClass = classes[typeCode - 500];
+                    if (theClass is null)
+                    {
+                        return null;
+                    }
+
+                    var className = theClass.DxfClassName;
                     var dynamicTypeCode = DwgObjectTypeExtensions.TypeCodeFromClassName(className);
                     if (!dynamicTypeCode.HasValue)
                     {

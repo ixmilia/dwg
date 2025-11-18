@@ -6,9 +6,9 @@ namespace Examples
 {
     internal static class TestExtensions
     {
-        internal static void SaveExample(this DwgDrawing drawing, [CallerFilePath] string testFilePath = null, [CallerMemberName] string testName = null)
+        internal static void SaveExample(this DwgDrawing drawing, [CallerFilePath] string? testFilePath = null, [CallerMemberName] string? testName = null)
         {
-            var testDirectory = Path.GetDirectoryName(testFilePath);
+            var testDirectory = Path.GetDirectoryName(testFilePath)!;
             var fullTestDirectory = Path.Combine(testDirectory, "SavedExamples");
             Directory.CreateDirectory(fullTestDirectory);
 

@@ -17,14 +17,14 @@ namespace IxMilia.Dwg
             0x3F, 0x23, 0x0B, 0xA0, 0x18, 0x30, 0x49, 0x75
         };
 
-        internal static IList<DwgClassDefinition> Parse(BitReader reader, DwgVersionId version)
+        internal static IList<DwgClassDefinition?> Parse(BitReader reader, DwgVersionId version)
         {
             reader.ValidateSentinel(StartSentinel);
             reader.StartCrcCheck();
             var sectionSize = reader.Read_RL();
             var dataStartOffset = reader.Offset;
             var dataEndOffset = dataStartOffset + sectionSize;
-            var classes = new List<DwgClassDefinition>();
+            var classes = new List<DwgClassDefinition?>();
             while (reader.Offset < dataEndOffset - 1) // may be in the middle of a byte
             {
                 classes.Add(DwgClassDefinition.Parse(reader));
@@ -35,7 +35,7 @@ namespace IxMilia.Dwg
             return classes;
         }
 
-        internal static void Write(IList<DwgClassDefinition> classes, BitWriter writer)
+        internal static void Write(IList<DwgClassDefinition?> classes, BitWriter writer)
         {
             writer.AlignByte();
             using (var ms = new MemoryStream())
@@ -44,8 +44,13 @@ namespace IxMilia.Dwg
                 var classWriter = new BitWriter(ms);
                 for (int i = 0; i < classes.Count; i++)
                 {
-                    classes[i].Number = (short)(i + 500);
-                    classes[i].Write(classWriter);
+                    if (classes[i] is null)
+                    {
+                        continue;
+                    }
+
+                    classes[i]!.Number = (short)(i + 500);
+                    classes[i]!.Write(classWriter);
                 }
 
                 var classBytes = classWriter.AsBytes();

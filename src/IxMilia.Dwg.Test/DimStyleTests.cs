@@ -21,11 +21,6 @@ namespace IxMilia.Dwg.Test
                 var actualProperty = property.GetValue(actual);
                 var areBothNull = expectedProperty is null && actualProperty is null;
                 var areEqual = expectedProperty?.Equals(actualProperty) ?? false;
-                if ((expectedProperty is null && actualProperty is null) ||
-                    !areEqual)
-                {
-
-                }
                 Assert.True(areBothNull || areEqual, property.Name);
             }
         }
@@ -49,6 +44,7 @@ namespace IxMilia.Dwg.Test
             };
 
             var items = DwgDimStyle.GenerateStyleDifferenceAsXData(primary, modified);
+            Assert.NotNull(items);
             Assert.Equal("DSTYLE", ((DwgXDataString)items.First()).Value);
         }
 
@@ -62,6 +58,7 @@ namespace IxMilia.Dwg.Test
             };
 
             var diffItems = DwgDimStyle.GenerateStyleDifferenceAsXData(primary, modified);
+            Assert.NotNull(diffItems);
             Assert.Equal(2, diffItems.Count);
 
             Assert.Equal("DSTYLE", ((DwgXDataString)diffItems[0]).Value);
@@ -83,6 +80,7 @@ namespace IxMilia.Dwg.Test
             };
 
             var diffItems = DwgDimStyle.GenerateStyleDifferenceAsXData(primary, modified);
+            Assert.NotNull(diffItems);
             Assert.Equal(2, diffItems.Count);
 
             Assert.Equal("DSTYLE", ((DwgXDataString)diffItems[0]).Value);
@@ -106,6 +104,7 @@ namespace IxMilia.Dwg.Test
 
             var diffItems = DwgDimStyle.GenerateStyleDifferenceAsXData(primary, secondary);
 
+            Assert.NotNull(diffItems);
             Assert.Equal(2, diffItems.Count);
 
             Assert.Equal("DSTYLE", ((DwgXDataString)diffItems[0]).Value);
@@ -131,6 +130,7 @@ namespace IxMilia.Dwg.Test
 
             // rebuild dim style from primary with xdata difference; result should equal secondary
             var xdata = DwgDimStyle.GenerateStyleDifferenceAsXData(primary, secondary);
+            Assert.NotNull(xdata);
             Assert.True(primary.TryGetStyleFromXDataDifference(xdata, out var reBuiltStyle));
             AssertEquivalent(secondary, reBuiltStyle);
         }

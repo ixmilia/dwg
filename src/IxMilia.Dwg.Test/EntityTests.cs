@@ -306,10 +306,12 @@ namespace IxMilia.Dwg.Test
             var drawing = new DwgDrawing();
 
             // ensure class is present
-            var existingClass = drawing.Classes.Single(c => c.DxfClassName == "LWPOLYLINE");
+            var existingClass = drawing.Classes.Single(c => c?.DxfClassName == "LWPOLYLINE");
             if (existingClass == null)
             {
-                drawing.Classes.Add(DwgObjectTypeExtensions.GetClassDefinitionForObjectType(DwgObjectType.LwPolyline));
+                var classDef = DwgObjectTypeExtensions.GetClassDefinitionForObjectType(DwgObjectType.LwPolyline);
+                Assert.NotNull(classDef);
+                drawing.Classes.Add(classDef);
             }
 
             // add lwpolyline
@@ -324,7 +326,7 @@ namespace IxMilia.Dwg.Test
             // ensure only one class is present after save
             using var ms = new MemoryStream();
             drawing.Save(ms);
-            var classes = drawing.Classes.Where(c => c.DxfClassName == "LWPOLYLINE").ToList();
+            var classes = drawing.Classes.Where(c => c?.DxfClassName == "LWPOLYLINE").ToList();
             Assert.Single(classes);
         }
 
@@ -336,12 +338,12 @@ namespace IxMilia.Dwg.Test
             // ensure class is not present
             for (int i = drawing.Classes.Count - 1; i >= 0; i--)
             {
-                if (drawing.Classes[i].DxfClassName == "LWPOLYLINE")
+                if (drawing.Classes[i]?.DxfClassName == "LWPOLYLINE")
                 {
                     drawing.Classes.RemoveAt(i);
                 }
             }
-            Assert.Null(drawing.Classes.FirstOrDefault(c => c.DxfClassName == "LWPOLYLINE"));
+            Assert.Null(drawing.Classes.FirstOrDefault(c => c?.DxfClassName == "LWPOLYLINE"));
 
             // add lwpolyline
             var lw = new DwgLwPolyline(new[]
@@ -355,7 +357,7 @@ namespace IxMilia.Dwg.Test
             // ensure class is present after save
             using var ms = new MemoryStream();
             drawing.Save(ms);
-            var classes = drawing.Classes.Where(c => c.DxfClassName == "LWPOLYLINE").ToList();
+            var classes = drawing.Classes.Where(c => c?.DxfClassName == "LWPOLYLINE").ToList();
             Assert.Single(classes);
         }
     }

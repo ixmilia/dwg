@@ -11,9 +11,9 @@ namespace IxMilia.Dwg.Test
     /// </summary>
     public class RawObjectReadTests : AbstractReaderTests
     {
-        private static DwgClassDefinition[] CommonClasses()
+        private static DwgClassDefinition?[] CommonClasses()
         {
-            return new DwgClassDefinition[]
+            return new DwgClassDefinition?[]
             {
                 new DwgClassDefinition(0, 0, "", "", "XRECORD", false, false),
                 new DwgClassDefinition(0, 0, "", "", "RASTERVARIABLES", false, false),
@@ -31,10 +31,11 @@ namespace IxMilia.Dwg.Test
             };
         }
 
-        public static DwgObject ParseRaw(DwgClassDefinition[] classes, params int[] data)
+        public static DwgObject ParseRaw(DwgClassDefinition?[] classes, params int[] data)
         {
             var reader = Bits(data);
             var obj = DwgObject.ParseRaw(reader, DwgVersionId.R14, classes);
+            Assert.NotNull(obj);
             return obj;
         }
 
@@ -645,6 +646,7 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(new DwgHandle(0xCA), dim.ResolveHandleReference(dim._anonymousBlockHandleReference));
 
             // verify xdata
+            Assert.NotNull(dim._xdataMap);
             Assert.Single(dim._xdataMap.Keys);
             var items = dim._xdataMap[new DwgHandle(0x11)];
             Assert.Equal(2, items.Count);
@@ -694,6 +696,7 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(new DwgHandle(0xD6), dim.ResolveHandleReference(dim._anonymousBlockHandleReference));
 
             // verify xdata
+            Assert.NotNull(dim._xdataMap);
             Assert.Single(dim._xdataMap.Keys);
             var items = dim._xdataMap[new DwgHandle(0x11)];
             Assert.Equal(2, items.Count);
