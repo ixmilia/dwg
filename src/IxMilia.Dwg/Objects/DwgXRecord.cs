@@ -1,5 +1,6 @@
 #nullable enable
 
+using System;
 using System.Text;
 
 namespace IxMilia.Dwg.Objects
@@ -7,7 +8,7 @@ namespace IxMilia.Dwg.Objects
     public partial class DwgXRecord
     {
         public DwgObject? Parent { get; set; }
-        public byte[] RawXRecordData { get; set; }
+        public byte[] RawXRecordData { get; set; } = Array.Empty<byte>();
 
         internal override void ParseSpecific(BitReader reader, int objectBitOffsetStart, DwgVersionId version)
         {

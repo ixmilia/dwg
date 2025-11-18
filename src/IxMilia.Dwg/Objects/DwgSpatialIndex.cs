@@ -1,12 +1,14 @@
 #nullable enable
 
+using System;
+
 namespace IxMilia.Dwg.Objects
 {
     public partial class DwgSpatialIndex
     {
         public DwgObject? Parent { get; set; }
 
-        public byte[] RawData { get; set; }
+        public byte[] RawData { get; set; } = Array.Empty<byte>();
         public byte TrailingBits { get; set; }
         public int TrailingBitCount { get; set; }
 

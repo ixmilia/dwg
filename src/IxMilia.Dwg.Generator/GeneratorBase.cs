@@ -141,8 +141,21 @@ namespace IxMilia.Dwg.Generator
             var typeName = Type(property);
             switch (typeName)
             {
+                case "DwgHandleReference":
                 case "DwgMLineVertex":
                 case "DwgPoint":
+                case "Tuple<double, double>":
+                case "byte":
+                case "double":
+                case "int":
+                case "short":
+                    switch (Name(property))
+                    {
+                        case "_entityHandleReferences":
+                        case "_reactorHandleReferences":
+                            return false;
+                    }
+
                     return ReadCount(property) is not null; // new List<T>()
                 case "byte[]":
                     return DefaultValue(property).StartsWith("new ");

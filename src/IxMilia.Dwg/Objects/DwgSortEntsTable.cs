@@ -1,3 +1,5 @@
+#nullable enable
+
 using System.Collections.Generic;
 
 namespace IxMilia.Dwg.Objects
@@ -7,6 +9,19 @@ namespace IxMilia.Dwg.Objects
         public DwgObject Owner { get; set; }
 
         public List<DwgObject> SortedEntities { get; set; } = new List<DwgObject>();
+
+        // only exists for object creation during parsing
+        internal DwgSortEntsTable()
+            : this(null!)
+        {
+        }
+
+        public DwgSortEntsTable(DwgObject owner)
+        {
+            SetDefaults();
+
+            Owner = owner;
+        }
 
         internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
