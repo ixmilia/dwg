@@ -144,6 +144,8 @@ namespace IxMilia.Dwg.Generator
                 case "DwgMLineVertex":
                 case "DwgPoint":
                     return ReadCount(property) is not null; // new List<T>()
+                case "byte[]":
+                    return DefaultValue(property).StartsWith("new ");
                 case "string":
                     return true;
                 default:

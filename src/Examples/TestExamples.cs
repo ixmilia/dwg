@@ -36,8 +36,8 @@ namespace Examples
 
             // each layer must have an assigned line type and the line type must already be part of the drawing
             // re-using the pre-defined "CONTINUOUS" line type for brevity
-            var lineLayer = new DwgLayer("line-layer") { LineType = drawing.ContinuousLineType };
-            var circleLayer = new DwgLayer("circle-layer") { LineType = drawing.ContinuousLineType };
+            var lineLayer = new DwgLayer("line-layer", drawing.ContinuousLineType);
+            var circleLayer = new DwgLayer("circle-layer", drawing.ContinuousLineType);
 
             // add the layers to the drawing
             drawing.Layers.Add(lineLayer);

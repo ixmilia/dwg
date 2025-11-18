@@ -68,7 +68,7 @@ namespace IxMilia.Dwg
             var standardStyle = new DwgStyle("STANDARD");
 
             LineTypes = DwgLineTypeControlObject.Create();
-            var defaultLayer = new DwgLayer("0") { LineType = LineTypes.Continuous };
+            var defaultLayer = new DwgLayer("0", LineTypes.Continuous);
             BlockHeaders = DwgBlockControlObject.Create(defaultLayer);
             Layers = new DwgLayerControlObject
             {

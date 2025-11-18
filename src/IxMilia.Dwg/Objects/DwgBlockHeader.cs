@@ -8,8 +8,8 @@ namespace IxMilia.Dwg.Objects
 {
     public partial class DwgBlockHeader : DwgObject
     {
-        public DwgBlock Block { get; set; }
-        public DwgEndBlock EndBlock { get; set; }
+        public DwgBlock Block { get; set; } = new DwgBlock();
+        public DwgEndBlock EndBlock { get; set; } = new DwgEndBlock();
         public List<DwgEntity> Entities { get; } = new List<DwgEntity>();
 
         public const string ModelSpaceBlockName = "*MODEL_SPACE";

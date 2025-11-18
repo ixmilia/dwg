@@ -1,5 +1,8 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace IxMilia.Dwg.Objects
 {
@@ -19,15 +22,23 @@ namespace IxMilia.Dwg.Objects
 
         internal override DwgHandleReferenceCode ExpectedNullHandleCode => DwgHandleReferenceCode.SoftOwner;
 
-        public DwgDimStyle(string name)
-            : this()
+        // only exists for object creation during parsing
+        internal DwgDimStyle()
+            : this("UnnamedDimStyle", new DwgStyle("STANDARD"))
+        {
+        }
+
+        public DwgDimStyle(string name, DwgStyle style)
         {
             if (string.IsNullOrEmpty(name))
             {
                 throw new ArgumentNullException(nameof(name), "Name cannot be null.");
             }
 
+            SetDefaults();
+
             Name = name;
+            Style = style;
         }
 
         internal override void OnBeforeObjectWrite(DwgVersionId version)
@@ -48,7 +59,7 @@ namespace IxMilia.Dwg.Objects
             Style = objectCache.GetObject<DwgStyle>(reader, ResolveHandleReference(_styleHandleReference));
         }
 
-        public bool TryGetStyleFromXDataDifference(DwgXDataItemList xdataItemList, out DwgDimStyle style)
+        public bool TryGetStyleFromXDataDifference(DwgXDataItemList xdataItemList, [NotNullWhen(returnValue: true)] out DwgDimStyle? style)
         {
             // style data is encoded as
             //   0 DSTYLE
@@ -56,7 +67,7 @@ namespace IxMilia.Dwg.Objects
             //     ... style overrides
             //     }
 
-            style = default(DwgDimStyle);
+            style = null;
             if (xdataItemList == null)
             {
                 return false;

@@ -717,7 +717,7 @@
   Block control
 
   -->
-  <Object Name="BlockControlObject" Value="0x30" IsEntity="false">
+  <Object Name="BlockControlObject" Value="0x30" IsEntity="false" EnableNullable="true">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
     <ObjectSizeEnd />
 
@@ -733,8 +733,8 @@
   Block header
 
   -->
-  <Object Name="BlockHeader" Value="0x31" IsEntity="false" ConstructorAccessibility="internal">
-    <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
+  <Object Name="BlockHeader" Value="0x31" IsEntity="false" ConstructorAccessibility="internal" EnableNullable="true">
+    <Property Name="Name" Type="string" BinaryType="T" DefaultValue="string.Empty" />
     <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
     <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
     <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
@@ -761,7 +761,7 @@
   Layer control
 
   -->
-  <Object Name="LayerControlObject" Value="0x32" IsEntity="false">
+  <Object Name="LayerControlObject" Value="0x32" IsEntity="false" EnableNullable="true">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
     <ObjectSizeEnd />
 
@@ -775,8 +775,8 @@
   Layer
 
   -->
-  <Object Name="Layer" Value="0x33" IsEntity="false" ConstructorAccessibility="internal">
-    <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
+  <Object Name="Layer" Value="0x33" IsEntity="false" SuppressConstructor="true" EnableNullable="true">
+    <Property Name="Name" Type="string" BinaryType="T" DefaultValue="string.Empty" />
     <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
     <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
     <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
@@ -799,7 +799,7 @@
   Style control
 
   -->
-  <Object Name="StyleControlObject" Value="0x34" IsEntity="false">
+  <Object Name="StyleControlObject" Value="0x34" IsEntity="false" EnableNullable="true">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
     <ObjectSizeEnd />
 
@@ -813,8 +813,8 @@
   Style
 
   -->
-  <Object Name="Style" Value="0x35" IsEntity="false" ConstructorAccessibility="internal">
-    <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
+  <Object Name="Style" Value="0x35" IsEntity="false" ConstructorAccessibility="internal" EnableNullable="true">
+    <Property Name="Name" Type="string" BinaryType="T" DefaultValue="string.Empty" />
     <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
     <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
     <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
@@ -850,7 +850,7 @@
   Line Type control
 
   -->
-  <Object Name="LineTypeControlObject" Value="0x38" IsEntity="false" ConstructorAccessibility="internal">
+  <Object Name="LineTypeControlObject" Value="0x38" IsEntity="false" ConstructorAccessibility="internal" EnableNullable="true">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
     <ObjectSizeEnd />
 
@@ -866,8 +866,8 @@
   Line Type
 
   -->
-  <Object Name="LineType" Value="0x39" IsEntity="false" CustomReader="true" CustomWriter="true" ConstructorAccessibility="internal">
-    <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
+  <Object Name="LineType" Value="0x39" IsEntity="false" CustomReader="true" CustomWriter="true" ConstructorAccessibility="internal" EnableNullable="true">
+    <Property Name="Name" Type="string" BinaryType="T" DefaultValue="string.Empty" />
     <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="true" Accessibility="private" />
     <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="private" />
     <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="private" />
@@ -900,7 +900,7 @@
   View control
 
   -->
-  <Object Name="ViewControlObject" Value="0x3C" IsEntity="false">
+  <Object Name="ViewControlObject" Value="0x3C" IsEntity="false" EnableNullable="true">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
     <ObjectSizeEnd />
 
@@ -914,8 +914,8 @@
   View
 
   -->
-  <Object Name="View" Value="0x3D" IsEntity="false" ConstructorAccessibility="internal">
-    <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
+  <Object Name="View" Value="0x3D" IsEntity="false" ConstructorAccessibility="internal" EnableNullable="true">
+    <Property Name="Name" Type="string" BinaryType="T" DefaultValue="string.Empty" />
     <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
     <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
     <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
@@ -943,7 +943,7 @@
   UCS control
 
   -->
-  <Object Name="UCSControlObject" Value="0x3E" IsEntity="false">
+  <Object Name="UCSControlObject" Value="0x3E" IsEntity="false" EnableNullable="true">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
     <ObjectSizeEnd />
 
@@ -957,8 +957,8 @@
   UCS
 
   -->
-  <Object Name="UCS" Value="0x3F" IsEntity="false" ConstructorAccessibility="internal">
-    <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
+  <Object Name="UCS" Value="0x3F" IsEntity="false" ConstructorAccessibility="internal" EnableNullable="true">
+    <Property Name="Name" Type="string" BinaryType="T" DefaultValue="string.Empty" />
     <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
     <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
     <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
@@ -978,7 +978,7 @@
   View port control
 
   -->
-  <Object Name="ViewPortControlObject" Value="0x40" IsEntity="false">
+  <Object Name="ViewPortControlObject" Value="0x40" IsEntity="false" EnableNullable="true">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
     <ObjectSizeEnd />
 
@@ -992,8 +992,8 @@
   View port
 
   -->
-  <Object Name="ViewPort" Value="0x41" IsEntity="false" ConstructorAccessibility="internal">
-    <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
+  <Object Name="ViewPort" Value="0x41" IsEntity="false" ConstructorAccessibility="internal" EnableNullable="true">
+    <Property Name="Name" Type="string" BinaryType="T" DefaultValue="string.Empty" />
     <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
     <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
     <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
@@ -1034,7 +1034,7 @@
   AppId control
 
   -->
-  <Object Name="AppIdControlObject" Value="0x42" IsEntity="false">
+  <Object Name="AppIdControlObject" Value="0x42" IsEntity="false" EnableNullable="true">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
     <ObjectSizeEnd />
 
@@ -1048,8 +1048,8 @@
   AppId
 
   -->
-  <Object Name="AppId" Value="0x43" IsEntity="false" ConstructorAccessibility="internal">
-    <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
+  <Object Name="AppId" Value="0x43" IsEntity="false" ConstructorAccessibility="internal" EnableNullable="true">
+    <Property Name="Name" Type="string" BinaryType="T" DefaultValue="string.Empty" />
     <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
     <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
     <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
@@ -1067,7 +1067,7 @@
   Dim style control
 
   -->
-  <Object Name="DimStyleControlObject" Value="0x44" IsEntity="false">
+  <Object Name="DimStyleControlObject" Value="0x44" IsEntity="false" EnableNullable="true">
     <Property Name="_entityCount" Type="short" BinaryType="BS" DefaultValue="0" SkipCreation="true" />
     <ObjectSizeEnd />
 
@@ -1081,8 +1081,8 @@
   Dim style
 
   -->
-  <Object Name="DimStyle" Value="0x45" IsEntity="false">
-    <Property Name="Name" Type="string" BinaryType="T" DefaultValue="null" />
+  <Object Name="DimStyle" Value="0x45" IsEntity="false" SuppressConstructor="true" EnableNullable="true">
+    <Property Name="Name" Type="string" BinaryType="T" DefaultValue="string.Empty" />
     <Property Name="_64flag" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
     <Property Name="_xrefIndex" Type="short" BinaryType="BS" DefaultValue="0" Accessibility="internal" />
     <Property Name="_isDependentOnXRef" Type="bool" BinaryType="B" DefaultValue="false" Accessibility="internal" />
@@ -1132,11 +1132,11 @@
     <Property Name="DimensionVerticalTextPosition" Type="double" BinaryType="BD" DefaultValue="0.0" Code="145" HeaderVariable="DIMTVP" Comment="Text vertical position." />
     <Property Name="DimensionToleranceDisplayScaleFactor" Type="double" BinaryType="BD" DefaultValue="1.0" Code="146" HeaderVariable="DIMTFAC" Comment="Dimension tolerance display factor." />
     <Property Name="DimensionLineGap" Type="double" BinaryType="BD" DefaultValue="0.09" Code="147" HeaderVariable="DIMGAP" Comment="Dimension line gap." />
-    <Property Name="DimensioningSuffix" Type="string" BinaryType="T" DefaultValue="null" Code="3" HeaderVariable="DIMPOST" Comment="General dimensioning suffix." />
-    <Property Name="AlternateDimensioningSuffix" Type="string" BinaryType="T" DefaultValue="null" Code="4" HeaderVariable="DIMAPOST" Comment="Alternate dimensioning suffix." />
-    <Property Name="ArrowBlockName" Type="string" BinaryType="T" DefaultValue="null" Code="342" HeaderVariable="DIMBLK" Comment="Arrow block name." />
-    <Property Name="FirstArrowBlockName" Type="string" BinaryType="T" DefaultValue="null" Code="343" HeaderVariable="DIMBLK1" Comment="First arrow block name." />
-    <Property Name="SecondArrowBlockName" Type="string" BinaryType="T" DefaultValue="null" Code="344" HeaderVariable="DIMBLK2" Comment="Second arrow block name." />
+    <Property Name="DimensioningSuffix" Type="string" BinaryType="T" DefaultValue="string.Empty" Code="3" HeaderVariable="DIMPOST" Comment="General dimensioning suffix." />
+    <Property Name="AlternateDimensioningSuffix" Type="string" BinaryType="T" DefaultValue="string.Empty" Code="4" HeaderVariable="DIMAPOST" Comment="Alternate dimensioning suffix." />
+    <Property Name="ArrowBlockName" Type="string" BinaryType="T" DefaultValue="string.Empty" Code="342" HeaderVariable="DIMBLK" Comment="Arrow block name." />
+    <Property Name="FirstArrowBlockName" Type="string" BinaryType="T" DefaultValue="string.Empty" Code="343" HeaderVariable="DIMBLK1" Comment="First arrow block name." />
+    <Property Name="SecondArrowBlockName" Type="string" BinaryType="T" DefaultValue="string.Empty" Code="344" HeaderVariable="DIMBLK2" Comment="Second arrow block name." />
     <Property Name="DimensionLineColor" Type="DwgColor" BinaryType="BS" DefaultValue="DwgColor.ByBlock" Code="176" ReadConverter="DwgColor.FromRawValue({0})" WriteConverter="{0}.RawValue" HeaderVariable="DIMCLRD" Comment="Dimension line color." />
     <Property Name="DimensionExtensionLineColor" Type="DwgColor" BinaryType="BS" DefaultValue="DwgColor.ByBlock" Code="177" ReadConverter="DwgColor.FromRawValue({0})" WriteConverter="{0}.RawValue" HeaderVariable="DIMCLRE" Comment="Dimension extension line color." />
     <Property Name="DimensionTextColor" Type="DwgColor" BinaryType="BS" DefaultValue="DwgColor.ByBlock" Code="178" ReadConverter="DwgColor.FromRawValue({0})" WriteConverter="{0}.RawValue" HeaderVariable="DIMCLRT" Comment="Dimension text color." />

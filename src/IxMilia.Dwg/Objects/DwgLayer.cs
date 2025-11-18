@@ -1,4 +1,6 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.Collections.Generic;
 
 namespace IxMilia.Dwg.Objects
@@ -17,15 +19,23 @@ namespace IxMilia.Dwg.Objects
 
         internal override DwgHandleReferenceCode ExpectedNullHandleCode => DwgHandleReferenceCode.SoftOwner;
 
-        public DwgLayer(string name)
-            : this()
+        // only exists for object creation during parsing
+        internal DwgLayer()
+            : this("0", new DwgLineType())
+        {
+        }
+
+        public DwgLayer(string name, DwgLineType lineType)
         {
             if (string.IsNullOrEmpty(name))
             {
-                throw new ArgumentNullException(nameof(name), "Name cannot be null.");
+                throw new ArgumentNullException(nameof(name), "Name cannot be empty.");
             }
 
+            SetDefaults();
+
             Name = name;
+            LineType = lineType;
         }
 
         internal override void OnBeforeObjectWrite(DwgVersionId version)

@@ -19,7 +19,14 @@ namespace IxMilia.Dwg.Test
             {
                 var expectedProperty = property.GetValue(expected);
                 var actualProperty = property.GetValue(actual);
-                Assert.Equal(expectedProperty, actualProperty);
+                var areBothNull = expectedProperty is null && actualProperty is null;
+                var areEqual = expectedProperty?.Equals(actualProperty) ?? false;
+                if ((expectedProperty is null && actualProperty is null) ||
+                    !areEqual)
+                {
+
+                }
+                Assert.True(areBothNull || areEqual, property.Name);
             }
         }
 
@@ -112,8 +119,9 @@ namespace IxMilia.Dwg.Test
         [Fact]
         public void DimStyleFromCustomXData()
         {
-            var primary = new DwgDimStyle();
-            var secondary = new DwgDimStyle()
+            var style = new DwgStyle("STANDARD");
+            var primary = new DwgDimStyle("name", style);
+            var secondary = new DwgDimStyle("name", style)
             {
                 DimensionUnitToleranceDecimalPlaces = 5
             };

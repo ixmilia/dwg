@@ -379,7 +379,7 @@ namespace IxMilia.Dwg.Generator
                 {
                     // generate style xdata
                     AppendLine("/// <summary>Generates <see cref=\"DwgXDataItemList\"/> of the difference between the styles.  Result may be <see langword=\"null\"/>.</summary>");
-                    AppendLine("public static DwgXDataItemList GenerateStyleDifferenceAsXData(DwgDimStyle primaryStyle, DwgDimStyle modifiedStyle)");
+                    AppendLine("public static DwgXDataItemList? GenerateStyleDifferenceAsXData(DwgDimStyle primaryStyle, DwgDimStyle modifiedStyle)");
                     AppendLine("{");
                     IncreaseIndent();
 
@@ -410,6 +410,12 @@ namespace IxMilia.Dwg.Generator
                     IncreaseIndent();
 
                     AppendLine("var other = new DwgDimStyle();");
+                    AppendLine();
+                    AppendLine("// from DwgObject");
+                    AppendLine("other.Style = Style;");
+                    AppendLine("other.XData = XData;");
+                    AppendLine();
+                    AppendLine("// from DwgDimStyle");
                     foreach (var p in o.Elements("Property"))
                     {
                         AppendLine($"other.{Name(p)} = {Name(p)};");
@@ -447,7 +453,7 @@ namespace IxMilia.Dwg.Generator
                     AppendLine();
 
                     // get variable
-                    AppendLine("public object GetVariable(string name)");
+                    AppendLine("public object? GetVariable(string name)");
                     AppendLine("{");
                     IncreaseIndent();
                     AppendLine("switch (name?.ToUpperInvariant())");
