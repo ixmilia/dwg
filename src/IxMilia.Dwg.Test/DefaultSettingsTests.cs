@@ -33,7 +33,7 @@ namespace IxMilia.Dwg.Test
             drawing.Save(ms); // don't really care about the contents
             for (var i = 0; i < drawing.Classes.Count; i++)
             {
-                Assert.Equal(500 + i, drawing.Classes[i].Number);
+                Assert.Equal(500 + i, drawing.Classes[i]!.Number);
             }
         }
     }
