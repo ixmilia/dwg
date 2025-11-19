@@ -8,13 +8,13 @@ namespace IxMilia.Dwg.Objects
     {
         public const string XDataStyleName = "DSTYLE";
 
-        public DwgStyle Style { get; set; }
+        public DwgStyle DimensionTextStyle { get; set; }
 
         internal override IEnumerable<DwgObject> ChildItems
         {
             get
             {
-                yield return Style;
+                yield return DimensionTextStyle;
             }
         }
 
@@ -26,7 +26,7 @@ namespace IxMilia.Dwg.Objects
         {
         }
 
-        public DwgDimStyle(string name, DwgStyle style)
+        public DwgDimStyle(string name, DwgStyle dimensionTextStyle)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -36,25 +36,25 @@ namespace IxMilia.Dwg.Objects
             SetDefaults();
 
             Name = name;
-            Style = style;
+            DimensionTextStyle = dimensionTextStyle;
         }
 
         internal override void OnBeforeObjectWrite(DwgVersionId version)
         {
             base.OnBeforeObjectWrite(version);
-            _styleHandleReference = Style.MakeHandleReference(DwgHandleReferenceCode.SoftOwner);
+            _dimensionTextStyleHandleReference = DimensionTextStyle.MakeHandleReference(DwgHandleReferenceCode.SoftOwner);
         }
 
         internal override void OnAfterObjectRead(BitReader reader, DwgObjectCache objectCache, DwgVersionId version)
         {
             // according to the spec, DimStyleControlHandleReference.Code should be HardPointer (4), but AutoCAD sometimes produces HandleMinus1 (8)
 
-            if (_styleHandleReference.Code != DwgHandleReferenceCode.SoftOwner)
+            if (_dimensionTextStyleHandleReference.Code != DwgHandleReferenceCode.SoftOwner)
             {
                 throw new DwgReadException("Incorrect style handle code.");
             }
 
-            Style = objectCache.GetObject<DwgStyle>(reader, ResolveHandleReference(_styleHandleReference));
+            DimensionTextStyle = objectCache.GetObject<DwgStyle>(reader, ResolveHandleReference(_dimensionTextStyleHandleReference));
         }
 
         public bool TryGetStyleFromXDataDifference(DwgXDataItemList xdataItemList, [NotNullWhen(returnValue: true)] out DwgDimStyle? style)
@@ -106,13 +106,9 @@ namespace IxMilia.Dwg.Objects
             return false;
         }
 
-        internal static DwgDimStyle GetStandardDimStyle(DwgStyle style)
+        internal static DwgDimStyle GetStandardDimStyle(DwgStyle dimensionTextStyle)
         {
-            return new DwgDimStyle()
-            {
-                Name = "STANDARD",
-                Style = style
-            };
+            return new DwgDimStyle("STANDARD", dimensionTextStyle);
         }
     }
 }

@@ -43,7 +43,7 @@ namespace IxMilia.Dwg.Test
                 Assert.Same(drawing.Layers["0"].LineType, drawing.LineTypes["CONTINUOUS"]);
                 Assert.Equal(new[] { "ACAD", "ACAD_MLEADERVER" }, drawing.AppIds.Values.Select(a => a.Name));
                 Assert.Equal("STANDARD", drawing.DimStyles.Single().Value.Name);
-                Assert.Same(drawing.DimStyles.Single().Value.Style, drawing.Styles.Single().Value);
+                Assert.Same(drawing.DimStyles.Single().Value.DimensionTextStyle, drawing.Styles.Single().Value);
 
                 Assert.Equal(new[]
                 {

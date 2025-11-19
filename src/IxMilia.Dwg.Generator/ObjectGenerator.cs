@@ -408,7 +408,7 @@ namespace IxMilia.Dwg.Generator
                     AppendLine("var other = new DwgDimStyle();");
                     AppendLine();
                     AppendLine("// from DwgObject");
-                    AppendLine("other.Style = Style;");
+                    AppendLine("other.DimensionTextStyle = DimensionTextStyle;");
                     AppendLine("other.XData = XData;");
                     AppendLine();
                     AppendLine("// from DwgDimStyle");

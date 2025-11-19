@@ -1148,7 +1148,7 @@
     <Property Name="_reactorHandleReferences" Type="DwgHandleReference" BinaryType="H" DefaultValue="new List&lt;DwgHandleReference&gt;()" SkipCreation="true" ReadCount="_reactorCount" />
     <Property Name="_xDictionaryObjectHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(3, 0)" SkipCreation="true" />
     <Property Name="_nullHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" SkipCreation="true" />
-    <Property Name="_styleHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" Accessibility="internal" />
+    <Property Name="_dimensionTextStyleHandleReference" Type="DwgHandleReference" BinaryType="H" DefaultValue="new DwgHandleReference(5, 0)" Accessibility="internal" />
   </Object>
   <!--
 

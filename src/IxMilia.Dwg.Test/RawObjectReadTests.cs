@@ -1948,7 +1948,7 @@ namespace IxMilia.Dwg.Test
             Assert.Equal(DwgColor.ByBlock, d.DimensionTextColor);
             Assert.False(d._unknown);
             Assert.Equal(new DwgHandle(0x0A), d.ResolveHandleReference(d.DimStyleControlHandleReference));
-            Assert.Equal(new DwgHandle(0x10), d.ResolveHandleReference(d._styleHandleReference));
+            Assert.Equal(new DwgHandle(0x10), d.ResolveHandleReference(d._dimensionTextStyleHandleReference));
         }
 
         [Fact]
